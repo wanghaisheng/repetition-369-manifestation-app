@@ -1,12 +1,44 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from 'react';
+import { HomeView } from '@/components/views/HomeView';
+import { WishesView } from '@/components/views/WishesView';
+import { PracticeView } from '@/components/views/PracticeView';
+import { ProgressView } from '@/components/views/ProgressView';
+import { CommunityView } from '@/components/views/CommunityView';
+import { TabBar } from '@/components/navigation/TabBar';
+import { StatusBar } from '@/components/ui/StatusBar';
+
+export type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community';
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState<Tab>('home');
+
+  const renderActiveView = () => {
+    switch (activeTab) {
+      case 'home':
+        return <HomeView onNavigate={setActiveTab} />;
+      case 'wishes':
+        return <WishesView />;
+      case 'practice':
+        return <PracticeView />;
+      case 'progress':
+        return <ProgressView />;
+      case 'community':
+        return <CommunityView />;
+      default:
+        return <HomeView onNavigate={setActiveTab} />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-ios-gray-light flex flex-col safe-top safe-bottom">
+      <StatusBar />
+      
+      <main className="flex-1 overflow-hidden">
+        {renderActiveView()}
+      </main>
+
+      <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
     </div>
   );
 };
