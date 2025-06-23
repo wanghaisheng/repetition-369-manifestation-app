@@ -1,37 +1,23 @@
 
-import { useState } from 'react';
-import { Plus, Heart, Target, Briefcase, Home as HomeIcon, Smile } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Plus, Heart, Target, Briefcase, Home as HomeIcon, Smile, User, DollarSign } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AddWishModal } from '@/components/modals/AddWishModal';
+import { useWishes } from '@/hooks/useWishes';
+import { Wish, WishCategory } from '@/types';
 
 export const WishesView = () => {
   const [showAddModal, setShowAddModal] = useState(false);
-  const [wishes, setWishes] = useState([
-    {
-      id: 1,
-      title: '获得理想工作',
-      category: 'career',
-      affirmation: '我正在吸引一份完美符合我技能和热情的工作，它带给我成就感和丰厚的回报。',
-      createdAt: new Date('2024-01-01'),
-      isActive: true
-    },
-    {
-      id: 2,
-      title: '身体健康',
-      category: 'health',
-      affirmation: '我的身体充满活力和健康，每一天我都感受到生命的美好和充沛的能量。',
-      createdAt: new Date('2024-01-02'),
-      isActive: true
-    }
-  ]);
+  const { wishes, loading, createWish, updateWish, deleteWish } = useWishes();
 
   const categoryIcons = {
     career: Briefcase,
     health: Heart,
     relationship: Smile,
-    wealth: Target,
-    home: HomeIcon
+    wealth: DollarSign,
+    personal: User,
+    other: Target
   };
 
   const categoryColors = {
@@ -39,7 +25,8 @@ export const WishesView = () => {
     health: 'bg-ios-green',
     relationship: 'bg-ios-pink',
     wealth: 'bg-manifest-gold',
-    home: 'bg-ios-purple'
+    personal: 'bg-ios-purple',
+    other: 'bg-gray-500'
   };
 
   const categoryNames = {
@@ -47,18 +34,48 @@ export const WishesView = () => {
     health: '健康',
     relationship: '感情',
     wealth: '财富',
-    home: '家庭'
+    personal: '个人成长',
+    other: '其他'
   };
 
-  const handleAddWish = (newWish: any) => {
-    const wish = {
-      ...newWish,
-      id: Date.now(),
-      createdAt: new Date(),
-      isActive: true
-    };
-    setWishes([...wishes, wish]);
+  const handleAddWish = async (wishData: any) => {
+    try {
+      await createWish({
+        title: wishData.title,
+        description: wishData.description || '',
+        category: wishData.category as WishCategory,
+        status: 'active',
+        priority: wishData.priority || 'medium',
+        affirmation: wishData.affirmation,
+        tags: wishData.tags || [],
+        userId: 'default'
+      });
+    } catch (error) {
+      console.error('Error creating wish:', error);
+    }
   };
+
+  const handleToggleStatus = async (wish: Wish) => {
+    try {
+      const newStatus = wish.status === 'active' ? 'paused' : 'active';
+      await updateWish(wish.id, { status: newStatus });
+    } catch (error) {
+      console.error('Error updating wish status:', error);
+    }
+  };
+
+  const activeWishes = wishes.filter(wish => wish.status === 'active');
+
+  if (loading) {
+    return (
+      <div className="flex-1 bg-ios-secondary-background px-4 py-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ios-blue mx-auto mb-4"></div>
+          <p className="text-gray-600">加载愿望中...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 bg-ios-secondary-background px-4 py-6 overflow-y-auto">
@@ -79,10 +96,10 @@ export const WishesView = () => {
 
       {/* Active Wishes */}
       <div className="space-y-4">
-        {wishes.filter(wish => wish.isActive).map((wish) => {
-          const CategoryIcon = categoryIcons[wish.category as keyof typeof categoryIcons];
-          const categoryColor = categoryColors[wish.category as keyof typeof categoryColors];
-          const categoryName = categoryNames[wish.category as keyof typeof categoryNames];
+        {activeWishes.map((wish) => {
+          const CategoryIcon = categoryIcons[wish.category] || Target;
+          const categoryColor = categoryColors[wish.category] || 'bg-gray-500';
+          const categoryName = categoryNames[wish.category] || '其他';
 
           return (
             <Card key={wish.id} className="p-6 bg-white border-0 shadow-ios rounded-ios">
@@ -102,15 +119,25 @@ export const WishesView = () => {
                   </p>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-500">
-                      创建于 {wish.createdAt.toLocaleDateString('zh-CN')}
+                      创建于 {new Date(wish.createdAt).toLocaleDateString('zh-CN')}
                     </span>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      className="rounded-ios border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white"
-                    >
-                      开始练习
-                    </Button>
+                    <div className="flex space-x-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="rounded-ios border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white"
+                      >
+                        开始练习
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleToggleStatus(wish)}
+                        className="rounded-ios"
+                      >
+                        {wish.status === 'active' ? '暂停' : '激活'}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -119,7 +146,7 @@ export const WishesView = () => {
         })}
       </div>
 
-      {wishes.length === 0 && (
+      {activeWishes.length === 0 && (
         <div className="text-center py-16">
           <Target className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-600 mb-2">还没有愿望</h3>

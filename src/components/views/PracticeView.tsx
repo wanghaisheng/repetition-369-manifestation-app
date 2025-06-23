@@ -4,16 +4,19 @@ import { Sunrise, Sun, Moon, Clock, CheckCircle2, Circle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { useWishes } from '@/hooks/useWishes';
+import { usePractice } from '@/hooks/usePractice';
+import { TimeSlot, Mood } from '@/types';
 
 export const PracticeView = () => {
-  const [currentPeriod, setCurrentPeriod] = useState<'morning' | 'afternoon' | 'evening'>('morning');
-  const [todayProgress, setTodayProgress] = useState({
-    morning: { completed: 0, target: 3 },
-    afternoon: { completed: 0, target: 6 },
-    evening: { completed: 0, target: 9 }
-  });
+  const [currentPeriod, setCurrentPeriod] = useState<TimeSlot>('morning');
   const [currentText, setCurrentText] = useState('');
   const [isWriting, setIsWriting] = useState(false);
+  const [selectedWishId, setSelectedWishId] = useState<string>('');
+  const [currentMood, setCurrentMood] = useState<Mood>('neutral');
+  
+  const { wishes, loading: wishesLoading } = useWishes();
+  const { todayPractices, recordPractice, loading: practicesLoading } = usePractice();
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -26,51 +29,108 @@ export const PracticeView = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (wishes.length > 0 && !selectedWishId) {
+      setSelectedWishId(wishes[0].id);
+    }
+  }, [wishes, selectedWishId]);
+
   const periods = {
     morning: {
       icon: Sunrise,
       title: '早晨练习',
       subtitle: '书写 3 次',
       color: 'from-manifest-warm-gold to-yellow-500',
-      time: '6:00 - 12:00'
+      time: '6:00 - 12:00',
+      target: 3
     },
     afternoon: {
       icon: Sun,
       title: '下午练习',
       subtitle: '书写 6 次',
       color: 'from-ios-blue to-blue-600',
-      time: '12:00 - 18:00'
+      time: '12:00 - 18:00',
+      target: 6
     },
     evening: {
       icon: Moon,
       title: '晚间练习',
       subtitle: '书写 9 次',
       color: 'from-manifest-lavender to-purple-500',
-      time: '18:00 - 24:00'
+      time: '18:00 - 24:00',
+      target: 9
     }
   };
 
+  const getTodayProgress = () => {
+    const progress = {
+      morning: { completed: 0, target: 3 },
+      afternoon: { completed: 0, target: 6 },
+      evening: { completed: 0, target: 9 }
+    };
+
+    todayPractices.forEach(practice => {
+      progress[practice.timeSlot].completed += practice.completedCount;
+    });
+
+    return progress;
+  };
+
+  const todayProgress = getTodayProgress();
   const currentPeriodInfo = periods[currentPeriod];
   const currentProgress = todayProgress[currentPeriod];
   const isCompleted = currentProgress.completed >= currentProgress.target;
 
-  const handleSubmitWriting = () => {
-    if (currentText.trim()) {
-      setTodayProgress(prev => ({
-        ...prev,
-        [currentPeriod]: {
-          ...prev[currentPeriod],
-          completed: Math.min(prev[currentPeriod].completed + 1, prev[currentPeriod].target)
-        }
-      }));
-      setCurrentText('');
-      setIsWriting(false);
+  const handleSubmitWriting = async () => {
+    if (currentText.trim() && selectedWishId) {
+      try {
+        await recordPractice({
+          wishId: selectedWishId,
+          date: new Date(),
+          timeSlot: currentPeriod,
+          completedCount: 1,
+          targetCount: currentPeriodInfo.target,
+          duration: 60, // 假设每次书写耗时60秒
+          affirmationText: currentText,
+          mood: currentMood,
+          userId: 'default'
+        });
+        
+        setCurrentText('');
+        setIsWriting(false);
+      } catch (error) {
+        console.error('Error recording practice:', error);
+      }
     }
   };
 
   const getCurrentAffirmation = () => {
-    return "我正在吸引一份完美符合我技能和热情的工作，它带给我成就感和丰厚的回报。";
+    const selectedWish = wishes.find(wish => wish.id === selectedWishId);
+    return selectedWish?.affirmation || "请先选择一个愿望来开始练习";
   };
+
+  if (wishesLoading || practicesLoading) {
+    return (
+      <div className="flex-1 bg-ios-secondary-background px-4 py-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ios-blue mx-auto mb-4"></div>
+          <p className="text-gray-600">加载练习数据中...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (wishes.length === 0) {
+    return (
+      <div className="flex-1 bg-ios-secondary-background px-4 py-6 flex items-center justify-center">
+        <div className="text-center">
+          <Circle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-gray-600 mb-2">还没有愿望</h3>
+          <p className="text-gray-500 mb-6">请先创建一个愿望来开始369练习</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 bg-ios-secondary-background px-4 py-6 overflow-y-auto">
@@ -79,6 +139,20 @@ export const PracticeView = () => {
         <h1 className="text-2xl font-bold text-gray-800 mb-2">369练习</h1>
         <p className="text-gray-600">专注书写，显化愿望</p>
       </div>
+
+      {/* Wish Selection */}
+      <Card className="mb-6 p-4 bg-white border-0 shadow-ios rounded-ios">
+        <h3 className="font-semibold text-gray-800 mb-3">选择练习愿望</h3>
+        <select
+          value={selectedWishId}
+          onChange={(e) => setSelectedWishId(e.target.value)}
+          className="w-full p-3 border border-gray-200 rounded-ios focus:ring-2 focus:ring-ios-blue focus:border-transparent"
+        >
+          {wishes.map(wish => (
+            <option key={wish.id} value={wish.id}>{wish.title}</option>
+          ))}
+        </select>
+      </Card>
 
       {/* Current Period Status */}
       <Card className="mb-6 p-6 bg-white border-0 shadow-ios rounded-ios">
@@ -121,7 +195,8 @@ export const PracticeView = () => {
         ) : (
           <Button
             onClick={() => setIsWriting(true)}
-            className={`w-full bg-gradient-to-r ${currentPeriodInfo.color} hover:opacity-90 rounded-ios py-3 shadow-ios`}
+            disabled={!selectedWishId}
+            className={`w-full bg-gradient-to-r ${currentPeriodInfo.color} hover:opacity-90 rounded-ios py-3 shadow-ios disabled:opacity-50`}
           >
             开始书写练习
           </Button>
@@ -150,11 +225,25 @@ export const PracticeView = () => {
             />
           </div>
 
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">心情状态</label>
+            <select
+              value={currentMood}
+              onChange={(e) => setCurrentMood(e.target.value as Mood)}
+              className="w-full p-3 border border-gray-200 rounded-ios focus:ring-2 focus:ring-ios-blue focus:border-transparent"
+            >
+              <option value="excellent">非常好</option>
+              <option value="good">好</option>
+              <option value="neutral">中性</option>
+              <option value="poor">不好</option>
+            </select>
+          </div>
+
           <div className="flex space-x-3">
             <Button
               onClick={handleSubmitWriting}
               disabled={!currentText.trim()}
-              className={`flex-1 bg-gradient-to-r ${currentPeriodInfo.color} hover:opacity-90 rounded-ios py-3`}
+              className={`flex-1 bg-gradient-to-r ${currentPeriodInfo.color} hover:opacity-90 rounded-ios py-3 disabled:opacity-50`}
             >
               完成这次书写
             </Button>
