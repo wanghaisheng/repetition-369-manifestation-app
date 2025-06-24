@@ -16,7 +16,7 @@ const Index = () => {
   const renderActiveView = () => {
     switch (activeTab) {
       case 'home':
-        return <HomeView onNavigate={setActiveTab} />;
+        return <HomeView />;
       case 'wishes':
         return <WishesView />;
       case 'practice':
@@ -26,7 +26,7 @@ const Index = () => {
       case 'community':
         return <CommunityView />;
       default:
-        return <HomeView onNavigate={setActiveTab} />;
+        return <HomeView />;
     }
   };
 
