@@ -1,130 +1,178 @@
 
 import { useState, useEffect } from 'react';
-import { Sparkles, Target, Calendar, Users, Sunrise, Sun, Moon } from 'lucide-react';
+import { Target, TrendingUp, Calendar, Heart, Zap, Award } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import type { Tab } from '@/pages/Index';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { useWishes } from '@/hooks/useWishes';
+import { usePractice } from '@/hooks/usePractice';
+import { useProgress } from '@/hooks/useProgress';
 
-interface HomeViewProps {
-  onNavigate: (tab: Tab) => void;
-}
+export const HomeView = () => {
+  const { wishes, loading: wishesLoading } = useWishes();
+  const { todayPractices, loading: practiceLoading } = usePractice();
+  const { progress, loading: progressLoading, getTodayStats, getWeeklyStats } = useProgress();
 
-export const HomeView = ({ onNavigate }: HomeViewProps) => {
-  const [greeting, setGreeting] = useState('');
-  const [timeIcon, setTimeIcon] = useState<React.ReactNode>(null);
+  const activeWishes = wishes.filter(wish => wish.status === 'active');
+  const todayStats = getTodayStats();
+  const weeklyStats = getWeeklyStats();
 
-  useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) {
-      setGreeting('早上好');
-      setTimeIcon(<Sunrise className="w-6 h-6 text-manifest-warm-gold" />);
-    } else if (hour < 18) {
-      setGreeting('下午好');
-      setTimeIcon(<Sun className="w-6 h-6 text-manifest-warm-gold" />);
-    } else {
-      setGreeting('晚上好');
-      setTimeIcon(<Moon className="w-6 h-6 text-manifest-gold" />);
-    }
-  }, []);
+  // 计算今日完成进度
+  const todayProgress = todayPractices.length > 0 ? 
+    Math.min((todayPractices.reduce((sum, p) => sum + p.completedCount, 0) / (activeWishes.length * 3)) * 100, 100) : 0;
 
-  const quickActions = [
-    {
-      id: 'wishes',
-      icon: Target,
-      title: '设定愿望',
-      subtitle: '创建新的显化目标',
-      color: 'bg-gradient-to-br from-manifest-gold to-manifest-warm-gold',
-      action: () => onNavigate('wishes')
-    },
-    {
-      id: 'practice',
-      icon: Calendar,
-      title: '369练习',
-      subtitle: '开始今日书写练习',
-      color: 'bg-gradient-to-br from-ios-blue to-blue-600',
-      action: () => onNavigate('practice')
-    },
-    {
-      id: 'progress',
-      icon: Sparkles,
-      title: '查看进度',
-      subtitle: '追踪显化历程',
-      color: 'bg-gradient-to-br from-manifest-lavender to-purple-400',
-      action: () => onNavigate('progress')
-    },
-    {
-      id: 'community',
-      icon: Users,
-      title: '加入社区',
-      subtitle: '与他人分享经验',
-      color: 'bg-gradient-to-br from-manifest-sage-green to-green-500',
-      action: () => onNavigate('community')
-    }
-  ];
+  const isLoading = wishesLoading || practiceLoading || progressLoading;
+
+  if (isLoading) {
+    return (
+      <div className="flex-1 bg-ios-secondary-background px-4 py-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ios-blue mx-auto mb-4"></div>
+          <p className="text-gray-600">加载数据中...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex-1 bg-gradient-calm px-4 py-6 overflow-y-auto">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center space-x-3 mb-2">
-          {timeIcon}
-          <h1 className="text-2xl font-bold text-gray-800">{greeting}</h1>
-        </div>
-        <p className="text-gray-600">开始您的显化之旅</p>
+    <div className="flex-1 bg-ios-secondary-background px-4 py-6 overflow-y-auto">
+      {/* Welcome Header */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-800 mb-2">欢迎回来</h1>
+        <p className="text-gray-600">
+          {todayStats?.isToday ? '今天继续您的显化之旅' : '开始新的一天的练习吧'}
+        </p>
       </div>
 
-      {/* Today's Inspiration */}
-      <Card className="mb-6 p-6 bg-white/80 ios-blur border-0 shadow-ios">
-        <div className="flex items-center space-x-3 mb-3">
-          <Sparkles className="w-6 h-6 text-manifest-gold" />
-          <h3 className="text-lg font-semibold text-gray-800">今日启发</h3>
+      {/* Today's Progress */}
+      <Card className="p-6 bg-white border-0 shadow-ios rounded-ios mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-gray-800">今日进度</h2>
+          <div className="bg-ios-blue/10 rounded-full p-2">
+            <Target className="w-5 h-5 text-ios-blue" />
+          </div>
         </div>
-        <p className="text-gray-700 leading-relaxed">
-          "想象力比知识更重要。知识是有限的，而想象力拥抱整个世界。"
-        </p>
-        <p className="text-sm text-gray-500 mt-2">— 阿尔伯特·爱因斯坦</p>
+        
+        <div className="space-y-4">
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm text-gray-600">完成进度</span>
+              <span className="text-sm font-medium text-gray-800">{Math.round(todayProgress)}%</span>
+            </div>
+            <Progress value={todayProgress} className="h-2" />
+          </div>
+          
+          <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
+            <div className="text-center">
+              <div className="text-lg font-bold text-ios-blue">{activeWishes.length}</div>
+              <div className="text-xs text-gray-600">活跃愿望</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-bold text-manifest-gold">{todayPractices.length}</div>
+              <div className="text-xs text-gray-600">今日练习</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-bold text-ios-green">{todayStats?.consecutiveDays || 0}</div>
+              <div className="text-xs text-gray-600">连续天数</div>
+            </div>
+          </div>
+        </div>
       </Card>
+
+      {/* Quick Stats */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <Card className="p-4 bg-white border-0 shadow-ios rounded-ios">
+          <div className="flex items-center space-x-3">
+            <div className="bg-ios-green/10 rounded-full p-2">
+              <TrendingUp className="w-5 h-5 text-ios-green" />
+            </div>
+            <div>
+              <div className="text-lg font-bold text-gray-800">
+                {weeklyStats?.sessionsCompleted || 0}
+              </div>
+              <div className="text-sm text-gray-600">本周练习</div>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-4 bg-white border-0 shadow-ios rounded-ios">
+          <div className="flex items-center space-x-3">
+            <div className="bg-manifest-gold/10 rounded-full p-2">
+              <Award className="w-5 h-5 text-manifest-gold" />
+            </div>
+            <div>
+              <div className="text-lg font-bold text-gray-800">
+                {progress?.totalSessions || 0}
+              </div>
+              <div className="text-sm text-gray-600">总练习数</div>
+            </div>
+          </div>
+        </Card>
+      </div>
 
       {/* Quick Actions */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">快速开始</h3>
-        <div className="grid grid-cols-2 gap-4">
-          {quickActions.map((action) => {
-            const Icon = action.icon;
-            return (
-              <Card
-                key={action.id}
-                className="p-4 border-0 shadow-ios cursor-pointer transform transition-all duration-200 hover:scale-105 active:scale-95"
-                onClick={action.action}
-              >
-                <div className={`w-12 h-12 rounded-ios flex items-center justify-center mb-3 ${action.color}`}>
-                  <Icon className="w-6 h-6 text-white" />
-                </div>
-                <h4 className="font-semibold text-gray-800 mb-1">{action.title}</h4>
-                <p className="text-sm text-gray-600">{action.subtitle}</p>
-              </Card>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Today's Stats */}
-      <Card className="mt-6 p-6 bg-white/80 ios-blur border-0 shadow-ios">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">今日统计</h3>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-manifest-warm-gold">3</div>
-            <div className="text-sm text-gray-600">早上书写</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-ios-blue">6</div>
-            <div className="text-sm text-gray-600">下午书写</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-manifest-lavender">9</div>
-            <div className="text-sm text-gray-600">晚上书写</div>
-          </div>
+      <Card className="p-6 bg-white border-0 shadow-ios rounded-ios mb-6">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">快速操作</h3>
+        <div className="space-y-3">
+          <Button className="w-full bg-ios-blue hover:bg-blue-600 text-white rounded-ios shadow-ios">
+            <Zap className="w-5 h-5 mr-2" />
+            开始369练习
+          </Button>
+          <Button 
+            variant="outline" 
+            className="w-full border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white rounded-ios"
+          >
+            <Target className="w-5 h-5 mr-2" />
+            查看所有愿望
+          </Button>
         </div>
       </Card>
+
+      {/* Recent Activity */}
+      {todayPractices.length > 0 && (
+        <Card className="p-6 bg-white border-0 shadow-ios rounded-ios">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">今日活动</h3>
+          <div className="space-y-3">
+            {todayPractices.slice(0, 3).map((practice) => {
+              const wish = wishes.find(w => w.id === practice.wishId);
+              return (
+                <div key={practice.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-ios">
+                  <div className="bg-ios-blue/10 rounded-full p-2">
+                    <Heart className="w-4 h-4 text-ios-blue" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-800">{wish?.title || '未知愿望'}</div>
+                    <div className="text-sm text-gray-600">
+                      {practice.timeSlot === 'morning' ? '早上' : 
+                       practice.timeSlot === 'afternoon' ? '下午' : '晚上'} · 
+                      完成 {practice.completedCount} 次
+                    </div>
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {new Date(practice.date).toLocaleTimeString('zh-CN', { 
+                      hour: '2-digit', 
+                      minute: '2-digit' 
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+      )}
+
+      {/* Empty State */}
+      {activeWishes.length === 0 && (
+        <Card className="p-8 bg-white border-0 shadow-ios rounded-ios text-center">
+          <Target className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-gray-600 mb-2">开始您的显化之旅</h3>
+          <p className="text-gray-500 mb-6">创建您的第一个愿望，开始369显化练习</p>
+          <Button className="bg-ios-blue hover:bg-blue-600 text-white rounded-ios px-6 py-3 shadow-ios">
+            <Target className="w-5 h-5 mr-2" />
+            创建愿望
+          </Button>
+        </Card>
+      )}
     </div>
   );
 };
