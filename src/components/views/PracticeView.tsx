@@ -1,19 +1,20 @@
 
 import { useState, useEffect } from 'react';
-import { Sunrise, Sun, Moon, Clock, CheckCircle2, Circle } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { Sunrise, Sun, Moon } from 'lucide-react';
 import { useWishes } from '@/hooks/useWishes';
 import { usePractice } from '@/hooks/usePractice';
 import { TimeSlot, Mood } from '@/types';
+import { PracticeHeader } from '@/components/practice/PracticeHeader';
+import { WishSelector } from '@/components/practice/WishSelector';
+import { PracticePhase } from '@/components/practice/PracticePhase';
+import { PracticeWritingModal } from '@/components/practice/PracticeWritingModal';
+import { PracticeOverview } from '@/components/practice/PracticeOverview';
+import { EmptyState } from '@/components/practice/EmptyState';
 
 export const PracticeView = () => {
   const [currentPeriod, setCurrentPeriod] = useState<TimeSlot>('morning');
-  const [currentText, setCurrentText] = useState('');
   const [isWriting, setIsWriting] = useState(false);
   const [selectedWishId, setSelectedWishId] = useState<string>('');
-  const [currentMood, setCurrentMood] = useState<Mood>('neutral');
   
   const { wishes, loading: wishesLoading } = useWishes();
   const { todayPractices, recordPractice, loading: practicesLoading } = usePractice();
@@ -81,8 +82,8 @@ export const PracticeView = () => {
   const currentProgress = todayProgress[currentPeriod];
   const isCompleted = currentProgress.completed >= currentProgress.target;
 
-  const handleSubmitWriting = async () => {
-    if (currentText.trim() && selectedWishId) {
+  const handleSubmitWriting = async (text: string, mood: Mood) => {
+    if (text.trim() && selectedWishId) {
       try {
         await recordPractice({
           wishId: selectedWishId,
@@ -90,13 +91,12 @@ export const PracticeView = () => {
           timeSlot: currentPeriod,
           completedCount: 1,
           targetCount: currentPeriodInfo.target,
-          duration: 60, // 假设每次书写耗时60秒
-          affirmationText: currentText,
-          mood: currentMood,
+          duration: 60,
+          affirmationText: text,
+          mood: mood,
           userId: 'default'
         });
         
-        setCurrentText('');
         setIsWriting(false);
       } catch (error) {
         console.error('Error recording practice:', error);
@@ -110,211 +110,49 @@ export const PracticeView = () => {
   };
 
   if (wishesLoading || practicesLoading) {
-    return (
-      <div className="flex-1 bg-ios-secondary-background px-4 py-6 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ios-blue mx-auto mb-4"></div>
-          <p className="text-gray-600">加载练习数据中...</p>
-        </div>
-      </div>
-    );
+    return <EmptyState type="loading" />;
   }
 
   if (wishes.length === 0) {
-    return (
-      <div className="flex-1 bg-ios-secondary-background px-4 py-6 flex items-center justify-center">
-        <div className="text-center">
-          <Circle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-600 mb-2">还没有愿望</h3>
-          <p className="text-gray-500 mb-6">请先创建一个愿望来开始369练习</p>
-        </div>
-      </div>
-    );
+    return <EmptyState type="noWishes" />;
   }
 
   return (
     <div className="flex-1 bg-ios-secondary-background px-4 py-6 overflow-y-auto">
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">369练习</h1>
-        <p className="text-gray-600">专注书写，显化愿望</p>
-      </div>
+      <PracticeHeader 
+        title="369练习" 
+        subtitle="专注书写，显化愿望" 
+      />
 
-      {/* Wish Selection */}
-      <Card className="mb-6 p-4 bg-white border-0 shadow-ios rounded-ios">
-        <h3 className="font-semibold text-gray-800 mb-3">选择练习愿望</h3>
-        <select
-          value={selectedWishId}
-          onChange={(e) => setSelectedWishId(e.target.value)}
-          className="w-full p-3 border border-gray-200 rounded-ios focus:ring-2 focus:ring-ios-blue focus:border-transparent"
-        >
-          {wishes.map(wish => (
-            <option key={wish.id} value={wish.id}>{wish.title}</option>
-          ))}
-        </select>
-      </Card>
+      <WishSelector
+        wishes={wishes}
+        selectedWishId={selectedWishId}
+        onWishChange={setSelectedWishId}
+      />
 
-      {/* Current Period Status */}
-      <Card className="mb-6 p-6 bg-white border-0 shadow-ios rounded-ios">
-        <div className="flex items-center space-x-4 mb-4">
-          <div className={`w-16 h-16 rounded-ios bg-gradient-to-br ${currentPeriodInfo.color} flex items-center justify-center`}>
-            <currentPeriodInfo.icon className="w-8 h-8 text-white" />
-          </div>
-          <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-800">{currentPeriodInfo.title}</h3>
-            <p className="text-gray-600">{currentPeriodInfo.subtitle}</p>
-            <div className="flex items-center space-x-2 mt-1">
-              <Clock className="w-4 h-4 text-gray-400" />
-              <span className="text-sm text-gray-500">{currentPeriodInfo.time}</span>
-            </div>
-          </div>
-        </div>
+      <PracticePhase
+        period={currentPeriod}
+        periodInfo={currentPeriodInfo}
+        progress={currentProgress}
+        isCompleted={isCompleted}
+        selectedWishId={selectedWishId}
+        onStartWriting={() => setIsWriting(true)}
+      />
 
-        {/* Progress */}
-        <div className="mb-4">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-gray-700">进度</span>
-            <span className="text-sm text-gray-600">
-              {currentProgress.completed} / {currentProgress.target}
-            </span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
-              className={`h-2 rounded-full bg-gradient-to-r ${currentPeriodInfo.color} transition-all duration-300`}
-              style={{ width: `${(currentProgress.completed / currentProgress.target) * 100}%` }}
-            />
-          </div>
-        </div>
+      <PracticeWritingModal
+        isOpen={isWriting}
+        currentAffirmation={getCurrentAffirmation()}
+        currentProgress={currentProgress}
+        periodColor={currentPeriodInfo.color}
+        onSubmit={handleSubmitWriting}
+        onCancel={() => setIsWriting(false)}
+      />
 
-        {isCompleted ? (
-          <div className="text-center py-4">
-            <CheckCircle2 className="w-12 h-12 text-ios-green mx-auto mb-2" />
-            <h4 className="font-semibold text-gray-800 mb-1">今日练习已完成！</h4>
-            <p className="text-sm text-gray-600">恭喜您完成了{currentPeriodInfo.title}</p>
-          </div>
-        ) : (
-          <Button
-            onClick={() => setIsWriting(true)}
-            disabled={!selectedWishId}
-            className={`w-full bg-gradient-to-r ${currentPeriodInfo.color} hover:opacity-90 rounded-ios py-3 shadow-ios disabled:opacity-50`}
-          >
-            开始书写练习
-          </Button>
-        )}
-      </Card>
-
-      {/* Writing Interface */}
-      {isWriting && (
-        <Card className="mb-6 p-6 bg-white border-0 shadow-ios rounded-ios">
-          <div className="mb-4">
-            <h4 className="font-semibold text-gray-800 mb-2">当前肯定句</h4>
-            <div className="bg-gray-50 p-4 rounded-ios">
-              <p className="text-gray-700 leading-relaxed">{getCurrentAffirmation()}</p>
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              书写区域 ({currentProgress.completed + 1} / {currentProgress.target})
-            </label>
-            <Textarea
-              value={currentText}
-              onChange={(e) => setCurrentText(e.target.value)}
-              placeholder="在这里书写您的肯定句..."
-              className="rounded-ios border-ios-gray-medium min-h-[120px] text-lg leading-relaxed"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">心情状态</label>
-            <select
-              value={currentMood}
-              onChange={(e) => setCurrentMood(e.target.value as Mood)}
-              className="w-full p-3 border border-gray-200 rounded-ios focus:ring-2 focus:ring-ios-blue focus:border-transparent"
-            >
-              <option value="excellent">非常好</option>
-              <option value="good">好</option>
-              <option value="neutral">中性</option>
-              <option value="poor">不好</option>
-            </select>
-          </div>
-
-          <div className="flex space-x-3">
-            <Button
-              onClick={handleSubmitWriting}
-              disabled={!currentText.trim()}
-              className={`flex-1 bg-gradient-to-r ${currentPeriodInfo.color} hover:opacity-90 rounded-ios py-3 disabled:opacity-50`}
-            >
-              完成这次书写
-            </Button>
-            <Button
-              onClick={() => {
-                setIsWriting(false);
-                setCurrentText('');
-              }}
-              variant="outline"
-              className="px-6 rounded-ios border-gray-300"
-            >
-              取消
-            </Button>
-          </div>
-        </Card>
-      )}
-
-      {/* All Periods Overview */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-gray-800">今日总览</h3>
-        {Object.entries(periods).map(([periodKey, period]) => {
-          const Icon = period.icon;
-          const progress = todayProgress[periodKey as keyof typeof todayProgress];
-          const isCurrentPeriod = periodKey === currentPeriod;
-          const isPeriodCompleted = progress.completed >= progress.target;
-
-          return (
-            <Card 
-              key={periodKey} 
-              className={`p-4 border-0 shadow-ios rounded-ios ${
-                isCurrentPeriod ? 'ring-2 ring-ios-blue ring-opacity-50' : ''
-              }`}
-            >
-              <div className="flex items-center space-x-4">
-                <div className={`w-12 h-12 rounded-ios bg-gradient-to-br ${period.color} flex items-center justify-center`}>
-                  <Icon className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center space-x-2">
-                    <h4 className="font-medium text-gray-800">{period.title}</h4>
-                    {isCurrentPeriod && (
-                      <span className="text-xs bg-ios-blue text-white px-2 py-1 rounded-full">
-                        当前
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center space-x-4 mt-1">
-                    <span className="text-sm text-gray-600">
-                      {progress.completed} / {progress.target}
-                    </span>
-                    <div className="flex space-x-1">
-                      {Array.from({ length: progress.target }, (_, i) => (
-                        <div key={i}>
-                          {i < progress.completed ? (
-                            <CheckCircle2 className="w-4 h-4 text-ios-green" />
-                          ) : (
-                            <Circle className="w-4 h-4 text-gray-300" />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                {isPeriodCompleted && (
-                  <CheckCircle2 className="w-6 h-6 text-ios-green" />
-                )}
-              </div>
-            </Card>
-          );
-        })}
-      </div>
+      <PracticeOverview
+        periods={periods}
+        todayProgress={todayProgress}
+        currentPeriod={currentPeriod}
+      />
     </div>
   );
 };
