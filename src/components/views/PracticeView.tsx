@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { Sunrise, Sun, Moon } from 'lucide-react';
 import { useWishes } from '@/hooks/useWishes';
 import { usePractice } from '@/hooks/usePractice';
+import { usePoints } from '@/hooks/usePoints';
+import { useProgress } from '@/hooks/useProgress';
 import { TimeSlot, Mood } from '@/types';
 import { PracticeHeader } from '@/components/practice/PracticeHeader';
 import { WishSelector } from '@/components/practice/WishSelector';
@@ -10,6 +12,8 @@ import { PracticePhase } from '@/components/practice/PracticePhase';
 import { PracticeWritingModal } from '@/components/practice/PracticeWritingModal';
 import { PracticeOverview } from '@/components/practice/PracticeOverview';
 import { EmptyState } from '@/components/practice/EmptyState';
+import { PointsDisplay } from '@/components/gamification/PointsDisplay';
+import { StreakCounter } from '@/components/gamification/StreakCounter';
 
 export const PracticeView = () => {
   const [currentPeriod, setCurrentPeriod] = useState<TimeSlot>('morning');
@@ -18,6 +22,8 @@ export const PracticeView = () => {
   
   const { wishes, loading: wishesLoading } = useWishes();
   const { todayPractices, recordPractice, loading: practicesLoading } = usePractice();
+  const { addPoints } = usePoints();
+  const { updateProgress } = useProgress();
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -96,6 +102,12 @@ export const PracticeView = () => {
           mood: mood,
           userId: 'default'
         });
+
+        // 添加点数奖励
+        await addPoints('completeWriting');
+
+        // 更新进度统计
+        await updateProgress();
         
         setIsWriting(false);
       } catch (error) {
@@ -123,6 +135,12 @@ export const PracticeView = () => {
         title="369练习" 
         subtitle="专注书写，显化愿望" 
       />
+
+      {/* 游戏化元素 */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <PointsDisplay userId="default" variant="compact" />
+        <StreakCounter userId="default" variant="compact" />
+      </div>
 
       <WishSelector
         wishes={wishes}

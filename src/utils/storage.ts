@@ -1,4 +1,3 @@
-
 export class LocalStorage {
   private static getItem<T>(key: string): T | null {
     try {
@@ -80,5 +79,31 @@ export class LocalStorage {
 
   static setProgress(progress: any): void {
     this.setItem('progress', progress);
+  }
+
+  static getUserPoints(userId: string) {
+    try {
+      const data = localStorage.getItem(`points_${userId}`);
+      return data ? JSON.parse(data) : null;
+    } catch (error) {
+      console.error('Error reading user points from localStorage:', error);
+      return null;
+    }
+  }
+
+  static setUserPoints(userId: string, points: any) {
+    try {
+      localStorage.setItem(`points_${userId}`, JSON.stringify(points));
+    } catch (error) {
+      console.error('Error saving user points to localStorage:', error);
+    }
+  }
+
+  static clearUserPoints(userId: string) {
+    try {
+      localStorage.removeItem(`points_${userId}`);
+    } catch (error) {
+      console.error('Error clearing user points from localStorage:', error);
+    }
   }
 }
