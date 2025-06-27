@@ -1,8 +1,8 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { User, Session } from '@supabase/supabase-js';
+import { User as SupabaseUser, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { AuthState, SignUpData, SignInData } from '@/types/auth';
+import { User, AuthState, SignUpData, SignInData } from '@/types/auth';
 
 interface AuthContextType extends AuthState {
   signUp: (data: SignUpData) => Promise<{ error: any }>;
@@ -52,6 +52,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
               avatarUrl: profile.avatar_url || undefined,
               createdAt: profile.created_at
             });
+          } else {
+            // 如果没有档案，创建基本用户对象
+            setUser({
+              id: session.user.id,
+              email: session.user.email || '',
+              createdAt: session.user.created_at
+            });
           }
         } else {
           setUser(null);
@@ -80,6 +87,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
               fullName: profile.full_name || undefined,
               avatarUrl: profile.avatar_url || undefined,
               createdAt: profile.created_at
+            });
+          } else {
+            // 如果没有档案，创建基本用户对象
+            setUser({
+              id: session.user.id,
+              email: session.user.email || '',
+              createdAt: session.user.created_at
             });
           }
         }, 0);

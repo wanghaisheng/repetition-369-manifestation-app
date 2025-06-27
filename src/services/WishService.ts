@@ -23,8 +23,8 @@ export class WishService {
         affirmation: wish.affirmation,
         tags: [],
         userId: wish.user_id,
-        createdAt: wish.created_at,
-        updatedAt: wish.updated_at
+        createdAt: new Date(wish.created_at),
+        updatedAt: new Date(wish.updated_at)
       })) || [];
     } catch (error) {
       console.error('Error fetching wishes:', error);
@@ -62,8 +62,8 @@ export class WishService {
         affirmation: data.affirmation,
         tags: [],
         userId: data.user_id,
-        createdAt: data.created_at,
-        updatedAt: data.updated_at
+        createdAt: new Date(data.created_at),
+        updatedAt: new Date(data.updated_at)
       };
     } catch (error) {
       console.error('Error creating wish:', error);
@@ -98,8 +98,8 @@ export class WishService {
         affirmation: data.affirmation,
         tags: [],
         userId: data.user_id,
-        createdAt: data.created_at,
-        updatedAt: data.updated_at
+        createdAt: new Date(data.created_at),
+        updatedAt: new Date(data.updated_at)
       };
     } catch (error) {
       console.error('Error updating wish:', error);
