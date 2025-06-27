@@ -5,6 +5,7 @@ import { useWishes } from '@/hooks/useWishes';
 import { usePractice } from '@/hooks/usePractice';
 import { usePoints } from '@/hooks/usePoints';
 import { useProgress } from '@/hooks/useProgress';
+import { useAchievements } from '@/hooks/useAchievements';
 import { TimeSlot, Mood } from '@/types';
 import { PracticeHeader } from '@/components/practice/PracticeHeader';
 import { WishSelector } from '@/components/practice/WishSelector';
@@ -14,6 +15,7 @@ import { PracticeOverview } from '@/components/practice/PracticeOverview';
 import { EmptyState } from '@/components/practice/EmptyState';
 import { PointsDisplay } from '@/components/gamification/PointsDisplay';
 import { StreakCounter } from '@/components/gamification/StreakCounter';
+import { AchievementNotification } from '@/components/gamification/AchievementNotification';
 
 export const PracticeView = () => {
   const [currentPeriod, setCurrentPeriod] = useState<TimeSlot>('morning');
@@ -24,6 +26,7 @@ export const PracticeView = () => {
   const { todayPractices, recordPractice, loading: practicesLoading } = usePractice();
   const { addPoints } = usePoints();
   const { updateProgress } = useProgress();
+  const { checkAchievements, newAchievement, dismissNotification } = useAchievements();
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -108,6 +111,9 @@ export const PracticeView = () => {
 
         // 更新进度统计
         await updateProgress();
+
+        // 检查成就解锁
+        await checkAchievements();
         
         setIsWriting(false);
       } catch (error) {
@@ -170,6 +176,12 @@ export const PracticeView = () => {
         periods={periods}
         todayProgress={todayProgress}
         currentPeriod={currentPeriod}
+      />
+
+      {/* 成就解锁通知 */}
+      <AchievementNotification
+        achievement={newAchievement}
+        onClose={dismissNotification}
       />
     </div>
   );

@@ -1,3 +1,4 @@
+
 export class LocalStorage {
   private static getItem<T>(key: string): T | null {
     try {
@@ -24,6 +25,11 @@ export class LocalStorage {
       console.error(`Error removing item from localStorage: ${key}`, error);
     }
   }
+
+  // 通用方法
+  static getItem = LocalStorage.getItem;
+  static setItem = LocalStorage.setItem;
+  static removeItem = LocalStorage.removeItem;
 
   // 愿望相关
   static getWishes(): any[] {
