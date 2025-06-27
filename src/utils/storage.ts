@@ -1,6 +1,6 @@
 
 export class LocalStorage {
-  private static getItem<T>(key: string): T | null {
+  private static getItemInternal<T>(key: string): T | null {
     try {
       const item = localStorage.getItem(key);
       return item ? JSON.parse(item) : null;
@@ -10,7 +10,7 @@ export class LocalStorage {
     }
   }
 
-  private static setItem<T>(key: string, value: T): void {
+  private static setItemInternal<T>(key: string, value: T): void {
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
@@ -18,7 +18,7 @@ export class LocalStorage {
     }
   }
 
-  private static removeItem(key: string): void {
+  private static removeItemInternal(key: string): void {
     try {
       localStorage.removeItem(key);
     } catch (error) {
@@ -26,32 +26,40 @@ export class LocalStorage {
     }
   }
 
-  // 通用方法
-  static getItem = LocalStorage.getItem;
-  static setItem = LocalStorage.setItem;
-  static removeItem = LocalStorage.removeItem;
+  // 公共通用方法
+  static getItem<T>(key: string): T | null {
+    return this.getItemInternal<T>(key);
+  }
+
+  static setItem<T>(key: string, value: T): void {
+    this.setItemInternal(key, value);
+  }
+
+  static removeItem(key: string): void {
+    this.removeItemInternal(key);
+  }
 
   // 愿望相关
   static getWishes(): any[] {
-    return this.getItem('wishes') || [];
+    return this.getItemInternal('wishes') || [];
   }
 
   static setWishes(wishes: any[]): void {
-    this.setItem('wishes', wishes);
+    this.setItemInternal('wishes', wishes);
   }
 
   // 练习记录相关
   static getPracticeSessions(): any[] {
-    return this.getItem('practiceSessions') || [];
+    return this.getItemInternal('practiceSessions') || [];
   }
 
   static setPracticeSessions(sessions: any[]): void {
-    this.setItem('practiceSessions', sessions);
+    this.setItemInternal('practiceSessions', sessions);
   }
 
   // 用户偏好相关
   static getUserPreferences(): any {
-    return this.getItem('userPreferences') || {
+    return this.getItemInternal('userPreferences') || {
       theme: 'light',
       notifications: {
         enabled: true,
@@ -65,12 +73,12 @@ export class LocalStorage {
   }
 
   static setUserPreferences(preferences: any): void {
-    this.setItem('userPreferences', preferences);
+    this.setItemInternal('userPreferences', preferences);
   }
 
   // 进度统计相关
   static getProgress(): any {
-    return this.getItem('progress') || {
+    return this.getItemInternal('progress') || {
       userId: 'default',
       totalSessions: 0,
       consecutiveDays: 0,
@@ -84,7 +92,7 @@ export class LocalStorage {
   }
 
   static setProgress(progress: any): void {
-    this.setItem('progress', progress);
+    this.setItemInternal('progress', progress);
   }
 
   static getUserPoints(userId: string) {
