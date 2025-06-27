@@ -2,15 +2,22 @@
 import { useState, useEffect } from 'react';
 import { PracticeSession } from '@/types';
 import { PracticeService } from '@/services/PracticeService';
+import { useAuth } from '@/contexts/AuthContext';
 
-export const usePractice = (userId: string = 'default') => {
+export const usePractice = () => {
   const [todayPractices, setTodayPractices] = useState<PracticeSession[]>([]);
   const [practiceHistory, setPracticeHistory] = useState<PracticeSession[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user, isAuthenticated } = useAuth();
 
   const loadTodayPractices = async () => {
+    if (!isAuthenticated || !user) {
+      setTodayPractices([]);
+      return;
+    }
+
     try {
-      const practices = await PracticeService.getTodayPractices(userId);
+      const practices = await PracticeService.getTodayPractices(user.id);
       setTodayPractices(practices);
     } catch (error) {
       console.error('Error loading today practices:', error);
@@ -18,9 +25,15 @@ export const usePractice = (userId: string = 'default') => {
   };
 
   const loadPracticeHistory = async (limit?: number) => {
+    if (!isAuthenticated || !user) {
+      setPracticeHistory([]);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
-      const history = await PracticeService.getPracticeHistory(userId, limit);
+      const history = await PracticeService.getPracticeHistory(user.id, limit);
       setPracticeHistory(history);
     } catch (error) {
       console.error('Error loading practice history:', error);
@@ -30,10 +43,12 @@ export const usePractice = (userId: string = 'default') => {
   };
 
   const recordPractice = async (sessionData: Omit<PracticeSession, 'id'>) => {
+    if (!user) throw new Error('User not authenticated');
+
     try {
       const newSession = await PracticeService.recordPractice({
         ...sessionData,
-        userId
+        userId: user.id
       });
       setTodayPractices(prev => [...prev, newSession]);
       setPracticeHistory(prev => [newSession, ...prev]);
@@ -45,13 +60,16 @@ export const usePractice = (userId: string = 'default') => {
   };
 
   const checkTodayCompleted = async (wishId: string) => {
-    return await PracticeService.isTodayCompleted(userId, wishId);
+    if (!user) return false;
+    return await PracticeService.isTodayCompleted(user.id, wishId);
   };
 
   useEffect(() => {
-    loadTodayPractices();
-    loadPracticeHistory(50); // 加载最近50条记录
-  }, [userId]);
+    if (isAuthenticated && user) {
+      loadTodayPractices();
+      loadPracticeHistory(50);
+    }
+  }, [user, isAuthenticated]);
 
   return {
     todayPractices,

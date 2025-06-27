@@ -9,7 +9,134 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      practice_sessions: {
+        Row: {
+          affirmation_text: string | null
+          completed_count: number
+          created_at: string
+          date: string
+          duration: number | null
+          id: string
+          mood: string | null
+          target_count: number
+          time_slot: string
+          user_id: string
+          wish_id: string
+        }
+        Insert: {
+          affirmation_text?: string | null
+          completed_count?: number
+          created_at?: string
+          date: string
+          duration?: number | null
+          id?: string
+          mood?: string | null
+          target_count: number
+          time_slot: string
+          user_id: string
+          wish_id: string
+        }
+        Update: {
+          affirmation_text?: string | null
+          completed_count?: number
+          created_at?: string
+          date?: string
+          duration?: number | null
+          id?: string
+          mood?: string | null
+          target_count?: number
+          time_slot?: string
+          user_id?: string
+          wish_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "practice_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "practice_sessions_wish_id_fkey"
+            columns: ["wish_id"]
+            isOneToOne: false
+            referencedRelation: "wishes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      wishes: {
+        Row: {
+          affirmation: string
+          category: string | null
+          color: string | null
+          created_at: string
+          id: string
+          is_active: boolean | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          affirmation: string
+          category?: string | null
+          color?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          affirmation?: string
+          category?: string | null
+          color?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wishes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

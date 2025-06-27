@@ -2,15 +2,23 @@
 import { useState, useEffect } from 'react';
 import { Wish, WishCategory, WishStatus } from '@/types';
 import { WishService } from '@/services/WishService';
+import { useAuth } from '@/contexts/AuthContext';
 
-export const useWishes = (userId: string = 'default') => {
+export const useWishes = () => {
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user, isAuthenticated } = useAuth();
 
   const loadWishes = async () => {
+    if (!isAuthenticated || !user) {
+      setWishes([]);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
-      const wishesData = await WishService.getWishes(userId);
+      const wishesData = await WishService.getWishes(user.id);
       setWishes(wishesData);
     } catch (error) {
       console.error('Error loading wishes:', error);
@@ -20,10 +28,12 @@ export const useWishes = (userId: string = 'default') => {
   };
 
   const createWish = async (wishData: Omit<Wish, 'id' | 'createdAt' | 'updatedAt'>) => {
+    if (!user) throw new Error('User not authenticated');
+
     try {
       const newWish = await WishService.createWish({
         ...wishData,
-        userId
+        userId: user.id
       });
       setWishes(prev => [...prev, newWish]);
       return newWish;
@@ -64,7 +74,7 @@ export const useWishes = (userId: string = 'default') => {
 
   useEffect(() => {
     loadWishes();
-  }, [userId]);
+  }, [user, isAuthenticated]);
 
   return {
     wishes,

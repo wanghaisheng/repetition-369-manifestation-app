@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Sunrise, Sun, Moon } from 'lucide-react';
 import { useWishes } from '@/hooks/useWishes';
@@ -6,6 +5,7 @@ import { usePractice } from '@/hooks/usePractice';
 import { usePoints } from '@/hooks/usePoints';
 import { useProgress } from '@/hooks/useProgress';
 import { useAchievements } from '@/hooks/useAchievements';
+import { useAuth } from '@/contexts/AuthContext';
 import { TimeSlot, Mood } from '@/types';
 import { PracticeHeader } from '@/components/practice/PracticeHeader';
 import { WishSelector } from '@/components/practice/WishSelector';
@@ -22,11 +22,12 @@ export const PracticeView = () => {
   const [isWriting, setIsWriting] = useState(false);
   const [selectedWishId, setSelectedWishId] = useState<string>('');
   
+  const { user } = useAuth();
   const { wishes, loading: wishesLoading } = useWishes();
   const { todayPractices, recordPractice, loading: practicesLoading } = usePractice();
   const { addPoints } = usePoints();
   const { updateProgress } = useProgress();
-  const { checkAchievements, newAchievement, dismissNotification } = useAchievements();
+  const { checkAchievements, newAchievement, dismissNotification } = useAchievements(user?.id);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -92,7 +93,7 @@ export const PracticeView = () => {
   const isCompleted = currentProgress.completed >= currentProgress.target;
 
   const handleSubmitWriting = async (text: string, mood: Mood) => {
-    if (text.trim() && selectedWishId) {
+    if (text.trim() && selectedWishId && user) {
       try {
         await recordPractice({
           wishId: selectedWishId,
@@ -103,7 +104,7 @@ export const PracticeView = () => {
           duration: 60,
           affirmationText: text,
           mood: mood,
-          userId: 'default'
+          userId: user.id
         });
 
         // 添加点数奖励
@@ -144,8 +145,8 @@ export const PracticeView = () => {
 
       {/* 游戏化元素 */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <PointsDisplay userId="default" variant="compact" />
-        <StreakCounter userId="default" variant="compact" />
+        <PointsDisplay userId={user?.id || 'default'} variant="compact" />
+        <StreakCounter userId={user?.id || 'default'} variant="compact" />
       </div>
 
       <WishSelector

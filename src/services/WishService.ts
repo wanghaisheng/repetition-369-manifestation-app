@@ -1,70 +1,123 @@
 
+import { supabase } from '@/integrations/supabase/client';
 import { Wish, WishCategory, WishStatus } from '@/types';
-import { LocalStorage } from '@/utils/storage';
 
 export class WishService {
-  private static generateId(): string {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  static async getWishes(userId?: string): Promise<Wish[]> {
+    try {
+      const { data, error } = await supabase
+        .from('wishes')
+        .select('*')
+        .eq('is_active', true)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      return data?.map(wish => ({
+        id: wish.id,
+        title: wish.title,
+        description: '',
+        category: wish.category as WishCategory,
+        status: 'active' as WishStatus,
+        priority: 'medium',
+        affirmation: wish.affirmation,
+        tags: [],
+        userId: wish.user_id,
+        createdAt: wish.created_at,
+        updatedAt: wish.updated_at
+      })) || [];
+    } catch (error) {
+      console.error('Error fetching wishes:', error);
+      return [];
+    }
   }
 
   static async createWish(wishData: Omit<Wish, 'id' | 'createdAt' | 'updatedAt'>): Promise<Wish> {
-    const wish: Wish = {
-      ...wishData,
-      id: this.generateId(),
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
 
-    const wishes = LocalStorage.getWishes();
-    wishes.push(wish);
-    LocalStorage.setWishes(wishes);
+      const { data, error } = await supabase
+        .from('wishes')
+        .insert({
+          user_id: user.id,
+          title: wishData.title,
+          affirmation: wishData.affirmation,
+          category: wishData.category,
+          color: '#667eea',
+          is_active: true
+        })
+        .select()
+        .single();
 
-    return wish;
-  }
+      if (error) throw error;
 
-  static async getWishes(userId: string): Promise<Wish[]> {
-    const wishes = LocalStorage.getWishes();
-    return wishes.filter(wish => wish.userId === userId);
-  }
-
-  static async getWish(wishId: string): Promise<Wish | null> {
-    const wishes = LocalStorage.getWishes();
-    return wishes.find(wish => wish.id === wishId) || null;
+      return {
+        id: data.id,
+        title: data.title,
+        description: '',
+        category: data.category as WishCategory,
+        status: 'active' as WishStatus,
+        priority: 'medium',
+        affirmation: data.affirmation,
+        tags: [],
+        userId: data.user_id,
+        createdAt: data.created_at,
+        updatedAt: data.updated_at
+      };
+    } catch (error) {
+      console.error('Error creating wish:', error);
+      throw error;
+    }
   }
 
   static async updateWish(wishId: string, updates: Partial<Wish>): Promise<Wish> {
-    const wishes = LocalStorage.getWishes();
-    const index = wishes.findIndex(wish => wish.id === wishId);
-    
-    if (index === -1) {
-      throw new Error('Wish not found');
+    try {
+      const { data, error } = await supabase
+        .from('wishes')
+        .update({
+          title: updates.title,
+          affirmation: updates.affirmation,
+          category: updates.category,
+          is_active: updates.status === 'active',
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', wishId)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      return {
+        id: data.id,
+        title: data.title,
+        description: '',
+        category: data.category as WishCategory,
+        status: data.is_active ? 'active' : 'paused' as WishStatus,
+        priority: 'medium',
+        affirmation: data.affirmation,
+        tags: [],
+        userId: data.user_id,
+        createdAt: data.created_at,
+        updatedAt: data.updated_at
+      };
+    } catch (error) {
+      console.error('Error updating wish:', error);
+      throw error;
     }
-
-    const updatedWish = {
-      ...wishes[index],
-      ...updates,
-      updatedAt: new Date()
-    };
-
-    wishes[index] = updatedWish;
-    LocalStorage.setWishes(wishes);
-
-    return updatedWish;
   }
 
   static async deleteWish(wishId: string): Promise<void> {
-    const wishes = LocalStorage.getWishes();
-    const filteredWishes = wishes.filter(wish => wish.id !== wishId);
-    LocalStorage.setWishes(filteredWishes);
-  }
+    try {
+      const { error } = await supabase
+        .from('wishes')
+        .delete()
+        .eq('id', wishId);
 
-  static async getWishesByCategory(userId: string, category: WishCategory): Promise<Wish[]> {
-    const wishes = await this.getWishes(userId);
-    return wishes.filter(wish => wish.category === category);
-  }
-
-  static async getWishesByStatus(userId: string, status: WishStatus): Promise<Wish[]> {
-    const wishes = await this.getWishes(userId);
-    return wishes.filter(wish => wish.status === status);
+      if (error) throw error;
+    } catch (error) {
+      console.error('Error deleting wish:', error);
+      throw error;
+    }
   }
 }
