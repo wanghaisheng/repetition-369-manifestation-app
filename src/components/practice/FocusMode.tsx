@@ -48,7 +48,7 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
     if (entries.length === period.target) {
       setIsCompleting(true);
       try {
-        await onComplete(entries, 'positive');
+        await onComplete(entries, 'good');
         onClose();
       } catch (error) {
         console.error('Error completing practice:', error);
