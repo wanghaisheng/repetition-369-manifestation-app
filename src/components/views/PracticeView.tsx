@@ -10,10 +10,12 @@ import { WishSelector } from '@/components/practice/WishSelector';
 import { PracticeHeader } from '@/components/practice/PracticeHeader';
 import { EmptyState } from '@/components/practice/EmptyState';
 import { TimeSlot, Mood } from '@/types';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const PracticeView = () => {
   const { wishes, loading: wishesLoading } = useWishes();
   const { todayPractices, recordPractice, loading: practiceLoading } = usePractice();
+  const { user } = useAuth();
   const [selectedWishId, setSelectedWishId] = useState<string>('');
   const [focusMode, setFocusMode] = useState<{
     isOpen: boolean;
@@ -102,10 +104,11 @@ export const PracticeView = () => {
   };
 
   const handleCompletePractice = async (entries: string[], mood: Mood) => {
-    if (!selectedWish || !focusMode.period) return;
+    if (!selectedWish || !focusMode.period || !user) return;
 
     try {
       await recordPractice({
+        userId: user.id,
         wishId: selectedWish.id,
         timeSlot: focusMode.period,
         completedCount: entries.length,
@@ -146,7 +149,7 @@ export const PracticeView = () => {
         <WishSelector
           wishes={wishes}
           selectedWishId={selectedWishId}
-          onWishSelect={setSelectedWishId}
+          onWishChange={setSelectedWishId}
         />
 
         {selectedWishId && (

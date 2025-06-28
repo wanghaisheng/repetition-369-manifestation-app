@@ -17,6 +17,7 @@ export const WishSelector = ({ wishes, selectedWishId, onWishChange }: WishSelec
         onChange={(e) => onWishChange(e.target.value)}
         className="w-full p-3 border border-gray-200 rounded-ios focus:ring-2 focus:ring-ios-blue focus:border-transparent"
       >
+        <option value="">请选择一个愿望</option>
         {wishes.map(wish => (
           <option key={wish.id} value={wish.id}>{wish.title}</option>
         ))}
