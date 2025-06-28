@@ -3,11 +3,12 @@ import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Clock, Target, Zap } from 'lucide-react';
+import { CheckCircle, Clock, Play } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 
 interface PracticeCardProps {
   period: {
-    icon: React.ComponentType<{ className?: string }>;
+    icon: LucideIcon;
     title: string;
     subtitle: string;
     color: string;
@@ -23,82 +24,71 @@ interface PracticeCardProps {
   onStartPractice: () => void;
 }
 
-export const PracticeCard = ({
-  period,
-  progress,
-  isActive,
-  isCompleted,
-  onStartPractice
+export const PracticeCard = ({ 
+  period, 
+  progress, 
+  isActive, 
+  isCompleted, 
+  onStartPractice 
 }: PracticeCardProps) => {
   const Icon = period.icon;
   const progressPercentage = (progress.completed / progress.target) * 100;
 
   return (
-    <Card className={`p-6 border-0 shadow-ios rounded-ios transition-all duration-300 ${
-      isActive ? 'ring-2 ring-blue-500 ring-opacity-50 scale-[1.02]' : ''
-    } ${isCompleted ? 'bg-green-50' : 'bg-white'}`}>
-      <div className="flex items-start space-x-4 mb-4">
-        <div className={`w-16 h-16 rounded-ios bg-gradient-to-br ${period.color} flex items-center justify-center shadow-lg`}>
-          <Icon className="w-8 h-8 text-white" />
+    <Card className={`p-4 border-0 shadow-ios rounded-ios transition-all ${
+      isActive ? 'ring-2 ring-ios-blue bg-blue-50' : 'bg-white'
+    }`}>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center space-x-3">
+          <div className={`w-12 h-12 rounded-ios flex items-center justify-center bg-gradient-to-br ${period.color}`}>
+            <Icon className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-800">{period.title}</h3>
+            <p className="text-sm text-gray-600">{period.subtitle}</p>
+            <div className="flex items-center text-xs text-gray-500 mt-1">
+              <Clock className="w-3 h-3 mr-1" />
+              {period.time}
+            </div>
+          </div>
         </div>
         
-        <div className="flex-1">
-          <div className="flex items-center space-x-2 mb-1">
-            <h3 className="text-lg font-semibold text-gray-800">{period.title}</h3>
-            {isActive && (
-              <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
-                当前时段
-              </span>
-            )}
-            {isCompleted && (
-              <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
-                已完成
-              </span>
-            )}
+        {isCompleted ? (
+          <div className="flex items-center text-green-600">
+            <CheckCircle className="w-5 h-5 mr-1" />
+            <span className="text-sm font-medium">已完成</span>
           </div>
-          <p className="text-gray-600 mb-2">{period.subtitle}</p>
-          
-          <div className="flex items-center space-x-4 text-sm text-gray-500">
-            <div className="flex items-center space-x-1">
-              <Clock className="w-4 h-4" />
-              <span>{period.time}</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <Target className="w-4 h-4" />
-              <span>{period.target}次</span>
-            </div>
-          </div>
-        </div>
+        ) : (
+          <Button
+            onClick={onStartPractice}
+            size="sm"
+            className={`rounded-ios ${
+              isActive 
+                ? 'bg-ios-blue text-white hover:bg-ios-blue/90' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            <Play className="w-4 h-4 mr-1" />
+            开始
+          </Button>
+        )}
       </div>
 
-      {/* Progress */}
-      <div className="mb-4">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-700">进度</span>
-          <span className="text-sm text-gray-600">
-            {progress.completed} / {progress.target}
+      <div className="space-y-2">
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-600">进度</span>
+          <span className="font-medium text-gray-800">
+            {progress.completed}/{progress.target}
           </span>
         </div>
         <Progress 
           value={progressPercentage} 
           className="h-2"
         />
+        <p className="text-xs text-gray-500 text-right">
+          {Math.round(progressPercentage)}% 完成
+        </p>
       </div>
-
-      {/* Action Button */}
-      {isCompleted ? (
-        <div className="text-center py-3">
-          <div className="text-green-600 text-sm font-medium">🎉 今日练习已完成</div>
-        </div>
-      ) : (
-        <Button
-          onClick={onStartPractice}
-          className={`w-full bg-gradient-to-r ${period.color} hover:opacity-90 rounded-ios py-3 shadow-ios`}
-        >
-          <Zap className="w-4 h-4 mr-2" />
-          {progress.completed > 0 ? '继续练习' : '开始专注练习'}
-        </Button>
-      )}
     </Card>
   );
 };
