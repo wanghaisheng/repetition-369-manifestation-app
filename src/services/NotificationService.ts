@@ -146,8 +146,7 @@ export class NotificationService {
         body,
         icon: '/favicon.ico',
         badge: '/favicon.ico',
-        tag: 'manifestation-reminder',
-        renotify: true
+        tag: 'manifestation-reminder'
       });
     }
   }
