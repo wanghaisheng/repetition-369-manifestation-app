@@ -1,14 +1,21 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Sun, Sunset, Moon } from 'lucide-react';
 import { useWishes } from '@/hooks/useWishes';
 import { usePractice } from '@/hooks/usePractice';
+import { usePoints } from '@/hooks/usePoints';
+import { useStreak } from '@/hooks/useStreak';
+import { useAchievements } from '@/hooks/useAchievements';
 import { PracticeStats } from '@/components/practice/PracticeStats';
 import { PracticeCard } from '@/components/practice/PracticeCard';
 import { FocusMode } from '@/components/practice/FocusMode';
 import { WishSelector } from '@/components/practice/WishSelector';
 import { PracticeHeader } from '@/components/practice/PracticeHeader';
 import { EmptyState } from '@/components/practice/EmptyState';
+import { PointsDisplay } from '@/components/gamification/PointsDisplay';
+import { StreakCounter } from '@/components/gamification/StreakCounter';
+import { AchievementNotification } from '@/components/gamification/AchievementNotification';
+import { MilestoneNotification } from '@/components/gamification/MilestoneNotification';
 import { TimeSlot, Mood } from '@/types';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -16,6 +23,13 @@ export const PracticeView = () => {
   const { wishes, loading: wishesLoading } = useWishes();
   const { todayPractices, recordPractice, loading: practiceLoading } = usePractice();
   const { user } = useAuth();
+  const userId = user?.id || 'default';
+  
+  // Gamification hooks
+  const { userPoints } = usePoints(userId);
+  const { newMilestones, dismissMilestoneNotification } = useStreak(userId);
+  const { newAchievement, dismissNotification } = useAchievements(userId);
+  
   const [selectedWishId, setSelectedWishId] = useState<string>('');
   const [focusMode, setFocusMode] = useState<{
     isOpen: boolean;
@@ -141,6 +155,12 @@ export const PracticeView = () => {
           subtitle="通过重复书写来强化您的愿望显化"
         />
 
+        {/* 游戏化状态显示 */}
+        <div className="grid grid-cols-2 gap-4">
+          <PointsDisplay userId={userId} variant="compact" />
+          <StreakCounter userId={userId} variant="compact" />
+        </div>
+
         <PracticeStats 
           todayStats={stats.todayStats}
           weeklyStats={stats.weeklyStats}
@@ -177,6 +197,7 @@ export const PracticeView = () => {
         )}
       </div>
 
+      {/* 专注模式 */}
       {focusMode.isOpen && selectedWish && focusMode.period && (
         <FocusMode
           isOpen={focusMode.isOpen}
@@ -186,6 +207,17 @@ export const PracticeView = () => {
           period={periods[focusMode.period]}
         />
       )}
+
+      {/* 通知组件 */}
+      <AchievementNotification 
+        achievement={newAchievement}
+        onClose={dismissNotification}
+      />
+      
+      <MilestoneNotification
+        milestones={newMilestones}
+        onClose={dismissMilestoneNotification}
+      />
     </div>
   );
 };

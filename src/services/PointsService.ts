@@ -1,126 +1,140 @@
-
 import { LocalStorage } from '@/utils/storage';
 
 export interface UserPoints {
   userId: string;
   totalPoints: number;
   todayPoints: number;
-  lastUpdated: Date;
+  level: number;
+  pointsToNextLevel: number;
   pointsHistory: PointsEntry[];
+  lastUpdated: Date;
 }
 
 export interface PointsEntry {
   id: string;
   action: string;
   points: number;
+  description: string;
   timestamp: Date;
+  multiplier?: number;
+}
+
+export interface PointsAction {
+  type: 'completeWriting' | 'dailyGoalAchieved' | 'weeklyGoalAchieved' | 'shareSuccess' | 'helpNewbie' | 'createContent';
+  basePoints: number;
   description: string;
 }
 
 export class PointsService {
-  private static readonly POINTS_CONFIG = {
-    completeWriting: 10,
-    dailyGoalAchieved: 50,
-    weeklyGoalAchieved: 200,
-    streakBonus: {
-      3: 20,
-      7: 100,
-      21: 500,
-      30: 1000
-    },
-    shareSuccess: 25,
-    helpNewbie: 30,
-    createContent: 50
+  private static readonly POINTS_ACTIONS: Record<string, PointsAction> = {
+    completeWriting: { type: 'completeWriting', basePoints: 10, description: '完成书写练习' },
+    dailyGoalAchieved: { type: 'dailyGoalAchieved', basePoints: 50, description: '达成每日目标' },
+    weeklyGoalAchieved: { type: 'weeklyGoalAchieved', basePoints: 200, description: '达成每周目标' },
+    shareSuccess: { type: 'shareSuccess', basePoints: 25, description: '分享成功故事' },
+    helpNewbie: { type: 'helpNewbie', basePoints: 30, description: '帮助新手' },
+    createContent: { type: 'createContent', basePoints: 50, description: '创建内容' }
   };
 
+  private static readonly LEVEL_THRESHOLDS = [
+    0, 500, 1500, 5000, 15000, 30000, 60000, 100000
+  ];
+
   static async getUserPoints(userId: string): Promise<UserPoints> {
-    const points = LocalStorage.getUserPoints(userId);
+    const userPoints = LocalStorage.getItem<UserPoints>(`points_${userId}`);
     
-    if (!points) {
+    if (!userPoints) {
       const initialPoints: UserPoints = {
         userId,
         totalPoints: 0,
         todayPoints: 0,
-        lastUpdated: new Date(),
-        pointsHistory: []
+        level: 1,
+        pointsToNextLevel: 500,
+        pointsHistory: [],
+        lastUpdated: new Date()
       };
-      LocalStorage.setUserPoints(userId, initialPoints);
+      LocalStorage.setItem(`points_${userId}`, initialPoints);
       return initialPoints;
     }
     
-    // 检查是否是新的一天，重置今日点数
+    // Reset today points if it's a new day
     const today = new Date().toDateString();
-    const lastUpdated = new Date(points.lastUpdated).toDateString();
-    
+    const lastUpdated = new Date(userPoints.lastUpdated).toDateString();
     if (today !== lastUpdated) {
-      points.todayPoints = 0;
-      points.lastUpdated = new Date();
-      LocalStorage.setUserPoints(userId, points);
+      userPoints.todayPoints = 0;
+      userPoints.lastUpdated = new Date();
     }
     
-    return points;
+    return userPoints;
   }
 
   static async addPoints(
     userId: string, 
-    action: keyof typeof PointsService.POINTS_CONFIG, 
+    action: keyof typeof PointsService.POINTS_ACTIONS,
     multiplier: number = 1,
     customDescription?: string
   ): Promise<number> {
     const userPoints = await this.getUserPoints(userId);
-    const basePoints = this.POINTS_CONFIG[action] as number;
-    const pointsToAdd = Math.round(basePoints * multiplier);
+    const actionConfig = this.POINTS_ACTIONS[action];
     
-    const pointsEntry: PointsEntry = {
-      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      action,
+    if (!actionConfig) {
+      throw new Error(`Unknown action: ${action}`);
+    }
+    
+    const pointsToAdd = actionConfig.basePoints * multiplier;
+    const entry: PointsEntry = {
+      id: Date.now().toString(),
+      action: actionConfig.type,
       points: pointsToAdd,
+      description: customDescription || actionConfig.description,
       timestamp: new Date(),
-      description: customDescription || this.getActionDescription(action)
+      multiplier
     };
     
     userPoints.totalPoints += pointsToAdd;
     userPoints.todayPoints += pointsToAdd;
+    userPoints.pointsHistory.unshift(entry);
     userPoints.lastUpdated = new Date();
-    userPoints.pointsHistory.unshift(pointsEntry);
     
-    // 只保留最近100条记录
+    // Update level
+    const newLevel = this.calculateLevel(userPoints.totalPoints);
+    if (newLevel > userPoints.level) {
+      userPoints.level = newLevel;
+      // Add level up bonus
+      const levelUpBonus = newLevel * 100;
+      userPoints.totalPoints += levelUpBonus;
+      userPoints.todayPoints += levelUpBonus;
+      
+      const levelUpEntry: PointsEntry = {
+        id: `${Date.now()}_levelup`,
+        action: 'levelUp',
+        points: levelUpBonus,
+        description: `升级到等级 ${newLevel}`,
+        timestamp: new Date()
+      };
+      userPoints.pointsHistory.unshift(levelUpEntry);
+    }
+    
+    userPoints.pointsToNextLevel = this.getPointsToNextLevel(userPoints.totalPoints, userPoints.level);
+    
+    // Keep only last 100 entries
     if (userPoints.pointsHistory.length > 100) {
       userPoints.pointsHistory = userPoints.pointsHistory.slice(0, 100);
     }
     
-    LocalStorage.setUserPoints(userId, userPoints);
-    
-    console.log(`Added ${pointsToAdd} points for ${action}. Total: ${userPoints.totalPoints}`);
-    
+    LocalStorage.setItem(`points_${userId}`, userPoints);
     return pointsToAdd;
   }
 
   static async addStreakBonus(userId: string, streakDays: number): Promise<number> {
-    const bonusPoints = this.POINTS_CONFIG.streakBonus[streakDays as keyof typeof this.POINTS_CONFIG.streakBonus];
+    const bonusMultiplier = Math.floor(streakDays / 7); // Every 7 days
+    const bonusPoints = bonusMultiplier * 50;
     
-    if (!bonusPoints) return 0;
+    if (bonusPoints > 0) {
+      await this.addPoints(userId, 'completeWriting', bonusPoints / 10, `${streakDays}天连击奖励`);
+      return bonusPoints;
+    }
     
-    const userPoints = await this.getUserPoints(userId);
-    
-    const pointsEntry: PointsEntry = {
-      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      action: 'streakBonus',
-      points: bonusPoints,
-      timestamp: new Date(),
-      description: `连续练习 ${streakDays} 天奖励`
-    };
-    
-    userPoints.totalPoints += bonusPoints;
-    userPoints.todayPoints += bonusPoints;
-    userPoints.lastUpdated = new Date();
-    userPoints.pointsHistory.unshift(pointsEntry);
-    
-    LocalStorage.setUserPoints(userId, userPoints);
-    
-    console.log(`Added ${bonusPoints} streak bonus for ${streakDays} days. Total: ${userPoints.totalPoints}`);
-    
-    return bonusPoints;
+    return 0;
   }
 
   static async getTodayPointsBreakdown(userId: string) {
@@ -131,28 +145,51 @@ export class PointsService {
       new Date(entry.timestamp).toDateString() === today
     );
     
-    const breakdown = todayEntries.reduce((acc, entry) => {
-      acc[entry.action] = (acc[entry.action] || 0) + entry.points;
-      return acc;
-    }, {} as Record<string, number>);
+    const breakdown: Record<string, number> = {};
+    let total = 0;
+    
+    todayEntries.forEach(entry => {
+      breakdown[entry.action] = (breakdown[entry.action] || 0) + entry.points;
+      total += entry.points;
+    });
     
     return {
-      total: userPoints.todayPoints,
+      total,
       breakdown,
       entries: todayEntries
     };
   }
 
-  private static getActionDescription(action: string): string {
-    const descriptions = {
-      completeWriting: '完成书写练习',
-      dailyGoalAchieved: '达成日目标',
-      weeklyGoalAchieved: '达成周目标',
-      shareSuccess: '分享成功故事',
-      helpNewbie: '帮助新手',
-      createContent: '创建内容'
-    };
+  private static calculateLevel(totalPoints: number): number {
+    for (let i = this.LEVEL_THRESHOLDS.length - 1; i >= 0; i--) {
+      if (totalPoints >= this.LEVEL_THRESHOLDS[i]) {
+        return i + 1;
+      }
+    }
+    return 1;
+  }
+
+  private static getPointsToNextLevel(totalPoints: number, currentLevel: number): number {
+    if (currentLevel >= this.LEVEL_THRESHOLDS.length) {
+      return 0; // Max level reached
+    }
     
-    return descriptions[action as keyof typeof descriptions] || action;
+    const nextLevelThreshold = this.LEVEL_THRESHOLDS[currentLevel];
+    return nextLevelThreshold - totalPoints;
+  }
+
+  static getLevelName(level: number): string {
+    const levelNames = [
+      '', '显化新手', '愿望探索者', '显化实践者', '愿望大师', 
+      '显化导师', '显化宗师', '显化传奇', '显化至尊'
+    ];
+    return levelNames[level] || '显化至尊';
+  }
+
+  static getLevelColor(level: number): string {
+    if (level >= 7) return 'text-manifest-gold';
+    if (level >= 5) return 'text-manifest-lavender';
+    if (level >= 3) return 'text-ios-blue';
+    return 'text-ios-green';
   }
 }

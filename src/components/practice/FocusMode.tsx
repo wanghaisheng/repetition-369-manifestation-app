@@ -1,11 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
-import { X, CheckCircle, Sparkles } from 'lucide-react';
+import { X, CheckCircle, Sparkles, Star, Flame } from 'lucide-react';
 import { Wish, Mood } from '@/types';
+import { usePoints } from '@/hooks/usePoints';
+import { useStreak } from '@/hooks/useStreak';
+import { useAchievements } from '@/hooks/useAchievements';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface FocusModeProps {
   isOpen: boolean;
@@ -24,12 +27,21 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
   const [entries, setEntries] = useState<string[]>([]);
   const [isCompleting, setIsCompleting] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [pointsEarned, setPointsEarned] = useState(0);
+  const [streakUpdated, setStreakUpdated] = useState(false);
+  
+  const { user } = useAuth();
+  const { addPoints } = usePoints(user?.id || 'default');
+  const { updateStreak } = useStreak(user?.id || 'default');
+  const { checkAchievements } = useAchievements(user?.id || 'default');
 
   useEffect(() => {
     if (isOpen) {
       setEntries([]);
       setCurrentEntry('');
       setShowCelebration(false);
+      setPointsEarned(0);
+      setStreakUpdated(false);
     }
   }, [isOpen]);
 
@@ -48,11 +60,34 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
     if (entries.length === period.target) {
       setIsCompleting(true);
       try {
+        // Complete the practice first
         await onComplete(entries, 'good');
-        onClose();
+        
+        // Award points for completing writing
+        const basePoints = await addPoints('completeWriting', entries.length, `完成${period.title}练习`);
+        let totalPoints = basePoints;
+        
+        // Update streak
+        const wasStreakUpdated = await updateStreak();
+        if (wasStreakUpdated) {
+          setStreakUpdated(true);
+        }
+        
+        // Check for daily goal completion (if all periods done today)
+        // This would need to be implemented based on today's total progress
+        
+        // Check achievements
+        await checkAchievements();
+        
+        setPointsEarned(totalPoints);
+        
+        // Keep celebration modal open for a moment to show rewards
+        setTimeout(() => {
+          onClose();
+        }, 2000);
+        
       } catch (error) {
         console.error('Error completing practice:', error);
-      } finally {
         setIsCompleting(false);
       }
     }
@@ -133,12 +168,26 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
             </div>
           )}
 
-          {/* 庆祝动画 */}
+          {/* 庆祝动画和奖励显示 */}
           {showCelebration && (
             <div className="text-center p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-ios">
               <Sparkles className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
               <p className="text-lg font-semibold text-gray-800 mb-1">恭喜完成!</p>
-              <p className="text-sm text-gray-600">您已完成本时段的{period.target}次练习</p>
+              <p className="text-sm text-gray-600 mb-3">您已完成本时段的{period.target}次练习</p>
+              
+              {/* 奖励预览 */}
+              <div className="flex items-center justify-center space-x-4 text-sm">
+                <div className="flex items-center space-x-1 text-manifest-gold">
+                  <Star className="w-4 h-4" />
+                  <span>+{period.target * 10} 点数</span>
+                </div>
+                {streakUpdated && (
+                  <div className="flex items-center space-x-1 text-ios-orange">
+                    <Flame className="w-4 h-4" />
+                    <span>连击更新</span>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
