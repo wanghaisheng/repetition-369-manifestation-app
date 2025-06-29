@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { Sun, Sunset, Moon } from 'lucide-react';
 import { useWishes } from '@/hooks/useWishes';
@@ -27,9 +28,9 @@ export const PracticeView = () => {
   const userId = user?.id || 'default';
   
   // Gamification hooks
-  const { userPoints } = usePoints(userId);
-  const { newMilestones, dismissMilestoneNotification } = useStreak(userId);
-  const { newAchievement, dismissNotification } = useAchievements(userId);
+  const { userPoints, addPoints } = usePoints(userId);
+  const { updateStreak, newMilestones, dismissMilestoneNotification } = useStreak(userId);
+  const { checkAchievements, newAchievement, dismissNotification } = useAchievements(userId);
   const { scheduleReminders, sendStreakNotification } = useNotifications(userId);
   
   const [selectedWishId, setSelectedWishId] = useState<string>('');
@@ -138,6 +139,7 @@ export const PracticeView = () => {
     if (!selectedWish || !focusMode.period || !user) return;
 
     try {
+      // Record the practice session
       await recordPractice({
         userId: user.id,
         wishId: selectedWish.id,
@@ -149,6 +151,15 @@ export const PracticeView = () => {
         mood,
         date: new Date()
       });
+
+      // Award points for completing practice
+      await addPoints('completeWriting', entries.length, `完成${focusMode.period}练习 ${entries.length}次`);
+
+      // Update streak and check for milestones
+      await updateStreak();
+
+      // Check for new achievements
+      await checkAchievements();
 
       setFocusMode({ isOpen: false });
     } catch (error) {
