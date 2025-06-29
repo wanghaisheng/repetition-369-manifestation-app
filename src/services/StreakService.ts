@@ -27,13 +27,13 @@ export interface StreakMilestone {
 }
 
 export class StreakService {
-  private static readonly STREAK_MILESTONES: Omit<StreakMilestone, 'achieved' | 'achievedDate'>[] = [
-    { days: 3, reward: { points: 50, title: '习惯萌芽' } },
-    { days: 7, reward: { points: 150, title: '一周达人' } },
-    { days: 21, reward: { points: 500, title: '三周大师' } },
-    { days: 30, reward: { points: 1000, title: '月度传奇' } },
-    { days: 60, reward: { points: 2500, title: '双月英雄' } },
-    { days: 100, reward: { points: 5000, title: '百日显化' } }
+  private static readonly STREAK_MILESTONES: StreakMilestone[] = [
+    { days: 3, achieved: false, reward: { points: 50, title: '习惯萌芽' } },
+    { days: 7, achieved: false, reward: { points: 150, title: '一周达人' } },
+    { days: 21, achieved: false, reward: { points: 500, title: '三周大师' } },
+    { days: 30, achieved: false, reward: { points: 1000, title: '月度传奇' } },
+    { days: 60, achieved: false, reward: { points: 2500, title: '双月英雄' } },
+    { days: 100, achieved: false, reward: { points: 5000, title: '百日显化' } }
   ];
 
   static async getUserStreak(userId: string): Promise<UserStreak> {
@@ -46,10 +46,7 @@ export class StreakService {
         longestStreak: 0,
         lastPracticeDate: new Date(),
         streakHistory: [],
-        milestones: this.STREAK_MILESTONES.map(m => ({
-          ...m,
-          achieved: false
-        }))
+        milestones: this.STREAK_MILESTONES.map(m => ({ ...m }))
       };
       LocalStorage.setItem(`streak_${userId}`, initialStreak);
       return initialStreak;
