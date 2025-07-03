@@ -1,6 +1,5 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
-import { Sun, Sunset, Moon } from 'lucide-react';
+import { Sun, Sunset, Moon, BarChart3, Star } from 'lucide-react';
 import { useWishes } from '@/hooks/useWishes';
 import { usePractice } from '@/hooks/usePractice';
 import { usePoints } from '@/hooks/usePoints';
@@ -20,6 +19,10 @@ import { AchievementNotification } from '@/components/gamification/AchievementNo
 import { MilestoneNotification } from '@/components/gamification/MilestoneNotification';
 import { TimeSlot, Mood } from '@/types';
 import { useAuth } from '@/contexts/AuthContext';
+import { AnalyticsDashboard } from '@/components/analytics/AnalyticsDashboard';
+import { ShareModal } from '@/components/social/ShareModal';
+import { AdvancedPracticeModal } from '@/components/practice/AdvancedPracticeModal';
+import { Button } from '@/components/ui/button';
 
 export const PracticeView = () => {
   const { wishes, loading: wishesLoading } = useWishes();
@@ -38,6 +41,11 @@ export const PracticeView = () => {
     isOpen: boolean;
     period?: TimeSlot;
   }>({ isOpen: false });
+  
+  const [analyticsOpen, setAnalyticsOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [shareContent, setShareContent] = useState(null);
+  const [advancedPracticeOpen, setAdvancedPracticeOpen] = useState(false);
 
   // Initialize notifications on first load
   useEffect(() => {
@@ -130,6 +138,15 @@ export const PracticeView = () => {
 
   const selectedWish = wishes.find(wish => wish.id === selectedWishId);
 
+  const handleOpenAnalytics = () => {
+    setAnalyticsOpen(true);
+  };
+
+  const handleShare = (content) => {
+    setShareContent(content);
+    setShareModalOpen(true);
+  };
+
   const handleStartPractice = (period: TimeSlot) => {
     if (!selectedWishId) return;
     setFocusMode({ isOpen: true, period });
@@ -162,6 +179,18 @@ export const PracticeView = () => {
       await checkAchievements();
 
       setFocusMode({ isOpen: false });
+    
+      // Create share content for achievement
+      const { SocialService } = await import('@/services/SocialService');
+      const shareContent = SocialService.createProgressShare(
+        stats.todayStats.totalCompleted,
+        wishes.filter(w => w.status === 'achieved').length
+      );
+      
+      // Show share option
+      setTimeout(() => {
+        handleShare(shareContent);
+      }, 2000);
     } catch (error) {
       console.error('Error recording practice:', error);
     }
@@ -182,6 +211,31 @@ export const PracticeView = () => {
           title="369练习"
           subtitle="通过重复书写来强化您的愿望显化"
         />
+
+        {/* Enhanced header with new features */}
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-semibold text-gray-800">今日练习</h2>
+          <div className="flex space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setAdvancedPracticeOpen(true)}
+              className="flex items-center space-x-1"
+            >
+              <Star className="w-4 h-4" />
+              <span>高级模式</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleOpenAnalytics}
+              className="flex items-center space-x-1"
+            >
+              <BarChart3 className="w-4 h-4" />
+              <span>分析</span>
+            </Button>
+          </div>
+        </div>
 
         {/* Enhanced gamification status display */}
         <div className="grid grid-cols-1 gap-4">
@@ -246,6 +300,33 @@ export const PracticeView = () => {
           onComplete={handleCompletePractice}
           wish={selectedWish}
           period={periods[focusMode.period]}
+        />
+      )}
+
+      {/* Advanced Practice Modal */}
+      <AdvancedPracticeModal
+        isOpen={advancedPracticeOpen}
+        onClose={() => setAdvancedPracticeOpen(false)}
+        onComplete={(results) => {
+          // Handle advanced practice completion
+          console.log('Advanced practice completed:', results);
+          setAdvancedPracticeOpen(false);
+        }}
+      />
+
+      {/* Analytics Dashboard */}
+      {analyticsOpen && (
+        <div className="fixed inset-0 bg-white z-50 overflow-y-auto">
+          <AnalyticsDashboard onClose={() => setAnalyticsOpen(false)} />
+        </div>
+      )}
+
+      {/* Share Modal */}
+      {shareModalOpen && shareContent && (
+        <ShareModal
+          isOpen={shareModalOpen}
+          onClose={() => setShareModalOpen(false)}
+          content={shareContent}
         />
       )}
 
