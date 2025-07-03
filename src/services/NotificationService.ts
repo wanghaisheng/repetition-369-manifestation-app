@@ -1,187 +1,341 @@
+import { PracticeSession } from '@/types';
 
-export interface NotificationConfig {
-  enabled: boolean;
-  morningReminder: boolean;
-  afternoonReminder: boolean;
-  eveningReminder: boolean;
-  streakReminder: boolean;
-  achievementNotifications: boolean;
-}
-
-export interface ScheduledNotification {
+export interface Notification {
   id: string;
-  type: 'practice' | 'streak' | 'achievement';
   title: string;
   body: string;
-  scheduledTime: Date;
-  userId: string;
+  timestamp: number;
+  read: boolean;
+  type: string;
 }
 
 export class NotificationService {
-  private static readonly DEFAULT_CONFIG: NotificationConfig = {
-    enabled: true,
-    morningReminder: true,
-    afternoonReminder: true,
-    eveningReminder: true,
-    streakReminder: true,
-    achievementNotifications: true
-  };
-
-  private static readonly REMINDER_MESSAGES = {
-    morning: [
-      '🌅 美好的一天开始了！来写下您的晨间愿望吧',
-      '☀️ 新的一天，新的开始！让我们一起显化您的梦想',
-      '🌸 早安！用积极的肯定句开启美好的一天'
-    ],
-    afternoon: [
-      '🌞 午间时光，让我们继续保持专注和动力',
-      '💫 下午好！是时候为您的愿望注入新的能量了',
-      '✨ 午间练习时间到！保持您的显化之旅'
-    ],
-    evening: [
-      '🌙 晚上好！让我们带着感恩的心结束今天',
-      '⭐ 夜晚时光，回顾今天的收获，展望明天的美好',
-      '🌜 晚安前的最后一次练习，为明天种下希望的种子'
-    ]
-  };
-
-  static async requestPermission(): Promise<boolean> {
+  static async requestPermission(): Promise<void> {
     if (!('Notification' in window)) {
-      console.log('This browser does not support notifications');
-      return false;
+      console.warn('This browser does not support notifications.');
+      return;
     }
 
-    if (Notification.permission === 'granted') {
-      return true;
+    if (Notification.permission !== 'granted') {
+      try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+          console.log('Notification permission granted.');
+        }
+      } catch (error) {
+        console.error('Error requesting notification permission:', error);
+      }
     }
-
-    if (Notification.permission !== 'denied') {
-      const permission = await Notification.requestPermission();
-      return permission === 'granted';
-    }
-
-    return false;
   }
 
-  static async getConfig(userId: string): Promise<NotificationConfig> {
-    const config = localStorage.getItem(`notification_config_${userId}`);
-    return config ? JSON.parse(config) : this.DEFAULT_CONFIG;
+  static hasPermission(): boolean {
+    return 'Notification' in window && Notification.permission === 'granted';
   }
 
-  static async updateConfig(userId: string, config: Partial<NotificationConfig>): Promise<void> {
-    const currentConfig = await this.getConfig(userId);
-    const newConfig = { ...currentConfig, ...config };
-    localStorage.setItem(`notification_config_${userId}`, JSON.stringify(newConfig));
-  }
-
-  static async scheduleReminders(userId: string): Promise<void> {
-    const config = await this.getConfig(userId);
-    if (!config.enabled) return;
-
-    const hasPermission = await this.requestPermission();
-    if (!hasPermission) return;
-
+  static async schedulePracticeReminders(): Promise<void> {
     // Clear existing reminders
-    this.clearReminders(userId);
+    await this.clearAllReminders();
 
-    const now = new Date();
-    const tomorrow = new Date(now);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    // Get optimal reminder time
+    const optimalTime = await this.getOptimalReminderTime('default'); // Replace 'default' with actual userId
 
-    // Schedule morning reminder (8:00 AM)
-    if (config.morningReminder) {
-      const morningTime = new Date(tomorrow);
-      morningTime.setHours(8, 0, 0, 0);
-      this.scheduleNotification({
-        id: `morning_${userId}`,
-        type: 'practice',
-        title: '晨间显化练习',
-        body: this.getRandomMessage('morning'),
-        scheduledTime: morningTime,
-        userId
-      });
-    }
+    // Schedule morning reminder
+    await this.scheduleReminder({
+      title: '☀️ 早安，369显化练习时间到啦！',
+      body: '新的一天，从积极的显化练习开始，让梦想照进现实！',
+      time: optimalTime,
+      type: 'practice_reminder'
+    });
 
-    // Schedule afternoon reminder (2:00 PM)
-    if (config.afternoonReminder) {
-      const afternoonTime = new Date(tomorrow);
-      afternoonTime.setHours(14, 0, 0, 0);
-      this.scheduleNotification({
-        id: `afternoon_${userId}`,
-        type: 'practice',
-        title: '午间显化练习',
-        body: this.getRandomMessage('afternoon'),
-        scheduledTime: afternoonTime,
-        userId
-      });
-    }
-
-    // Schedule evening reminder (8:00 PM)
-    if (config.eveningReminder) {
-      const eveningTime = new Date(tomorrow);
-      eveningTime.setHours(20, 0, 0, 0);
-      this.scheduleNotification({
-        id: `evening_${userId}`,
-        type: 'practice',
-        title: '晚间显化练习',
-        body: this.getRandomMessage('evening'),
-        scheduledTime: eveningTime,
-        userId
-      });
-    }
+    // Schedule evening reminder
+    await this.scheduleReminder({
+      title: '🌙 晚上好，别忘了今天的369练习哦！',
+      body: '在睡前完成练习，让愿望在潜意识中生根发芽，加速实现！',
+      time: { hour: 21, minute: 0 },
+      type: 'practice_reminder'
+    });
   }
 
-  private static scheduleNotification(notification: ScheduledNotification): void {
-    const delay = notification.scheduledTime.getTime() - Date.now();
-    if (delay > 0) {
-      setTimeout(() => {
-        this.showNotification(notification.title, notification.body);
-      }, delay);
-    }
-  }
-
-  private static showNotification(title: string, body: string): void {
-    if (Notification.permission === 'granted') {
-      new Notification(title, {
-        body,
-        icon: '/favicon.ico',
-        badge: '/favicon.ico',
-        tag: 'manifestation-reminder'
-      });
-    }
-  }
-
-  private static getRandomMessage(type: keyof typeof NotificationService.REMINDER_MESSAGES): string {
-    const messages = this.REMINDER_MESSAGES[type];
-    return messages[Math.floor(Math.random() * messages.length)];
-  }
-
-  static clearReminders(userId: string): void {
-    // In a real implementation, we'd store timeout IDs and clear them
-    // For now, this is a placeholder for the clear functionality
-    console.log(`Clearing reminders for user ${userId}`);
-  }
-
-  static async sendAchievementNotification(userId: string, title: string, description: string): Promise<void> {
-    const config = await this.getConfig(userId);
-    if (!config.enabled || !config.achievementNotifications) return;
-
-    const hasPermission = await this.requestPermission();
-    if (!hasPermission) return;
-
-    this.showNotification(`🎉 ${title}`, description);
-  }
-
-  static async sendStreakNotification(userId: string, streakDays: number): Promise<void> {
-    const config = await this.getConfig(userId);
-    if (!config.enabled || !config.streakReminder) return;
-
-    const hasPermission = await this.requestPermission();
-    if (!hasPermission) return;
-
-    this.showNotification(
-      `🔥 ${streakDays}天连击！`,
-      `恭喜您已连续练习${streakDays}天！继续保持这个好习惯吧！`
+  static async scheduleReminder(reminder: {
+    title: string;
+    body: string;
+    time: { hour: number; minute: number };
+    type: string;
+  }): Promise<void> {
+    // This would typically integrate with a more sophisticated scheduling system
+    // For now, we'll store the reminder configuration
+    const reminderConfig = {
+      ...reminder,
+      id: Date.now().toString(),
+      recurring: 'daily'
+    };
+    
+    localStorage.setItem(
+      `reminder_${reminderConfig.id}`,
+      JSON.stringify(reminderConfig)
     );
+  }
+
+  static async clearAllReminders(): Promise<void> {
+    // Clear all stored reminders
+    const keys = Object.keys(localStorage).filter(key => key.startsWith('reminder_'));
+    keys.forEach(key => localStorage.removeItem(key));
+  }
+
+  static async getOptimalReminderTime(userId: string): Promise<{ hour: number; minute: number }> {
+    try {
+      // const analytics = await AnalyticsService.getAnalytics(userId, 30);
+      // const { morning, afternoon, evening } = analytics.timePatterns;
+      
+      // Find the time slot with highest activity
+      // if (morning >= afternoon && morning >= evening) {
+      //   return { hour: 9, minute: 0 }; // 9 AM
+      // } else if (afternoon >= evening) {
+      //   return { hour: 14, minute: 0 }; // 2 PM
+      // } else {
+      //   return { hour: 19, minute: 0 }; // 7 PM
+      // }
+      return { hour: 10, minute: 0 }; // Default to 10 AM
+    } catch (error) {
+      console.error('Error getting optimal reminder time:', error);
+      return { hour: 10, minute: 0 }; // Default to 10 AM
+    }
+  }
+
+  static async sendAchievementNotification(achievement: {
+    title: string;
+    description: string;
+    points: number;
+  }): Promise<void> {
+    if (!this.hasPermission()) return;
+
+    const notification = new Notification(`🏆 ${achievement.title}`, {
+      body: `${achievement.description}\n获得 ${achievement.points} 点数！`,
+      icon: '/favicon.ico',
+      badge: '/favicon.ico',
+      tag: 'achievement',
+      requireInteraction: true
+    });
+
+    notification.onclick = () => {
+      window.focus();
+      notification.close();
+    };
+
+    // Also store in local notifications
+    await this.addNotification({
+      title: `🏆 ${achievement.title}`,
+      body: `${achievement.description}\n获得 ${achievement.points} 点数！`,
+      type: 'achievement'
+    });
+  }
+
+  static async addNotification(notification: Omit<Notification, 'id' | 'timestamp' | 'read'>): Promise<void> {
+    const newNotification: Notification = {
+      id: Date.now().toString(),
+      title: notification.title,
+      body: notification.body,
+      timestamp: Date.now(),
+      read: false,
+      type: notification.type
+    };
+
+    let notifications = JSON.parse(localStorage.getItem('notifications') || '[]') as Notification[];
+    notifications.unshift(newNotification); // Add to the beginning
+    localStorage.setItem('notifications', JSON.stringify(notifications));
+  }
+
+  static getNotifications(): Notification[] {
+    return JSON.parse(localStorage.getItem('notifications') || '[]') as Notification[];
+  }
+
+  static markAsRead(notificationId: string): void {
+    let notifications = JSON.parse(localStorage.getItem('notifications') || '[]') as Notification[];
+    notifications = notifications.map(notification =>
+      notification.id === notificationId ? { ...notification, read: true } : notification
+    );
+    localStorage.setItem('notifications', JSON.stringify(notifications));
+  }
+
+  static clearAll(): void {
+    localStorage.removeItem('notifications');
+  }
+
+  static async setupSmartReminders(userId: string, recommendations: {
+    bestTimes: string[];
+    riskLevel: 'low' | 'medium' | 'high';
+    suggestions: string[];
+  }): Promise<void> {
+    try {
+      // Clear existing reminders
+      await this.clearAllReminders();
+
+      // Set up practice reminders based on best times
+      for (const timeSlot of recommendations.bestTimes) {
+        const time = this.parseTimeSlot(timeSlot);
+        if (time) {
+          await this.scheduleReminder({
+            title: '🌟 最佳练习时间到了',
+            body: `现在是您的黄金练习时间，开始今天的369显化练习吧！`,
+            time,
+            type: 'practice_reminder'
+          });
+        }
+      }
+
+      // Set up streak protection based on risk level
+      if (recommendations.riskLevel === 'high') {
+        // More frequent reminders for high risk
+        await this.scheduleStreakProtectionReminders('aggressive');
+      } else if (recommendations.riskLevel === 'medium') {
+        await this.scheduleStreakProtectionReminders('moderate');
+      } else {
+        await this.scheduleStreakProtectionReminders('gentle');
+      }
+
+      // Schedule motivational notifications
+      await this.scheduleMotivationalReminders(recommendations.suggestions);
+
+    } catch (error) {
+      console.error('Error setting up smart reminders:', error);
+      throw error;
+    }
+  }
+
+  private static parseTimeSlot(timeSlot: string): { hour: number; minute: number } | null {
+    const timeMatch = timeSlot.match(/(\d+):(\d+)/);
+    if (timeMatch) {
+      return {
+        hour: parseInt(timeMatch[1]),
+        minute: parseInt(timeMatch[2])
+      };
+    }
+    return null;
+  }
+
+  private static async scheduleStreakProtectionReminders(intensity: 'gentle' | 'moderate' | 'aggressive'): Promise<void> {
+    const reminderTimes = {
+      gentle: [{ hour: 20, minute: 0 }], // 只在晚上8点提醒
+      moderate: [
+        { hour: 12, minute: 0 }, // 中午12点
+        { hour: 18, minute: 0 }  // 晚上6点
+      ],
+      aggressive: [
+        { hour: 9, minute: 0 },  // 早上9点
+        { hour: 14, minute: 0 }, // 下午2点
+        { hour: 19, minute: 0 }  // 晚上7点
+      ]
+    };
+
+    const times = reminderTimes[intensity];
+    const messages = {
+      gentle: '温馨提醒：别忘了今天的369练习哦 😊',
+      moderate: '保持连击：今天还没有完成练习，快来续写你的显化故事！',
+      aggressive: '连击警告：距离连击中断还有几小时，现在开始练习还来得及！'
+    };
+
+    for (const time of times) {
+      await this.scheduleReminder({
+        title: '🔥 连击保护提醒',
+        body: messages[intensity],
+        time,
+        type: 'streak_warning'
+      });
+    }
+  }
+
+  private static async scheduleMotivationalReminders(suggestions: string[]): Promise<void> {
+    // Schedule weekly motivational messages based on suggestions
+    const motivationalTimes = [
+      { hour: 8, minute: 30, day: 1 }, // Monday morning
+      { hour: 15, minute: 0, day: 3 }, // Wednesday afternoon
+      { hour: 19, minute: 30, day: 5 }  // Friday evening
+    ];
+
+    for (let i = 0; i < motivationalTimes.length && i < suggestions.length; i++) {
+      const time = motivationalTimes[i];
+      const suggestion = suggestions[i];
+      
+      await this.scheduleWeeklyReminder({
+        title: '💪 个性化建议',
+        body: suggestion,
+        time,
+        type: 'motivation'
+      });
+    }
+  }
+
+  private static async scheduleWeeklyReminder(reminder: {
+    title: string;
+    body: string;
+    time: { hour: number; minute: number; day: number };
+    type: string;
+  }): Promise<void> {
+    // This would typically integrate with a more sophisticated scheduling system
+    // For now, we'll store the reminder configuration
+    const reminderConfig = {
+      ...reminder,
+      id: Date.now().toString(),
+      recurring: 'weekly'
+    };
+    
+    localStorage.setItem(
+      `reminder_${reminderConfig.id}`,
+      JSON.stringify(reminderConfig)
+    );
+  }
+
+  private static async clearAllReminders(): Promise<void> {
+    // Clear all stored reminders
+    const keys = Object.keys(localStorage).filter(key => key.startsWith('reminder_'));
+    keys.forEach(key => localStorage.removeItem(key));
+  }
+
+  static async getOptimalReminderTime(userId: string): Promise<{ hour: number; minute: number }> {
+    try {
+      // const analytics = await AnalyticsService.getAnalytics(userId, 30);
+      // const { morning, afternoon, evening } = analytics.timePatterns;
+      
+      // Find the time slot with highest activity
+      // if (morning >= afternoon && morning >= evening) {
+      //   return { hour: 9, minute: 0 }; // 9 AM
+      // } else if (afternoon >= evening) {
+      //   return { hour: 14, minute: 0 }; // 2 PM
+      // } else {
+      //   return { hour: 19, minute: 0 }; // 7 PM
+      // }
+      return { hour: 10, minute: 0 }; // Default to 10 AM
+    } catch (error) {
+      console.error('Error getting optimal reminder time:', error);
+      return { hour: 10, minute: 0 }; // Default to 10 AM
+    }
+  }
+
+  static async sendAchievementNotification(achievement: {
+    title: string;
+    description: string;
+    points: number;
+  }): Promise<void> {
+    if (!this.hasPermission()) return;
+
+    const notification = new Notification(`🏆 ${achievement.title}`, {
+      body: `${achievement.description}\n获得 ${achievement.points} 点数！`,
+      icon: '/favicon.ico',
+      badge: '/favicon.ico',
+      tag: 'achievement',
+      requireInteraction: true
+    });
+
+    notification.onclick = () => {
+      window.focus();
+      notification.close();
+    };
+
+    // Also store in local notifications
+    await this.addNotification({
+      title: `🏆 ${achievement.title}`,
+      body: `${achievement.description}\n获得 ${achievement.points} 点数！`,
+      type: 'achievement'
+    });
   }
 }

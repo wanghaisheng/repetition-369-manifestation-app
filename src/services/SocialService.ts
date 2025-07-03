@@ -162,7 +162,7 @@ export class SocialService {
 
   static canShare(): boolean {
     return typeof navigator !== 'undefined' && 
-           (navigator.share || navigator.clipboard);
+           !!(navigator.share || navigator.clipboard);
   }
 
   static async nativeShare(content: ShareableContent): Promise<boolean> {
