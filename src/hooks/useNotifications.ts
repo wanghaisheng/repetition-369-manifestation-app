@@ -1,9 +1,10 @@
 
 import { useState, useEffect } from 'react';
-import { NotificationService, NotificationConfig } from '@/services/NotificationService';
+import { NotificationService, NotificationConfig, Notification } from '@/services/NotificationService';
 
 export const useNotifications = (userId: string = 'default') => {
   const [config, setConfig] = useState<NotificationConfig | null>(null);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [hasPermission, setHasPermission] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -16,6 +17,10 @@ export const useNotifications = (userId: string = 'default') => {
       // Check permission status
       const permission = await NotificationService.requestPermission();
       setHasPermission(permission);
+      
+      // Load notifications
+      const localNotifications = NotificationService.getNotifications();
+      setNotifications(localNotifications);
     } catch (error) {
       console.error('Error loading notification config:', error);
     } finally {
@@ -26,9 +31,8 @@ export const useNotifications = (userId: string = 'default') => {
   const updateConfig = async (newConfig: Partial<NotificationConfig>) => {
     try {
       await NotificationService.updateConfig(userId, newConfig);
-      await loadConfig(); // Reload config
+      await loadConfig();
       
-      // Reschedule reminders if enabled
       if (newConfig.enabled !== false) {
         await NotificationService.scheduleReminders(userId);
       }
@@ -59,6 +63,9 @@ export const useNotifications = (userId: string = 'default') => {
   const sendAchievementNotification = async (title: string, description: string) => {
     try {
       await NotificationService.sendAchievementNotification(userId, title, description);
+      // Reload notifications to show the new one
+      const localNotifications = NotificationService.getNotifications();
+      setNotifications(localNotifications);
     } catch (error) {
       console.error('Error sending achievement notification:', error);
     }
@@ -67,10 +74,30 @@ export const useNotifications = (userId: string = 'default') => {
   const sendStreakNotification = async (streakDays: number) => {
     try {
       await NotificationService.sendStreakNotification(userId, streakDays);
+      // Reload notifications to show the new one
+      const localNotifications = NotificationService.getNotifications();
+      setNotifications(localNotifications);
     } catch (error) {
       console.error('Error sending streak notification:', error);
     }
   };
+
+  const markAsRead = (notificationId: string) => {
+    NotificationService.markAsRead(notificationId);
+    // Update local state
+    setNotifications(prev => 
+      prev.map(notification =>
+        notification.id === notificationId ? { ...notification, read: true } : notification
+      )
+    );
+  };
+
+  const clearAll = () => {
+    NotificationService.clearAll();
+    setNotifications([]);
+  };
+
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   useEffect(() => {
     loadConfig();
@@ -78,6 +105,8 @@ export const useNotifications = (userId: string = 'default') => {
 
   return {
     config,
+    notifications,
+    unreadCount,
     hasPermission,
     loading,
     updateConfig,
@@ -85,6 +114,8 @@ export const useNotifications = (userId: string = 'default') => {
     scheduleReminders,
     sendAchievementNotification,
     sendStreakNotification,
+    markAsRead,
+    clearAll,
     refetch: loadConfig
   };
 };

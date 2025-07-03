@@ -16,18 +16,33 @@ export const NotificationCenter = () => {
     dailySummary: true
   });
 
-  const { notifications, unreadCount, markAsRead, clearAll } = useNotifications();
+  const { notifications, unreadCount, markAsRead, clearAll, config, updateConfig } = useNotifications();
 
   useEffect(() => {
     // Request notification permission on component mount
     NotificationService.requestPermission();
   }, []);
 
+  useEffect(() => {
+    // Update local settings when config loads
+    if (config) {
+      setSettings({
+        practiceReminders: config.practiceReminders,
+        streakProtection: config.streakProtection,
+        achievements: config.achievements,
+        dailySummary: config.dailySummary
+      });
+    }
+  }, [config]);
+
   const handleSettingChange = async (key: keyof typeof settings, value: boolean) => {
     setSettings(prev => ({ ...prev, [key]: value }));
     
+    // Update the notification config
+    await updateConfig({ [key]: value });
+    
     if (key === 'practiceReminders' && value) {
-      await NotificationService.schedulePracticeReminders();
+      await NotificationService.scheduleReminders('default');
     }
   };
 
@@ -81,7 +96,7 @@ export const NotificationCenter = () => {
 
           {/* Notifications List */}
           <div className="max-h-96 overflow-y-auto">
-            {notifications.length === 0 ? (
+            {!notifications || notifications.length === 0 ? (
               <div className="p-4 text-center text-gray-500">
                 暂无通知
               </div>
@@ -155,7 +170,7 @@ export const NotificationCenter = () => {
               </div>
             </div>
             
-            {notifications.length > 0 && (
+            {notifications && notifications.length > 0 && (
               <Button
                 variant="outline"
                 size="sm"
