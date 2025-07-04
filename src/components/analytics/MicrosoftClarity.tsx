@@ -7,6 +7,18 @@ interface MicrosoftClarityProps {
 
 export const MicrosoftClarity = ({ projectId }: MicrosoftClarityProps) => {
   useEffect(() => {
+    // 检查是否为有效的项目ID
+    if (!projectId || projectId === 'XXXXXXXXXX') {
+      console.log('Microsoft Clarity: Invalid project ID provided');
+      return;
+    }
+
+    // 检查是否已经加载了 Clarity
+    if (document.querySelector('script[src*="clarity.ms"]')) {
+      console.log('Microsoft Clarity: Already loaded');
+      return;
+    }
+
     const script = document.createElement('script');
     script.innerHTML = `
       (function(c,l,a,r,i,t,y){
@@ -18,7 +30,13 @@ export const MicrosoftClarity = ({ projectId }: MicrosoftClarityProps) => {
     document.head.appendChild(script);
 
     return () => {
-      document.head.removeChild(script);
+      // 清理脚本
+      const existingScripts = document.querySelectorAll('script[src*="clarity.ms"]');
+      existingScripts.forEach(script => {
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      });
     };
   }, [projectId]);
 

@@ -24,8 +24,17 @@ ${staticPages.map(page => `  <url>
 </urlset>`;
 
   const publicDir = path.join(__dirname, '..', 'public');
+  if (!fs.existsSync(publicDir)) {
+    fs.mkdirSync(publicDir, { recursive: true });
+  }
+  
   fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml);
-  console.log('✅ Sitemap generated successfully!');
+  console.log('✅ Sitemap generated successfully at public/sitemap.xml');
 };
 
-generateSitemap();
+// 如果直接运行此脚本则生成 sitemap
+if (require.main === module) {
+  generateSitemap();
+}
+
+module.exports = { generateSitemap };

@@ -10,6 +10,18 @@ export const GoogleAnalytics = ({ measurementId }: GoogleAnalyticsProps) => {
   const location = useLocation();
 
   useEffect(() => {
+    // 检查是否为有效的测量ID
+    if (!measurementId || measurementId === 'G-XXXXXXXXXX') {
+      console.log('Google Analytics: Invalid measurement ID provided');
+      return;
+    }
+
+    // 检查是否已经加载了 Google Analytics
+    if (document.querySelector(`script[src*="${measurementId}"]`)) {
+      console.log('Google Analytics: Already loaded');
+      return;
+    }
+
     // Load Google Analytics script
     const script1 = document.createElement('script');
     script1.async = true;
@@ -28,14 +40,24 @@ export const GoogleAnalytics = ({ measurementId }: GoogleAnalyticsProps) => {
     `;
     document.head.appendChild(script2);
 
+    // 清理函数，避免重复加载
     return () => {
-      document.head.removeChild(script1);
-      document.head.removeChild(script2);
+      // 只在组件卸载时移除脚本
+      const existingScripts = document.querySelectorAll(`script[src*="${measurementId}"]`);
+      existingScripts.forEach(script => {
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      });
     };
   }, [measurementId]);
 
   // Track page views
   useEffect(() => {
+    if (!measurementId || measurementId === 'G-XXXXXXXXXX') {
+      return;
+    }
+
     if (typeof gtag !== 'undefined') {
       gtag('config', measurementId, {
         page_title: document.title,

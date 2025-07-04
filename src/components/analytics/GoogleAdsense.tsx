@@ -15,6 +15,12 @@ export const GoogleAdsense = ({
   fullWidthResponsive = true
 }: GoogleAdsenseProps) => {
   useEffect(() => {
+    // 检查是否为有效的广告客户端ID
+    if (!adClient || adClient === 'ca-pub-XXXXXXXXXX') {
+      console.log('Google AdSense: Invalid ad client provided');
+      return;
+    }
+
     // Load AdSense script if not already loaded
     if (!document.querySelector('script[src*="adsbygoogle.js"]')) {
       const script = document.createElement('script');
@@ -34,7 +40,7 @@ export const GoogleAdsense = ({
     }
   }, [adClient]);
 
-  if (!adSlot) {
+  if (!adSlot || adClient === 'ca-pub-XXXXXXXXXX') {
     return null;
   }
 
@@ -55,6 +61,18 @@ export const GoogleAdsense = ({
 // Auto Ads component
 export const GoogleAdsenseAuto = ({ adClient }: { adClient: string }) => {
   useEffect(() => {
+    // 检查是否为有效的广告客户端ID
+    if (!adClient || adClient === 'ca-pub-XXXXXXXXXX') {
+      console.log('Google AdSense Auto: Invalid ad client provided');
+      return;
+    }
+
+    // 检查是否已经加载了 AdSense
+    if (document.querySelector(`script[src*="${adClient}"]`)) {
+      console.log('Google AdSense: Already loaded');
+      return;
+    }
+
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}`;
@@ -62,7 +80,13 @@ export const GoogleAdsenseAuto = ({ adClient }: { adClient: string }) => {
     document.head.appendChild(script);
 
     return () => {
-      document.head.removeChild(script);
+      // 清理脚本
+      const existingScripts = document.querySelectorAll(`script[src*="${adClient}"]`);
+      existingScripts.forEach(script => {
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      });
     };
   }, [adClient]);
 
