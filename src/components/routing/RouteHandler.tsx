@@ -17,7 +17,7 @@ export const RouteHandler: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     // 页面访问追踪
-    if (window.gtag) {
+    if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('config', 'G-XXXXXXXXXX', {
         page_path: location.pathname,
         page_title: document.title
@@ -30,7 +30,9 @@ export const RouteHandler: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     // 性能监控
-    trackWebVitals();
+    if (typeof window !== 'undefined') {
+      trackWebVitals();
+    }
   }, [location, navigate]);
 
   return <>{children}</>;

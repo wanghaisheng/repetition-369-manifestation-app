@@ -1,70 +1,85 @@
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { StatusBar } from '@/components/ui/StatusBar';
+import { TabBar } from '@/components/navigation/TabBar';
 import { HomeView } from '@/components/views/HomeView';
 import { WishesView } from '@/components/views/WishesView';
 import { PracticeView } from '@/components/views/PracticeView';
 import { ProgressView } from '@/components/views/ProgressView';
 import { CommunityView } from '@/components/views/CommunityView';
-import { TabBar } from '@/components/navigation/TabBar';
-import { StatusBar } from '@/components/ui/StatusBar';
+import { SettingsPanel } from '@/components/settings/SettingsPanel';
 import { SEOHead } from '@/components/seo/SEOHead';
-import { WebAppStructuredData, OrganizationStructuredData } from '@/components/seo/StructuredData';
+import { InternalLinks } from '@/components/seo/InternalLinks';
+import { SitemapGenerator } from '@/components/seo/SitemapGenerator';
+import { PageLoadMonitor } from '@/components/performance/PageLoadMonitor';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 
-export type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community';
-
 const Index = () => {
-  const [activeTab, setActiveTab] = useState<Tab>('home');
+  const [activeTab, setActiveTab] = useState('home');
 
-  const getPageSEOData = () => {
-    switch (activeTab) {
-      case 'wishes':
-        return {
-          title: '愿望管理 - 创建和管理您的显化愿望',
-          description: '在显化369中创建、编辑和管理您的愿望。设定明确的目标，让显化过程更加有效。',
-          url: 'https://xianghua369.com/wishes'
-        };
-      case 'practice':
-        return {
-          title: '练习中心 - 369显化练习',
-          description: '通过369方法进行每日显化练习。上午3次、下午6次、晚上9次，让愿望成真。',
-          url: 'https://xianghua369.com/practice'
-        };
-      case 'progress':
-        return {
-          title: '进度跟踪 - 显化成果统计',
-          description: '追踪您的显化练习进度，查看统计数据和成就，保持动力持续前进。',
-          url: 'https://xianghua369.com/progress'
-        };
-      case 'community':
-        return {
-          title: '社区分享 - 显化经验交流',
-          description: '与其他显化者分享经验，获得灵感和支持，一起在显化路上成长。',
-          url: 'https://xianghua369.com/community'
-        };
-      default:
-        return {
-          title: '显化369 - 愿望成真的神奇力量',
-          description: '一款极简优雅的显化练习应用，通过369方法帮助您实现愿望。支持愿望管理、书写练习、进度跟踪和社区分享。',
-          url: 'https://xianghua369.com'
-        };
-    }
+  const getPageTitle = (tab: string) => {
+    const titles = {
+      home: '首页 - 显化369',
+      wishes: '愿望管理 - 显化369',
+      practice: '练习中心 - 显化369', 
+      progress: '进度跟踪 - 显化369',
+      community: '社区分享 - 显化369',
+      settings: '应用设置 - 显化369'
+    };
+    return titles[tab as keyof typeof titles] || '显化369';
   };
 
-  const seoData = getPageSEOData();
+  const getPageDescription = (tab: string) => {
+    const descriptions = {
+      home: '开始您的369显化之旅，创建愿望，跟踪进度，实现目标',
+      wishes: '创建和管理您的显化愿望，设置目标，追踪显化进度',
+      practice: '进行每日369练习，专注冥想，书写肯定句，强化显化能量',
+      progress: '查看您的显化进度，分析练习数据，庆祝成就里程碑',
+      community: '与其他显化者交流经验，分享成功故事，互相激励',
+      settings: '个性化设置您的显化369应用，优化使用体验'
+    };
+    return descriptions[tab as keyof typeof descriptions] || '显化369应用';
+  };
 
-  const renderActiveView = () => {
+  const renderContent = () => {
     switch (activeTab) {
       case 'home':
-        return <HomeView />;
+        return (
+          <>
+            <HomeView />
+            <InternalLinks currentPage="/" />
+          </>
+        );
       case 'wishes':
-        return <WishesView />;
+        return (
+          <>
+            <WishesView />
+            <InternalLinks currentPage="/wishes" />
+          </>
+        );
       case 'practice':
-        return <PracticeView />;
+        return (
+          <>
+            <PracticeView />
+            <InternalLinks currentPage="/practice" />
+          </>
+        );
       case 'progress':
-        return <ProgressView />;
+        return (
+          <>
+            <ProgressView />
+            <InternalLinks currentPage="/progress" />
+          </>
+        );
       case 'community':
-        return <CommunityView />;
+        return (
+          <>
+            <CommunityView />
+            <InternalLinks currentPage="/community" />
+          </>
+        );
+      case 'settings':
+        return <SettingsPanel />;
       default:
         return <HomeView />;
     }
@@ -72,18 +87,24 @@ const Index = () => {
 
   return (
     <>
-      <SEOHead {...seoData} />
-      <WebAppStructuredData />
-      <OrganizationStructuredData />
+      {/* Page-specific SEO */}
+      <SEOHead 
+        title={getPageTitle(activeTab)}
+        description={getPageDescription(activeTab)}
+      />
       
-      <div className="min-h-screen bg-ios-gray-light flex flex-col safe-top safe-bottom">
+      {/* Performance monitoring */}
+      <PageLoadMonitor />
+      <SitemapGenerator />
+      
+      <div className="min-h-screen bg-ios-secondary-background">
         <StatusBar />
         <Breadcrumbs />
         
-        <main className="flex-1 overflow-hidden">
-          {renderActiveView()}
+        <main className="pb-20">
+          {renderContent()}
         </main>
-
+        
         <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
       </div>
     </>

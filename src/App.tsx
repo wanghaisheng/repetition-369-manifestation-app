@@ -10,6 +10,8 @@ import { RouteHandler } from "@/components/routing/RouteHandler";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { GoogleAdsenseAuto } from "@/components/analytics/GoogleAdsense";
+import { SEOHead } from "@/components/seo/SEOHead";
+import { WebAppStructuredData, OrganizationStructuredData } from "@/components/seo/StructuredData";
 import { preloadCriticalResources, registerServiceWorker } from "@/utils/performance";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -38,6 +40,14 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <TooltipProvider>
+            {/* Global SEO and Structured Data */}
+            <SEOHead 
+              title="显化369 - 愿望成真的神奇力量"
+              description="基于特斯拉369显化法则的智能练习应用，帮助您系统化实现愿望目标"
+            />
+            <WebAppStructuredData />
+            <OrganizationStructuredData />
+            
             {/* Analytics and tracking */}
             <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
             <MicrosoftClarity projectId="XXXXXXXXXX" />
