@@ -1,1 +1,8 @@
+
 project_id = "hziwbeyokjdswlzzmjem"
+
+[functions.keep-alive]
+verify_jwt = false
+
+[functions.scheduled-query]
+verify_jwt = false
