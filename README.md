@@ -1,3 +1,8 @@
+检查网站，是否触犯了Google search consolee常常饭犯的错误 重定向等等收录问题，写入任务文件，并开始修复 检查url structrue 内链 add modular seo,google adsense, google analytic,ld json ,clarity,robots sitemap generate after build
+
+
+
+
 # Welcome to your Lovable project
 
 ## Project info
