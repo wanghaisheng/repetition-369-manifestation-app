@@ -12,21 +12,33 @@ import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { GoogleAdsenseAuto } from "@/components/analytics/GoogleAdsense";
 import { SEOHead } from "@/components/seo/SEOHead";
 import { WebAppStructuredData, OrganizationStructuredData } from "@/components/seo/StructuredData";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { preloadCriticalResources, registerServiceWorker } from "@/utils/performance";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import React, { useEffect } from 'react';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: (failureCount, error) => failureCount < 2,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
 // 性能优化初始化
 const initializePerformanceOptimizations = () => {
-  preloadCriticalResources();
-  registerServiceWorker();
-  
-  // 检查性能模式
-  if (localStorage.getItem('performance-mode') === 'true') {
-    document.body.classList.add('performance-mode');
+  try {
+    preloadCriticalResources();
+    registerServiceWorker();
+    
+    // 检查性能模式
+    if (localStorage.getItem('performance-mode') === 'true') {
+      document.body.classList.add('performance-mode');
+    }
+  } catch (error) {
+    console.log('Performance optimization initialization error:', error);
   }
 };
 
@@ -36,41 +48,43 @@ const App = () => {
   }, []);
 
   return (
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <TooltipProvider>
-            {/* Global SEO and Structured Data */}
-            <SEOHead 
-              title="显化369 - 愿望成真的神奇力量"
-              description="基于特斯拉369显化法则的智能练习应用，帮助您系统化实现愿望目标"
-            />
-            <WebAppStructuredData />
-            <OrganizationStructuredData />
-            
-            {/* Analytics and tracking */}
-            <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
-            <MicrosoftClarity projectId="XXXXXXXXXX" />
-            <GoogleAdsenseAuto adClient="ca-pub-XXXXXXXXXX" />
-            
-            <Toaster />
-            <BrowserRouter>
-              <RouteHandler>
-                <Routes>
-                  <Route path="/auth" element={<Auth />} />
-                  <Route path="/" element={
-                    <ProtectedRoute>
-                      <Index />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </RouteHandler>
-            </BrowserRouter>
-          </TooltipProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <TooltipProvider>
+              {/* Global SEO and Structured Data */}
+              <SEOHead 
+                title="显化369 - 愿望成真的神奇力量"
+                description="基于特斯拉369显化法则的智能练习应用，帮助您系统化实现愿望目标"
+              />
+              <WebAppStructuredData />
+              <OrganizationStructuredData />
+              
+              {/* Analytics and tracking - using placeholder IDs for now */}
+              <GoogleAnalytics measurementId="G-PLACEHOLDER" />
+              <MicrosoftClarity projectId="PLACEHOLDER" />
+              <GoogleAdsenseAuto adClient="ca-pub-PLACEHOLDER" />
+              
+              <Toaster />
+              <BrowserRouter>
+                <RouteHandler>
+                  <Routes>
+                    <Route path="/auth" element={<Auth />} />
+                    <Route path="/" element={
+                      <ProtectedRoute>
+                        <Index />
+                      </ProtectedRoute>
+                    } />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </RouteHandler>
+              </BrowserRouter>
+            </TooltipProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
   );
 };
 

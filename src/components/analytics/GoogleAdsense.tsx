@@ -1,78 +1,21 @@
 
 import { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 interface GoogleAdsenseProps {
   adClient: string;
   adSlot?: string;
-  adFormat?: 'auto' | 'rectangle' | 'vertical' | 'horizontal';
-  fullWidthResponsive?: boolean;
 }
 
-export const GoogleAdsense = ({
-  adClient,
-  adSlot,
-  adFormat = 'auto',
-  fullWidthResponsive = true
-}: GoogleAdsenseProps) => {
-  useEffect(() => {
-    // 检查是否为有效的广告客户端ID
-    if (!adClient || adClient === 'ca-pub-XXXXXXXXXX') {
-      console.log('Google AdSense: Invalid ad client provided');
-      return;
-    }
-
-    // Load AdSense script if not already loaded
-    if (!document.querySelector('script[src*="adsbygoogle.js"]')) {
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}`;
-      script.crossOrigin = 'anonymous';
-      document.head.appendChild(script);
-    }
-
-    // Initialize ads
-    try {
-      if (typeof adsbygoogle !== 'undefined') {
-        (adsbygoogle as any[]).push({});
-      }
-    } catch (error) {
-      console.error('AdSense error:', error);
-    }
-  }, [adClient]);
-
-  if (!adSlot || adClient === 'ca-pub-XXXXXXXXXX') {
-    return null;
-  }
-
-  return (
-    <div className="adsense-container my-4">
-      <ins
-        className="adsbygoogle"
-        style={{ display: 'block' }}
-        data-ad-client={adClient}
-        data-ad-slot={adSlot}
-        data-ad-format={adFormat}
-        data-full-width-responsive={fullWidthResponsive.toString()}
-      />
-    </div>
-  );
-};
-
-// Auto Ads component
 export const GoogleAdsenseAuto = ({ adClient }: { adClient: string }) => {
   useEffect(() => {
-    // 检查是否为有效的广告客户端ID
-    if (!adClient || adClient === 'ca-pub-XXXXXXXXXX') {
-      console.log('Google AdSense Auto: Invalid ad client provided');
+    // Only load if adClient is provided and not placeholder
+    if (!adClient || adClient.includes('XXXXXXXXXX')) {
+      console.log('Google AdSense: Invalid or placeholder ad client');
       return;
     }
 
-    // 检查是否已经加载了 AdSense
-    if (document.querySelector(`script[src*="${adClient}"]`)) {
-      console.log('Google AdSense: Already loaded');
-      return;
-    }
-
+    // Load AdSense script
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}`;
@@ -80,20 +23,46 @@ export const GoogleAdsenseAuto = ({ adClient }: { adClient: string }) => {
     document.head.appendChild(script);
 
     return () => {
-      // 清理脚本
-      const existingScripts = document.querySelectorAll(`script[src*="${adClient}"]`);
-      existingScripts.forEach(script => {
-        if (script.parentNode) {
-          script.parentNode.removeChild(script);
-        }
-      });
+      // Cleanup if needed
+      const existingScript = document.querySelector(`script[src*="${adClient}"]`);
+      if (existingScript) {
+        existingScript.remove();
+      }
     };
   }, [adClient]);
 
-  return null;
+  // Don't render anything if no valid ad client
+  if (!adClient || adClient.includes('XXXXXXXXXX')) {
+    return null;
+  }
+
+  return (
+    <Helmet>
+      <script 
+        async 
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}`}
+        crossOrigin="anonymous"
+      />
+    </Helmet>
+  );
 };
 
-// TypeScript declaration
-declare global {
-  const adsbygoogle: any[];
-}
+export const GoogleAdsense = ({ adClient, adSlot }: GoogleAdsenseProps) => {
+  // Don't render anything if no valid ad client
+  if (!adClient || adClient.includes('XXXXXXXXXX')) {
+    return null;
+  }
+
+  return (
+    <div>
+      <ins 
+        className="adsbygoogle"
+        style={{ display: 'block' }}
+        data-ad-client={adClient}
+        data-ad-slot={adSlot}
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+    </div>
+  );
+};

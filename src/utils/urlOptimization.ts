@@ -1,44 +1,36 @@
 
 // URL optimization utilities
-export const cleanUrl = (url: string): string => {
+
+export const redirectToCanonical = (path: string): string => {
   // Remove trailing slashes except for root
-  if (url.length > 1 && url.endsWith('/')) {
-    return url.slice(0, -1);
-  }
-  return url;
-};
-
-export const generateSlug = (text: string): string => {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove special characters
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/--+/g, '-') // Replace multiple hyphens with single
-    .trim();
-};
-
-export const buildUrl = (path: string, params?: Record<string, string>): string => {
-  const cleanPath = cleanUrl(path);
-  if (!params || Object.keys(params).length === 0) {
-    return cleanPath;
+  if (path !== '/' && path.endsWith('/')) {
+    return path.slice(0, -1);
   }
   
-  const searchParams = new URLSearchParams(params);
-  return `${cleanPath}?${searchParams.toString()}`;
-};
-
-export const redirectToCanonical = (currentPath: string): string => {
-  const canonicalPath = cleanUrl(currentPath);
+  // Remove duplicate slashes
+  const cleanPath = path.replace(/\/+/g, '/');
   
   // Handle common redirect patterns
   const redirectMap: Record<string, string> = {
     '/home': '/',
     '/index': '/',
-    '/login': '/auth',
-    '/register': '/auth',
-    '/signin': '/auth',
-    '/signup': '/auth'
+    '/main': '/',
   };
   
-  return redirectMap[canonicalPath] || canonicalPath;
+  return redirectMap[cleanPath] || cleanPath;
+};
+
+export const generateCanonicalUrl = (path: string): string => {
+  const baseUrl = 'https://xianghua369.com';
+  const normalizedPath = redirectToCanonical(path);
+  return `${baseUrl}${normalizedPath}`;
+};
+
+export const enforceHttps = (): void => {
+  if (typeof window !== 'undefined' && 
+      location.protocol !== 'https:' && 
+      !location.hostname.includes('localhost') &&
+      !location.hostname.includes('127.0.0.1')) {
+    location.replace(`https:${location.href.substring(location.protocol.length)}`);
+  }
 };

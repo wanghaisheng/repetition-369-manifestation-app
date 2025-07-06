@@ -47,46 +47,51 @@ const Index = () => {
   };
 
   const renderContent = () => {
-    switch (activeTab) {
-      case 'home':
-        return (
-          <>
-            <HomeView />
-            <InternalLinks currentPage="/" />
-          </>
-        );
-      case 'wishes':
-        return (
-          <>
-            <WishesView />
-            <InternalLinks currentPage="/wishes" />
-          </>
-        );
-      case 'practice':
-        return (
-          <>
-            <PracticeView />
-            <InternalLinks currentPage="/practice" />
-          </>
-        );
-      case 'progress':
-        return (
-          <>
-            <ProgressView />
-            <InternalLinks currentPage="/progress" />
-          </>
-        );
-      case 'community':
-        return (
-          <>
-            <CommunityView />
-            <InternalLinks currentPage="/community" />
-          </>
-        );
-      case 'settings':
-        return <SettingsPanel />;
-      default:
-        return <HomeView />;
+    try {
+      switch (activeTab) {
+        case 'home':
+          return (
+            <>
+              <HomeView />
+              <InternalLinks currentPage="/" />
+            </>
+          );
+        case 'wishes':
+          return (
+            <>
+              <WishesView />
+              <InternalLinks currentPage="/wishes" />
+            </>
+          );
+        case 'practice':
+          return (
+            <>
+              <PracticeView />
+              <InternalLinks currentPage="/practice" />
+            </>
+          );
+        case 'progress':
+          return (
+            <>
+              <ProgressView />
+              <InternalLinks currentPage="/progress" />
+            </>
+          );
+        case 'community':
+          return (
+            <>
+              <CommunityView />
+              <InternalLinks currentPage="/community" />
+            </>
+          );
+        case 'settings':
+          return <SettingsPanel />;
+        default:
+          return <HomeView />;
+      }
+    } catch (error) {
+      console.error('Content rendering error:', error);
+      return <HomeView />;
     }
   };
 
