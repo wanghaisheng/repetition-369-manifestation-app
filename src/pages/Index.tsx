@@ -13,11 +13,16 @@ import { InternalLinks } from '@/components/seo/InternalLinks';
 import { SitemapGenerator } from '@/components/seo/SitemapGenerator';
 import { PageLoadMonitor } from '@/components/performance/PageLoadMonitor';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+import { ModularSEO } from '@/components/seo/ModularSEO';
+import { RedirectHandler } from '@/components/seo/RedirectHandler';
+import { CriticalCSS } from '@/components/seo/CriticalCSS';
+
+type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community' | 'settings';
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState<Tab>('home');
 
-  const getPageTitle = (tab: string) => {
+  const getPageTitle = (tab: Tab) => {
     const titles = {
       home: '首页 - 显化369',
       wishes: '愿望管理 - 显化369',
@@ -26,10 +31,10 @@ const Index = () => {
       community: '社区分享 - 显化369',
       settings: '应用设置 - 显化369'
     };
-    return titles[tab as keyof typeof titles] || '显化369';
+    return titles[tab] || '显化369';
   };
 
-  const getPageDescription = (tab: string) => {
+  const getPageDescription = (tab: Tab) => {
     const descriptions = {
       home: '开始您的369显化之旅，创建愿望，跟踪进度，实现目标',
       wishes: '创建和管理您的显化愿望，设置目标，追踪显化进度',
@@ -38,7 +43,7 @@ const Index = () => {
       community: '与其他显化者交流经验，分享成功故事，互相激励',
       settings: '个性化设置您的显化369应用，优化使用体验'
     };
-    return descriptions[tab as keyof typeof descriptions] || '显化369应用';
+    return descriptions[tab] || '显化369应用';
   };
 
   const renderContent = () => {
@@ -87,8 +92,21 @@ const Index = () => {
 
   return (
     <>
+      {/* Critical CSS */}
+      <CriticalCSS />
+      
+      {/* Redirect handling */}
+      <RedirectHandler />
+      
       {/* Page-specific SEO */}
       <SEOHead 
+        title={getPageTitle(activeTab)}
+        description={getPageDescription(activeTab)}
+      />
+      
+      {/* Modular SEO components */}
+      <ModularSEO 
+        page={activeTab}
         title={getPageTitle(activeTab)}
         description={getPageDescription(activeTab)}
       />

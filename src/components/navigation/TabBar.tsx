@@ -1,6 +1,7 @@
 
 import { Home, Heart, Edit3, TrendingUp, Users } from 'lucide-react';
-import type { Tab } from '@/pages/Index';
+
+type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community' | 'settings';
 
 interface TabBarProps {
   activeTab: Tab;
