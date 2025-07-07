@@ -18,7 +18,14 @@ export const ComprehensiveSEO = ({
   image = 'https://lovable.dev/opengraph-image-p98pqg.png',
   type = 'website'
 }: ComprehensiveSEOProps) => {
-  const location = useLocation();
+  let location;
+  try {
+    location = useLocation();
+  } catch (error) {
+    // 如果不在路由器上下文中，使用默认路径
+    location = { pathname: '/' };
+  }
+  
   const canonicalUrl = `https://xianghua369.com${location.pathname}`;
   
   const structuredData = {

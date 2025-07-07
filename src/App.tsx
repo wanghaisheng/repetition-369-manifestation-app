@@ -10,7 +10,6 @@ import { RouteHandler } from "@/components/routing/RouteHandler";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { GoogleAdsenseAuto } from "@/components/analytics/GoogleAdsense";
-import { ComprehensiveSEO } from "@/components/seo/ComprehensiveSEO";
 import { WebAppStructuredData, OrganizationStructuredData } from "@/components/seo/StructuredData";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { preloadCriticalResources, registerServiceWorker } from "@/utils/performance";
@@ -53,8 +52,7 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <TooltipProvider>
-              {/* 全站SEO优化 */}
-              <ComprehensiveSEO />
+              {/* 全局结构化数据 */}
               <WebAppStructuredData />
               <OrganizationStructuredData />
               
