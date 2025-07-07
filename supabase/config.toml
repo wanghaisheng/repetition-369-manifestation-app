@@ -6,3 +6,6 @@ verify_jwt = false
 
 [functions.scheduled-query]
 verify_jwt = false
+
+[functions.user-stats]
+verify_jwt = false

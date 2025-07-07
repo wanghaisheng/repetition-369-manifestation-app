@@ -1,4 +1,3 @@
-
 // Performance optimization utilities
 
 export const preloadCriticalResources = () => {
@@ -40,29 +39,77 @@ export const registerServiceWorker = () => {
   }
 };
 
-export const trackWebVitals = () => {
+// Track web vitals and send to analytics
+export const trackWebVitals = (): void => {
   if (typeof window === 'undefined') return;
-  
+
   try {
-    // Track Core Web Vitals
-    const observer = new PerformanceObserver((list) => {
-      list.getEntries().forEach((entry) => {
-        console.log(`${entry.name}: ${entry.value}`);
-        
-        // Send to analytics if available
-        if (window.gtag) {
-          window.gtag('event', entry.name, {
-            event_category: 'Web Vitals',
-            value: Math.round(entry.value),
-            non_interaction: true,
+    // Get performance entries
+    const entries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
+    if (entries.length > 0) {
+      const navigationEntry = entries[0];
+      
+      // Calculate metrics
+      const loadTime = navigationEntry.loadEventEnd - navigationEntry.fetchStart;
+      const domContentLoaded = navigationEntry.domContentLoadedEventEnd - navigationEntry.fetchStart;
+      
+      console.log('Performance metrics:', {
+        loadTime,
+        domContentLoaded,
+        transferSize: navigationEntry.transferSize,
+      });
+
+      // Send to analytics if available
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'page_load_time', {
+          value: Math.round(loadTime),
+          metric_id: 'load_time'
+        });
+      }
+    }
+
+    // Track LCP, FID, CLS using performance observer
+    if ('PerformanceObserver' in window) {
+      // Track Largest Contentful Paint
+      const lcpObserver = new PerformanceObserver((list) => {
+        const entries = list.getEntries() as any[];
+        const lastEntry = entries[entries.length - 1];
+        if (lastEntry && typeof window.gtag === 'function') {
+          window.gtag('event', 'web_vitals', {
+            metric_name: 'LCP',
+            value: Math.round(lastEntry.startTime),
           });
         }
       });
-    });
+      
+      try {
+        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+      } catch (e) {
+        console.log('LCP observer not supported');
+      }
 
-    observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'cumulative-layout-shift'] });
+      // Track First Input Delay
+      const fidObserver = new PerformanceObserver((list) => {
+        const entries = list.getEntries() as any[];
+        entries.forEach((entry) => {
+          if (entry.processingStart && typeof window.gtag === 'function') {
+            const fid = entry.processingStart - entry.startTime;
+            window.gtag('event', 'web_vitals', {
+              metric_name: 'FID',
+              value: Math.round(fid),
+            });
+          }
+        });
+      });
+
+      try {
+        fidObserver.observe({ entryTypes: ['first-input'] });
+      } catch (e) {
+        console.log('FID observer not supported');
+      }
+    }
   } catch (error) {
-    console.log('Web vitals tracking error:', error);
+    console.log('Performance tracking error:', error);
   }
 };
 
