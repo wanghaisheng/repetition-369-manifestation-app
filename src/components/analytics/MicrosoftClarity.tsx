@@ -14,12 +14,15 @@ export const MicrosoftClarity = ({ projectId }: MicrosoftClarityProps) => {
       return;
     }
 
-    // Load Microsoft Clarity
+    // Load Microsoft Clarity with proper TypeScript types
     (function(c: any, l: any, a: any, r: any, i: any, t: any, y: any) {
       c[a] = c[a] || function() { (c[a].q = c[a].q || []).push(arguments) };
-      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", projectId);
+      t = l.createElement(r); 
+      t.async = 1; 
+      t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; 
+      y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", projectId, {}, {});
   }, [projectId]);
 
   // Don't render anything if no valid project ID

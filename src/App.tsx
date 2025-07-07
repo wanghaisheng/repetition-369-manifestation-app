@@ -10,7 +10,7 @@ import { RouteHandler } from "@/components/routing/RouteHandler";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { GoogleAdsenseAuto } from "@/components/analytics/GoogleAdsense";
-import { SEOHead } from "@/components/seo/SEOHead";
+import { ComprehensiveSEO } from "@/components/seo/ComprehensiveSEO";
 import { WebAppStructuredData, OrganizationStructuredData } from "@/components/seo/StructuredData";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { preloadCriticalResources, registerServiceWorker } from "@/utils/performance";
@@ -53,15 +53,12 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <TooltipProvider>
-              {/* Global SEO and Structured Data */}
-              <SEOHead 
-                title="显化369 - 愿望成真的神奇力量"
-                description="基于特斯拉369显化法则的智能练习应用，帮助您系统化实现愿望目标"
-              />
+              {/* 全站SEO优化 */}
+              <ComprehensiveSEO />
               <WebAppStructuredData />
               <OrganizationStructuredData />
               
-              {/* Analytics and tracking - using placeholder IDs for now */}
+              {/* 分析和追踪 - 使用占位符ID */}
               <GoogleAnalytics measurementId="G-PLACEHOLDER" />
               <MicrosoftClarity projectId="PLACEHOLDER" />
               <GoogleAdsenseAuto adClient="ca-pub-PLACEHOLDER" />
