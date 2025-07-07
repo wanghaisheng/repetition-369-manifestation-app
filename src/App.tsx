@@ -12,6 +12,7 @@ import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { GoogleAdsenseAuto } from "@/components/analytics/GoogleAdsense";
 import { WebAppStructuredData, OrganizationStructuredData } from "@/components/seo/StructuredData";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { AuthDebugPanel } from "@/components/auth/AuthDebugPanel";
 import { preloadCriticalResources, registerServiceWorker } from "@/utils/performance";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -75,6 +76,9 @@ const App = () => {
                   </Routes>
                 </RouteHandler>
               </BrowserRouter>
+              
+              {/* Debug panel for development */}
+              <AuthDebugPanel />
             </TooltipProvider>
           </AuthProvider>
         </QueryClientProvider>

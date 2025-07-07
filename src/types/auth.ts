@@ -24,3 +24,12 @@ export interface SignInData {
   email: string;
   password: string;
 }
+
+export interface AuthContextType extends AuthState {
+  signUp: (data: SignUpData) => Promise<{ error: any }>;
+  signIn: (data: SignInData) => Promise<{ error: any }>;
+  signOut: () => Promise<void>;
+  updateProfile: (data: Partial<{ fullName: string; avatarUrl: string }>) => Promise<{ error: any }>;
+  retryAuth: () => void;
+  authError: string | null;
+}
