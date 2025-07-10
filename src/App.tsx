@@ -13,6 +13,7 @@ import { GoogleAdsenseAuto } from "@/components/analytics/GoogleAdsense";
 import { WebAppStructuredData, OrganizationStructuredData } from "@/components/seo/StructuredData";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AuthDebugPanel } from "@/components/auth/AuthDebugPanel";
+import { SEOErrorBoundary } from "@/components/seo/SEOErrorBoundary";
 import { preloadCriticalResources, registerServiceWorker } from "@/utils/performance";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -53,9 +54,11 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <TooltipProvider>
-              {/* 全局结构化数据 */}
-              <WebAppStructuredData />
-              <OrganizationStructuredData />
+              {/* 全局结构化数据 - 使用错误边界保护 */}
+              <SEOErrorBoundary>
+                <WebAppStructuredData />
+                <OrganizationStructuredData />
+              </SEOErrorBoundary>
               
               {/* 分析和追踪 - 使用占位符ID */}
               <GoogleAnalytics measurementId="G-PLACEHOLDER" />

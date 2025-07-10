@@ -8,13 +8,13 @@ import { PracticeView } from '@/components/views/PracticeView';
 import { ProgressView } from '@/components/views/ProgressView';
 import { CommunityView } from '@/components/views/CommunityView';
 import { SettingsPanel } from '@/components/settings/SettingsPanel';
-import { ComprehensiveSEO } from '@/components/seo/ComprehensiveSEO';
+import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
+import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { SitemapGenerator } from '@/components/seo/SitemapGenerator';
 import { PageLoadMonitor } from '@/components/performance/PageLoadMonitor';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { RedirectHandler } from '@/components/seo/RedirectHandler';
-import { CriticalCSS } from '@/components/seo/CriticalCSS';
 
 type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community' | 'settings';
 
@@ -111,18 +111,17 @@ const Index = () => {
 
   return (
     <>
-      {/* 关键CSS */}
-      <CriticalCSS />
-      
       {/* 重定向处理 */}
       <RedirectHandler />
       
-      {/* 页面特定SEO */}
-      <ComprehensiveSEO 
-        title={currentSEO.title}
-        description={currentSEO.description}
-        keywords={currentSEO.keywords}
-      />
+      {/* 统一SEO - 包含错误边界保护 */}
+      <SEOErrorBoundary>
+        <UnifiedSEO 
+          title={currentSEO.title}
+          description={currentSEO.description}
+          keywords={currentSEO.keywords}
+        />
+      </SEOErrorBoundary>
       
       {/* 性能监控和sitemap生成 */}
       <PageLoadMonitor />

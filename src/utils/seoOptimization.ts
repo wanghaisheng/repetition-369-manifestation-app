@@ -13,8 +13,17 @@ export const normalizeUrl = (path: string): string => {
 
 export const generateCanonicalUrl = (path: string): string => {
   const baseUrl = 'https://xianghua369.com';
-  const normalizedPath = normalizeUrl(path === 'home' ? '/' : `/${path}`);
-  return `${baseUrl}${normalizedPath}`;
+  let normalizedPath = path;
+  
+  // 处理不同的路径格式
+  if (path === 'home' || path === '') {
+    normalizedPath = '/';
+  } else if (!path.startsWith('/')) {
+    normalizedPath = `/${path}`;
+  }
+  
+  const cleanPath = normalizeUrl(normalizedPath);
+  return `${baseUrl}${cleanPath}`;
 };
 
 export const generatePageKeywords = (page: string): string => {
@@ -27,11 +36,11 @@ export const generatePageKeywords = (page: string): string => {
     settings: '应用设置,个性化,用户偏好,通知设置,隐私设置'
   };
   
-  return keywordMap[page] || '显化369,愿望实现,个人成长';
+  return keywordMap[page] || keywordMap.home;
 };
 
 export const enforceHttps = (): void => {
-  if (typeof window !== 'undefined' && location.protocol !== 'https:') {
+  if (typeof window !== 'undefined' && location.protocol !== 'https:' && !location.hostname.includes('localhost')) {
     location.replace(`https:${location.href.substring(location.protocol.length)}`);
   }
 };
@@ -64,7 +73,7 @@ export const generateStructuredData = (page: string, title: string, description:
           name: '首页',
           item: baseUrl
         },
-        ...(page !== 'home' ? [{
+        ...(page !== 'home' && page !== '' ? [{
           '@type': 'ListItem',
           position: 2,
           name: title,
@@ -104,18 +113,22 @@ export const preloadCriticalResources = (): void => {
   ];
   
   criticalResources.forEach(resource => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.href = resource;
-    
-    if (resource.includes('font')) {
-      link.as = 'font';
-      link.type = 'font/woff2';
-      link.crossOrigin = 'anonymous';
-    } else if (resource.includes('image')) {
-      link.as = 'image';
+    try {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.href = resource;
+      
+      if (resource.includes('font')) {
+        link.as = 'font';
+        link.type = 'font/woff2';
+        link.crossOrigin = 'anonymous';
+      } else if (resource.includes('image')) {
+        link.as = 'image';
+      }
+      
+      document.head.appendChild(link);
+    } catch (error) {
+      console.warn('Failed to preload resource:', resource, error);
     }
-    
-    document.head.appendChild(link);
   });
 };

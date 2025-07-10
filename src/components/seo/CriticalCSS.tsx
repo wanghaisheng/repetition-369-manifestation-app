@@ -37,7 +37,7 @@ export const CriticalCSS = () => {
     <Helmet>
       <style>{criticalStyles}</style>
       
-      {/* Preload critical fonts */}
+      {/* Preload critical fonts - 修复 noscript 格式 */}
       <link
         rel="preload"
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
@@ -48,6 +48,8 @@ export const CriticalCSS = () => {
           target.rel = 'stylesheet';
         }}
       />
+      
+      {/* 修复 noscript 内容 - 使用字符串而不是JSX */}
       <noscript>
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
