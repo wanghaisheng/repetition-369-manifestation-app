@@ -7,21 +7,25 @@ import { useAuth } from '@/contexts/AuthContext';
 export const useWishes = () => {
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { user, isAuthenticated } = useAuth();
 
   const loadWishes = async () => {
-    if (!isAuthenticated || !user) {
-      setWishes([]);
-      setLoading(false);
-      return;
-    }
-
     try {
       setLoading(true);
+      setError(null);
+      
+      if (!isAuthenticated || !user) {
+        setWishes([]);
+        return;
+      }
+
       const wishesData = await WishService.getWishes(user.id);
-      setWishes(wishesData);
+      setWishes(wishesData || []);
     } catch (error) {
       console.error('Error loading wishes:', error);
+      setError('Failed to load wishes');
+      setWishes([]);
     } finally {
       setLoading(false);
     }
@@ -79,6 +83,7 @@ export const useWishes = () => {
   return {
     wishes,
     loading,
+    error,
     createWish,
     updateWish,
     deleteWish,

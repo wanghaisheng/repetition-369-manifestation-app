@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Target, TrendingUp, Calendar, Heart, Zap, Award } from 'lucide-react';
+import { Target, TrendingUp, Calendar, Heart, Zap, Award, Plus } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -9,19 +9,23 @@ import { usePractice } from '@/hooks/usePractice';
 import { useProgress } from '@/hooks/useProgress';
 
 export const HomeView = () => {
-  const { wishes, loading: wishesLoading } = useWishes();
-  const { todayPractices, loading: practiceLoading } = usePractice();
-  const { progress, loading: progressLoading, getTodayStats, getWeeklyStats } = useProgress();
+  const { wishes, loading: wishesLoading, error: wishesError } = useWishes();
+  const { todayPractices, loading: practiceLoading, error: practiceError } = usePractice();
+  const { progress, loading: progressLoading, error: progressError, getTodayStats, getWeeklyStats } = useProgress();
 
   const activeWishes = wishes.filter(wish => wish.status === 'active');
   const todayStats = getTodayStats();
   const weeklyStats = getWeeklyStats();
 
-  // 计算今日完成进度
-  const todayProgress = todayPractices.length > 0 ? 
-    Math.min((todayPractices.reduce((sum, p) => sum + p.completedCount, 0) / (activeWishes.length * 3)) * 100, 100) : 0;
+  // Calculate today's progress
+  const todayProgress = todayPractices.length > 0 && activeWishes.length > 0 ? 
+    Math.min((todayPractices.reduce((sum, p) => sum + p.completedCount, 0) / (activeWishes.length * 18)) * 100, 100) : 0;
 
-  const isLoading = wishesLoading || practiceLoading || progressLoading;
+  // Show loading only if all hooks are still loading
+  const isLoading = wishesLoading && practiceLoading && progressLoading;
+
+  // Check for errors but don't block the UI
+  const hasErrors = wishesError || practiceError || progressError;
 
   if (isLoading) {
     return (
@@ -38,46 +42,72 @@ export const HomeView = () => {
     <div className="flex-1 bg-ios-secondary-background px-4 py-6 overflow-y-auto">
       {/* Welcome Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">欢迎回来</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-2">欢迎使用显化369</h1>
         <p className="text-gray-600">
-          {todayStats?.isToday ? '今天继续您的显化之旅' : '开始新的一天的练习吧'}
+          {activeWishes.length > 0 ? '继续您的显化之旅' : '开始您的第一个愿望吧'}
         </p>
       </div>
 
-      {/* Today's Progress */}
-      <Card className="p-6 bg-white border-0 shadow-ios rounded-ios mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-800">今日进度</h2>
-          <div className="bg-ios-blue/10 rounded-full p-2">
-            <Target className="w-5 h-5 text-ios-blue" />
-          </div>
-        </div>
-        
-        <div className="space-y-4">
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-gray-600">完成进度</span>
-              <span className="text-sm font-medium text-gray-800">{Math.round(todayProgress)}%</span>
+      {/* Error Alert */}
+      {hasErrors && (
+        <Card className="p-4 bg-red-50 border-red-200 mb-6">
+          <p className="text-red-700 text-sm">数据加载时遇到问题，但您仍可以正常使用应用</p>
+        </Card>
+      )}
+
+      {/* New User Welcome */}
+      {activeWishes.length === 0 && (
+        <Card className="p-8 bg-gradient-to-br from-blue-50 to-purple-50 border-0 shadow-ios rounded-ios mb-6">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-gradient-to-br from-manifest-warm-gold to-manifest-lavender rounded-ios flex items-center justify-center mx-auto mb-4">
+              <Target className="w-8 h-8 text-white" />
             </div>
-            <Progress value={todayProgress} className="h-2" />
+            <h3 className="text-xl font-bold text-gray-800 mb-2">开始您的显化之旅</h3>
+            <p className="text-gray-600 mb-6">使用369显化法，将您的愿望变为现实。创建您的第一个愿望，开始每日练习。</p>
+            <Button className="bg-gradient-to-r from-manifest-warm-gold to-manifest-lavender text-white rounded-ios px-6 py-3 shadow-ios">
+              <Plus className="w-5 h-5 mr-2" />
+              创建第一个愿望
+            </Button>
+          </div>
+        </Card>
+      )}
+
+      {/* Today's Progress - Only show if user has wishes */}
+      {activeWishes.length > 0 && (
+        <Card className="p-6 bg-white border-0 shadow-ios rounded-ios mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-800">今日进度</h2>
+            <div className="bg-ios-blue/10 rounded-full p-2">
+              <Target className="w-5 h-5 text-ios-blue" />
+            </div>
           </div>
           
-          <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
-            <div className="text-center">
-              <div className="text-lg font-bold text-ios-blue">{activeWishes.length}</div>
-              <div className="text-xs text-gray-600">活跃愿望</div>
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-gray-600">完成进度</span>
+                <span className="text-sm font-medium text-gray-800">{Math.round(todayProgress)}%</span>
+              </div>
+              <Progress value={todayProgress} className="h-2" />
             </div>
-            <div className="text-center">
-              <div className="text-lg font-bold text-manifest-gold">{todayPractices.length}</div>
-              <div className="text-xs text-gray-600">今日练习</div>
-            </div>
-            <div className="text-center">
-              <div className="text-lg font-bold text-ios-green">{todayStats?.consecutiveDays || 0}</div>
-              <div className="text-xs text-gray-600">连续天数</div>
+            
+            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
+              <div className="text-center">
+                <div className="text-lg font-bold text-ios-blue">{activeWishes.length}</div>
+                <div className="text-xs text-gray-600">活跃愿望</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-manifest-gold">{todayPractices.length}</div>
+                <div className="text-xs text-gray-600">今日练习</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-ios-green">{todayStats?.consecutiveDays || 0}</div>
+                <div className="text-xs text-gray-600">连续天数</div>
+              </div>
             </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      )}
 
       {/* Quick Stats */}
       <div className="grid grid-cols-2 gap-4 mb-6">
@@ -114,10 +144,17 @@ export const HomeView = () => {
       <Card className="p-6 bg-white border-0 shadow-ios rounded-ios mb-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">快速操作</h3>
         <div className="space-y-3">
-          <Button className="w-full bg-ios-blue hover:bg-blue-600 text-white rounded-ios shadow-ios">
-            <Zap className="w-5 h-5 mr-2" />
-            开始369练习
-          </Button>
+          {activeWishes.length > 0 ? (
+            <Button className="w-full bg-ios-blue hover:bg-blue-600 text-white rounded-ios shadow-ios">
+              <Zap className="w-5 h-5 mr-2" />
+              开始369练习
+            </Button>
+          ) : (
+            <Button className="w-full bg-gradient-to-r from-manifest-warm-gold to-manifest-lavender text-white rounded-ios shadow-ios">
+              <Plus className="w-5 h-5 mr-2" />
+              创建第一个愿望
+            </Button>
+          )}
           <Button 
             variant="outline" 
             className="w-full border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white rounded-ios"
@@ -128,7 +165,7 @@ export const HomeView = () => {
         </div>
       </Card>
 
-      {/* Recent Activity */}
+      {/* Recent Activity - Only show if user has practices */}
       {todayPractices.length > 0 && (
         <Card className="p-6 bg-white border-0 shadow-ios rounded-ios">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">今日活动</h3>
@@ -158,19 +195,6 @@ export const HomeView = () => {
               );
             })}
           </div>
-        </Card>
-      )}
-
-      {/* Empty State */}
-      {activeWishes.length === 0 && (
-        <Card className="p-8 bg-white border-0 shadow-ios rounded-ios text-center">
-          <Target className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-600 mb-2">开始您的显化之旅</h3>
-          <p className="text-gray-500 mb-6">创建您的第一个愿望，开始369显化练习</p>
-          <Button className="bg-ios-blue hover:bg-blue-600 text-white rounded-ios px-6 py-3 shadow-ios">
-            <Target className="w-5 h-5 mr-2" />
-            创建愿望
-          </Button>
         </Card>
       )}
     </div>

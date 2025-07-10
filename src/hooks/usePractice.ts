@@ -8,6 +8,7 @@ export const usePractice = () => {
   const [todayPractices, setTodayPractices] = useState<PracticeSession[]>([]);
   const [practiceHistory, setPracticeHistory] = useState<PracticeSession[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { user, isAuthenticated } = useAuth();
 
   const loadTodayPractices = async () => {
@@ -18,25 +19,29 @@ export const usePractice = () => {
 
     try {
       const practices = await PracticeService.getTodayPractices(user.id);
-      setTodayPractices(practices);
+      setTodayPractices(practices || []);
     } catch (error) {
       console.error('Error loading today practices:', error);
+      setTodayPractices([]);
     }
   };
 
   const loadPracticeHistory = async (limit?: number) => {
-    if (!isAuthenticated || !user) {
-      setPracticeHistory([]);
-      setLoading(false);
-      return;
-    }
-
     try {
       setLoading(true);
+      setError(null);
+      
+      if (!isAuthenticated || !user) {
+        setPracticeHistory([]);
+        return;
+      }
+
       const history = await PracticeService.getPracticeHistory(user.id, limit);
-      setPracticeHistory(history);
+      setPracticeHistory(history || []);
     } catch (error) {
       console.error('Error loading practice history:', error);
+      setError('Failed to load practice history');
+      setPracticeHistory([]);
     } finally {
       setLoading(false);
     }
@@ -61,13 +66,20 @@ export const usePractice = () => {
 
   const checkTodayCompleted = async (wishId: string) => {
     if (!user) return false;
-    return await PracticeService.isTodayCompleted(user.id, wishId);
+    try {
+      return await PracticeService.isTodayCompleted(user.id, wishId);
+    } catch (error) {
+      console.error('Error checking today completed:', error);
+      return false;
+    }
   };
 
   useEffect(() => {
     if (isAuthenticated && user) {
       loadTodayPractices();
       loadPracticeHistory(50);
+    } else {
+      setLoading(false);
     }
   }, [user, isAuthenticated]);
 
@@ -75,6 +87,7 @@ export const usePractice = () => {
     todayPractices,
     practiceHistory,
     loading,
+    error,
     recordPractice,
     checkTodayCompleted,
     refetch: () => {
