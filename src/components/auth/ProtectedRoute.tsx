@@ -1,9 +1,9 @@
 
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { RefreshCw, AlertCircle } from 'lucide-react';
+import { RefreshCw, AlertCircle, ArrowLeft } from 'lucide-react';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -66,6 +66,16 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
             >
               刷新页面
             </Button>
+            
+            <Link to="/">
+              <Button 
+                variant="ghost"
+                className="w-full rounded-ios"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                返回首页
+              </Button>
+            </Link>
           </div>
           
           <p className="text-sm text-gray-500 mt-4">

@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -17,6 +16,7 @@ import { SEOErrorBoundary } from "@/components/seo/SEOErrorBoundary";
 import { preloadCriticalResources, registerServiceWorker } from "@/utils/performance";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import Landing from "./pages/Landing";
 import React, { useEffect } from 'react';
 
 const queryClient = new QueryClient({
@@ -69,12 +69,18 @@ const App = () => {
               <BrowserRouter>
                 <RouteHandler>
                   <Routes>
+                    {/* Public marketing landing page */}
+                    <Route path="/" element={<Landing />} />
                     <Route path="/auth" element={<Auth />} />
-                    <Route path="/" element={
+                    
+                    {/* Protected main application */}
+                    <Route path="/app" element={
                       <ProtectedRoute>
                         <Index />
                       </ProtectedRoute>
                     } />
+                    
+                    {/* Redirect any other routes to landing */}
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </RouteHandler>
