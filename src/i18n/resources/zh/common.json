@@ -1,0 +1,45 @@
+
+{
+  "appName": "显化369",
+  "navigation": {
+    "home": "首页",
+    "app": "应用",
+    "auth": "登录"
+  },
+  "buttons": {
+    "getStarted": "开始使用",
+    "learnMore": "了解更多",
+    "signUp": "注册",
+    "signIn": "登录",
+    "tryFree": "免费试用",
+    "contact": "联系我们",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "save": "保存",
+    "cancel": "取消",
+    "confirm": "确认",
+    "edit": "编辑",
+    "delete": "删除"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "出错了",
+    "success": "成功",
+    "warning": "警告",
+    "info": "信息",
+    "close": "关闭",
+    "open": "打开",
+    "yes": "是",
+    "no": "否",
+    "or": "或",
+    "and": "和"
+  },
+  "footer": {
+    "copyright": "© 2024 显化369. 保留所有权利.",
+    "privacy": "隐私政策",
+    "terms": "服务条款",
+    "support": "支持我们",
+    "contact": "联系我们"
+  }
+}

@@ -1,0 +1,24 @@
+
+{
+  "buildInPublic": {
+    "title": "公开构建",
+    "subtitle": "分享显化369的开发历程",
+    "content": "我相信透明度和社区的力量。在这里，我分享显化369的开发过程、遇到的挑战、学到的经验，以及用户反馈带来的改进。"
+  },
+  "founderStory": {
+    "title": "创始人故事",
+    "subtitle": "从开发者到显化实践者",
+    "content": "作为一名软件工程师，我最初对显化方法持怀疑态度。但在亲身实践369方法并看到显著效果后，我决定将技术与灵性成长结合，创建了这个应用。"
+  },
+  "techStack": {
+    "title": "技术栈",
+    "subtitle": "现代化的Web技术",
+    "technologies": [
+      "React + TypeScript",
+      "Tailwind CSS",
+      "Supabase 后端",
+      "PWA 支持",
+      "国际化支持"
+    ]
+  }
+}

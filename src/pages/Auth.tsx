@@ -40,7 +40,7 @@ const Auth = () => {
     try {
       let result;
       if (isSignUpMode) {
-        result = await signUp(email, password);
+        result = await signUp({ email, password });
         if (!result.error) {
           toast({
             title: "注册成功！",
@@ -48,7 +48,7 @@ const Auth = () => {
           });
         }
       } else {
-        result = await signIn(email, password);
+        result = await signIn({ email, password });
         if (!result.error) {
           toast({
             title: "登录成功！",

@@ -1,0 +1,83 @@
+
+{
+  "hero": {
+    "title": "Manifest369 - The Magic Power of Making Dreams Come True",
+    "subtitle": "Smart manifestation app based on Tesla's 369 method",
+    "description": "Systematically achieve your desired goals through the scientific 369 method. Daily practice of writing 3, 6, 9 times to let the universe's energy help you manifest your dreams.",
+    "cta": "Start Free",
+    "watchDemo": "Watch Demo"
+  },
+  "features": {
+    "title": "Why Choose Manifest369?",
+    "subtitle": "Science-based manifestation practice system",
+    "list": [
+      {
+        "title": "369 Magic Numbers",
+        "description": "Based on Tesla's 369 theory, utilizing the magical power of universal numbers"
+      },
+      {
+        "title": "Smart Reminder System",
+        "description": "Personalized practice reminders to help you develop consistent manifestation habits"
+      },
+      {
+        "title": "Progress Visualization",
+        "description": "Clear data display to show every step of your manifestation journey"
+      },
+      {
+        "title": "Community Sharing",
+        "description": "Connect with global manifestors, share experiences and success stories"
+      }
+    ]
+  },
+  "about": {
+    "title": "About the Founder",
+    "subtitle": "Tech-driven manifestation practitioner",
+    "description": "I'm Wang Haisheng, a full-stack developer and practitioner of the Manifest369 method. By combining technology with spiritual growth, I created this app to help people achieve their dreams.",
+    "credentials": [
+      "10+ years software development experience",
+      "Open source contributor",
+      "Manifestation method researcher",
+      "Personal growth mentor"
+    ],
+    "socialTitle": "Follow my journey"
+  },
+  "testimonials": {
+    "title": "Success Stories",
+    "subtitle": "Real user manifestation experiences",
+    "list": [
+      {
+        "name": "John Smith",
+        "role": "Entrepreneur",
+        "content": "After using Manifest369 for three months, I successfully secured the investment opportunity I desired. This app made my manifestation practice more systematic.",
+        "rating": 5
+      },
+      {
+        "name": "Sarah Johnson",
+        "role": "Designer",
+        "content": "Daily 369 practice helped me focus more on my goals, with significant improvements in both work and life.",
+        "rating": 5
+      },
+      {
+        "name": "Mike Chen",
+        "role": "Student",
+        "content": "Simple interface, powerful reminder features - helped me maintain 100 days of manifestation practice!",
+        "rating": 5
+      }
+    ]
+  },
+  "support": {
+    "title": "Support Us",
+    "subtitle": "Help Manifest369 continue to grow",
+    "description": "Manifest369 is completely free to use. If this app has helped you, please support our continued development through:",
+    "platforms": {
+      "kofi": "Ko-fi Donation",
+      "patreon": "Patreon Subscription"
+    },
+    "thanks": "Thank you for your support in helping more people benefit from the power of manifestation!"
+  },
+  "cta": {
+    "title": "Start Your Manifestation Journey",
+    "subtitle": "Register now and experience the magical power of 369 manifestation",
+    "description": "Completely free, no hidden fees. Start creating the life you want."
+  }
+}

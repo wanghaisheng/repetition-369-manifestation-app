@@ -1,0 +1,60 @@
+
+{
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "createAccount": "Create Account",
+    "welcomeBack": "Welcome Back",
+    "startJourney": "Start Your Manifestation Journey",
+    "continueJourney": "Continue Your Practice",
+    "signInDescription": "Sign in to your Manifest369 account",
+    "signUpDescription": "Create account to start manifesting",
+    "agreementText": "By registering, you agree to our Terms of Service and Privacy Policy",
+    "freeToUse": "Manifest369 is completely free to use, no hidden fees",
+    "needHelp": "Need help?",
+    "contactDeveloper": "Contact Developer",
+    "backToHome": "Back to Home"
+  },
+  "wishes": {
+    "title": "My Wishes",
+    "empty": "No wishes yet",
+    "emptyDescription": "Create your first wish to start manifesting",
+    "create": "Create Wish",
+    "edit": "Edit Wish",
+    "delete": "Delete Wish",
+    "wishTitle": "Wish Title",
+    "affirmation": "Affirmation",
+    "category": "Category",
+    "color": "Color",
+    "isActive": "Active Status"
+  },
+  "practice": {
+    "title": "369 Practice",
+    "selectWish": "Select Wish",
+    "startPractice": "Start Practice",
+    "morning": "Morning Practice (3 times)",
+    "afternoon": "Afternoon Practice (6 times)",
+    "evening": "Evening Practice (9 times)",
+    "completed": "Completed",
+    "inProgress": "In Progress",
+    "notStarted": "Not Started",
+    "writeAffirmation": "Write Affirmation",
+    "focusMode": "Focus Mode",
+    "practiceTimer": "Practice Timer"
+  },
+  "progress": {
+    "title": "My Progress",
+    "streak": "Streak Days",
+    "totalPractices": "Total Practices",
+    "activeWishes": "Active Wishes",
+    "completionRate": "Completion Rate",
+    "weeklyChart": "This Week",
+    "monthlyChart": "Monthly Stats",
+    "achievements": "Achievements"
+  }
+}
