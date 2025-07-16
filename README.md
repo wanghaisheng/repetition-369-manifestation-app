@@ -1,3 +1,5 @@
+create abouut pagee base :docs/aboutme.md
+
 Hey Product Hunt! 👋
 
 I'm incredibly excited to share 369 Manifestation with you all!
