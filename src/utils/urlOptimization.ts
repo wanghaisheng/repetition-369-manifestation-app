@@ -21,7 +21,7 @@ export const redirectToCanonical = (path: string): string => {
 };
 
 export const generateCanonicalUrl = (path: string): string => {
-  const baseUrl = 'https://xianghua369.com';
+  const baseUrl = 'https://369.heymanifestation.com';
   const normalizedPath = redirectToCanonical(path);
   return `${baseUrl}${normalizedPath}`;
 };
