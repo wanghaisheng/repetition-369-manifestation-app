@@ -12,7 +12,7 @@ export const normalizeUrl = (path: string): string => {
 };
 
 export const generateCanonicalUrl = (path: string): string => {
-  const baseUrl = 'https://xianghua369.com';
+  const baseUrl = 'https://369.heymanifestation.com';
   let normalizedPath = path;
   
   // 处理不同的路径格式
@@ -46,7 +46,7 @@ export const enforceHttps = (): void => {
 };
 
 export const generateStructuredData = (page: string, title: string, description: string) => {
-  const baseUrl = 'https://xianghua369.com';
+  const baseUrl = 'https://369.heymanifestation.com';
   
   return {
     '@context': 'https://schema.org',
