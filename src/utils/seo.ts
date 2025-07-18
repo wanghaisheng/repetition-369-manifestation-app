@@ -9,7 +9,7 @@ export const generatePageTitle = (title: string, includeBrand = true): string =>
 };
 
 export const generateCanonicalUrl = (path: string): string => {
-  const baseUrl = 'https://xianghua369.com';
+  const baseUrl = 'https://369.heymanifestation.com';
   // Remove trailing slash and clean up path
   const cleanPath = path.replace(/\/$/, '') || '';
   return `${baseUrl}${cleanPath}`;
@@ -43,7 +43,7 @@ export const generateBreadcrumbs = (pathname: string) => {
 };
 
 export const generateSitemap = () => {
-  const baseUrl = 'https://xianghua369.com';
+  const baseUrl = 'https://369.heymanifestation.com';
   const staticPages = [
     { url: '/', priority: 1.0, changefreq: 'daily' },
     { url: '/wishes', priority: 0.8, changefreq: 'weekly' },
@@ -82,7 +82,7 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-Sitemap: https://xianghua369.com/sitemap.xml
+Sitemap: https://369.heymanifestation.com/sitemap.xml
 
 # Disallow admin areas
 Disallow: /admin/
