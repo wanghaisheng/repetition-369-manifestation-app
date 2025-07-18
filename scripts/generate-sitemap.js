@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const generateSitemap = () => {
-  const baseUrl = 'https://xianghua369.com';
+  const baseUrl = 'https://369.heymanifestation.com';
   const staticPages = [
     { url: '/', priority: 1.0, changefreq: 'daily' },
     { url: '/wishes', priority: 0.8, changefreq: 'weekly' },
