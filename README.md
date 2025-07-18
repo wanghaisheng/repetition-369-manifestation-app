@@ -1,3 +1,5 @@
+元数据的的多语言管理
+
 create abouut pagee base :docs/aboutme.md
 
 Hey Product Hunt! 👋
