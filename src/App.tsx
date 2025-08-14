@@ -14,10 +14,16 @@ import { WebAppStructuredData, OrganizationStructuredData } from "@/components/s
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AuthDebugPanel } from "@/components/auth/AuthDebugPanel";
 import { SEOErrorBoundary } from "@/components/seo/SEOErrorBoundary";
-import { preloadCriticalResources, registerServiceWorker } from "@/utils/performance";
+import { ANALYTICS_CONFIG, isValidAnalyticsId } from '@/config/analytics';
+import { SearchConsoleVerification } from "@/components/seo/SearchConsoleVerification";
+import { WebVitalsMonitor } from "@/components/performance/WebVitalsMonitor";
+import { CoreWebVitalsReport } from "@/components/performance/CoreWebVitalsReport";
+import { CriticalResourceOptimizer } from "@/components/seo/CriticalResourceOptimizer";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Landing from "./pages/Landing";
+import About from "./pages/About";
+import FAQ from "./pages/FAQ";
 import React, { useEffect } from 'react';
 
 const queryClient = new QueryClient({
@@ -32,12 +38,14 @@ const queryClient = new QueryClient({
 // 性能优化初始化
 const initializePerformanceOptimizations = () => {
   try {
-    preloadCriticalResources();
-    registerServiceWorker();
-    
     // 检查性能模式
     if (localStorage.getItem('performance-mode') === 'true') {
       document.body.classList.add('performance-mode');
+    }
+    
+    // 基础性能优化
+    if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+      navigator.serviceWorker.register('/sw.js').catch(console.log);
     }
   } catch (error) {
     console.log('Performance optimization initialization error:', error);
@@ -55,16 +63,22 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <TooltipProvider>
-              {/* 全局结构化数据 - 使用错误边界保护 */}
+              {/* 全局SEO和性能优化组件 */}
               <SEOErrorBoundary>
+                <SearchConsoleVerification />
+                <CriticalResourceOptimizer />
                 <WebAppStructuredData />
                 <OrganizationStructuredData />
               </SEOErrorBoundary>
               
-              {/* 分析和追踪 - 使用占位符ID */}
-              <GoogleAnalytics measurementId="G-PLACEHOLDER" />
-              <MicrosoftClarity projectId="PLACEHOLDER" />
-              <GoogleAdsenseAuto adClient="ca-pub-PLACEHOLDER" />
+              {/* 性能监控 */}
+              <WebVitalsMonitor />
+              <CoreWebVitalsReport />
+              
+              {/* 分析和追踪 - 使用配置文件中的真实ID */}
+              <GoogleAnalytics measurementId={ANALYTICS_CONFIG.GA4_MEASUREMENT_ID} />
+              <MicrosoftClarity projectId={ANALYTICS_CONFIG.CLARITY_PROJECT_ID} />
+              <GoogleAdsenseAuto adClient={ANALYTICS_CONFIG.ADSENSE_CLIENT_ID} />
               
               <Toaster />
               <BrowserRouter>
@@ -73,6 +87,8 @@ const App = () => {
                   <Routes>
                     {/* Public marketing landing page */}
                     <Route path="/" element={<Landing />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/faq" element={<FAQ />} />
                     <Route path="/auth" element={<Auth />} />
                     
                     {/* Protected main application */}
