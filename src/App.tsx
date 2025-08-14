@@ -6,6 +6,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { RouteHandler } from "@/components/routing/RouteHandler";
+import { RedirectHandler } from "@/components/seo/RedirectHandler";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { GoogleAdsenseAuto } from "@/components/analytics/GoogleAdsense";
@@ -67,6 +68,7 @@ const App = () => {
               
               <Toaster />
               <BrowserRouter>
+                <RedirectHandler />
                 <RouteHandler>
                   <Routes>
                     {/* Public marketing landing page */}

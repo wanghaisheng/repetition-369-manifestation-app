@@ -14,7 +14,7 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-Sitemap: https://xianghua369.com/sitemap.xml
+Sitemap: https://369.heymanifestation.com/sitemap.xml
 
 # Disallow admin areas
 Disallow: /admin/

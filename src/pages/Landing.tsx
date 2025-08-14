@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
+import { MultiLanguageSEO } from '@/components/seo/MultiLanguageSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { 
@@ -75,7 +75,7 @@ const Landing = () => {
   return (
     <>
       <SEOErrorBoundary>
-        <UnifiedSEO 
+        <MultiLanguageSEO 
           title={t('hero.title')}
           description={t('hero.description')}
           keywords={i18n.language === 'zh' ? '显化369,愿望实现,吸引力法则,369方法,冥想练习,正念' : 'manifest369,manifestation,law of attraction,369 method,meditation,mindfulness'}
