@@ -6,6 +6,20 @@
     "app": "应用",
     "auth": "登录"
   },
+  "nav": {
+    "home": "首页",
+    "wishes": "愿望管理",
+    "practice": "练习中心",
+    "progress": "进度跟踪", 
+    "community": "社区分享",
+    "auth": "登录注册",
+    "about": "关于我们",
+    "aboutDesc": "了解显化369的创建者和理念",
+    "faq": "常见问题",
+    "faqDesc": "解答您关于369显化方法的疑问",
+    "related": "相关页面",
+    "moreInfo": "了解更多"
+  },
   "buttons": {
     "getStarted": "开始使用",
     "learnMore": "了解更多",

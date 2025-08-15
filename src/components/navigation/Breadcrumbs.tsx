@@ -1,46 +1,86 @@
-
-import { useLocation, Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ChevronRight, Home } from 'lucide-react';
-import { generateBreadcrumbs } from '@/utils/seo';
+import { Helmet } from 'react-helmet-async';
 
 export const Breadcrumbs = () => {
   const location = useLocation();
-  const breadcrumbs = generateBreadcrumbs(location.pathname);
+  const { t } = useTranslation('common');
+
+  const routeNames: Record<string, string> = {
+    '': t('nav.home'),
+    'wishes': t('nav.wishes'),
+    'practice': t('nav.practice'),
+    'progress': t('nav.progress'),
+    'community': t('nav.community'),
+    'auth': t('nav.auth'),
+    'about': t('nav.about'),
+    'faq': t('nav.faq')
+  };
+
+  const paths = location.pathname.split('/').filter(Boolean);
+  
+  const breadcrumbs = [
+    { name: t('nav.home'), href: '/' }
+  ];
+
+  let currentPath = '';
+  paths.forEach(path => {
+    currentPath += `/${path}`;
+    const name = routeNames[path] || path;
+    breadcrumbs.push({
+      name,
+      href: currentPath
+    });
+  });
+
+  // 生成JSON-LD结构化数据
+  const breadcrumbStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((breadcrumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: breadcrumb.name,
+      item: `https://369.heymanifestation.com${breadcrumb.href}`
+    }))
+  };
 
   if (breadcrumbs.length <= 1) {
-    return null;
+    return null; // 首页不显示面包屑
   }
 
   return (
-    <nav className="flex items-center space-x-1 text-sm text-gray-500 py-2 px-4" aria-label="面包屑导航">
-      <ol className="flex items-center space-x-1">
-        {breadcrumbs.map((crumb, index) => (
-          <li key={crumb.href} className="flex items-center">
+    <>
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbStructuredData)}
+        </script>
+      </Helmet>
+      
+      <nav className="flex items-center space-x-1 text-sm text-muted-foreground mb-4" aria-label="breadcrumb">
+        {breadcrumbs.map((breadcrumb, index) => (
+          <div key={breadcrumb.href} className="flex items-center">
             {index > 0 && <ChevronRight className="w-4 h-4 mx-1" />}
-            {index === 0 ? (
-              <Link 
-                to={crumb.href} 
-                className="flex items-center hover:text-blue-600 transition-colors"
-                aria-label="返回首页"
-              >
-                <Home className="w-4 h-4" />
-                <span className="ml-1">{crumb.name}</span>
-              </Link>
-            ) : index === breadcrumbs.length - 1 ? (
-              <span className="text-gray-700 font-medium" aria-current="page">
-                {crumb.name}
+            {index === breadcrumbs.length - 1 ? (
+              <span className="text-foreground font-medium">
+                {breadcrumb.name}
               </span>
             ) : (
               <Link 
-                to={crumb.href} 
-                className="hover:text-blue-600 transition-colors"
+                to={breadcrumb.href}
+                className="hover:text-foreground transition-colors"
               >
-                {crumb.name}
+                <span className="flex items-center">
+                  {index === 0 && <Home className="w-4 h-4 mr-1" />}
+                  {breadcrumb.name}
+                </span>
               </Link>
             )}
-          </li>
+          </div>
         ))}
-      </ol>
-    </nav>
+      </nav>
+    </>
   );
 };

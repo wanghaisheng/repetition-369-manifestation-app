@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { MultiLanguageSEO } from '@/components/seo/MultiLanguageSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
+import { HomePageLinks } from '@/components/seo/EnhancedInternalLinks';
 import { 
   Sparkles, 
   Target, 
@@ -288,6 +289,9 @@ const Landing = () => {
             </Link>
           </div>
         </section>
+
+        {/* Enhanced Internal Links */}
+        <HomePageLinks />
 
         {/* Footer */}
         <footer className="bg-gray-900 text-white py-12 px-4">

@@ -4,9 +4,11 @@ Allow: /
 
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
-User-agent: Bingbot
+User-agent: Bingbot  
 Allow: /
+Crawl-delay: 1
 
 User-agent: Twitterbot
 Allow: /
@@ -14,13 +16,36 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-Sitemap: https://369.heymanifestation.com/sitemap.xml
+User-agent: LinkedInBot
+Allow: /
 
-# Disallow admin areas
+User-agent: WhatsApp
+Allow: /
+
+# 禁止访问敏感区域
 Disallow: /admin/
 Disallow: /api/
-Disallow: /.env
+Disallow: /.env*
 Disallow: /config/
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /supabase/
 
-# Allow all other content
-Allow: /
+# 允许静态资源
+Allow: /assets/
+Allow: /images/
+Allow: /fonts/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.png
+Allow: /*.webp
+Allow: /*.svg
+Allow: /*.ico
+
+# Sitemap
+Sitemap: https://369.heymanifestation.com/sitemap.xml
+
+# 爬虫延迟设置
+Crawl-delay: 1

@@ -6,6 +6,20 @@
     "app": "App",
     "auth": "Login"
   },
+  "nav": {
+    "home": "Home",
+    "wishes": "Wishes",
+    "practice": "Practice", 
+    "progress": "Progress",
+    "community": "Community",
+    "auth": "Sign In",
+    "about": "About Us",
+    "aboutDesc": "Learn about the creator and philosophy of Manifest369",
+    "faq": "FAQ",
+    "faqDesc": "Get answers to common questions about the 369 manifestation method",
+    "related": "Related Pages",
+    "moreInfo": "Learn More"
+  },
   "buttons": {
     "getStarted": "Get Started",
     "learnMore": "Learn More",

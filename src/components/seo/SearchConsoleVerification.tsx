@@ -20,9 +20,9 @@ export const SearchConsoleVerification = () => {
         <meta name="google-adsense-account" content={ANALYTICS_CONFIG.ADSENSE_CLIENT_ID} />
       )}
       
-      {/* 其他搜索引擎验证标签 */}
-      <meta name="yandex-verification" content="your-yandex-verification-code" />
-      <meta name="baidu-site-verification" content="your-baidu-verification-code" />
+      {/* 其他搜索引擎验证标签 - 等待实际验证码配置 */}
+      {/* <meta name="yandex-verification" content="获取验证码后启用" /> */}
+      {/* <meta name="baidu-site-verification" content="获取验证码后启用" /> */}
       
       {/* DNS预取优化 */}
       <link rel="dns-prefetch" href="//www.google-analytics.com" />

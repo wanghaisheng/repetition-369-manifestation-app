@@ -1,34 +1,40 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://xianghua369.com/</loc>
-    <lastmod>2025-01-07</lastmod>
+    <loc>https://369.heymanifestation.com/</loc>
+    <lastmod>2025-01-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://369.heymanifestation.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://369.heymanifestation.com/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://369.heymanifestation.com/" />
   </url>
   <url>
-    <loc>https://xianghua369.com/wishes</loc>
-    <lastmod>2025-01-07</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://369.heymanifestation.com/about</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://369.heymanifestation.com/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://369.heymanifestation.com/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://369.heymanifestation.com/about" />
   </url>
   <url>
-    <loc>https://xianghua369.com/practice</loc>
-    <lastmod>2025-01-07</lastmod>  
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://xianghua369.com/progress</loc>
-    <lastmod>2025-01-07</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://369.heymanifestation.com/faq</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://369.heymanifestation.com/faq" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://369.heymanifestation.com/faq" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://369.heymanifestation.com/faq" />
   </url>
   <url>
-    <loc>https://xianghua369.com/community</loc>
-    <lastmod>2025-01-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://369.heymanifestation.com/auth</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://369.heymanifestation.com/auth" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://369.heymanifestation.com/auth" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://369.heymanifestation.com/auth" />
   </url>
 </urlset>
