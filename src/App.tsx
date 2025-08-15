@@ -24,6 +24,7 @@ import Auth from "./pages/Auth";
 import Landing from "./pages/Landing";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
+import Method369 from "./pages/Method369";
 import React, { useEffect } from 'react';
 
 const queryClient = new QueryClient({
@@ -87,8 +88,9 @@ const App = () => {
                   <Routes>
                     {/* Public marketing landing page */}
                     <Route path="/" element={<Landing />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/faq" element={<FAQ />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/method369" element={<Method369 />} />
                     <Route path="/auth" element={<Auth />} />
                     
                     {/* Protected main application */}

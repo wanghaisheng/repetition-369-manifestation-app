@@ -19,21 +19,33 @@ import {
 const FAQ = () => {
   const { t } = useTranslation(['common', 'faq']);
 
-  // 基础FAQ数据
-  const faqData = [
-    {
-      question: "What is the Manifestation 369 method?",
-      answer: "The Manifestation 369 method is a technique based on Nikola Tesla's belief in the power of numbers 3, 6, and 9. You write your desire 3 times in the morning, 6 times in the afternoon, and 9 times at night for 17 days or longer."
-    },
-    {
-      question: "How does the app help me?",
-      answer: "Our app provides smart reminders, wish management, progress tracking, achievement system, and community support to help you maintain consistent practice."
-    },
-    {
-      question: "Is my data secure?",
-      answer: "Yes, we take data security seriously. All data is encrypted, your personal wishes are completely private, and we follow international privacy laws like GDPR."
-    }
-  ];
+          // 基础FAQ数据，优化为更全面的"可回答"问题
+          const faqData = [
+            {
+              question: t('faq:basic.q1.question'),
+              answer: t('faq:basic.q1.answer')
+            },
+            {
+              question: t('faq:basic.q2.question'),
+              answer: t('faq:basic.q2.answer')
+            },
+            {
+              question: t('faq:basic.q3.question'),
+              answer: t('faq:basic.q3.answer')
+            },
+            {
+              question: t('faq:basic.q4.question'),
+              answer: t('faq:basic.q4.answer')
+            },
+            {
+              question: t('faq:basic.q5.question'),
+              answer: t('faq:basic.q5.answer')
+            },
+            {
+              question: t('faq:basic.q6.question'),
+              answer: t('faq:basic.q6.answer')
+            }
+          ];
 
   return (
     <>
@@ -106,8 +118,8 @@ const FAQ = () => {
         <section className="py-20 px-4 bg-white">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Getting Started</h2>
-              <p className="text-lg text-gray-600">Basic knowledge about Manifestation 369 and the 369 method</p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('faq:basic.title')}</h2>
+              <p className="text-lg text-gray-600">{t('faq:basic.subtitle')}</p>
             </div>
             
             <Accordion type="single" collapsible className="space-y-4">
@@ -137,8 +149,8 @@ const FAQ = () => {
         <section className="py-20 px-4">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Need More Help?</h2>
-              <p className="text-xl text-gray-600">Our support team is here to assist you</p>
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('faq:support.title')}</h2>
+              <p className="text-xl text-gray-600">{t('faq:support.subtitle')}</p>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -147,8 +159,8 @@ const FAQ = () => {
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <MessageCircle className="w-8 h-8 text-white" />
                   </div>
-                  <CardTitle className="text-xl">Live Chat</CardTitle>
-                  <CardDescription>Real-time chat support</CardDescription>
+                  <CardTitle className="text-xl">{t('faq:support.liveChat')}</CardTitle>
+                  <CardDescription>{t('faq:support.liveChat')}</CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
                   <a
@@ -207,9 +219,9 @@ const FAQ = () => {
         {/* CTA Section */}
         <section className="py-20 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-4xl font-bold mb-4">Ready to Start Your Manifestation Journey?</h2>
-            <p className="text-xl mb-6">Join thousands of users who are already transforming their lives</p>
-            <p className="text-lg mb-8 opacity-90">Whether you're new to manifestation or an experienced practitioner, we have the tools for you</p>
+            <h2 className="text-4xl font-bold mb-4">{t('faq:cta.title')}</h2>
+            <p className="text-xl mb-6">{t('faq:cta.subtitle')}</p>
+            <p className="text-lg mb-8 opacity-90">{t('faq:cta.description')}</p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/auth">

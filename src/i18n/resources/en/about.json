@@ -1,0 +1,45 @@
+{
+  "seo": {
+    "title": "About Us - The Story and Mission Behind Manifest369",
+    "description": "Learn about the story behind Manifest369, founder Wang Haisheng's journey from tech developer to manifestation practitioner, and our mission to help users achieve their dreams.",
+    "keywords": "about us,Wang Haisheng,Manifest369,founder story,manifestation,personal growth"
+  },
+  "hero": {
+    "title": "About Manifest369",
+    "subtitle": "The journey from tech developer to manifestation practitioner, and our mission to help users worldwide achieve their dreams"
+  },
+  "stats": {
+    "users": "Monthly Users",
+    "retention": "User Retention",
+    "rating": "User Rating"
+  },
+  "story": {
+    "title": "Our Story",
+    "personal": "I'm 38 years old, and for most of my life, I've had a habit of self-blame that started in my childhood. Every mistake, every setback, I would automatically turn inward with harsh criticism. This mindset held me back in countless ways and created patterns of negative thinking that were difficult to break.",
+    "turning": "Three years ago, I reached a breaking point. I knew I needed to change my mindset fundamentally if I was ever going to achieve the life I wanted. I began researching mindset shifts and discovered manifestation techniques.",
+    "problem": "The problem was that there wasn't much practical, easy-to-follow guidance available. Most resources were either too vague or overly complicated.",
+    "solution": "This frustration became my inspiration to create Manifest369. After 6 months of development and testing, we now serve 5,000+ monthly active users with 73% retention rate and 4.7/5 rating."
+  },
+  "credentials": {
+    "title": "Professional Background & Achievements",
+    "experience": "15+ years of Internet product development experience",
+    "research": "Deep research in personal growth & psychology",
+    "expertise": "Expert in manifestation method practice & validation",
+    "building": "Building in public, transparently sharing the entire product development process"
+  },
+  "metrics": {
+    "title": "Validated Metrics",
+    "monthlyUsers": "Monthly Active Users",
+    "mrr": "Monthly Recurring Revenue",
+    "retention": "Monthly Retention",
+    "nps": "Net Promoter Score"
+  },
+  "mission": {
+    "title": "Our Mission", 
+    "description": "Our mission is to help others experience this same transformation. We believe everyone deserves access to tools that can help them shift their mindset, overcome limiting beliefs, and create the life they truly desire. By making manifestation practices accessible, structured, and enjoyable, we hope to empower people worldwide to transform their realities."
+  },
+  "cta": {
+    "title": "Join Our Community",
+    "description": "Start your manifestation journey today. Whether you're new to manifestation or an experienced practitioner, we have the tools for you."
+  }
+}

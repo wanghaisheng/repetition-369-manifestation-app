@@ -1,0 +1,51 @@
+{
+  "seo": {
+    "title": "FAQ - Manifest369 User Guide",
+    "description": "Find answers to frequently asked questions about Manifest369 app and the 369 manifestation method. Includes usage guides, scientific principles, data security and more.",
+    "keywords": "faq,manifest369,369 method,user guide,help center,support"
+  },
+  "hero": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find the answers you need to start your successful manifestation journey"
+  },
+  "basic": {
+    "title": "Getting Started",
+    "subtitle": "Basic knowledge about Manifest369 and the 369 method",
+    "q1": {
+      "question": "What is the Manifest369 method?",
+      "answer": "The Manifest369 method is a technique based on Nikola Tesla's belief in the power of numbers 3, 6, and 9. You write your desire at specific times each day: 3 times in the morning, 6 times in the afternoon, and 9 times at night for 21 days or longer. This structured repetition helps reprogram your subconscious mind and focus attention on your desired goals."
+    },
+    "q2": {
+      "question": "Why the numbers 3, 6, and 9?",
+      "answer": "Tesla believed these numbers held special cosmic significance. From a mathematical perspective, these numbers have unique properties in the base-10 system. From a psychological standpoint, this structured timing helps establish habits and reinforces intentions at different points throughout the day."
+    },
+    "q3": {
+      "question": "How does the app help me practice the 369 method?",
+      "answer": "Our app provides smart reminders, wish management, progress tracking, achievement system, and community support to help you maintain consistent practice. The app also offers personalized writing templates, progress visualization, and motivation features to make manifestation practice more systematic and engaging."
+    },
+    "q4": {
+      "question": "Is my data secure?",
+      "answer": "Yes, we take data security very seriously. All data is encrypted, your personal wishes are completely private, and we follow international privacy laws like GDPR. Your manifestation content is only visible to you, and we never share your personal information with third parties."
+    },
+    "q5": {
+      "question": "How long does it take to see results?",
+      "answer": "Manifestation timing varies by individual, but most users begin noticing shifts in thought patterns within 1-3 weeks. 21 days is the recommended minimum practice period, as this is the scientific cycle for establishing new habits. Users who practice consistently typically see more tangible external results within 30-90 days."
+    },
+    "q6": {
+      "question": "How do I write effective desire statements?",
+      "answer": "Effective desire statements should: 1) Use present tense ('I have...' not 'I want...'); 2) Be specific and clear (avoid vague language); 3) Stay positive (focus on what you want, not what you don't want); 4) Include emotion (express how you'll feel when your desire manifests); 5) Align with your core values."
+    }
+  },
+  "support": {
+    "title": "Need More Help?",
+    "subtitle": "Our support team is here to assist you",
+    "liveChat": "Real-time chat support",
+    "email": "Get answers within 24 hours",
+    "community": "Connect with other users"
+  },
+  "cta": {
+    "title": "Ready to Start Your Manifestation Journey?",
+    "subtitle": "Join thousands of users who are already transforming their lives",
+    "description": "Whether you're new to manifestation or an experienced practitioner, we have the tools for you"
+  }
+}
