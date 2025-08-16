@@ -21,6 +21,8 @@ import {
   CheckCircle,
   Star
 } from 'lucide-react';
+import { AdvancedStructuredData } from "@/components/seo/AdvancedStructuredData";
+import { SocialMediaCards } from "@/components/seo/SocialMediaCards";
 import { Helmet } from 'react-helmet-async';
 
 const Method369 = () => {
@@ -57,6 +59,12 @@ const Method369 = () => {
     ]
   };
 
+  const howToSteps = [
+    { name: t('method369:steps.step1.title'), text: t('method369:steps.step1.description') },
+    { name: t('method369:steps.step2.title'), text: t('method369:steps.step2.description') },
+    { name: t('method369:steps.step3.title'), text: t('method369:steps.step3.description') },
+  ];
+
   return (
     <>
       <SEOErrorBoundary>
@@ -67,6 +75,21 @@ const Method369 = () => {
           type="article"
         />
       </SEOErrorBoundary>
+      <AdvancedStructuredData 
+        type="HowTo"
+        title={t('method369:seo.title')}
+        description={t('method369:seo.description')}
+        howToSteps={howToSteps}
+        author="显化369团队"
+        image="/369-app-icon.png"
+      />
+      <SocialMediaCards 
+        title={t('method369:seo.title')}
+        description={t('method369:seo.description')}
+        type="article"
+        author="显化369团队"
+        image="/369-app-icon.png"
+      />
 
       <Helmet>
         <script type="application/ld+json">

@@ -8,6 +8,8 @@ interface LazyImageProps {
   width?: number;
   height?: number;
   priority?: boolean;
+  webpSrc?: string;
+  sizes?: string;
 }
 
 export const LazyImage: React.FC<LazyImageProps> = ({
@@ -17,7 +19,9 @@ export const LazyImage: React.FC<LazyImageProps> = ({
   placeholder = '',
   width,
   height,
-  priority = false
+  priority = false,
+  webpSrc,
+  sizes = '100vw'
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
@@ -74,21 +78,27 @@ export const LazyImage: React.FC<LazyImageProps> = ({
         />
       )}
 
-      {/* 实际图片 */}
+      {/* 实际图片 - 支持WebP */}
       {isInView && (
-        <img
-          src={error ? placeholder : src}
-          alt={alt}
-          className={`transition-opacity duration-300 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          } ${className}`}
-          onLoad={handleLoad}
-          onError={handleError}
-          loading={priority ? 'eager' : 'lazy'}
-          decoding="async"
-          width={width}
-          height={height}
-        />
+        <picture>
+          {webpSrc && (
+            <source srcSet={webpSrc} type="image/webp" sizes={sizes} />
+          )}
+          <img
+            src={error ? placeholder : src}
+            alt={alt}
+            className={`transition-opacity duration-300 ${
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            } ${className}`}
+            onLoad={handleLoad}
+            onError={handleError}
+            loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
+            width={width}
+            height={height}
+            sizes={sizes}
+          />
+        </picture>
       )}
 
       {/* 错误状态 */}

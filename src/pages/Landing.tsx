@@ -6,7 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { MultiLanguageSEO } from '@/components/seo/MultiLanguageSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
-import { HomePageLinks } from '@/components/seo/EnhancedInternalLinks';
+import { EnhancedInternalLinks } from "@/components/seo/EnhancedInternalLinks";
+import { AdvancedStructuredData } from "@/components/seo/AdvancedStructuredData";
+import { SocialMediaCards } from "@/components/seo/SocialMediaCards";
+import { CriticalResourcePreloader } from "@/components/performance/CriticalResourcePreloader";
 import { 
   Sparkles, 
   Target, 
@@ -75,6 +78,7 @@ const Landing = () => {
 
   return (
     <>
+      <CriticalResourcePreloader />
       <SEOErrorBoundary>
         <MultiLanguageSEO 
           title={t('hero.title')}
@@ -82,6 +86,18 @@ const Landing = () => {
           keywords={i18n.language === 'zh' ? '显化369,愿望实现,吸引力法则,369方法,冥想练习,正念' : 'manifest369,manifestation,law of attraction,369 method,meditation,mindfulness'}
         />
       </SEOErrorBoundary>
+      <AdvancedStructuredData 
+        type="WebPage"
+        title={t('hero.title')}
+        description={t('hero.description')}
+        image="/369-app-icon.png"
+      />
+      <SocialMediaCards 
+        title={t('hero.title')}
+        description={t('hero.description')}
+        type="website"
+        image="/369-app-icon.png"
+      />
 
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         {/* Header */}
@@ -105,7 +121,7 @@ const Landing = () => {
         </header>
 
         {/* Hero Section */}
-        <section className="py-20 px-4">
+        <section className="py-20 px-4 hero-section transform-gpu">
           <div className="container mx-auto text-center max-w-4xl">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               {t('hero.title')}
@@ -311,7 +327,7 @@ const Landing = () => {
         </section>
 
         {/* Enhanced Internal Links */}
-        <HomePageLinks />
+        <EnhancedInternalLinks currentPage="home" />
 
         {/* Footer */}
         <footer className="bg-gray-900 text-white py-12 px-4">

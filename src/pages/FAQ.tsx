@@ -15,37 +15,20 @@ import {
   Mail,
   ExternalLink
 } from 'lucide-react';
+import { AdvancedStructuredData } from "@/components/seo/AdvancedStructuredData";
+import { SocialMediaCards } from "@/components/seo/SocialMediaCards";
 
 const FAQ = () => {
   const { t } = useTranslation(['common', 'faq']);
 
-          // 基础FAQ数据，优化为更全面的"可回答"问题
-          const faqData = [
-            {
-              question: t('faq:basic.q1.question'),
-              answer: t('faq:basic.q1.answer')
-            },
-            {
-              question: t('faq:basic.q2.question'),
-              answer: t('faq:basic.q2.answer')
-            },
-            {
-              question: t('faq:basic.q3.question'),
-              answer: t('faq:basic.q3.answer')
-            },
-            {
-              question: t('faq:basic.q4.question'),
-              answer: t('faq:basic.q4.answer')
-            },
-            {
-              question: t('faq:basic.q5.question'),
-              answer: t('faq:basic.q5.answer')
-            },
-            {
-              question: t('faq:basic.q6.question'),
-              answer: t('faq:basic.q6.answer')
-            }
-          ];
+  const faqItems = [
+    { question: t('faq:basic.q1.question'), answer: t('faq:basic.q1.answer') },
+    { question: t('faq:basic.q2.question'), answer: t('faq:basic.q2.answer') },
+    { question: t('faq:basic.q3.question'), answer: t('faq:basic.q3.answer') },
+    { question: t('faq:basic.q4.question'), answer: t('faq:basic.q4.answer') },
+    { question: t('faq:basic.q5.question'), answer: t('faq:basic.q5.answer') },
+    { question: t('faq:basic.q6.question'), answer: t('faq:basic.q6.answer') },
+  ];
 
   return (
     <>
@@ -56,13 +39,26 @@ const FAQ = () => {
           keywords={t('faq:seo.keywords', 'faq,manifestation 369,help,guide')}
         />
       </SEOErrorBoundary>
+      <AdvancedStructuredData 
+        type="FAQPage"
+        title={t('faq:seo.title', 'FAQ - Manifestation 369 User Guide')}
+        description={t('faq:seo.description', 'Find answers to frequently asked questions about Manifestation 369')}
+        faqItems={faqItems}
+        author="显化369团队"
+      />
+      <SocialMediaCards 
+        title={t('faq:seo.title', 'FAQ - Manifestation 369 User Guide')}
+        description={t('faq:seo.description', 'Find answers to frequently asked questions about Manifestation 369')}
+        type="article"
+        author="显化369团队"
+      />
 
       {/* FAQ结构化数据 */}
       <script type="application/ld+json">
         {JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'FAQPage',
-          mainEntity: faqData.map(item => ({
+          mainEntity: faqItems.map(item => ({
             '@type': 'Question',
             name: item.question,
             acceptedAnswer: {
@@ -123,7 +119,7 @@ const FAQ = () => {
             </div>
             
             <Accordion type="single" collapsible className="space-y-4">
-              {faqData.map((faq, index) => (
+              {faqItems.map((faq, index) => (
                 <AccordionItem 
                   key={index} 
                   value={`faq-${index}`}

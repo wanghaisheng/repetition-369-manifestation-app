@@ -20,16 +20,57 @@ export const CriticalCSS = () => {
       min-height: 100dvh;
     }
     
-    /* Loading states */
-    .skeleton {
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    /* 优化的骨架屏动画 */
+    .skeleton, .animate-pulse {
+      background: linear-gradient(90deg, 
+        hsl(var(--muted)) 25%, 
+        hsl(var(--muted-foreground) / 0.1) 50%, 
+        hsl(var(--muted)) 75%
+      );
       background-size: 200% 100%;
-      animation: loading 1.5s infinite;
+      animation: shimmer 1.5s infinite;
     }
     
-    @keyframes loading {
+    @keyframes shimmer {
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
+    }
+    
+    /* 图片懒加载优化 */
+    img[loading="lazy"] {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+    
+    img[loading="lazy"].loaded {
+      opacity: 1;
+    }
+    
+    /* 首屏关键样式 - 防止布局偏移 */
+    .hero-section {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* 预优化常用的变换 */
+    .transform-gpu {
+      transform: translateZ(0);
+    }
+    
+    /* 字体渲染优化 */
+    body {
+      font-display: swap;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* 按钮和交互元素的硬件加速 */
+    button, .interactive {
+      will-change: transform;
+      backface-visibility: hidden;
     }
   `;
 
