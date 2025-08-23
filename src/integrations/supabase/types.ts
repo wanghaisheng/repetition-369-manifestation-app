@@ -7,13 +7,169 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
   }
   public: {
     Tables: {
+      blog_comments: {
+        Row: {
+          author_email: string | null
+          author_name: string | null
+          blog_post_id: string
+          content: string
+          created_at: string
+          id: string
+          is_approved: boolean
+          parent_id: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          author_email?: string | null
+          author_name?: string | null
+          blog_post_id: string
+          content: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          parent_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          author_email?: string | null
+          author_name?: string | null
+          blog_post_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          parent_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_comments_blog_post_id_fkey"
+            columns: ["blog_post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "blog_comments_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "blog_comments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blog_posts: {
+        Row: {
+          author: string
+          category: string
+          content: string
+          created_at: string
+          excerpt: string | null
+          featured: boolean
+          featured_image: string | null
+          id: string
+          language: string
+          published: boolean
+          published_at: string | null
+          reading_time: number | null
+          seo_description: string | null
+          seo_keywords: string | null
+          seo_title: string | null
+          slug: string
+          tags: string[] | null
+          title: string
+          updated_at: string
+          view_count: number | null
+        }
+        Insert: {
+          author?: string
+          category?: string
+          content: string
+          created_at?: string
+          excerpt?: string | null
+          featured?: boolean
+          featured_image?: string | null
+          id?: string
+          language?: string
+          published?: boolean
+          published_at?: string | null
+          reading_time?: number | null
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
+          slug: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          view_count?: number | null
+        }
+        Update: {
+          author?: string
+          category?: string
+          content?: string
+          created_at?: string
+          excerpt?: string | null
+          featured?: boolean
+          featured_image?: string | null
+          id?: string
+          language?: string
+          published?: boolean
+          published_at?: string | null
+          reading_time?: number | null
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
+          slug?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          view_count?: number | null
+        }
+        Relationships: []
+      }
+      newsletter_subscribers: {
+        Row: {
+          confirmed_at: string | null
+          email: string
+          id: string
+          is_active: boolean
+          language: string | null
+          name: string | null
+          subscribed_at: string
+          unsubscribed_at: string | null
+        }
+        Insert: {
+          confirmed_at?: string | null
+          email: string
+          id?: string
+          is_active?: boolean
+          language?: string | null
+          name?: string | null
+          subscribed_at?: string
+          unsubscribed_at?: string | null
+        }
+        Update: {
+          confirmed_at?: string | null
+          email?: string
+          id?: string
+          is_active?: boolean
+          language?: string | null
+          name?: string | null
+          subscribed_at?: string
+          unsubscribed_at?: string | null
+        }
+        Relationships: []
+      }
       practice_sessions: {
         Row: {
           affirmation_text: string | null
@@ -95,6 +251,63 @@ export type Database = {
           full_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      user_stories: {
+        Row: {
+          anonymous: boolean
+          category: string
+          content: string
+          created_at: string
+          days_to_success: number | null
+          goal_achieved: string | null
+          id: string
+          is_approved: boolean
+          is_featured: boolean
+          method_used: string | null
+          rating: number | null
+          title: string
+          updated_at: string
+          user_id: string | null
+          user_location: string | null
+          user_name: string | null
+        }
+        Insert: {
+          anonymous?: boolean
+          category: string
+          content: string
+          created_at?: string
+          days_to_success?: number | null
+          goal_achieved?: string | null
+          id?: string
+          is_approved?: boolean
+          is_featured?: boolean
+          method_used?: string | null
+          rating?: number | null
+          title: string
+          updated_at?: string
+          user_id?: string | null
+          user_location?: string | null
+          user_name?: string | null
+        }
+        Update: {
+          anonymous?: boolean
+          category?: string
+          content?: string
+          created_at?: string
+          days_to_success?: number | null
+          goal_achieved?: string | null
+          id?: string
+          is_approved?: boolean
+          is_featured?: boolean
+          method_used?: string | null
+          rating?: number | null
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+          user_location?: string | null
+          user_name?: string | null
         }
         Relationships: []
       }
