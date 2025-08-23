@@ -20,7 +20,10 @@ import { WebVitalsMonitor } from "@/components/performance/WebVitalsMonitor";
 import { CoreWebVitalsReport } from "@/components/performance/CoreWebVitalsReport";
 import { CriticalResourceOptimizer } from "@/components/seo/CriticalResourceOptimizer";
 import Index from "./pages/Index";
-import Auth from "./pages/Auth";
+import Auth from "@/pages/Auth";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
+import UserStories from "@/pages/UserStories";
 import Landing from "./pages/Landing";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
@@ -91,7 +94,9 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/method369" element={<Method369 />} />
-                    <Route path="/auth" element={<Auth />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/user-stories" element={<UserStories />} />
                     
                     {/* Protected main application */}
                     <Route path="/app" element={
