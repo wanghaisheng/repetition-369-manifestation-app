@@ -92,10 +92,7 @@ export const CriticalCSS = () => {
       
       {/* 修复 noscript 内容 - 使用字符串而不是JSX */}
       <noscript>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-          rel="stylesheet"
-        />
+        {`<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />`}
       </noscript>
     </Helmet>
   );

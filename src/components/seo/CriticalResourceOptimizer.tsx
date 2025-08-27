@@ -16,10 +16,7 @@ export const CriticalResourceOptimizer = () => {
         }}
       />
       <noscript>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        />
+        {`<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />`}
       </noscript>
 
       {/* 关键图片预加载 */}
