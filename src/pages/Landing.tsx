@@ -10,12 +10,12 @@ import { EnhancedInternalLinks } from "@/components/seo/EnhancedInternalLinks";
 import { AdvancedStructuredData } from "@/components/seo/AdvancedStructuredData";
 import { SocialMediaCards } from "@/components/seo/SocialMediaCards";
 import { CriticalResourcePreloader } from "@/components/performance/CriticalResourcePreloader";
+import { HeroOptimized } from '@/components/landing/HeroOptimized';
+import { OptimizedFeatures } from '@/components/landing/OptimizedFeatures';
+import { SocialProofSection } from '@/components/landing/SocialProofSection';
+import { ConversionOptimizedCTA } from '@/components/landing/ConversionOptimizedCTA';
 import { 
   Sparkles, 
-  Target, 
-  Bell, 
-  TrendingUp, 
-  Users, 
   Star,
   Github,
   Twitter,
@@ -120,83 +120,11 @@ const Landing = () => {
           </div>
         </header>
 
-        {/* Hero Section */}
-        <section className="py-20 px-4 hero-section transform-gpu">
-          <div className="container mx-auto text-center max-w-4xl">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              {t('hero.title')}
-            </h1>
-            <p className="text-xl text-gray-600 mb-4 max-w-2xl mx-auto">
-              {t('hero.subtitle')}
-            </p>
-            <p className="text-lg text-gray-500 mb-6 max-w-3xl mx-auto">
-              {t('hero.description')}
-            </p>
-            
-            {/* Authority Stats */}
-            <div className="flex justify-center items-center space-x-8 text-sm text-gray-500 mb-8 flex-wrap gap-y-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">5,247+</div>
-                <div>{i18n.language === 'zh' ? '月活用户' : 'Monthly Users'}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">73%</div>
-                <div>{i18n.language === 'zh' ? '用户留存率' : 'User Retention'}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">4.7/5</div>
-                <div>{i18n.language === 'zh' ? '用户评分' : 'User Rating'}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600">56+</div>
-                <div>{i18n.language === 'zh' ? '成功案例' : 'Success Stories'}</div>
-              </div>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/auth">
-                <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 text-lg">
-                  <Sparkles className="w-5 h-5 mr-2" />
-                  {t('hero.cta')}
-                </Button>
-              </Link>
-              <Button variant="outline" size="lg" className="px-8 py-4 text-lg">
-                {t('hero.watchDemo')}
-              </Button>
-            </div>
-          </div>
-        </section>
+        {/* Optimized Hero Section */}
+        <HeroOptimized />
 
-        {/* Features Section */}
-        <section className="py-20 px-4 bg-white">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('features.title')}</h2>
-              <p className="text-xl text-gray-600">{t('features.subtitle')}</p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {features.map((feature, index) => {
-                const icons = [Target, Bell, TrendingUp, Users];
-                const Icon = icons[index] || Target;
-                
-                return (
-                  <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-                    <CardHeader className="text-center">
-                      <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Icon className="w-8 h-8 text-white" />
-                      </div>
-                      <CardTitle className="text-xl">{feature.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-600 text-center">{feature.description}</p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+        {/* Optimized Features Section */}
+        <OptimizedFeatures />
 
         {/* About Founder Section */}
         <section className="py-20 px-4">
@@ -255,34 +183,8 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* Testimonials */}
-        <section className="py-20 px-4 bg-white">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('testimonials.title')}</h2>
-              <p className="text-xl text-gray-600">{t('testimonials.subtitle')}</p>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-8">
-              {testimonials.map((testimonial, index) => (
-                <Card key={index} className="border-0 shadow-lg">
-                  <CardHeader>
-                    <div className="flex items-center space-x-1 mb-2">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      ))}
-                    </div>
-                    <CardTitle className="text-lg">{testimonial.name}</CardTitle>
-                    <CardDescription>{testimonial.role}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-700 italic">"{testimonial.content}"</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Social Proof and Testimonials */}
+        <SocialProofSection />
 
         {/* Support Section */}
         <section className="py-20 px-4">
@@ -310,21 +212,8 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-20 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-          <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-4xl font-bold mb-4">{t('cta.title')}</h2>
-            <p className="text-xl mb-6">{t('cta.subtitle')}</p>
-            <p className="text-lg mb-8 opacity-90">{t('cta.description')}</p>
-            
-            <Link to="/auth">
-              <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg">
-                <Sparkles className="w-5 h-5 mr-2" />
-                {t('common:buttons.getStarted')}
-              </Button>
-            </Link>
-          </div>
-        </section>
+        {/* Conversion Optimized CTA Section */}
+        <ConversionOptimizedCTA />
 
         {/* Enhanced Internal Links */}
         <EnhancedInternalLinks currentPage="home" />

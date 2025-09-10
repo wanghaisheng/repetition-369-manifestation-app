@@ -10,6 +10,17 @@
   "features": {
     "title": "Why Choose Manifest369?",
     "subtitle": "Science-based manifestation practice system",
+    "badge": "Key Features",
+    "highlight": {
+      "title": "Everything You Need for Success",
+      "description": "Our comprehensive platform provides all the tools and support you need to manifest your dreams effectively.",
+      "items": {
+        "fast": "Lightning Fast",
+        "secure": "Bank-Level Security",
+        "loved": "User Favorite",
+        "mobile": "Mobile Optimized"
+      }
+    },
     "list": [
       {
         "title": "369 Magic Numbers",
@@ -26,6 +37,22 @@
       {
         "title": "Community Sharing",
         "description": "Connect with global manifestors, share experiences and success stories"
+      },
+      {
+        "title": "Daily Practice Tracking",
+        "description": "Track your daily 369 writing sessions and build consistent habits"
+      },
+      {
+        "title": "Goal Achievement Analytics",
+        "description": "Advanced analytics to monitor your manifestation success rate"
+      },
+      {
+        "title": "Meditation Integration",
+        "description": "Guided meditations to enhance your manifestation practice"
+      },
+      {
+        "title": "Cross-Platform Sync",
+        "description": "Access your manifestation journal from any device, anywhere"
       }
     ]
   },
