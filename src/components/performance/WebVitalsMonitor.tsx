@@ -19,8 +19,13 @@ export const WebVitalsMonitor = () => {
 
     const initWebVitals = async () => {
       try {
-        // 动态导入web-vitals库
-        const { onCLS, onINP, onFCP, onLCP, onTTFB } = await import('web-vitals');
+        // 检查web-vitals是否可用，使用更安全的导入方式
+        const webVitalsModule = await import('web-vitals').catch(() => null);
+        if (!webVitalsModule) {
+          console.warn('Web Vitals library not available');
+          return;
+        }
+        const { onCLS, onINP, onFCP, onLCP, onTTFB } = webVitalsModule;
 
         // 监控Cumulative Layout Shift (CLS)
         onCLS((metric: WebVitalsMetric) => {

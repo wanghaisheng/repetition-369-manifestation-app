@@ -9,6 +9,8 @@ import { EnhancedInternalLinks } from "@/components/seo/EnhancedInternalLinks";
 import { AdvancedStructuredData } from "@/components/seo/AdvancedStructuredData";
 import { SocialMediaCards } from "@/components/seo/SocialMediaCards";
 import { CriticalResourcePreloader } from "@/components/performance/CriticalResourcePreloader";
+import { LazySection } from "@/components/performance/LazySection";
+import { WebVitalsMonitor } from "@/components/performance/WebVitalsMonitor";
 import { OptimizedHeader } from '@/components/landing/OptimizedHeader';
 import { HeroOptimized } from '@/components/landing/HeroOptimized';
 import { OptimizedFeatures } from '@/components/landing/OptimizedFeatures';
@@ -81,6 +83,7 @@ const Landing = () => {
   return (
     <>
       <CriticalResourcePreloader />
+      <WebVitalsMonitor />
       <SEOErrorBoundary>
         <MultiLanguageSEO 
           title={t('hero.title')}
@@ -102,29 +105,34 @@ const Landing = () => {
       />
 
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-accent/5">
-        {/* Optimized Header */}
+        {/* Critical above-the-fold content */}
         <OptimizedHeader />
-
-        {/* Optimized Hero Section */}
         <HeroOptimized />
 
-        {/* Optimized Features Section */}
-        <OptimizedFeatures />
+        {/* Lazy-loaded sections for better performance */}
+        <LazySection fallback={<div className="h-96 bg-muted/10 animate-pulse" />}>
+          <OptimizedFeatures />
+        </LazySection>
 
-        {/* About Founder Optimized Section */}
-        <AboutFounderOptimized />
+        <LazySection fallback={<div className="h-64 bg-muted/10 animate-pulse" />}>
+          <AboutFounderOptimized />
+        </LazySection>
 
-        {/* Social Proof and Testimonials */}
-        <SocialProofSection />
+        <LazySection fallback={<div className="h-80 bg-muted/10 animate-pulse" />}>
+          <SocialProofSection />
+        </LazySection>
 
-        {/* Conversion Optimized CTA Section */}
-        <ConversionOptimizedCTA />
+        <LazySection fallback={<div className="h-48 bg-muted/10 animate-pulse" />}>
+          <ConversionOptimizedCTA />
+        </LazySection>
 
-        {/* Enhanced Internal Links */}
-        <EnhancedInternalLinks currentPage="home" />
+        <LazySection fallback={<div className="h-32 bg-muted/10 animate-pulse" />}>
+          <EnhancedInternalLinks currentPage="home" />
+        </LazySection>
 
-        {/* Optimized Footer */}
-        <OptimizedFooter />
+        <LazySection fallback={<div className="h-64 bg-muted/10 animate-pulse" />}>
+          <OptimizedFooter />
+        </LazySection>
       </div>
     </>
   );
