@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { MultiLanguageSEO } from '@/components/seo/MultiLanguageSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
-import { EnhancedInternalLinks } from "@/components/seo/EnhancedInternalLinks";
+
 import { AdvancedStructuredData } from "@/components/seo/AdvancedStructuredData";
 import { SocialMediaCards } from "@/components/seo/SocialMediaCards";
 import { CriticalResourcePreloader } from "@/components/performance/CriticalResourcePreloader";
@@ -124,10 +124,6 @@ const Landing = () => {
 
         <LazySection fallback={<div className="h-48 bg-muted/10 animate-pulse" />}>
           <ConversionOptimizedCTA />
-        </LazySection>
-
-        <LazySection fallback={<div className="h-32 bg-muted/10 animate-pulse" />}>
-          <EnhancedInternalLinks currentPage="home" />
         </LazySection>
 
         <LazySection fallback={<div className="h-64 bg-muted/10 animate-pulse" />}>

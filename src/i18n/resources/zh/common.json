@@ -51,9 +51,24 @@
   },
   "footer": {
     "copyright": "© 2024 显化369. 保留所有权利.",
+    "product": "产品功能",
+    "features": "核心功能",
+    "pricing": "价格方案",
+    "demo": "产品演示",
+    "company": "公司信息",
+    "about": "关于我们",
+    "blog": "博客文章",
+    "stories": "用户故事",
+    "contact": "联系我们",
+    "support": "帮助支持",
+    "faq": "常见问题",
+    "help": "帮助中心",
+    "method369": "369方法",
+    "userGuide": "使用指南",
+    "legal": "法律信息",
     "privacy": "隐私政策",
     "terms": "服务条款",
-    "support": "支持我们",
-    "contact": "联系我们"
+    "cookies": "Cookie政策",
+    "security": "安全保障"
   }
 }

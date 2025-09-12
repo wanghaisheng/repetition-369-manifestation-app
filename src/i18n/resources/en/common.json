@@ -51,9 +51,24 @@
   },
   "footer": {
     "copyright": "© 2024 Manifest369. All rights reserved.",
+    "product": "Product",
+    "features": "Features",
+    "pricing": "Pricing", 
+    "demo": "Demo",
+    "company": "Company",
+    "about": "About Us",
+    "blog": "Blog",
+    "stories": "User Stories",
+    "contact": "Contact Us",
+    "support": "Support & Help",
+    "faq": "FAQ",
+    "help": "Help Center",
+    "method369": "369 Method",
+    "userGuide": "User Guide",
+    "legal": "Legal",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
-    "support": "Support Us",
-    "contact": "Contact Us"
+    "cookies": "Cookie Policy",
+    "security": "Security"
   }
 }

@@ -53,14 +53,19 @@ export const OptimizedFooter = () => {
     product: [
       { name: t('common:footer.features'), href: '#features' },
       { name: t('common:footer.pricing'), href: '#pricing' },
-      { name: t('common:footer.faq'), href: '/faq' },
-      { name: t('common:footer.help'), href: '#help' }
+      { name: t('common:footer.demo'), href: '#demo' }
     ],
     company: [
       { name: t('common:footer.about'), href: '/about' },
       { name: t('common:footer.blog'), href: '/blog' },
       { name: t('common:footer.stories'), href: '/user-stories' },
       { name: t('common:footer.contact'), href: 'mailto:support@369.heymanifestation.com' }
+    ],
+    support: [
+      { name: t('common:footer.faq'), href: '/faq' },
+      { name: t('common:footer.help'), href: '#help' },
+      { name: t('common:footer.method369'), href: '/method369' },
+      { name: t('common:footer.userGuide'), href: '#guide' }
     ],
     legal: [
       { name: t('common:footer.privacy'), href: '/privacy' },
@@ -74,9 +79,9 @@ export const OptimizedFooter = () => {
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-16">
         {/* Main Footer Content */}
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8 mb-12">
+        <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-8 mb-12">
           {/* Brand Section */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-primary-foreground" />
@@ -158,10 +163,38 @@ export const OptimizedFooter = () => {
             </ul>
           </div>
 
-          {/* Support & Legal */}
+          {/* Support & Help */}
           <div>
             <h3 className="font-semibold text-foreground mb-4">
               {t('common:footer.support')}
+            </h3>
+            <ul className="space-y-3">
+              {footerLinks.support.map((link) => (
+                <li key={link.name}>
+                  {link.href.startsWith('/') ? (
+                    <Link
+                      to={link.href}
+                      className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                    >
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                    >
+                      {link.name}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Donation Links */}
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">
+              {t('landing:support.title')}
             </h3>
             <div className="space-y-3 mb-6">
               {supportLinks.map((link) => (
