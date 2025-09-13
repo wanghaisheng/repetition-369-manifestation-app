@@ -28,6 +28,9 @@ import Landing from "./pages/Landing";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import Method369 from "./pages/Method369";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
 import React, { useEffect } from 'react';
 
 const queryClient = new QueryClient({
@@ -94,6 +97,8 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/method369" element={<Method369 />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/user-stories" element={<UserStories />} />
@@ -113,6 +118,9 @@ const App = () => {
                   </Routes>
                 </RouteHandler>
               </BrowserRouter>
+              
+              {/* PWA Install Prompt */}
+              <PWAInstallPrompt />
               
               {/* Debug panel for development */}
               <AuthDebugPanel />
