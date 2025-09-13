@@ -104,7 +104,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   // Redirect to auth if not authenticated
   if (!isAuthenticated) {
     console.log('ProtectedRoute: Redirecting to auth');
-    return <Navigate to="/auth" replace />;
+    return <Navigate to={`/auth?redirect=${encodeURIComponent(window.location.pathname)}`} replace />;
   }
 
   // Render protected content

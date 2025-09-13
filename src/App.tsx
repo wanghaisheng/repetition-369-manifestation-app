@@ -98,6 +98,9 @@ const App = () => {
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/user-stories" element={<UserStories />} />
                     
+                    {/* Authentication route */}
+                    <Route path="/auth" element={<Auth />} />
+                    
                     {/* Protected main application */}
                     <Route path="/app" element={
                       <ProtectedRoute>

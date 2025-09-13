@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,10 +19,15 @@ const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSignUpMode, setIsSignUpMode] = useState(false);
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  // 获取重定向路径
+  const redirectPath = searchParams.get('redirect') || '/app';
 
   // Redirect if already authenticated
   if (isAuthenticated) {
-    return <Navigate to="/app" replace />;
+    return <Navigate to={redirectPath} replace />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,6 +59,10 @@ const Auth = () => {
             title: "登录成功！",
             description: "欢迎回到显化369",
           });
+          // 登录成功后重定向到目标页面
+          setTimeout(() => {
+            navigate(redirectPath);
+          }, 1000);
         }
       }
 
