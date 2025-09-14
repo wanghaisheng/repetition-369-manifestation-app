@@ -101,71 +101,64 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, []);
 
-  const handleAuthStateChange = useCallback(async (event: string, session: Session | null) => {
-    console.log('Auth state change:', event, { hasSession: !!session });
-    
-    try {
-      setSession(session);
-      setAuthError(null);
-      
-      if (session?.user) {
-        const userProfile = await loadUserProfile(session.user.id, session.user.email || '');
-        setUser(userProfile);
-        console.log('User authenticated successfully');
-      } else {
-        setUser(null);
-        console.log('User signed out');
-      }
-    } catch (error) {
-      handleAuthError(error, 'auth state change');
-    } finally {
-      setIsLoading(false);
+  const handleAuthStateChange = useCallback((event: string, sess: Session | null) => {
+    console.log('Auth state change:', event, { hasSession: !!sess });
+
+    // Only synchronous state updates here to avoid deadlocks
+    setSession(sess);
+    setAuthError(null);
+
+    if (sess?.user) {
+      // Set a minimal user immediately
+      const minimalUser: User = {
+        id: sess.user.id,
+        email: sess.user.email || '',
+        createdAt: new Date().toISOString(),
+      };
+      setUser(minimalUser);
+
+      // Defer any Supabase calls to next tick
+      setTimeout(() => {
+        loadUserProfile(sess.user!.id, sess.user!.email || '')
+          .then((profile) => setUser(profile))
+          .catch((err) => console.warn('Deferred profile load error:', err));
+      }, 0);
+    } else {
+      setUser(null);
     }
-  }, [loadUserProfile, handleAuthError]);
+
+    setIsLoading(false);
+  }, [loadUserProfile]);
 
   const initializeAuth = useCallback(async () => {
     console.log('Initializing auth system...');
-    
+
     try {
       setIsLoading(true);
       setAuthError(null);
-      
-      // Set up auth state listener
+
+      // Set up auth state listener FIRST
       const { data: { subscription } } = supabase.auth.onAuthStateChange(handleAuthStateChange);
-      
-      // Check for existing session with timeout
-      const sessionPromise = supabase.auth.getSession();
-      const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Session check timeout')), AUTH_TIMEOUT)
-      );
-      
-      const { data: { session }, error } = await Promise.race([
-        sessionPromise,
-        timeoutPromise
-      ]) as any;
-      
-      if (error) {
-        throw error;
-      }
-      
+
+      // THEN check for existing session (no artificial timeout)
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error) throw error;
+
       console.log('Initial session check completed', { hasSession: !!session });
-      
-      if (session) {
-        await handleAuthStateChange('INITIAL_SESSION', session);
-      } else {
-        setIsLoading(false);
-      }
-      
+
+      // Use the same handler to normalize state updates
+      handleAuthStateChange('INITIAL_SESSION', session);
+
       return subscription;
     } catch (error) {
       console.error('Auth initialization error:', error);
       handleAuthError(error, 'initialization');
-      
+
       // Fallback: assume no auth and continue
       setSession(null);
       setUser(null);
       setIsLoading(false);
-      
+
       // Still set up the listener for future auth events
       const { data: { subscription } } = supabase.auth.onAuthStateChange(handleAuthStateChange);
       return subscription;
