@@ -18,5 +18,12 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    dedupe: ["react", "react-dom"],
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom", "react/jsx-runtime"],
+  },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(mode),
   },
 }));
