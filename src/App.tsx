@@ -24,6 +24,7 @@ import Auth from "@/pages/Auth";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
 import UserStories from "@/pages/UserStories";
+import { BlogManagement } from "./components/blog/BlogManagement";
 import Landing from "./pages/Landing";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
@@ -102,6 +103,11 @@ const App = () => {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/user-stories" element={<UserStories />} />
+        <Route path="/blog-admin" element={
+          <ProtectedRoute>
+            <BlogManagement />
+          </ProtectedRoute>
+        } />
                     
                     {/* Authentication route */}
                     <Route path="/auth" element={<Auth />} />

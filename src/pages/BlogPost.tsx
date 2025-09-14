@@ -23,6 +23,7 @@ import {
   Facebook,
   Link as LinkIcon
 } from 'lucide-react';
+import { MarkdownRenderer } from '@/components/blog/MarkdownRenderer';
 import { toast } from 'sonner';
 
 interface BlogPost {
@@ -156,18 +157,6 @@ const BlogPostPage = () => {
     }
   };
 
-  const renderMarkdown = (content: string) => {
-    // Simple markdown to HTML conversion
-    return content
-      .replace(/^### (.*$)/gim, '<h3 class="text-xl font-semibold text-foreground mt-6 mb-3">$1</h3>')
-      .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold text-foreground mt-8 mb-4">$1</h2>')
-      .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-foreground mt-8 mb-6">$1</h1>')
-      .replace(/^\- (.*$)/gim, '<li class="ml-4 mb-1">$1</li>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
-      .replace(/\n\n/g, '<p class="mb-4"></p>')
-      .replace(/\n/g, '<br />');
-  };
 
   if (loading) {
     return (
@@ -351,10 +340,7 @@ const BlogPostPage = () => {
           </header>
 
           {/* Article Content */}
-          <div 
-            className="prose prose-lg max-w-none text-foreground leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
-          />
+          <MarkdownRenderer content={post.content} />
         </article>
 
         {/* Related Posts */}
