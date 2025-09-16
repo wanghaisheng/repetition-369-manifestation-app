@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { StatusBar } from '@/components/ui/StatusBar';
 import { TabBar } from '@/components/navigation/TabBar';
 import { HomeView } from '@/components/views/HomeView';
@@ -19,7 +20,27 @@ import { RedirectHandler } from '@/components/seo/RedirectHandler';
 type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community' | 'settings';
 
 const Index = () => {
+  const { tab } = useParams<{ tab: string }>();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('home');
+
+  // 同步路由参数和状态
+  useEffect(() => {
+    const validTabs: Tab[] = ['home', 'wishes', 'practice', 'progress', 'community', 'settings'];
+    const currentTab = tab as Tab;
+    
+    if (validTabs.includes(currentTab)) {
+      setActiveTab(currentTab);
+    } else {
+      // 如果路由参数无效，重定向到home
+      navigate('/app/home', { replace: true });
+    }
+  }, [tab, navigate]);
+
+  // 处理tab切换
+  const handleTabChange = (newTab: Tab) => {
+    navigate(`/app/${newTab}`);
+  };
 
   const getPageSEO = (tab: Tab) => {
     const seoConfig = {
@@ -110,7 +131,7 @@ const Index = () => {
           {renderContent()}
         </main>
         
-        <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
+        <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
       </div>
     </>
   );

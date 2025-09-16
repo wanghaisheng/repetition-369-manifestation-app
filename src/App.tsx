@@ -113,7 +113,8 @@ const App = () => {
                     <Route path="/auth" element={<Auth />} />
                     
                     {/* Protected main application */}
-                    <Route path="/app" element={
+                    <Route path="/app" element={<Navigate to="/app/home" replace />} />
+                    <Route path="/app/:tab" element={
                       <ProtectedRoute>
                         <Index />
                       </ProtectedRoute>
