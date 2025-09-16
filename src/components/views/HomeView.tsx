@@ -7,11 +7,15 @@ import { Progress } from '@/components/ui/progress';
 import { useWishes } from '@/hooks/useWishes';
 import { usePractice } from '@/hooks/usePractice';
 import { useProgress } from '@/hooks/useProgress';
+import { AddWishModal } from '@/components/modals/AddWishModal';
+import { useToast } from '@/hooks/use-toast';
 
 export const HomeView = () => {
-  const { wishes, loading: wishesLoading, error: wishesError } = useWishes();
+  const { wishes, loading: wishesLoading, error: wishesError, createWish, refetch } = useWishes();
   const { todayPractices, loading: practiceLoading, error: practiceError } = usePractice();
   const { progress, loading: progressLoading, error: progressError, getTodayStats, getWeeklyStats } = useProgress();
+  const { toast } = useToast();
+  const [isAddWishModalOpen, setIsAddWishModalOpen] = useState(false);
 
   const activeWishes = wishes.filter(wish => wish.status === 'active');
   const todayStats = getTodayStats();
@@ -26,6 +30,25 @@ export const HomeView = () => {
 
   // Check for errors but don't block the UI
   const hasErrors = wishesError || practiceError || progressError;
+
+  // Handle creating a new wish
+  const handleAddWish = async (wishData: any) => {
+    try {
+      await createWish(wishData);
+      toast({
+        title: "愿望创建成功",
+        description: "您的愿望已添加，可以开始练习了！",
+      });
+      setIsAddWishModalOpen(false);
+      refetch(); // Refresh wishes data
+    } catch (error) {
+      toast({
+        title: "创建失败",
+        description: "创建愿望时出现错误，请重试",
+        variant: "destructive",
+      });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -64,7 +87,10 @@ export const HomeView = () => {
             </div>
             <h3 className="text-xl font-bold text-gray-800 mb-2">开始您的显化之旅</h3>
             <p className="text-gray-600 mb-6">使用369显化法，将您的愿望变为现实。创建您的第一个愿望，开始每日练习。</p>
-            <Button className="bg-gradient-to-r from-manifest-warm-gold to-manifest-lavender text-white rounded-ios px-6 py-3 shadow-ios">
+            <Button 
+              onClick={() => setIsAddWishModalOpen(true)}
+              className="bg-gradient-to-r from-manifest-warm-gold to-manifest-lavender text-white rounded-ios px-6 py-3 shadow-ios"
+            >
               <Plus className="w-5 h-5 mr-2" />
               创建第一个愿望
             </Button>
@@ -150,7 +176,10 @@ export const HomeView = () => {
               开始369练习
             </Button>
           ) : (
-            <Button className="w-full bg-gradient-to-r from-manifest-warm-gold to-manifest-lavender text-white rounded-ios shadow-ios">
+            <Button 
+              onClick={() => setIsAddWishModalOpen(true)}
+              className="w-full bg-gradient-to-r from-manifest-warm-gold to-manifest-lavender text-white rounded-ios shadow-ios"
+            >
               <Plus className="w-5 h-5 mr-2" />
               创建第一个愿望
             </Button>
@@ -197,6 +226,13 @@ export const HomeView = () => {
           </div>
         </Card>
       )}
+
+      {/* Add Wish Modal */}
+      <AddWishModal
+        isOpen={isAddWishModalOpen}
+        onClose={() => setIsAddWishModalOpen(false)}
+        onAdd={handleAddWish}
+      />
     </div>
   );
 };
