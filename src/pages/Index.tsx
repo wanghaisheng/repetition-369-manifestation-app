@@ -10,7 +10,7 @@ import { CommunityView } from '@/components/views/CommunityView';
 import { SettingsPanel } from '@/components/settings/SettingsPanel';
 import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
-import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
+
 import { SitemapGenerator } from '@/components/seo/SitemapGenerator';
 import { PageLoadMonitor } from '@/components/performance/PageLoadMonitor';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
@@ -62,40 +62,15 @@ const Index = () => {
     try {
       switch (activeTab) {
         case 'home':
-          return (
-            <div>
-              <HomeView />
-              <EnhancedInternalLinks currentPage="/" />
-            </div>
-          );
+          return <HomeView />;
         case 'wishes':
-          return (
-            <div>
-              <WishesView />
-              <EnhancedInternalLinks currentPage="/wishes" />
-            </div>
-          );
+          return <WishesView />;
         case 'practice':
-          return (
-            <div>
-              <PracticeView />
-              <EnhancedInternalLinks currentPage="/practice" />
-            </div>
-          );
+          return <PracticeView />;
         case 'progress':
-          return (
-            <div>
-              <ProgressView />
-              <EnhancedInternalLinks currentPage="/progress" />
-            </div>
-          );
+          return <ProgressView />;
         case 'community':
-          return (
-            <div>
-              <CommunityView />
-              <EnhancedInternalLinks currentPage="/community" />
-            </div>
-          );
+          return <CommunityView />;
         case 'settings':
           return <SettingsPanel />;
         default:
