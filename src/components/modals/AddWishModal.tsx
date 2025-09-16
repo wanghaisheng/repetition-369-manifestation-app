@@ -121,7 +121,7 @@ export const AddWishModal = ({ isOpen, onClose, onAdd }: AddWishModalProps) => {
               <Button
                 onClick={() => setStep(2)}
                 disabled={!title || !category}
-                className="w-full bg-ios-blue hover:bg-blue-600 rounded-ios py-3"
+                className="w-full bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
               >
                 下一步
               </Button>
@@ -139,7 +139,7 @@ export const AddWishModal = ({ isOpen, onClose, onAdd }: AddWishModalProps) => {
               <div className="space-y-4">
                 <Button
                   onClick={generateAffirmation}
-                  className="w-full bg-manifest-gold hover:bg-manifest-warm-gold rounded-ios py-3"
+                  className="w-full bg-manifest-gold hover:bg-manifest-warm-gold text-white rounded-ios py-3 font-medium"
                 >
                   <Sparkles className="w-5 h-5 mr-2" />
                   AI生成肯定句
@@ -163,7 +163,7 @@ export const AddWishModal = ({ isOpen, onClose, onAdd }: AddWishModalProps) => {
                   onClick={() => setStep(3)}
                   disabled={!customAffirmation}
                   variant="outline"
-                  className="w-full rounded-ios border-ios-blue text-ios-blue"
+                  className="w-full rounded-ios border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white font-medium py-3"
                 >
                   使用自定义肯定句
                 </Button>
@@ -197,7 +197,7 @@ export const AddWishModal = ({ isOpen, onClose, onAdd }: AddWishModalProps) => {
               <div className="space-y-3">
                 <Button
                   onClick={handleSubmit}
-                  className="w-full bg-ios-blue hover:bg-blue-600 rounded-ios py-3"
+                  className="w-full bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
                 >
                   创建愿望
                 </Button>
@@ -205,7 +205,7 @@ export const AddWishModal = ({ isOpen, onClose, onAdd }: AddWishModalProps) => {
                 <Button
                   onClick={() => setStep(2)}
                   variant="outline"
-                  className="w-full rounded-ios border-ios-blue text-ios-blue"
+                  className="w-full rounded-ios border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white font-medium py-3"
                 >
                   修改肯定句
                 </Button>
