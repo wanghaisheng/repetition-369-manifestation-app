@@ -1,64 +1,98 @@
 
 import { useState } from 'react';
 import { X, Briefcase, Heart, Smile, Target, Home as HomeIcon, Sparkles } from 'lucide-react';
+import { z } from 'zod';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
+import type { WishCategory } from '@/types';
 
 interface AddWishModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (wish: any) => void;
+  onAdd: (wish: { title: string; category: WishCategory; affirmation: string }) => Promise<void> | void;
 }
 
 export const AddWishModal = ({ isOpen, onClose, onAdd }: AddWishModalProps) => {
+  const { toast } = useToast();
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState<WishCategory | ''>('');
   const [customAffirmation, setCustomAffirmation] = useState('');
   const [generatedAffirmation, setGeneratedAffirmation] = useState('');
   const [step, setStep] = useState(1);
+  const [submitting, setSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{ title?: string; category?: string; affirmation?: string }>({});
 
-  const categories = [
-    { id: 'career', icon: Briefcase, name: '事业', color: 'bg-ios-blue' },
-    { id: 'health', icon: Heart, name: '健康', color: 'bg-ios-green' },
-    { id: 'relationship', icon: Smile, name: '感情', color: 'bg-ios-pink' },
-    { id: 'wealth', icon: Target, name: '财富', color: 'bg-manifest-gold' },
-    { id: 'home', icon: HomeIcon, name: '家庭', color: 'bg-ios-purple' }
-  ];
+  const schema = z.object({
+    title: z.string().trim().min(2, '标题至少需要2个字').max(60, '标题不超过60字'),
+    category: z.enum(['career','health','relationship','wealth','personal','other'], { errorMap: () => ({ message: '请选择分类' }) }),
+    affirmation: z.string().trim().min(10, '肯定句至少需要10个字').max(200, '肯定句不超过200字'),
+  });
 
-  const generateAffirmation = () => {
-    // 简单的肯定句生成逻辑
-    const templates = {
-      career: '我正在吸引一份完美符合我技能和热情的工作，它带给我成就感和丰厚的回报。',
-      health: '我的身体充满活力和健康，每一天我都感受到生命的美好和充沛的能量。',
-      relationship: '我吸引着充满爱意和理解的关系，我们彼此支持，共同成长。',
-      wealth: '财富以各种美好的方式流向我，我值得拥有丰盛和繁荣的生活。',
-      home: '我拥有一个充满爱、和谐与平静的家，这里是我和家人的温暖港湾。'
-    };
+const categories = [
+  { id: 'career', icon: Briefcase, name: '事业', color: 'bg-ios-blue' },
+  { id: 'health', icon: Heart, name: '健康', color: 'bg-ios-green' },
+  { id: 'relationship', icon: Smile, name: '感情', color: 'bg-ios-pink' },
+  { id: 'wealth', icon: Target, name: '财富', color: 'bg-manifest-gold' },
+  { id: 'personal', icon: HomeIcon, name: '个人成长', color: 'bg-ios-purple' }
+];
 
-    const baseTemplate = templates[category as keyof typeof templates];
-    setGeneratedAffirmation(baseTemplate);
-    setStep(3);
-  };
+const generateAffirmation = () => {
+  // 简单的肯定句生成逻辑
+  const templates = {
+    career: '我正在吸引一份完美符合我技能和热情的工作，它带给我成就感和丰厚的回报。',
+    health: '我的身体充满活力和健康，每一天我都感受到生命的美好和充沛的能量。',
+    relationship: '我吸引着充满爱意和理解的关系，我们彼此支持，共同成长。',
+    wealth: '财富以各种美好的方式流向我，我值得拥有丰盛和繁荣的生活。',
+    personal: '我在持续成长并成为更好的自己，每一天都更有力量与清晰。'
+  } as const;
 
-  const handleSubmit = () => {
-    const finalAffirmation = customAffirmation || generatedAffirmation;
-    
-    onAdd({
-      title,
-      category,
-      affirmation: finalAffirmation
+  const baseTemplate = templates[(category as WishCategory) || 'personal'];
+  setGeneratedAffirmation(baseTemplate);
+  setStep(3);
+};
+
+const handleSubmit = async () => {
+  const finalAffirmation = (customAffirmation || generatedAffirmation).trim();
+
+  const result = schema.safeParse({
+    title: title.trim(),
+    category: category || undefined,
+    affirmation: finalAffirmation,
+  });
+
+  if (!result.success) {
+    const newErrors: Record<string, string> = {};
+    result.error.issues.forEach((i) => {
+      if (i.path[0]) newErrors[i.path[0] as string] = i.message;
     });
+    setErrors(newErrors);
+    toast({ title: '请完善信息', description: '请检查标题、分类与肯定句的长度与完整性。' });
+    return;
+  }
+
+  try {
+    setSubmitting(true);
+    await onAdd({ title: result.data.title, category: result.data.category as WishCategory, affirmation: result.data.affirmation });
+    toast({ title: '创建成功', description: '愿望已创建并激活。' });
 
     // 重置表单
     setTitle('');
     setCategory('');
     setCustomAffirmation('');
     setGeneratedAffirmation('');
+    setErrors({});
     setStep(1);
     onClose();
-  };
+  } catch (e) {
+    console.error('创建愿望失败:', e);
+    toast({ title: '创建失败', description: '请稍后重试。', variant: 'destructive' });
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   if (!isOpen) return null;
 
@@ -79,52 +113,79 @@ export const AddWishModal = ({ isOpen, onClose, onAdd }: AddWishModalProps) => {
         <div className="p-6 overflow-y-auto">
           {step === 1 && (
             <div className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  愿望标题
-                </label>
-                <Input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="例如：获得理想工作"
-                  className="rounded-ios border-ios-gray-medium"
-                />
-              </div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    愿望标题
+  </label>
+  <Input
+    value={title}
+    onChange={(e) => {
+      setTitle(e.target.value);
+      if (errors.title) setErrors((prev) => ({ ...prev, title: undefined }));
+    }}
+    placeholder="例如：获得理想工作"
+    className="rounded-ios border-ios-gray-medium"
+  />
+  {errors.title && (
+    <p className="mt-1 text-sm text-destructive">{errors.title}</p>
+  )}
+</div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  选择分类
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  {categories.map((cat) => {
-                    const Icon = cat.icon;
-                    return (
-                      <button
-                        key={cat.id}
-                        onClick={() => setCategory(cat.id)}
-                        className={`p-4 rounded-ios border-2 transition-all ${
-                          category === cat.id
-                            ? 'border-ios-blue bg-ios-blue/10'
-                            : 'border-gray-200 hover:border-gray-300'
-                        }`}
-                      >
-                        <div className={`w-10 h-10 rounded-ios mx-auto mb-2 flex items-center justify-center ${cat.color}`}>
-                          <Icon className="w-5 h-5 text-white" />
-                        </div>
-                        <span className="text-sm font-medium text-gray-700">{cat.name}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-3">
+    选择分类
+  </label>
+  <div className="grid grid-cols-2 gap-3">
+    {categories.map((cat) => {
+      const Icon = cat.icon;
+      return (
+        <button
+          key={cat.id}
+          onClick={() => {
+            setCategory(cat.id as WishCategory);
+            if (errors.category) setErrors((prev) => ({ ...prev, category: undefined }));
+          }}
+          className={`p-4 rounded-ios border-2 transition-all ${
+            category === cat.id
+              ? 'border-ios-blue bg-ios-blue/10'
+              : 'border-gray-200 hover:border-gray-300'
+          }`}
+        >
+          <div className={`w-10 h-10 rounded-ios mx-auto mb-2 flex items-center justify-center ${cat.color}`}>
+            <Icon className="w-5 h-5 text-white" />
+          </div>
+          <span className="text-sm font-medium text-gray-700">{cat.name}</span>
+        </button>
+      );
+    })}
+  </div>
+  {errors.category && (
+    <p className="mt-2 text-sm text-destructive">{errors.category}</p>
+  )}
+</div>
 
-              <Button
-                onClick={() => setStep(2)}
-                disabled={!title || !category}
-                className="w-full bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
-              >
-                下一步
-              </Button>
+<Button
+  onClick={() => {
+    const result = schema.pick({ title: true, category: true }).safeParse({
+      title: title.trim(),
+      category: category || undefined,
+    });
+    if (!result.success) {
+      const newErrors: Record<string, string> = {};
+      result.error.issues.forEach((i) => {
+        if (i.path[0]) newErrors[i.path[0] as string] = i.message;
+      });
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({});
+    setStep(2);
+  }}
+  disabled={title.trim().length < 2 || !category}
+  className="w-full bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
+>
+  下一步
+</Button>
             </div>
           )}
 
@@ -159,14 +220,14 @@ export const AddWishModal = ({ isOpen, onClose, onAdd }: AddWishModalProps) => {
                   />
                 </div>
 
-                <Button
-                  onClick={() => setStep(3)}
-                  disabled={!customAffirmation}
-                  variant="outline"
-                  className="w-full rounded-ios border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white font-medium py-3"
-                >
-                  使用自定义肯定句
-                </Button>
+<Button
+  onClick={() => setStep(3)}
+  disabled={customAffirmation.trim().length < 10}
+  variant="outline"
+  className="w-full rounded-ios border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white font-medium py-3"
+>
+  使用自定义肯定句
+</Button>
               </div>
 
               <Button
@@ -195,12 +256,13 @@ export const AddWishModal = ({ isOpen, onClose, onAdd }: AddWishModalProps) => {
               </div>
 
               <div className="space-y-3">
-                <Button
-                  onClick={handleSubmit}
-                  className="w-full bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
-                >
-                  创建愿望
-                </Button>
+<Button
+  onClick={handleSubmit}
+  disabled={submitting}
+  className="w-full bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
+>
+  {submitting ? '创建中…' : '创建愿望'}
+</Button>
                 
                 <Button
                   onClick={() => setStep(2)}
