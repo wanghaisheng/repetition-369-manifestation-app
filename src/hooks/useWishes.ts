@@ -31,7 +31,7 @@ export const useWishes = () => {
     }
   };
 
-  const createWish = async (wishData: Omit<Wish, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const createWish = async (wishData: Omit<Wish, 'id' | 'createdAt' | 'updatedAt' | 'userId'>) => {
     if (!user) throw new Error('User not authenticated');
 
     try {

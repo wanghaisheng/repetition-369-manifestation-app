@@ -47,11 +47,12 @@ export const WishesView = () => {
         status: 'active',
         priority: wishData.priority || 'medium',
         affirmation: wishData.affirmation,
-        tags: wishData.tags || [],
-        userId: 'default'
+        tags: wishData.tags || []
       });
+      setShowAddModal(false);
     } catch (error) {
       console.error('Error creating wish:', error);
+      throw error;
     }
   };
 
