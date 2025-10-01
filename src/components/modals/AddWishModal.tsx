@@ -94,11 +94,14 @@ const handleSubmit = async () => {
   }
 };
 
+  const canProceedStep1 = title.trim().length >= 2 && !!category;
+  const canProceedStep2 = customAffirmation.trim().length >= 10 || generatedAffirmation.trim().length > 0;
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-md bg-white rounded-ios max-h-[80vh] overflow-hidden">
+      <Card className="w-full max-w-md bg-white rounded-ios max-h-[80vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <h2 className="text-xl font-semibold text-gray-800">添加新愿望</h2>
@@ -110,7 +113,7 @@ const handleSubmit = async () => {
           </button>
         </div>
 
-        <div className="p-6 overflow-y-auto">
+        <div className="p-6 overflow-y-auto flex-1">
           {step === 1 && (
             <div className="space-y-6">
 <div>
@@ -273,9 +276,64 @@ const handleSubmit = async () => {
                 </Button>
               </div>
             </div>
-          )}
-        </div>
-      </Card>
-    </div>
+           )}
+         </div>
+
+         {/* Sticky Footer Actions */}
+         <div className="p-4 border-t border-gray-100 bg-white">
+           {step === 1 && (
+             <Button
+               onClick={() => {
+                 if (!canProceedStep1) return;
+                 setErrors({});
+                 setStep(2);
+               }}
+               disabled={!canProceedStep1}
+               className="w-full bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
+             >
+               下一步
+             </Button>
+           )}
+
+           {step === 2 && (
+             <div className="flex items-center gap-3">
+               <Button
+                 onClick={() => setStep(3)}
+                 disabled={!canProceedStep2}
+                 className="flex-1 bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
+               >
+                 下一步
+               </Button>
+               <Button
+                 onClick={() => setStep(1)}
+                 variant="ghost"
+                 className="flex-1 text-gray-700"
+               >
+                 返回上一步
+               </Button>
+             </div>
+           )}
+
+           {step === 3 && (
+             <div className="flex items-center gap-3">
+               <Button
+                 onClick={handleSubmit}
+                 disabled={submitting}
+                 className="flex-1 bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
+               >
+                 {submitting ? '创建中…' : '创建愿望'}
+               </Button>
+               <Button
+                 onClick={() => setStep(2)}
+                 variant="outline"
+                 className="flex-1 rounded-ios border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white font-medium py-3"
+               >
+                 修改肯定句
+               </Button>
+             </div>
+           )}
+         </div>
+       </Card>
+     </div>
   );
 };
