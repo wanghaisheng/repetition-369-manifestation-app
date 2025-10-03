@@ -13,6 +13,14 @@ export const useProgress = (userId: string = 'default') => {
       setLoading(true);
       setError(null);
       const progressData = await ProgressService.getUserProgress(userId);
+      
+      // Ensure dates are properly converted to Date objects
+      if (progressData && progressData.lastPracticeDate) {
+        progressData.lastPracticeDate = progressData.lastPracticeDate instanceof Date
+          ? progressData.lastPracticeDate
+          : new Date(progressData.lastPracticeDate);
+      }
+      
       setProgress(progressData);
     } catch (error) {
       console.error('Error loading progress:', error);
@@ -50,10 +58,15 @@ export const useProgress = (userId: string = 'default') => {
     const today = new Date();
     const todayStr = today.toISOString().split('T')[0];
     
+    // Ensure lastPracticeDate is a Date object
+    const lastDate = progress.lastPracticeDate instanceof Date 
+      ? progress.lastPracticeDate 
+      : new Date(progress.lastPracticeDate);
+    
     return {
       consecutiveDays: progress.consecutiveDays,
       totalSessions: progress.totalSessions,
-      isToday: progress.lastPracticeDate.toISOString().split('T')[0] === todayStr
+      isToday: lastDate.toISOString().split('T')[0] === todayStr
     };
   };
 
