@@ -166,29 +166,6 @@ const handleSubmit = async () => {
     <p className="mt-2 text-sm text-destructive">{errors.category}</p>
   )}
 </div>
-
-<Button
-  onClick={() => {
-    const result = schema.pick({ title: true, category: true }).safeParse({
-      title: title.trim(),
-      category: category || undefined,
-    });
-    if (!result.success) {
-      const newErrors: Record<string, string> = {};
-      result.error.issues.forEach((i) => {
-        if (i.path[0]) newErrors[i.path[0] as string] = i.message;
-      });
-      setErrors(newErrors);
-      return;
-    }
-    setErrors({});
-    setStep(2);
-  }}
-  disabled={title.trim().length < 2 || !category}
-  className="w-full bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
->
-  下一步
-</Button>
             </div>
           )}
 
@@ -222,24 +199,7 @@ const handleSubmit = async () => {
                     className="rounded-ios border-ios-gray-medium min-h-[100px]"
                   />
                 </div>
-
-<Button
-  onClick={() => setStep(3)}
-  disabled={customAffirmation.trim().length < 10}
-  variant="outline"
-  className="w-full rounded-ios border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white font-medium py-3"
->
-  使用自定义肯定句
-</Button>
               </div>
-
-              <Button
-                onClick={() => setStep(1)}
-                variant="ghost"
-                className="w-full text-gray-600"
-              >
-                返回上一步
-              </Button>
             </div>
           )}
 
@@ -258,23 +218,6 @@ const handleSubmit = async () => {
                 </div>
               </div>
 
-              <div className="space-y-3">
-<Button
-  onClick={handleSubmit}
-  disabled={submitting}
-  className="w-full bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
->
-  {submitting ? '创建中…' : '创建愿望'}
-</Button>
-                
-                <Button
-                  onClick={() => setStep(2)}
-                  variant="outline"
-                  className="w-full rounded-ios border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white font-medium py-3"
-                >
-                  修改肯定句
-                </Button>
-              </div>
             </div>
            )}
          </div>
