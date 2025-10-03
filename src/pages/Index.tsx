@@ -127,7 +127,7 @@ const Index = () => {
         <StatusBar />
         <Breadcrumbs />
         
-        <main className="pb-20">
+        <main className="pb-28">
           {renderContent()}
         </main>
         

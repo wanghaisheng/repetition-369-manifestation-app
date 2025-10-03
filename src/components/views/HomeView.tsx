@@ -62,7 +62,7 @@ export const HomeView = () => {
   }
 
   return (
-    <div className="flex-1 bg-ios-secondary-background px-4 py-6 overflow-y-auto">
+    <div className="flex-1 bg-ios-secondary-background px-4 py-6 pb-8 overflow-y-auto">
       {/* Welcome Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-800 mb-2">欢迎使用显化369</h1>
