@@ -254,6 +254,42 @@ export type Database = {
         }
         Relationships: []
       }
+      site_stats: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_order: number | null
+          id: string
+          key: string
+          label: string
+          updated_at: string
+          updated_by: string | null
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          key: string
+          label: string
+          updated_at?: string
+          updated_by?: string | null
+          value: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          key?: string
+          label?: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: string
+        }
+        Relationships: []
+      }
       user_stories: {
         Row: {
           anonymous: boolean

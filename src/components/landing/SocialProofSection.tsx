@@ -4,9 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Star, Quote, CheckCircle, Users, Award, Shield } from 'lucide-react';
+import { useSiteStats } from '@/hooks/useSiteStats';
 
 export const SocialProofSection = () => {
   const { t, i18n } = useTranslation(['landing']);
+  const { getStatByKey } = useSiteStats();
 
   const testimonials = t('testimonials.list', { returnObjects: true }) as Array<{
     name: string;
@@ -20,27 +22,27 @@ export const SocialProofSection = () => {
   const successMetrics = [
     {
       icon: Users,
-      value: '5,247+',
-      label: i18n.language === 'zh' ? '活跃用户' : 'Active Users',
-      growth: '+127%'
+      value: getStatByKey('monthly_users') + '+',
+      label: i18n.language === 'zh' ? '月活跃用户' : 'Monthly Users',
+      growth: `+${getStatByKey('weekly_increase')} ${i18n.language === 'zh' ? '本周' : 'this week'}`
     },
     {
       icon: Star,
-      value: '4.7/5',
-      label: i18n.language === 'zh' ? '平均评分' : 'Average Rating',
-      growth: '98% 满意度'
+      value: `${getStatByKey('user_rating')}/5`,
+      label: i18n.language === 'zh' ? '用户评分' : 'User Rating',
+      growth: i18n.language === 'zh' ? 'App Store 评分' : 'App Store Rating'
     },
     {
       icon: CheckCircle,
-      value: '73%',
+      value: `${getStatByKey('success_rate')}%`,
       label: i18n.language === 'zh' ? '成功率' : 'Success Rate',
-      growth: '+45%'
+      growth: i18n.language === 'zh' ? '30天内' : 'Within 30 days'
     },
     {
       icon: Award,
-      value: '56+',
-      label: i18n.language === 'zh' ? '成功案例' : 'Success Stories',
-      growth: '每周新增'
+      value: getStatByKey('average_days'),
+      label: i18n.language === 'zh' ? '平均天数' : 'Average Days',
+      growth: i18n.language === 'zh' ? '实现目标' : 'To manifest goals'
     }
   ];
 

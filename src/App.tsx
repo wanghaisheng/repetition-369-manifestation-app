@@ -31,6 +31,7 @@ import FAQ from "./pages/FAQ";
 import Method369 from "./pages/Method369";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import AdminStats from "./pages/AdminStats";
 import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
 import React, { useEffect } from 'react';
 
@@ -106,6 +107,11 @@ const App = () => {
         <Route path="/blog-admin" element={
           <ProtectedRoute>
             <BlogManagement />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin-stats" element={
+          <ProtectedRoute>
+            <AdminStats />
           </ProtectedRoute>
         } />
                     

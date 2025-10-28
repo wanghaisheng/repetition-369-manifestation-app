@@ -18,6 +18,7 @@ import { AboutFounderOptimized } from '@/components/landing/AboutFounderOptimize
 import { SocialProofSection } from '@/components/landing/SocialProofSection';
 import { ConversionOptimizedCTA } from '@/components/landing/ConversionOptimizedCTA';
 import { OptimizedFooter } from '@/components/landing/OptimizedFooter';
+import { AdminFloatingButton } from '@/components/admin/AdminFloatingButton';
 import { 
   Sparkles, 
   Star,
@@ -105,6 +106,9 @@ const Landing = () => {
       />
 
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-accent/5">
+        {/* Admin floating button */}
+        <AdminFloatingButton />
+        
         {/* Critical above-the-fold content */}
         <OptimizedHeader />
         <HeroOptimized />
