@@ -56,5 +56,34 @@
     "weeklyChart": "This Week",
     "monthlyChart": "Monthly Stats",
     "achievements": "Achievements"
+  },
+  "wishSelector": {
+    "title": "Select Practice Wish",
+    "placeholder": "Please select a wish"
+  },
+  "emptyState": {
+    "noWishes": "No wishes yet",
+    "selectWish": "Select a wish to start today's 369 practice"
+  },
+  "notifications": {
+    "empty": "No notifications"
+  },
+  "analytics": {
+    "empty": "No analytics data"
+  },
+  "settings": {
+    "clearDataConfirm": "Are you sure you want to clear all app data? This will delete all local settings and cache.",
+    "clearDataWarning": "This will delete all locally stored data, including wishes, practice records, and settings."
+  },
+  "modal": {
+    "selectCategory": "Select Category",
+    "confirmWish": "Confirm Your Wish",
+    "selectMood": "Select Mood"
+  },
+  "advancedPractice": {
+    "inProgress": "Practice in Progress",
+    "selectMode": "Select Practice Mode",
+    "selectModeDesc": "Choose the advanced practice mode that suits you",
+    "submit": "Submit"
   }
 }

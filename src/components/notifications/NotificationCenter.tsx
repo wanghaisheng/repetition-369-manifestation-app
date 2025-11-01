@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Bell, Settings, X, Clock, Target, Award } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,6 +9,7 @@ import { useNotifications } from '@/hooks/useNotifications';
 import { NotificationService } from '@/services/NotificationService';
 
 export const NotificationCenter = () => {
+  const { t } = useTranslation('app');
   const [isOpen, setIsOpen] = useState(false);
   const [settings, setSettings] = useState({
     practiceReminders: true,
@@ -98,7 +100,7 @@ export const NotificationCenter = () => {
           <div className="max-h-96 overflow-y-auto">
             {!notifications || notifications.length === 0 ? (
               <div className="p-4 text-center text-gray-500">
-                暂无通知
+                {t('notifications.empty')}
               </div>
             ) : (
               notifications.map(notification => (

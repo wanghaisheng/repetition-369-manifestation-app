@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -15,6 +16,7 @@ interface AnalyticsDashboardProps {
 }
 
 export const AnalyticsDashboard = ({ onClose }: AnalyticsDashboardProps) => {
+  const { t } = useTranslation('app');
   const { user } = useAuth();
   const { toast } = useToast();
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
@@ -98,7 +100,7 @@ export const AnalyticsDashboard = ({ onClose }: AnalyticsDashboardProps) => {
   if (!analytics) {
     return (
       <div className="p-8 text-center">
-        <p className="text-gray-600">暂无分析数据</p>
+        <p className="text-gray-600">{t('analytics.empty')}</p>
       </div>
     );
   }

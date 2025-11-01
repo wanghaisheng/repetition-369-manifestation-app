@@ -56,5 +56,34 @@
     "weeklyChart": "本周练习",
     "monthlyChart": "本月统计",
     "achievements": "成就徽章"
+  },
+  "wishSelector": {
+    "title": "选择练习愿望",
+    "placeholder": "请选择一个愿望"
+  },
+  "emptyState": {
+    "noWishes": "还没有愿望",
+    "selectWish": "选择一个愿望开始今天的369练习"
+  },
+  "notifications": {
+    "empty": "暂无通知"
+  },
+  "analytics": {
+    "empty": "暂无分析数据"
+  },
+  "settings": {
+    "clearDataConfirm": "确定要清除所有应用数据吗？这将删除所有本地设置和缓存。",
+    "clearDataWarning": "这将删除所有本地存储的数据，包括愿望、练习记录和设置。"
+  },
+  "modal": {
+    "selectCategory": "选择分类",
+    "confirmWish": "确认您的愿望",
+    "selectMood": "心情选择"
+  },
+  "advancedPractice": {
+    "inProgress": "进行中的练习",
+    "selectMode": "选择练习模式",
+    "selectModeDesc": "选择适合您的高级练习模式",
+    "submit": "提交"
   }
 }
