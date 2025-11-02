@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CheckCircle2, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -21,14 +22,15 @@ export const WritingInterface = ({
   onSubmit,
   onCancel
 }: WritingInterfaceProps) => {
+  const { t } = useTranslation('app');
   const [currentText, setCurrentText] = useState('');
   const [selectedMood, setSelectedMood] = useState<Mood>('good');
 
   const moodOptions = [
-    { value: 'excellent' as Mood, label: '非常好', emoji: '😊', color: 'text-ios-green' },
-    { value: 'good' as Mood, label: '好', emoji: '🙂', color: 'text-ios-blue' },
-    { value: 'neutral' as Mood, label: '中性', emoji: '😐', color: 'text-gray-500' },
-    { value: 'poor' as Mood, label: '不好', emoji: '😔', color: 'text-ios-orange' },
+    { value: 'excellent' as Mood, label: t('writingInterface.moods.excellent'), emoji: '😊', color: 'text-ios-green' },
+    { value: 'good' as Mood, label: t('writingInterface.moods.good'), emoji: '🙂', color: 'text-ios-blue' },
+    { value: 'neutral' as Mood, label: t('writingInterface.moods.neutral'), emoji: '😐', color: 'text-gray-500' },
+    { value: 'poor' as Mood, label: t('writingInterface.moods.poor'), emoji: '😔', color: 'text-ios-orange' },
   ];
 
   const handleSubmit = () => {
@@ -45,16 +47,16 @@ export const WritingInterface = ({
         <div className="w-12 h-12 bg-manifest-gold/20 rounded-full flex items-center justify-center mx-auto mb-3">
           <Heart className="w-6 h-6 text-manifest-gold" />
         </div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-1">专注书写</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-1">{t('writingInterface.focusWriting')}</h3>
         <p className="text-sm text-gray-600">
-          第 {currentCount + 1} / {targetCount} 次
+          {t('writingInterface.round').replace('次', '')} {currentCount + 1} / {targetCount} {t('writingInterface.round')}
         </p>
       </div>
 
-      {/* 肯定句显示 */}
+      {/* Current Affirmation */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-3">
-          当前肯定句
+          {t('writingInterface.currentAffirmation')}
         </label>
         <div className="bg-gradient-to-r from-manifest-warm-gold/10 to-manifest-lavender/10 p-4 rounded-ios border border-manifest-warm-gold/20">
           <p className="text-gray-700 leading-relaxed text-center font-medium">
@@ -62,39 +64,39 @@ export const WritingInterface = ({
           </p>
         </div>
         <p className="text-xs text-gray-500 mt-2 text-center">
-          💡 请用心书写这句话，感受它带来的正能量
+          {t('writingInterface.tip')}
         </p>
       </div>
 
-      {/* 书写区域 */}
+      {/* Writing Area */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-3">
-          书写区域
+          {t('writingInterface.writingArea')}
         </label>
         <Textarea
           value={currentText}
           onChange={(e) => setCurrentText(e.target.value)}
-          placeholder="请在这里重复书写上面的肯定句..."
+          placeholder={t('writingInterface.placeholder')}
           className="rounded-ios border-ios-gray-medium min-h-[120px] text-base leading-relaxed resize-none"
           autoFocus
         />
         <div className="flex justify-between items-center mt-2">
           <span className="text-xs text-gray-500">
-            {currentText.length} 个字符
+            {currentText.length} {t('writingInterface.characters')}
           </span>
           {currentText.toLowerCase().includes(affirmation.toLowerCase()) && (
             <div className="flex items-center text-ios-green text-xs">
               <CheckCircle2 className="w-3 h-3 mr-1" />
-              包含肯定句
+              {t('writingInterface.containsAffirmation')}
             </div>
           )}
         </div>
       </div>
 
-      {/* 心情选择 */}
+      {/* Mood Selection */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-3">
-          当前心情
+          {t('writingInterface.currentMood')}
         </label>
         <div className="grid grid-cols-2 gap-3">
           {moodOptions.map((mood) => (
@@ -120,7 +122,7 @@ export const WritingInterface = ({
         </div>
       </div>
 
-      {/* 操作按钮 */}
+      {/* Action Buttons */}
       <div className="flex space-x-3">
         <Button
           onClick={handleSubmit}
@@ -128,21 +130,21 @@ export const WritingInterface = ({
           className="flex-1 bg-gradient-to-r from-manifest-warm-gold to-manifest-gold hover:opacity-90 rounded-ios py-3 disabled:opacity-50"
         >
           <CheckCircle2 className="w-4 h-4 mr-2" />
-          完成这次书写
+          {t('writingInterface.completeWriting')}
         </Button>
         <Button
           onClick={onCancel}
           variant="outline"
           className="px-6 rounded-ios border-gray-300 text-gray-600 hover:bg-gray-50"
         >
-          取消
+          {t('writingInterface.cancel')}
         </Button>
       </div>
 
-      {/* 温馨提示 */}
+      {/* Tips */}
       <div className="mt-4 p-3 bg-manifest-lavender/10 rounded-ios">
         <p className="text-xs text-gray-600 text-center">
-          🌟 书写时请保持专注和感恩的心态，相信您的愿望正在显化
+          {t('writingInterface.bottomTip')}
         </p>
       </div>
     </Card>

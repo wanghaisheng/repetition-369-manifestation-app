@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -15,6 +16,7 @@ interface AdvancedPracticeModalProps {
 
 export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedPracticeModalProps) => {
   const { toast } = useToast();
+  const { t } = useTranslation('app');
   const [selectedMode, setSelectedMode] = useState<PracticeMode | null>(null);
   const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -34,8 +36,8 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
     if (session) {
       setActiveSession(session);
       toast({
-        title: '开始练习',
-        description: `${selectedMode.name} 练习已开始`
+        title: t('advancedPractice.practiceStarted'),
+        description: `${selectedMode.name} ${t('advancedPractice.practiceStarted')}`
       });
     }
   };
@@ -52,13 +54,12 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
       const nextPhase = PracticeModeService.getCurrentPhase(updatedSession);
       if (nextPhase) {
         toast({
-          title: '阶段完成',
-          description: `开始 ${nextPhase.name}`
+          title: t('advancedPractice.phaseComplete'),
+          description: `${t('advancedPractice.startPractice')} ${nextPhase.name}`
         });
       }
     }
 
-    // Reset writing state for next phase
     setWritingInput('');
     setWritingCount(0);
   };
@@ -77,8 +78,8 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
     const completedSession = PracticeModeService.completeSession(activeSession, results);
     
     toast({
-      title: '练习完成！',
-      description: `恭喜完成 ${activeSession.mode.name}`
+      title: t('advancedPractice.practiceComplete'),
+      description: `${t('advancedPractice.congratulations')} ${activeSession.mode.name}`
     });
 
     onComplete?.(results);
@@ -118,15 +119,6 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
     }
   };
 
-  const getDifficultyText = (difficulty: string) => {
-    switch (difficulty) {
-      case 'beginner': return '初级';
-      case 'intermediate': return '中级';
-      case 'advanced': return '高级';
-      default: return '未知';
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -134,7 +126,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {activeSession ? '进行中的练习' : '选择练习模式'}
+            {activeSession ? t('advancedPractice.inProgress') : t('advancedPractice.selectMode')}
           </DialogTitle>
         </DialogHeader>
 
@@ -143,7 +135,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
           <div className="space-y-4">
             {!selectedMode ? (
               <>
-                <p className="text-gray-600 mb-4">选择适合您的高级练习模式</p>
+                <p className="text-gray-600 mb-4">{t('advancedPractice.selectModeDesc')}</p>
                 <div className="grid gap-4">
                   {modes.map((mode) => (
                     <Card 
@@ -157,18 +149,18 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
                             <span className="text-2xl">{mode.icon}</span>
                             <h3 className="font-semibold text-gray-800">{mode.name}</h3>
                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(mode.difficulty)}`}>
-                              {getDifficultyText(mode.difficulty)}
+                              {t(`advancedPractice.${mode.difficulty}`)}
                             </span>
                           </div>
                           <p className="text-gray-600 text-sm mb-3">{mode.description}</p>
                           <div className="flex items-center space-x-4 text-sm text-gray-500">
                             <div className="flex items-center space-x-1">
                               <Clock className="w-4 h-4" />
-                              <span>{mode.duration}分钟</span>
+                              <span>{mode.duration}{t('advancedPractice.duration')}</span>
                             </div>
                             <div className="flex items-center space-x-1">
                               <Target className="w-4 h-4" />
-                              <span>{mode.phases.length}个阶段</span>
+                              <span>{mode.phases.length}{t('advancedPractice.stages')}</span>
                             </div>
                           </div>
                         </div>
@@ -182,14 +174,14 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <Button variant="outline" onClick={() => setSelectedMode(null)}>
-                    ← 返回
+                    ← {t('advancedPractice.back')}
                   </Button>
                   <span className="text-2xl">{selectedMode.icon}</span>
                   <h3 className="text-xl font-semibold text-gray-800">{selectedMode.name}</h3>
                 </div>
 
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <h4 className="font-medium text-gray-800 mb-2">练习益处：</h4>
+                  <h4 className="font-medium text-gray-800 mb-2">{t('advancedPractice.benefits')}</h4>
                   <ul className="space-y-1">
                     {selectedMode.benefits.map((benefit, index) => (
                       <li key={index} className="text-sm text-gray-600 flex items-center space-x-2">
@@ -201,7 +193,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
                 </div>
 
                 <div className="bg-blue-50 rounded-lg p-4">
-                  <h4 className="font-medium text-gray-800 mb-2">练习阶段：</h4>
+                  <h4 className="font-medium text-gray-800 mb-2">{t('advancedPractice.phases')}</h4>
                   <div className="space-y-2">
                     {selectedMode.phases.map((phase, index) => (
                       <div key={phase.id} className="flex items-center space-x-3 text-sm">
@@ -210,7 +202,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
                         </div>
                         <div className="flex-1">
                           <span className="font-medium">{phase.name}</span>
-                          <span className="text-gray-500 ml-2">({Math.round(phase.duration / 60)}分钟)</span>
+                          <span className="text-gray-500 ml-2">({Math.round(phase.duration / 60)}{t('advancedPractice.duration')})</span>
                         </div>
                       </div>
                     ))}
@@ -219,7 +211,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
 
                 <Button onClick={handleStartSession} className="w-full">
                   <Play className="w-4 h-4 mr-2" />
-                  开始练习
+                  {t('advancedPractice.startPractice')}
                 </Button>
               </div>
             )}
@@ -233,7 +225,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
             <div className="space-y-3">
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium text-gray-700">总进度</span>
+                  <span className="text-sm font-medium text-gray-700">{t('advancedPractice.totalProgress')}</span>
                   <span className="text-sm text-gray-600">{Math.round(sessionProgress)}%</span>
                 </div>
                 <Progress value={sessionProgress} className="h-2" />
@@ -241,7 +233,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
               
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium text-gray-700">当前阶段: {currentPhase.name}</span>
+                  <span className="text-sm font-medium text-gray-700">{t('advancedPractice.currentPhase')}: {currentPhase.name}</span>
                   <span className="text-sm text-gray-600">{Math.round(phaseProgress)}%</span>
                 </div>
                 <Progress value={phaseProgress} className="h-2" />
@@ -256,7 +248,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
               {/* Guidance */}
               {currentPhase.guidance && (
                 <div className="bg-blue-50 rounded-lg p-4 mb-4">
-                  <h4 className="font-medium text-blue-800 mb-2">练习指导：</h4>
+                  <h4 className="font-medium text-blue-800 mb-2">{t('advancedPractice.practiceGuidance')}</h4>
                   <ul className="space-y-1">
                     {currentPhase.guidance.map((guide, index) => (
                       <li key={index} className="text-sm text-blue-700 flex items-start space-x-2">
@@ -273,14 +265,14 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
                 <div className="space-y-4">
                   {currentPhase.repetitions && (
                     <div className="text-sm text-gray-600">
-                      进度: {writingCount} / {currentPhase.repetitions}
+                      {t('advancedPractice.progress')}: {writingCount} / {currentPhase.repetitions}
                     </div>
                   )}
                   
                   <textarea
                     value={writingInput}
                     onChange={(e) => setWritingInput(e.target.value)}
-                    placeholder="在这里书写您的愿望..."
+                    placeholder={t('advancedPractice.writePlaceholder')}
                     className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   
@@ -290,7 +282,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
                       disabled={!writingInput.trim()}
                       className="flex-1"
                     >
-                      提交 ({writingCount + 1}/{currentPhase.repetitions || '∞'})
+                      {t('advancedPractice.submit')} ({writingCount + 1}/{currentPhase.repetitions || '∞'})
                     </Button>
                   </div>
                 </div>
@@ -300,12 +292,12 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
               {currentPhase.type !== 'writing' && (
                 <div className="text-center py-8">
                   <p className="text-gray-600 mb-4">
-                    请按照指导进行{currentPhase.type === 'meditation' ? '冥想' : 
-                      currentPhase.type === 'breathing' ? '呼吸练习' : '可视化练习'}
+                    {t('advancedPractice.followGuidance')}{currentPhase.type === 'meditation' ? t('advancedPractice.meditation') : 
+                      currentPhase.type === 'breathing' ? t('advancedPractice.breathing') : t('advancedPractice.visualization')}
                   </p>
                   <Button onClick={handlePhaseComplete}>
                     <SkipForward className="w-4 h-4 mr-2" />
-                    完成此阶段
+                    {t('advancedPractice.completePhase')}
                   </Button>
                 </div>
               )}
@@ -314,11 +306,11 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
             {/* Controls */}
             <div className="flex justify-between items-center">
               <Button variant="outline" onClick={handleReset}>
-                退出练习
+                {t('advancedPractice.exitPractice')}
               </Button>
               
               <div className="text-sm text-gray-500">
-                阶段 {activeSession.currentPhase + 1} / {activeSession.mode.phases.length}
+                {t('advancedPractice.phase')} {activeSession.currentPhase + 1} / {activeSession.mode.phases.length}
               </div>
             </div>
           </div>

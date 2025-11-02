@@ -84,6 +84,155 @@
     "inProgress": "进行中的练习",
     "selectMode": "选择练习模式",
     "selectModeDesc": "选择适合您的高级练习模式",
-    "submit": "提交"
+    "submit": "提交",
+    "back": "返回",
+    "benefits": "练习益处：",
+    "phases": "练习阶段：",
+    "startPractice": "开始练习",
+    "totalProgress": "总进度",
+    "currentPhase": "当前阶段",
+    "practiceGuidance": "练习指导：",
+    "progress": "进度",
+    "writePlaceholder": "在这里书写您的愿望...",
+    "exitPractice": "退出练习",
+    "phase": "阶段",
+    "completePhase": "完成此阶段",
+    "meditation": "冥想",
+    "breathing": "呼吸练习",
+    "visualization": "可视化练习",
+    "followGuidance": "请按照指导进行",
+    "practiceStarted": "练习已开始",
+    "phaseComplete": "阶段完成",
+    "practiceComplete": "练习完成！",
+    "congratulations": "恭喜完成",
+    "beginner": "初级",
+    "intermediate": "中级",
+    "advanced": "高级",
+    "duration": "分钟",
+    "stages": "个阶段"
+  },
+  "addWishModal": {
+    "title": "添加新愿望",
+    "wishTitle": "愿望标题",
+    "wishTitlePlaceholder": "例如：获得理想工作",
+    "selectCategory": "选择分类",
+    "nextStep": "下一步",
+    "previousStep": "返回上一步",
+    "generateAffirmation": "生成肯定句",
+    "aiGenerate": "AI生成肯定句",
+    "or": "或者",
+    "customAffirmation": "自定义肯定句",
+    "customAffirmationPlaceholder": "写下您的肯定句...",
+    "confirmWish": "确认您的愿望",
+    "affirmation": "肯定句",
+    "creating": "创建中…",
+    "createWish": "创建愿望",
+    "modifyAffirmation": "修改肯定句",
+    "categories": {
+      "career": "事业",
+      "health": "健康",
+      "relationship": "感情",
+      "wealth": "财富",
+      "personal": "个人成长"
+    },
+    "validation": {
+      "titleMin": "标题至少需要2个字",
+      "titleMax": "标题不超过60字",
+      "categoryRequired": "请选择分类",
+      "affirmationMin": "肯定句至少需要10个字",
+      "affirmationMax": "肯定句不超过200字",
+      "checkInfo": "请检查标题、分类与肯定句的长度与完整性。"
+    },
+    "toast": {
+      "completeInfo": "请完善信息",
+      "createSuccess": "创建成功",
+      "wishCreated": "愿望已创建并激活。",
+      "createFailed": "创建失败",
+      "tryAgain": "请稍后重试。"
+    }
+  },
+  "writingInterface": {
+    "focusWriting": "专注书写",
+    "round": "次",
+    "currentAffirmation": "当前肯定句",
+    "tip": "💡 请用心书写这句话，感受它带来的正能量",
+    "writingArea": "书写区域",
+    "placeholder": "请在这里重复书写上面的肯定句...",
+    "characters": "个字符",
+    "containsAffirmation": "包含肯定句",
+    "currentMood": "当前心情",
+    "completeWriting": "完成这次书写",
+    "cancel": "取消",
+    "bottomTip": "🌟 书写时请保持专注和感恩的心态，相信您的愿望正在显化",
+    "moods": {
+      "excellent": "非常好",
+      "good": "好",
+      "neutral": "中性",
+      "poor": "不好"
+    }
+  },
+  "practiceWritingModal": {
+    "currentAffirmation": "当前肯定句",
+    "writingArea": "书写区域",
+    "placeholder": "在这里书写您的肯定句...",
+    "moodStatus": "心情状态",
+    "completeWriting": "完成这次书写",
+    "cancel": "取消"
+  },
+  "shareModal": {
+    "title": "分享成就",
+    "preview": "预览内容：",
+    "systemShare": "系统分享",
+    "wechat": "微信",
+    "weibo": "微博",
+    "twitter": "Twitter",
+    "facebook": "Facebook",
+    "copyText": "复制文本",
+    "cancel": "取消",
+    "toast": {
+      "shareSuccess": "分享成功",
+      "contentCopied": "内容已复制到剪贴板",
+      "shareWindowOpened": "分享窗口已打开",
+      "shareFailed": "分享失败",
+      "tryAgain": "请稍后重试",
+      "shareComplete": "内容已成功分享"
+    }
+  },
+  "settingsPanel": {
+    "title": "应用设置",
+    "tabs": {
+      "notifications": "通知",
+      "performance": "性能",
+      "privacy": "隐私",
+      "about": "关于"
+    },
+    "performance": {
+      "title": "性能优化",
+      "mode": "性能模式",
+      "modeDesc": "启用后将减少动画效果，提升应用响应速度",
+      "memoryUsage": "内存使用情况",
+      "checkMemory": "检查内存",
+      "used": "已使用:",
+      "total": "总计:",
+      "limit": "限制:",
+      "mb": "MB"
+    },
+    "privacy": {
+      "title": "数据和隐私",
+      "localData": "本地数据存储",
+      "localDataDesc": "您的愿望、练习记录和设置都存储在本地设备上，我们不会收集您的个人数据。",
+      "clearData": "清除应用数据",
+      "clearDataDesc": "这将删除所有本地存储的数据，包括愿望、练习记录和设置。",
+      "clearAllData": "清除所有数据"
+    },
+    "about": {
+      "title": "关于显化369",
+      "version": "版本信息",
+      "versionNumber": "版本 1.8.0 - SEO优化版本",
+      "method369": "369显化法则",
+      "methodDesc": "基于特斯拉的神圣数字理论，通过每天书写3-6-9次愿望来实现显化目标。这个应用帮助您系统化地进行369练习，跟踪进度并保持连击。",
+      "techStack": "技术栈",
+      "techStackInfo": "React + TypeScript + Tailwind CSS + Supabase"
+    }
   }
 }

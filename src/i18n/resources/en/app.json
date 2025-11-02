@@ -84,6 +84,155 @@
     "inProgress": "Practice in Progress",
     "selectMode": "Select Practice Mode",
     "selectModeDesc": "Choose the advanced practice mode that suits you",
-    "submit": "Submit"
+    "submit": "Submit",
+    "back": "Back",
+    "benefits": "Practice Benefits:",
+    "phases": "Practice Phases:",
+    "startPractice": "Start Practice",
+    "totalProgress": "Total Progress",
+    "currentPhase": "Current Phase",
+    "practiceGuidance": "Practice Guidance:",
+    "progress": "Progress",
+    "writePlaceholder": "Write your wish here...",
+    "exitPractice": "Exit Practice",
+    "phase": "Phase",
+    "completePhase": "Complete This Phase",
+    "meditation": "meditation",
+    "breathing": "breathing exercise",
+    "visualization": "visualization exercise",
+    "followGuidance": "Please follow the guidance for",
+    "practiceStarted": "Practice Started",
+    "phaseComplete": "Phase Complete",
+    "practiceComplete": "Practice Complete!",
+    "congratulations": "Congratulations on completing",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "duration": "minutes",
+    "stages": "stages"
+  },
+  "addWishModal": {
+    "title": "Add New Wish",
+    "wishTitle": "Wish Title",
+    "wishTitlePlaceholder": "e.g., Get My Dream Job",
+    "selectCategory": "Select Category",
+    "nextStep": "Next Step",
+    "previousStep": "Go Back",
+    "generateAffirmation": "Generate Affirmation",
+    "aiGenerate": "AI Generate Affirmation",
+    "or": "or",
+    "customAffirmation": "Custom Affirmation",
+    "customAffirmationPlaceholder": "Write your affirmation...",
+    "confirmWish": "Confirm Your Wish",
+    "affirmation": "Affirmation",
+    "creating": "Creating...",
+    "createWish": "Create Wish",
+    "modifyAffirmation": "Modify Affirmation",
+    "categories": {
+      "career": "Career",
+      "health": "Health",
+      "relationship": "Relationship",
+      "wealth": "Wealth",
+      "personal": "Personal Growth"
+    },
+    "validation": {
+      "titleMin": "Title must be at least 2 characters",
+      "titleMax": "Title cannot exceed 60 characters",
+      "categoryRequired": "Please select a category",
+      "affirmationMin": "Affirmation must be at least 10 characters",
+      "affirmationMax": "Affirmation cannot exceed 200 characters",
+      "checkInfo": "Please check the title, category and affirmation length."
+    },
+    "toast": {
+      "completeInfo": "Please Complete Information",
+      "createSuccess": "Created Successfully",
+      "wishCreated": "Wish has been created and activated.",
+      "createFailed": "Creation Failed",
+      "tryAgain": "Please try again later."
+    }
+  },
+  "writingInterface": {
+    "focusWriting": "Focus Writing",
+    "round": "round",
+    "currentAffirmation": "Current Affirmation",
+    "tip": "💡 Write this sentence with your heart and feel the positive energy it brings",
+    "writingArea": "Writing Area",
+    "placeholder": "Please repeat writing the affirmation above here...",
+    "characters": "characters",
+    "containsAffirmation": "Contains affirmation",
+    "currentMood": "Current Mood",
+    "completeWriting": "Complete This Writing",
+    "cancel": "Cancel",
+    "bottomTip": "🌟 Stay focused and grateful while writing, believe your wish is manifesting",
+    "moods": {
+      "excellent": "Excellent",
+      "good": "Good",
+      "neutral": "Neutral",
+      "poor": "Poor"
+    }
+  },
+  "practiceWritingModal": {
+    "currentAffirmation": "Current Affirmation",
+    "writingArea": "Writing Area",
+    "placeholder": "Write your affirmation here...",
+    "moodStatus": "Mood Status",
+    "completeWriting": "Complete This Writing",
+    "cancel": "Cancel"
+  },
+  "shareModal": {
+    "title": "Share Achievement",
+    "preview": "Preview:",
+    "systemShare": "System Share",
+    "wechat": "WeChat",
+    "weibo": "Weibo",
+    "twitter": "Twitter",
+    "facebook": "Facebook",
+    "copyText": "Copy Text",
+    "cancel": "Cancel",
+    "toast": {
+      "shareSuccess": "Shared Successfully",
+      "contentCopied": "Content copied to clipboard",
+      "shareWindowOpened": "Share window opened",
+      "shareFailed": "Share Failed",
+      "tryAgain": "Please try again later",
+      "shareComplete": "Content shared successfully"
+    }
+  },
+  "settingsPanel": {
+    "title": "App Settings",
+    "tabs": {
+      "notifications": "Notifications",
+      "performance": "Performance",
+      "privacy": "Privacy",
+      "about": "About"
+    },
+    "performance": {
+      "title": "Performance Optimization",
+      "mode": "Performance Mode",
+      "modeDesc": "Reduce animations to improve app responsiveness",
+      "memoryUsage": "Memory Usage",
+      "checkMemory": "Check Memory",
+      "used": "Used:",
+      "total": "Total:",
+      "limit": "Limit:",
+      "mb": "MB"
+    },
+    "privacy": {
+      "title": "Data and Privacy",
+      "localData": "Local Data Storage",
+      "localDataDesc": "Your wishes, practice records and settings are stored locally on your device. We do not collect your personal data.",
+      "clearData": "Clear App Data",
+      "clearDataDesc": "This will delete all locally stored data, including wishes, practice records and settings.",
+      "clearAllData": "Clear All Data"
+    },
+    "about": {
+      "title": "About Manifest369",
+      "version": "Version Info",
+      "versionNumber": "Version 1.8.0 - SEO Optimized",
+      "method369": "369 Manifestation Method",
+      "methodDesc": "Based on Tesla's sacred number theory, manifest your goals by writing your wishes 3-6-9 times daily. This app helps you systematically practice the 369 method, track progress and maintain streaks.",
+      "techStack": "Tech Stack",
+      "techStackInfo": "React + TypeScript + Tailwind CSS + Supabase"
+    }
   }
 }

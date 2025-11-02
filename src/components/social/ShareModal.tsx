@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Share2, Copy, MessageCircle, Twitter, Facebook } from 'lucide-react';
@@ -14,6 +15,7 @@ interface ShareModalProps {
 
 export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
   const { toast } = useToast();
+  const { t } = useTranslation('app');
   const [isSharing, setIsSharing] = useState(false);
 
   const handleShare = async (platform: 'wechat' | 'weibo' | 'twitter' | 'facebook' | 'copy') => {
@@ -23,8 +25,8 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
       
       if (success) {
         toast({
-          title: '分享成功',
-          description: platform === 'copy' ? '内容已复制到剪贴板' : '分享窗口已打开'
+          title: t('shareModal.toast.shareSuccess'),
+          description: platform === 'copy' ? t('shareModal.toast.contentCopied') : t('shareModal.toast.shareWindowOpened')
         });
         
         if (platform !== 'copy') {
@@ -32,16 +34,16 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
         }
       } else {
         toast({
-          title: '分享失败',
-          description: '请稍后重试',
+          title: t('shareModal.toast.shareFailed'),
+          description: t('shareModal.toast.tryAgain'),
           variant: 'destructive'
         });
       }
     } catch (error) {
       console.error('Share error:', error);
       toast({
-        title: '分享失败',
-        description: '请稍后重试',
+        title: t('shareModal.toast.shareFailed'),
+        description: t('shareModal.toast.tryAgain'),
         variant: 'destructive'
       });
     } finally {
@@ -55,12 +57,11 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
       const success = await SocialService.nativeShare(content);
       if (success) {
         toast({
-          title: '分享成功',
-          description: '内容已成功分享'
+          title: t('shareModal.toast.shareSuccess'),
+          description: t('shareModal.toast.shareComplete')
         });
         onClose();
       } else {
-        // Fallback to copy
         await handleShare('copy');
       }
     } catch (error) {
@@ -85,13 +86,13 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <Share2 className="w-5 h-5" />
-            <span>分享成就</span>
+            <span>{t('shareModal.title')}</span>
           </DialogTitle>
         </DialogHeader>
 
         {/* Preview */}
         <div className="bg-gray-50 rounded-lg p-4 mb-4">
-          <div className="text-sm text-gray-600 mb-2">预览内容：</div>
+          <div className="text-sm text-gray-600 mb-2">{t('shareModal.preview')}</div>
           <div className="text-sm text-gray-800 whitespace-pre-line">
             {formatPreviewText(content)}
           </div>
@@ -108,7 +109,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
               variant="outline"
             >
               <Share2 className="w-5 h-5" />
-              <span>系统分享</span>
+              <span>{t('shareModal.systemShare')}</span>
             </Button>
           )}
 
@@ -120,7 +121,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             variant="outline"
           >
             <MessageCircle className="w-5 h-5 text-green-600" />
-            <span>微信</span>
+            <span>{t('shareModal.wechat')}</span>
           </Button>
 
           {/* Weibo */}
@@ -133,7 +134,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             <div className="w-5 h-5 bg-red-500 rounded text-white flex items-center justify-center text-xs font-bold">
               微
             </div>
-            <span>微博</span>
+            <span>{t('shareModal.weibo')}</span>
           </Button>
 
           {/* Twitter */}
@@ -144,7 +145,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             variant="outline"
           >
             <Twitter className="w-5 h-5 text-blue-500" />
-            <span>Twitter</span>
+            <span>{t('shareModal.twitter')}</span>
           </Button>
 
           {/* Facebook */}
@@ -155,7 +156,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             variant="outline"
           >
             <Facebook className="w-5 h-5 text-blue-600" />
-            <span>Facebook</span>
+            <span>{t('shareModal.facebook')}</span>
           </Button>
 
           {/* Copy to Clipboard */}
@@ -166,7 +167,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             variant="outline"
           >
             <Copy className="w-5 h-5" />
-            <span>复制文本</span>
+            <span>{t('shareModal.copyText')}</span>
           </Button>
 
           {/* Cancel */}
@@ -175,7 +176,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             variant="outline"
             className="w-full"
           >
-            取消
+            {t('shareModal.cancel')}
           </Button>
         </div>
       </DialogContent>
