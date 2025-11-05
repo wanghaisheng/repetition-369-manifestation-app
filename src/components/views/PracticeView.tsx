@@ -6,6 +6,7 @@ import { usePoints } from '@/hooks/usePoints';
 import { useStreak } from '@/hooks/useStreak';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useNotifications } from '@/hooks/useNotifications';
+import { logger } from '@/utils/logger';
 import { PracticeStats } from '@/components/practice/PracticeStats';
 import { PracticeCard } from '@/components/practice/PracticeCard';
 import { FocusMode } from '@/components/practice/FocusMode';
@@ -192,7 +193,7 @@ export const PracticeView = () => {
         handleShare(shareContent);
       }, 2000);
     } catch (error) {
-      console.error('Error recording practice:', error);
+      logger.error('Error recording practice', error);
     }
   };
 
@@ -309,7 +310,7 @@ export const PracticeView = () => {
         onClose={() => setAdvancedPracticeOpen(false)}
         onComplete={(results) => {
           // Handle advanced practice completion
-          console.log('Advanced practice completed:', results);
+          logger.log('Advanced practice completed', results);
           setAdvancedPracticeOpen(false);
         }}
       />

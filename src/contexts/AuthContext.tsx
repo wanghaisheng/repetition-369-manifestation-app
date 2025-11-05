@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState, ReactNode, useCa
 import { User as SupabaseUser, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { User, AuthState, SignUpData, SignInData } from '@/types/auth';
+import { logger } from '@/utils/logger';
 
 interface AuthContextType extends AuthState {
   signUp: (data: SignUpData) => Promise<{ error: any }>;
@@ -37,7 +38,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [authError, setAuthError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
 
-  console.log('AuthProvider: Current state', { 
+  logger.auth('AuthProvider: Current state', { 
     isLoading, 
     hasUser: !!user, 
     hasSession: !!session, 
@@ -60,7 +61,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const loadUserProfile = useCallback(async (userId: string, userEmail: string) => {
     try {
-      console.log('Loading user profile for:', userId);
+      logger.auth('Loading user profile for:', userId);
       
       const { data: profile, error } = await supabase
         .from('profiles')

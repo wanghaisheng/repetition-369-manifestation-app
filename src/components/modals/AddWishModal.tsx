@@ -88,7 +88,7 @@ const handleSubmit = async () => {
     setStep(1);
     onClose();
   } catch (e) {
-    console.error('Create wish failed:', e);
+    // Error already handled by showing toast
     toast({ title: t('addWishModal.toast.createFailed'), description: t('addWishModal.toast.tryAgain'), variant: 'destructive' });
   } finally {
     setSubmitting(false);

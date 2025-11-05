@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { trackWebVitals, monitorMemoryUsage } from '@/utils/performance';
+import { logger } from '@/utils/logger';
 
 export const PageLoadMonitor = () => {
   const location = useLocation();
@@ -31,7 +32,7 @@ export const PageLoadMonitor = () => {
       });
     }
     
-    console.log(`Page ${location.pathname} loaded in ${loadTime.toFixed(2)}ms`);
+    logger.performance(`Page ${location.pathname} loaded`, loadTime);
     
     return () => {
       clearInterval(memoryCheck);

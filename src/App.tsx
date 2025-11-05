@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from "@/contexts/AuthContext";
+import { logger } from '@/utils/logger';
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { RouteHandler } from "@/components/routing/RouteHandler";
 import { RedirectHandler } from "@/components/seo/RedirectHandler";
@@ -54,10 +55,10 @@ const initializePerformanceOptimizations = () => {
     
     // 基础性能优化
     if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-      navigator.serviceWorker.register('/sw.js').catch(console.log);
+      navigator.serviceWorker.register('/sw.js').catch(logger.warn);
     }
   } catch (error) {
-    console.log('Performance optimization initialization error:', error);
+    logger.error('Performance optimization initialization error', error);
   }
 };
 

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { AddWishModal } from '@/components/modals/AddWishModal';
 import { useWishes } from '@/hooks/useWishes';
 import { Wish, WishCategory } from '@/types';
+import { logger } from '@/utils/logger';
 
 export const WishesView = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -51,7 +52,7 @@ export const WishesView = () => {
       });
       setShowAddModal(false);
     } catch (error) {
-      console.error('Error creating wish:', error);
+      logger.error('Error creating wish', error);
       throw error;
     }
   };
@@ -61,7 +62,7 @@ export const WishesView = () => {
       const newStatus = wish.status === 'active' ? 'paused' : 'active';
       await updateWish(wish.id, { status: newStatus });
     } catch (error) {
-      console.error('Error updating wish status:', error);
+      logger.error('Error updating wish status', error);
     }
   };
 
