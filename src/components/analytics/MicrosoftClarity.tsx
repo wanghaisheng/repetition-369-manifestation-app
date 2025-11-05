@@ -1,6 +1,7 @@
 
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { logger } from '@/utils/logger';
 
 interface MicrosoftClarityProps {
   projectId: string;
@@ -10,7 +11,7 @@ export const MicrosoftClarity = ({ projectId }: MicrosoftClarityProps) => {
   useEffect(() => {
     // Only load if projectId is provided and not placeholder
     if (!projectId || projectId.includes('XXXXXXXXXX')) {
-      console.log('Microsoft Clarity: Invalid or placeholder project ID');
+      logger.warn('Microsoft Clarity: Invalid or placeholder project ID');
       return;
     }
 

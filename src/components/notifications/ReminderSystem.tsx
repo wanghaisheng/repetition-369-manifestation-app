@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Bell, Clock, Target, Zap, Award } from 'lucide-react';
 import { toast } from 'sonner';
+import { logger } from '@/utils/logger';
 
 interface ReminderSettings {
   practiceReminders: boolean;
@@ -69,7 +70,7 @@ export const ReminderSystem = () => {
         toast.error('通知权限被拒绝，请在浏览器设置中手动开启');
       }
     } catch (error) {
-      console.error('请求通知权限失败:', error);
+      logger.error('Failed to request notification permission', error);
       toast.error('无法获取通知权限');
     }
   };
@@ -100,7 +101,7 @@ export const ReminderSystem = () => {
 
     // 清除现有的提醒
     // 这里应该集成到service worker或使用其他持久化方案
-    console.log('设置提醒时间:', settings.customTimes);
+    logger.log('Setting reminder times', settings.customTimes);
     toast.success('提醒时间已设置！');
   };
 

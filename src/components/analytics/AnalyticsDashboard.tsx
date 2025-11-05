@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart3, TrendingUp, Clock, Heart, Share2, Calendar, Target } from 'lucide-react';
 import { AnalyticsService, AnalyticsData, PracticeInsight } from '@/services/AnalyticsService';
 import { SocialService } from '@/services/SocialService';
+import { logger } from '@/utils/logger';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
@@ -41,7 +42,7 @@ export const AnalyticsDashboard = ({ onClose }: AnalyticsDashboardProps) => {
       setAnalytics(analyticsData);
       setInsights(insightsData);
     } catch (error) {
-      console.error('Error loading analytics:', error);
+      logger.error('Error loading analytics', error);
       toast({
         title: '加载失败',
         description: '无法加载分析数据，请稍后重试',

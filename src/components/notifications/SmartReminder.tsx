@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Clock, TrendingUp, Target, Zap } from 'lucide-react';
 import { NotificationService } from '@/services/NotificationService';
 import { AnalyticsService } from '@/services/AnalyticsService';
+import { logger } from '@/utils/logger';
 
 interface SmartReminderProps {
   userId: string;
@@ -77,7 +78,7 @@ export const SmartReminder = ({ userId }: SmartReminderProps) => {
         suggestions
       });
     } catch (error) {
-      console.error('Error generating smart recommendations:', error);
+      logger.error('Error generating smart recommendations', error);
     } finally {
       setIsLoading(false);
     }
@@ -87,9 +88,9 @@ export const SmartReminder = ({ userId }: SmartReminderProps) => {
     try {
       await NotificationService.setupSmartReminders(userId, recommendations);
       // 显示成功提示
-      console.log('Smart reminders set up successfully');
+      logger.log('Smart reminders set up successfully');
     } catch (error) {
-      console.error('Error setting up smart reminders:', error);
+      logger.error('Error setting up smart reminders', error);
     }
   };
 

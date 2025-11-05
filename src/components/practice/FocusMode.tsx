@@ -9,6 +9,7 @@ import { usePoints } from '@/hooks/usePoints';
 import { useStreak } from '@/hooks/useStreak';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useAuth } from '@/contexts/AuthContext';
+import { logger } from '@/utils/logger';
 
 interface FocusModeProps {
   isOpen: boolean;
@@ -87,7 +88,7 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
         }, 2000);
         
       } catch (error) {
-        console.error('Error completing practice:', error);
+        logger.error('Error completing practice', error);
         setIsCompleting(false);
       }
     }

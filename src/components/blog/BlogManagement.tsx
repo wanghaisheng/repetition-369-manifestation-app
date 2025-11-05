@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { BlogEditor } from './BlogEditor';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/utils/logger';
 import { 
   Plus,
   Search,
@@ -81,7 +82,7 @@ export const BlogManagement: React.FC = () => {
       if (error) throw error;
       setPosts(data || []);
     } catch (error) {
-      console.error('Error fetching blog posts:', error);
+      logger.error('Error fetching blog posts', error);
       toast.error(i18n.language === 'zh' ? '获取文章失败' : 'Failed to fetch articles');
     } finally {
       setLoading(false);
@@ -123,7 +124,7 @@ export const BlogManagement: React.FC = () => {
       toast.success(i18n.language === 'zh' ? '文章已删除' : 'Article deleted');
       fetchPosts();
     } catch (error) {
-      console.error('Error deleting blog post:', error);
+      logger.error('Error deleting blog post', error);
       toast.error(i18n.language === 'zh' ? '删除失败' : 'Failed to delete');
     }
   };

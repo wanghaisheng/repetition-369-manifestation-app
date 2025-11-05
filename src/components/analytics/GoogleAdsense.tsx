@@ -1,6 +1,7 @@
 
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { logger } from '@/utils/logger';
 
 interface GoogleAdsenseProps {
   adClient: string;
@@ -11,7 +12,7 @@ export const GoogleAdsenseAuto = ({ adClient }: { adClient: string }) => {
   useEffect(() => {
     // Only load if adClient is provided and not placeholder
     if (!adClient || adClient.includes('XXXXXXXXXX')) {
-      console.log('Google AdSense: Invalid or placeholder ad client');
+      logger.warn('Google AdSense: Invalid or placeholder ad client');
       return;
     }
 

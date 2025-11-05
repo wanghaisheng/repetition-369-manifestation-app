@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { MarkdownRenderer } from './MarkdownRenderer';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logger } from '@/utils/logger';
 import { 
   Save, 
   Eye, 
@@ -167,7 +168,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
         onSave(result.data);
       }
     } catch (error) {
-      console.error('Error saving blog post:', error);
+      logger.error('Error saving blog post', error);
       toast.error(i18n.language === 'zh' ? '保存失败' : 'Failed to save');
     } finally {
       setLoading(false);

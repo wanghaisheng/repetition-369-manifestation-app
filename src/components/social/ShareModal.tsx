@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Share2, Copy, MessageCircle, Twitter, Facebook } from 'lucide-react';
 import { SocialService, ShareableContent } from '@/services/SocialService';
 import { useToast } from '@/hooks/use-toast';
+import { logger } from '@/utils/logger';
 
 interface ShareModalProps {
   isOpen: boolean;
@@ -40,7 +41,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
         });
       }
     } catch (error) {
-      console.error('Share error:', error);
+      logger.error('Share error', error);
       toast({
         title: t('shareModal.toast.shareFailed'),
         description: t('shareModal.toast.tryAgain'),
@@ -65,7 +66,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
         await handleShare('copy');
       }
     } catch (error) {
-      console.error('Native share error:', error);
+      logger.error('Native share error', error);
       await handleShare('copy');
     } finally {
       setIsSharing(false);

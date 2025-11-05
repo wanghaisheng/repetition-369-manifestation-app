@@ -1,6 +1,7 @@
 
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { logger } from '@/utils/logger';
 
 interface GoogleAnalyticsProps {
   measurementId: string;
@@ -10,7 +11,7 @@ export const GoogleAnalytics = ({ measurementId }: GoogleAnalyticsProps) => {
   useEffect(() => {
     // Only load if measurementId is provided and not placeholder
     if (!measurementId || measurementId.includes('XXXXXXXXXX')) {
-      console.log('Google Analytics: Invalid or placeholder measurement ID');
+      logger.warn('Google Analytics: Invalid or placeholder measurement ID');
       return;
     }
 
