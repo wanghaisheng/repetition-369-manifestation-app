@@ -38,18 +38,18 @@ interface BlogPost {
 }
 
 const Blog = () => {
-  const { t, i18n } = useTranslation(['common']);
+  const { t, i18n } = useTranslation(['app', 'common']);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
   const categories = [
-    { key: 'all', label: i18n.language === 'zh' ? '全部' : 'All' },
-    { key: 'founder-story', label: i18n.language === 'zh' ? '创始人故事' : 'Founder Story' },
-    { key: 'build-in-public', label: i18n.language === 'zh' ? '公开开发' : 'Build in Public' },
-    { key: 'manifestation', label: i18n.language === 'zh' ? '显化方法' : 'Manifestation' },
-    { key: 'technical', label: i18n.language === 'zh' ? '技术分享' : 'Technical' },
+    { key: 'all', label: t('app:blog.categories.all') },
+    { key: 'founder-story', label: t('app:blog.categories.founder_story') },
+    { key: 'build-in-public', label: t('app:blog.categories.build_in_public') },
+    { key: 'manifestation', label: t('app:blog.categories.manifestation') },
+    { key: 'technical', label: t('app:blog.categories.technical') },
   ];
 
   useEffect(() => {
@@ -100,20 +100,20 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <UnifiedSEO 
-        title={i18n.language === 'zh' ? '显化369博客 - 显化方法与成功案例分享' : 'Blog - Manifestation Methods & Success Stories'}
-        description={i18n.language === 'zh' ? '阅读关于369显化方法的深度文章，创始人故事，用户成功案例和技术分享。' : 'Read in-depth articles about 369 manifestation method, founder stories, user success cases and technical insights.'}
+        title={t('app:blog.title') + ' - ' + t('app:blog.subtitle')}
+        description={t('app:blog.subtitle')}
         type="website"
         keywords={i18n.language === 'zh' ? '显化369博客,显化方法,成功案例,创始人故事,独立开发' : 'manifestation 369 blog,manifestation method,success stories,founder story,indie development'}
       />
       <AdvancedStructuredData 
         type="WebPage"
-        title={i18n.language === 'zh' ? '显化369博客' : 'Manifestation 369 Blog'}
-        description={i18n.language === 'zh' ? '分享显化方法、成功案例和创业故事的专业博客' : 'Professional blog sharing manifestation methods, success stories and startup journey'}
+        title={t('app:blog.title')}
+        description={t('app:blog.subtitle')}
         author="显化369团队"
       />
       <SocialMediaCards 
-        title={i18n.language === 'zh' ? '显化369博客 - 显化方法与成功案例分享' : 'Blog - Manifestation Methods & Success Stories'}
-        description={i18n.language === 'zh' ? '阅读关于369显化方法的深度文章，创始人故事，用户成功案例和技术分享。' : 'Read in-depth articles about 369 manifestation method, founder stories, user success cases and technical insights.'}
+        title={t('app:blog.title') + ' - ' + t('app:blog.subtitle')}
+        description={t('app:blog.subtitle')}
         type="website"
       />
 
@@ -149,13 +149,10 @@ const Blog = () => {
             <BookOpen className="w-10 h-10 text-primary-foreground" />
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-            {i18n.language === 'zh' ? '显化369博客' : 'Manifestation 369 Blog'}
+            {t('app:blog.title')}
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            {i18n.language === 'zh' 
-              ? '深度分享369显化方法、创业故事、用户成功案例和技术洞察' 
-              : 'In-depth sharing of 369 manifestation methods, startup stories, user success cases and technical insights'
-            }
+            {t('app:blog.subtitle')}
           </p>
         </section>
 
@@ -166,7 +163,7 @@ const Blog = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <input
                 type="text"
-                placeholder={i18n.language === 'zh' ? '搜索文章...' : 'Search articles...'}
+                placeholder={t('app:blog.list.search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
@@ -207,7 +204,7 @@ const Blog = () => {
             {featuredPosts.length > 0 && (
               <section className="mb-12">
                 <h2 className="text-3xl font-bold text-foreground mb-6">
-                  {i18n.language === 'zh' ? '精选文章' : 'Featured Articles'}
+                  {t('app:blog.list.featuredArticles')}
                 </h2>
                 <div className="grid md:grid-cols-2 gap-8">
                   {featuredPosts.map((post) => (
@@ -262,7 +259,7 @@ const Blog = () => {
             {/* Regular Posts */}
             <section>
               <h2 className="text-3xl font-bold text-foreground mb-6">
-                {i18n.language === 'zh' ? '最新文章' : 'Latest Articles'}
+                {t('app:blog.list.latestArticles')}
               </h2>
               {regularPosts.length > 0 ? (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -305,13 +302,10 @@ const Blog = () => {
                 <div className="text-center py-12">
                   <BookOpen className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-foreground mb-2">
-                    {i18n.language === 'zh' ? '暂无文章' : 'No Articles Found'}
+                    {t('app:blog.list.noArticles')}
                   </h3>
                   <p className="text-muted-foreground">
-                    {i18n.language === 'zh' 
-                      ? '请尝试调整搜索条件或分类筛选' 
-                      : 'Try adjusting your search terms or category filter'
-                    }
+                    {t('app:blog.list.noArticlesSearch')}
                   </p>
                 </div>
               )}
@@ -322,18 +316,15 @@ const Blog = () => {
         {/* Newsletter CTA */}
         <section className="mt-16 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl p-8 text-center">
           <h2 className="text-3xl font-bold text-foreground mb-4">
-            {i18n.language === 'zh' ? '订阅我们的内容更新' : 'Subscribe to Our Newsletter'}
+            {t('app:blog.newsletter.title')}
           </h2>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            {i18n.language === 'zh' 
-              ? '获取最新的显化方法、成功案例和创业洞察，直接发送到您的邮箱' 
-              : 'Get the latest manifestation methods, success stories and startup insights delivered to your inbox'
-            }
+            {t('app:blog.newsletter.description')}
           </p>
           <Link to="/newsletter">
             <Button size="lg" className="px-8 py-4 text-lg">
               <Tag className="w-5 h-5 mr-2" />
-              {i18n.language === 'zh' ? '立即订阅' : 'Subscribe Now'}
+              {t('app:blog.newsletter.subscribe')}
             </Button>
           </Link>
         </section>

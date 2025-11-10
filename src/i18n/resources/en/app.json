@@ -234,5 +234,73 @@
       "techStack": "Tech Stack",
       "techStackInfo": "React + TypeScript + Tailwind CSS + Supabase"
     }
+  },
+  "blog": {
+    "title": "Manifestation 369 Blog",
+    "subtitle": "In-depth sharing of 369 manifestation methods, startup stories, user success cases and technical insights",
+    "management": "Blog Management",
+    "editor": {
+      "create": "Create Article",
+      "edit": "Edit Article",
+      "title": "Title",
+      "titlePlaceholder": "Enter article title...",
+      "slug": "Slug",
+      "slugPlaceholder": "Article slug...",
+      "excerpt": "Excerpt",
+      "excerptPlaceholder": "Article excerpt...",
+      "content": "Article Content",
+      "contentPlaceholder": "Write your article in Markdown...",
+      "author": "Author",
+      "category": "Category",
+      "tags": "Tags",
+      "addTag": "Add tag...",
+      "write": "Write",
+      "preview": "Preview",
+      "saveDraft": "Save Draft",
+      "publish": "Publish",
+      "cancel": "Cancel",
+      "featured": "Featured Article",
+      "published": "Published",
+      "draft": "Draft",
+      "articleSettings": "Article Settings",
+      "seoSettings": "SEO Settings",
+      "seoTitle": "SEO Title",
+      "seoDescription": "SEO Description",
+      "seoKeywords": "SEO Keywords",
+      "markdownSupported": "Markdown supported",
+      "words": "words",
+      "minRead": "min read",
+      "validationError": "Title and content cannot be empty",
+      "published_success": "Article published",
+      "draft_success": "Article saved as draft",
+      "save_error": "Failed to save",
+      "delete_confirm": "Are you sure you want to delete this article?",
+      "deleted_success": "Article deleted",
+      "delete_error": "Failed to delete"
+    },
+    "categories": {
+      "all": "All",
+      "founder_story": "Founder Story",
+      "build_in_public": "Build in Public",
+      "manifestation": "Manifestation",
+      "technical": "Technical",
+      "user_stories": "User Stories"
+    },
+    "list": {
+      "search": "Search articles...",
+      "loading": "Loading...",
+      "noArticles": "No Articles Found",
+      "noArticlesDesc": "Start by creating your first article",
+      "noArticlesSearch": "Try adjusting your search terms or category filter",
+      "featured": "Featured",
+      "featuredArticles": "Featured Articles",
+      "latestArticles": "Latest Articles",
+      "views": "views"
+    },
+    "newsletter": {
+      "title": "Subscribe to Our Newsletter",
+      "description": "Get the latest manifestation methods, success stories and startup insights delivered to your inbox",
+      "subscribe": "Subscribe Now"
+    }
   }
 }

@@ -55,7 +55,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
   onSave,
   onCancel
 }) => {
-  const { t, i18n } = useTranslation(['common']);
+  const { t, i18n } = useTranslation(['app', 'common']);
   const [post, setPost] = useState<BlogPost>({
     title: '',
     slug: '',
@@ -78,11 +78,11 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
   const [loading, setLoading] = useState(false);
 
   const categories = [
-    { value: 'founder-story', label: i18n.language === 'zh' ? '创始人故事' : 'Founder Story' },
-    { value: 'build-in-public', label: i18n.language === 'zh' ? '公开开发' : 'Build in Public' },
-    { value: 'manifestation', label: i18n.language === 'zh' ? '显化方法' : 'Manifestation' },
-    { value: 'technical', label: i18n.language === 'zh' ? '技术分享' : 'Technical' },
-    { value: 'user-stories', label: i18n.language === 'zh' ? '用户故事' : 'User Stories' },
+    { value: 'founder-story', label: t('app:blog.categories.founder_story') },
+    { value: 'build-in-public', label: t('app:blog.categories.build_in_public') },
+    { value: 'manifestation', label: t('app:blog.categories.manifestation') },
+    { value: 'technical', label: t('app:blog.categories.technical') },
+    { value: 'user-stories', label: t('app:blog.categories.user_stories') },
   ];
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
 
   const handleSave = async (publish: boolean = false) => {
     if (!post.title.trim() || !post.content.trim()) {
-      toast.error(i18n.language === 'zh' ? '标题和内容不能为空' : 'Title and content cannot be empty');
+      toast.error(t('app:blog.editor.validationError'));
       return;
     }
 
@@ -159,9 +159,9 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
       if (result.error) throw result.error;
 
       toast.success(
-        i18n.language === 'zh' 
-          ? (publish ? '文章已发布' : '文章已保存为草稿')
-          : (publish ? 'Article published' : 'Article saved as draft')
+        publish 
+          ? t('app:blog.editor.published_success')
+          : t('app:blog.editor.draft_success')
       );
 
       if (onSave) {
@@ -169,7 +169,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
       }
     } catch (error) {
       logger.error('Error saving blog post', error);
-      toast.error(i18n.language === 'zh' ? '保存失败' : 'Failed to save');
+      toast.error(t('app:blog.editor.save_error'));
     } finally {
       setLoading(false);
     }
@@ -182,8 +182,8 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
           <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
             <FileText className="w-8 h-8 text-primary" />
             {initialPost?.id 
-              ? (i18n.language === 'zh' ? '编辑文章' : 'Edit Article')
-              : (i18n.language === 'zh' ? '创建文章' : 'Create Article')
+              ? t('app:blog.editor.edit')
+              : t('app:blog.editor.create')
             }
           </h1>
           
@@ -192,7 +192,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
               variant="outline" 
               onClick={onCancel}
             >
-              {i18n.language === 'zh' ? '取消' : 'Cancel'}
+              {t('app:blog.editor.cancel')}
             </Button>
             <Button 
               onClick={() => handleSave(false)}
@@ -200,14 +200,14 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
               variant="outline"
             >
               <Save className="w-4 h-4 mr-2" />
-              {i18n.language === 'zh' ? '保存草稿' : 'Save Draft'}
+              {t('app:blog.editor.saveDraft')}
             </Button>
             <Button 
               onClick={() => handleSave(true)}
               disabled={loading}
             >
               <Send className="w-4 h-4 mr-2" />
-              {i18n.language === 'zh' ? '发布' : 'Publish'}
+              {t('app:blog.editor.publish')}
             </Button>
           </div>
         </div>
@@ -219,38 +219,38 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <FileText className="w-5 h-5" />
-                  {i18n.language === 'zh' ? '文章内容' : 'Article Content'}
+                  {t('app:blog.editor.content')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="title">{i18n.language === 'zh' ? '标题' : 'Title'}</Label>
+                  <Label htmlFor="title">{t('app:blog.editor.title')}</Label>
                   <Input
                     id="title"
                     value={post.title}
                     onChange={(e) => handleInputChange('title', e.target.value)}
-                    placeholder={i18n.language === 'zh' ? '输入文章标题...' : 'Enter article title...'}
+                    placeholder={t('app:blog.editor.titlePlaceholder')}
                     className="text-lg font-semibold"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="slug">{i18n.language === 'zh' ? '链接标识' : 'Slug'}</Label>
+                  <Label htmlFor="slug">{t('app:blog.editor.slug')}</Label>
                   <Input
                     id="slug"
                     value={post.slug}
                     onChange={(e) => handleInputChange('slug', e.target.value)}
-                    placeholder={i18n.language === 'zh' ? '文章链接标识...' : 'Article slug...'}
+                    placeholder={t('app:blog.editor.slugPlaceholder')}
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="excerpt">{i18n.language === 'zh' ? '摘要' : 'Excerpt'}</Label>
+                  <Label htmlFor="excerpt">{t('app:blog.editor.excerpt')}</Label>
                   <Textarea
                     id="excerpt"
                     value={post.excerpt}
                     onChange={(e) => handleInputChange('excerpt', e.target.value)}
-                    placeholder={i18n.language === 'zh' ? '文章摘要...' : 'Article excerpt...'}
+                    placeholder={t('app:blog.editor.excerptPlaceholder')}
                     rows={3}
                   />
                 </div>
@@ -258,25 +258,25 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                 <Tabs defaultValue="write" className="w-full">
                   <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="write">
-                      {i18n.language === 'zh' ? '编写' : 'Write'}
+                      {t('app:blog.editor.write')}
                     </TabsTrigger>
                     <TabsTrigger value="preview">
                       <Eye className="w-4 h-4 mr-2" />
-                      {i18n.language === 'zh' ? '预览' : 'Preview'}
+                      {t('app:blog.editor.preview')}
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="write" className="mt-4">
                     <Textarea
                       value={post.content}
                       onChange={(e) => handleInputChange('content', e.target.value)}
-                      placeholder={i18n.language === 'zh' ? '使用Markdown格式编写文章...' : 'Write your article in Markdown...'}
+                      placeholder={t('app:blog.editor.contentPlaceholder')}
                       rows={20}
                       className="font-mono"
                     />
                     <div className="text-sm text-muted-foreground mt-2">
-                      {i18n.language === 'zh' ? '支持Markdown格式' : 'Markdown supported'} • 
-                      {post.content.split(/\s+/).length} {i18n.language === 'zh' ? '字' : 'words'} • 
-                      {post.reading_time} {i18n.language === 'zh' ? '分钟阅读' : 'min read'}
+                      {t('app:blog.editor.markdownSupported')} • 
+                      {post.content.split(/\s+/).length} {t('app:blog.editor.words')} • 
+                      {post.reading_time} {t('app:blog.editor.minRead')}
                     </div>
                   </TabsContent>
                   <TabsContent value="preview" className="mt-4">
@@ -296,12 +296,12 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TagIcon className="w-5 h-5" />
-                  {i18n.language === 'zh' ? '文章设置' : 'Article Settings'}
+                  {t('app:blog.editor.articleSettings')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="author">{i18n.language === 'zh' ? '作者' : 'Author'}</Label>
+                  <Label htmlFor="author">{t('app:blog.editor.author')}</Label>
                   <Input
                     id="author"
                     value={post.author}
@@ -310,7 +310,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                 </div>
 
                 <div>
-                  <Label htmlFor="category">{i18n.language === 'zh' ? '分类' : 'Category'}</Label>
+                  <Label htmlFor="category">{t('app:blog.editor.category')}</Label>
                   <Select value={post.category} onValueChange={(value) => handleInputChange('category', value)}>
                     <SelectTrigger>
                       <SelectValue />
@@ -326,12 +326,12 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                 </div>
 
                 <div>
-                  <Label>{i18n.language === 'zh' ? '标签' : 'Tags'}</Label>
+                  <Label>{t('app:blog.editor.tags')}</Label>
                   <div className="flex gap-2 mb-2">
                     <Input
                       value={newTag}
                       onChange={(e) => setNewTag(e.target.value)}
-                      placeholder={i18n.language === 'zh' ? '添加标签...' : 'Add tag...'}
+                      placeholder={t('app:blog.editor.addTag')}
                       onKeyPress={(e) => e.key === 'Enter' && addTag()}
                     />
                     <Button onClick={addTag} size="sm">
@@ -358,7 +358,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                     onCheckedChange={(checked) => handleInputChange('featured', checked)}
                   />
                   <Label htmlFor="featured">
-                    {i18n.language === 'zh' ? '精选文章' : 'Featured Article'}
+                    {t('app:blog.editor.featured')}
                   </Label>
                 </div>
 
@@ -372,12 +372,12 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                     {post.published ? (
                       <>
                         <Globe className="w-4 h-4" />
-                        {i18n.language === 'zh' ? '已发布' : 'Published'}
+                        {t('app:blog.editor.published')}
                       </>
                     ) : (
                       <>
                         <Lock className="w-4 h-4" />
-                        {i18n.language === 'zh' ? '草稿' : 'Draft'}
+                        {t('app:blog.editor.draft')}
                       </>
                     )}
                   </Label>
@@ -390,12 +390,12 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Globe className="w-5 h-5" />
-                  SEO {i18n.language === 'zh' ? '设置' : 'Settings'}
+                  {t('app:blog.editor.seoSettings')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="seo-title">SEO {i18n.language === 'zh' ? '标题' : 'Title'}</Label>
+                  <Label htmlFor="seo-title">{t('app:blog.editor.seoTitle')}</Label>
                   <Input
                     id="seo-title"
                     value={post.seo_title}
@@ -408,7 +408,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                 </div>
 
                 <div>
-                  <Label htmlFor="seo-description">SEO {i18n.language === 'zh' ? '描述' : 'Description'}</Label>
+                  <Label htmlFor="seo-description">{t('app:blog.editor.seoDescription')}</Label>
                   <Textarea
                     id="seo-description"
                     value={post.seo_description}
@@ -422,7 +422,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                 </div>
 
                 <div>
-                  <Label htmlFor="seo-keywords">SEO {i18n.language === 'zh' ? '关键词' : 'Keywords'}</Label>
+                  <Label htmlFor="seo-keywords">{t('app:blog.editor.seoKeywords')}</Label>
                   <Input
                     id="seo-keywords"
                     value={post.seo_keywords}

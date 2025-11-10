@@ -4,6 +4,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { BlogEditor } from './BlogEditor';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -39,21 +49,23 @@ interface BlogPost {
 }
 
 export const BlogManagement: React.FC = () => {
-  const { t, i18n } = useTranslation(['common']);
+  const { t, i18n } = useTranslation(['app', 'common']);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showEditor, setShowEditor] = useState(false);
   const [editingPost, setEditingPost] = useState<BlogPost | undefined>();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [postToDelete, setPostToDelete] = useState<string | null>(null);
 
   const categories = [
-    { key: 'all', label: i18n.language === 'zh' ? '全部' : 'All' },
-    { key: 'founder-story', label: i18n.language === 'zh' ? '创始人故事' : 'Founder Story' },
-    { key: 'build-in-public', label: i18n.language === 'zh' ? '公开开发' : 'Build in Public' },
-    { key: 'manifestation', label: i18n.language === 'zh' ? '显化方法' : 'Manifestation' },
-    { key: 'technical', label: i18n.language === 'zh' ? '技术分享' : 'Technical' },
-    { key: 'user-stories', label: i18n.language === 'zh' ? '用户故事' : 'User Stories' },
+    { key: 'all', label: t('app:blog.categories.all') },
+    { key: 'founder-story', label: t('app:blog.categories.founder_story') },
+    { key: 'build-in-public', label: t('app:blog.categories.build_in_public') },
+    { key: 'manifestation', label: t('app:blog.categories.manifestation') },
+    { key: 'technical', label: t('app:blog.categories.technical') },
+    { key: 'user-stories', label: t('app:blog.categories.user_stories') },
   ];
 
   useEffect(() => {
@@ -83,7 +95,7 @@ export const BlogManagement: React.FC = () => {
       setPosts(data || []);
     } catch (error) {
       logger.error('Error fetching blog posts', error);
-      toast.error(i18n.language === 'zh' ? '获取文章失败' : 'Failed to fetch articles');
+      toast.error(t('app:blog.editor.save_error'));
     } finally {
       setLoading(false);
     }
@@ -109,23 +121,29 @@ export const BlogManagement: React.FC = () => {
   };
 
   const handleDelete = async (postId: string) => {
-    if (!confirm(i18n.language === 'zh' ? '确定要删除这篇文章吗？' : 'Are you sure you want to delete this article?')) {
-      return;
-    }
+    setPostToDelete(postId);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!postToDelete) return;
 
     try {
       const { error } = await supabase
         .from('blog_posts')
         .delete()
-        .eq('id', postId);
+        .eq('id', postToDelete);
 
       if (error) throw error;
 
-      toast.success(i18n.language === 'zh' ? '文章已删除' : 'Article deleted');
+      toast.success(t('app:blog.editor.deleted_success'));
       fetchPosts();
     } catch (error) {
       logger.error('Error deleting blog post', error);
-      toast.error(i18n.language === 'zh' ? '删除失败' : 'Failed to delete');
+      toast.error(t('app:blog.editor.delete_error'));
+    } finally {
+      setDeleteDialogOpen(false);
+      setPostToDelete(null);
     }
   };
 
@@ -155,12 +173,12 @@ export const BlogManagement: React.FC = () => {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
             <FileText className="w-8 h-8 text-primary" />
-            {i18n.language === 'zh' ? '博客管理' : 'Blog Management'}
+            {t('app:blog.management')}
           </h1>
           
           <Button onClick={handleCreateNew}>
             <Plus className="w-4 h-4 mr-2" />
-            {i18n.language === 'zh' ? '创建文章' : 'Create Article'}
+            {t('app:blog.editor.create')}
           </Button>
         </div>
 
@@ -173,7 +191,7 @@ export const BlogManagement: React.FC = () => {
                 <Input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={i18n.language === 'zh' ? '搜索文章...' : 'Search articles...'}
+                  placeholder={t('app:blog.list.search')}
                   className="pl-10"
                 />
               </div>
@@ -201,7 +219,7 @@ export const BlogManagement: React.FC = () => {
             <div className="text-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
               <p className="text-muted-foreground mt-2">
-                {i18n.language === 'zh' ? '加载中...' : 'Loading...'}
+                {t('app:blog.list.loading')}
               </p>
             </div>
           ) : posts.length === 0 ? (
@@ -209,17 +227,14 @@ export const BlogManagement: React.FC = () => {
               <CardContent className="text-center py-12">
                 <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-foreground mb-2">
-                  {i18n.language === 'zh' ? '暂无文章' : 'No Articles Found'}
+                  {t('app:blog.list.noArticles')}
                 </h3>
                 <p className="text-muted-foreground mb-4">
-                  {i18n.language === 'zh' 
-                    ? '开始创建您的第一篇文章' 
-                    : 'Start by creating your first article'
-                  }
+                  {t('app:blog.list.noArticlesDesc')}
                 </p>
                 <Button onClick={handleCreateNew}>
                   <Plus className="w-4 h-4 mr-2" />
-                  {i18n.language === 'zh' ? '创建文章' : 'Create Article'}
+                  {t('app:blog.editor.create')}
                 </Button>
               </CardContent>
             </Card>
@@ -234,18 +249,18 @@ export const BlogManagement: React.FC = () => {
                           {post.published ? (
                             <>
                               <Globe className="w-3 h-3 mr-1" />
-                              {i18n.language === 'zh' ? '已发布' : 'Published'}
+                              {t('app:blog.editor.published')}
                             </>
                           ) : (
                             <>
                               <Lock className="w-3 h-3 mr-1" />
-                              {i18n.language === 'zh' ? '草稿' : 'Draft'}
+                              {t('app:blog.editor.draft')}
                             </>
                           )}
                         </Badge>
                         {post.featured && (
                           <Badge variant="outline">
-                            {i18n.language === 'zh' ? '精选' : 'Featured'}
+                            {t('app:blog.list.featured')}
                           </Badge>
                         )}
                         <Badge variant="secondary">{post.category}</Badge>
@@ -270,7 +285,7 @@ export const BlogManagement: React.FC = () => {
                         </div>
                         <div className="flex items-center space-x-1">
                           <Eye className="w-4 h-4" />
-                          <span>{post.view_count} views</span>
+                          <span>{post.view_count} {t('app:blog.list.views')}</span>
                         </div>
                       </div>
                       
@@ -316,6 +331,26 @@ export const BlogManagement: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('common:buttons.confirm')}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('app:blog.editor.delete_confirm')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setPostToDelete(null)}>
+              {t('common:buttons.cancel')}
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>
+              {t('common:buttons.delete')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

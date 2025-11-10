@@ -234,5 +234,73 @@
       "techStack": "技术栈",
       "techStackInfo": "React + TypeScript + Tailwind CSS + Supabase"
     }
+  },
+  "blog": {
+    "title": "显化369博客",
+    "subtitle": "深度分享369显化方法、创业故事、用户成功案例和技术洞察",
+    "management": "博客管理",
+    "editor": {
+      "create": "创建文章",
+      "edit": "编辑文章",
+      "title": "标题",
+      "titlePlaceholder": "输入文章标题...",
+      "slug": "链接标识",
+      "slugPlaceholder": "文章链接标识...",
+      "excerpt": "摘要",
+      "excerptPlaceholder": "文章摘要...",
+      "content": "文章内容",
+      "contentPlaceholder": "使用Markdown格式编写文章...",
+      "author": "作者",
+      "category": "分类",
+      "tags": "标签",
+      "addTag": "添加标签...",
+      "write": "编写",
+      "preview": "预览",
+      "saveDraft": "保存草稿",
+      "publish": "发布",
+      "cancel": "取消",
+      "featured": "精选文章",
+      "published": "已发布",
+      "draft": "草稿",
+      "articleSettings": "文章设置",
+      "seoSettings": "SEO设置",
+      "seoTitle": "SEO标题",
+      "seoDescription": "SEO描述",
+      "seoKeywords": "SEO关键词",
+      "markdownSupported": "支持Markdown格式",
+      "words": "字",
+      "minRead": "分钟阅读",
+      "validationError": "标题和内容不能为空",
+      "published_success": "文章已发布",
+      "draft_success": "文章已保存为草稿",
+      "save_error": "保存失败",
+      "delete_confirm": "确定要删除这篇文章吗？",
+      "deleted_success": "文章已删除",
+      "delete_error": "删除失败"
+    },
+    "categories": {
+      "all": "全部",
+      "founder_story": "创始人故事",
+      "build_in_public": "公开开发",
+      "manifestation": "显化方法",
+      "technical": "技术分享",
+      "user_stories": "用户故事"
+    },
+    "list": {
+      "search": "搜索文章...",
+      "loading": "加载中...",
+      "noArticles": "暂无文章",
+      "noArticlesDesc": "开始创建您的第一篇文章",
+      "noArticlesSearch": "请尝试调整搜索条件或分类筛选",
+      "featured": "精选",
+      "featuredArticles": "精选文章",
+      "latestArticles": "最新文章",
+      "views": "浏览"
+    },
+    "newsletter": {
+      "title": "订阅我们的内容更新",
+      "description": "获取最新的显化方法、成功案例和创业洞察，直接发送到您的邮箱",
+      "subscribe": "立即订阅"
+    }
   }
 }
