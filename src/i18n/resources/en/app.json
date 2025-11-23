@@ -267,6 +267,23 @@
       "seoTitle": "SEO Title",
       "seoDescription": "SEO Description",
       "seoKeywords": "SEO Keywords",
+      "keyword_density": {
+        "title": "Keyword Density Analysis",
+        "description": "Optimize keyword density for better SEO (Target: 2-4%)",
+        "no_keywords": "Please enter keywords in the SEO Keywords field (comma-separated)",
+        "empty_content": "Content is empty, cannot analyze keyword density",
+        "overall_score": "Overall Score",
+        "total_words": "Total Words",
+        "target_range": "Target Range",
+        "keywords_analysis": "Keyword Analysis",
+        "occurrences": "occurrences",
+        "recommendations": "Recommendations",
+        "status": {
+          "low": "Low",
+          "optimal": "Optimal",
+          "high": "High"
+        }
+      },
       "markdownSupported": "Markdown supported",
       "words": "words",
       "minRead": "min read",

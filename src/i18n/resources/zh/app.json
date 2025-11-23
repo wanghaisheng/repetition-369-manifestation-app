@@ -267,6 +267,23 @@
       "seoTitle": "SEO标题",
       "seoDescription": "SEO描述",
       "seoKeywords": "SEO关键词",
+      "keyword_density": {
+        "title": "关键词密度分析",
+        "description": "优化关键词密度以提升SEO效果（目标范围：2-4%）",
+        "no_keywords": "请在SEO关键词字段输入要分析的关键词（用逗号分隔）",
+        "empty_content": "内容为空，无法分析关键词密度",
+        "overall_score": "总体评分",
+        "total_words": "总字数",
+        "target_range": "目标范围",
+        "keywords_analysis": "关键词详细分析",
+        "occurrences": "次出现",
+        "recommendations": "优化建议",
+        "status": {
+          "low": "偏低",
+          "optimal": "理想",
+          "high": "过高"
+        }
+      },
       "markdownSupported": "支持Markdown格式",
       "words": "字",
       "minRead": "分钟阅读",
