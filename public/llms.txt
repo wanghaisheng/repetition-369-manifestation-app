@@ -1,0 +1,51 @@
+# 显化369 - Manifestation 369
+
+## Overview
+显化369 is a comprehensive manifestation application based on the Tesla 369 Method. It helps users achieve their goals through structured daily practices combining affirmations, meditation, and consistent action tracking.
+
+## Website
+https://369.heymanifestation.com
+
+## Key Features
+- **369 Method Practice**: Structured daily practice sessions following the 3-6-9 writing method
+- **Wish Management**: Create and track multiple manifestation goals
+- **Progress Tracking**: Detailed analytics and visualization of practice streaks and achievements
+- **Gamification**: Points, levels, badges, and achievements to motivate consistent practice
+- **Multilingual Support**: Full support for English and Chinese languages
+- **Blog & Educational Content**: Articles about manifestation, law of attraction, and personal growth
+- **User Stories**: Community-shared success stories and experiences
+- **PWA Support**: Install as mobile app with offline capabilities
+
+## Core Principles
+- **Scientific Approach**: Combines neuroscience, psychology, and mindfulness practices
+- **Daily Consistency**: Emphasizes the importance of regular practice for 33+ days
+- **Positive Affirmations**: Uses present-tense, positive statements to reprogram subconscious mind
+- **Gratitude & Visualization**: Incorporates gratitude journaling and detailed visualization techniques
+
+## Main Pages
+- Homepage: https://369.heymanifestation.com/
+- About: https://369.heymanifestation.com/about
+- 369 Method Guide: https://369.heymanifestation.com/method369
+- FAQ: https://369.heymanifestation.com/faq
+- Blog: https://369.heymanifestation.com/blog
+- User Stories: https://369.heymanifestation.com/user-stories
+- Practice App: https://369.heymanifestation.com/app (requires authentication)
+
+## Target Audience
+- Individuals interested in personal development and manifestation
+- People seeking to achieve specific life goals
+- Practitioners of law of attraction and positive psychology
+- Users looking for structured goal-setting and tracking tools
+
+## Technology
+- Modern Progressive Web App (PWA)
+- Real-time synchronization across devices
+- Secure authentication and data privacy
+- Optimized for mobile and desktop experiences
+
+## Languages
+- Chinese (Simplified) - Primary
+- English - Full support
+
+## Purpose
+To empower users to manifest their dreams through consistent practice, positive mindset, and the proven 369 manifestation method, backed by scientific principles and community support.
