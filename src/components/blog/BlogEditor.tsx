@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { MarkdownRenderer } from './MarkdownRenderer';
+import { KeywordDensityChecker } from '@/components/admin/KeywordDensityChecker';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/utils/logger';
@@ -432,6 +433,15 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                 </div>
               </CardContent>
             </Card>
+
+            {/* Keyword Density Checker */}
+            {post.seo_keywords && post.content && (
+              <KeywordDensityChecker
+                content={post.content}
+                keywords={post.seo_keywords}
+                targetDensity={{ min: 2, max: 4 }}
+              />
+            )}
           </div>
         </div>
       </div>
