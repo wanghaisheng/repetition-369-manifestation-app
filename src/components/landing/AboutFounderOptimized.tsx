@@ -70,9 +70,9 @@ export const AboutFounderOptimized = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             {t('about.title')}
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <h3 className="text-xl text-muted-foreground max-w-3xl mx-auto font-semibold">
             {t('about.subtitle')}
-          </p>
+          </h3>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">

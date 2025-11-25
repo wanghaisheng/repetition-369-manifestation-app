@@ -66,9 +66,9 @@ export const HomeView = () => {
       {/* Welcome Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-800 mb-2">欢迎使用显化369</h1>
-        <p className="text-gray-600">
+        <h2 className="text-base text-gray-600 font-medium">
           {activeWishes.length > 0 ? '继续您的显化之旅' : '开始您的第一个愿望吧'}
-        </p>
+        </h2>
       </div>
 
       {/* Error Alert */}
@@ -85,7 +85,7 @@ export const HomeView = () => {
             <div className="w-16 h-16 bg-gradient-to-br from-manifest-warm-gold to-manifest-lavender rounded-ios flex items-center justify-center mx-auto mb-4">
               <Target className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">开始您的显化之旅</h3>
+            <h2 className="text-xl font-bold text-gray-800 mb-2">开始您的显化之旅</h2>
             <p className="text-gray-600 mb-6">使用369显化法，将您的愿望变为现实。创建您的第一个愿望，开始每日练习。</p>
             <Button 
               onClick={() => setIsAddWishModalOpen(true)}
@@ -102,7 +102,7 @@ export const HomeView = () => {
       {activeWishes.length > 0 && (
         <Card className="p-6 bg-white border-0 shadow-ios rounded-ios mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">今日进度</h2>
+            <h2 className="text-lg font-semibold text-gray-800 mb-0">今日进度</h2>
             <div className="bg-ios-blue/10 rounded-full p-2">
               <Target className="w-5 h-5 text-ios-blue" />
             </div>
@@ -168,7 +168,7 @@ export const HomeView = () => {
 
       {/* Quick Actions */}
       <Card className="p-6 bg-white border-0 shadow-ios rounded-ios mb-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">快速操作</h3>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">快速操作</h2>
         <div className="space-y-3">
           {activeWishes.length > 0 ? (
             <Button className="w-full bg-ios-blue hover:bg-blue-600 text-white rounded-ios shadow-ios">
@@ -197,7 +197,7 @@ export const HomeView = () => {
       {/* Recent Activity - Only show if user has practices */}
       {todayPractices.length > 0 && (
         <Card className="p-6 bg-white border-0 shadow-ios rounded-ios">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">今日活动</h3>
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">今日活动</h2>
           <div className="space-y-3">
             {todayPractices.slice(0, 3).map((practice) => {
               const wish = wishes.find(w => w.id === practice.wishId);
