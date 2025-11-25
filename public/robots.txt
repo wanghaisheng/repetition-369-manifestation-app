@@ -44,8 +44,8 @@ Allow: /*.webp
 Allow: /*.svg
 Allow: /*.ico
 
-# Sitemap
-Sitemap: https://369.heymanifestation.com/sitemap.xml
+# Sitemap - 动态生成包含所有已发布博客文章
+Sitemap: https://hziwbeyokjdswlzzmjem.supabase.co/functions/v1/generate-sitemap
 
 # 爬虫延迟设置
 Crawl-delay: 1
