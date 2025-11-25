@@ -126,9 +126,9 @@ const FAQ = () => {
                   className="border border-gray-200 rounded-lg px-6"
                 >
                   <AccordionTrigger className="text-left hover:no-underline py-6">
-                    <span className="text-lg font-medium text-gray-900 pr-4">
+                    <h3 className="text-lg font-medium text-gray-900 pr-4">
                       {faq.question}
-                    </span>
+                    </h3>
                   </AccordionTrigger>
                   <AccordionContent className="pb-6">
                     <p className="text-gray-700 leading-relaxed">

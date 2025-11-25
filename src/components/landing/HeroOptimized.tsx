@@ -48,10 +48,10 @@ export const HeroOptimized = () => {
           {t('hero.title')}
         </h1>
         
-        {/* Subheadline with better contrast */}
-        <p className="text-xl md:text-2xl text-muted-foreground mb-6 max-w-3xl mx-auto font-medium">
+        {/* Subheadline with semantic h2 */}
+        <h2 className="text-xl md:text-2xl text-muted-foreground mb-6 max-w-3xl mx-auto font-medium">
           {t('hero.subtitle')}
-        </p>
+        </h2>
         
         {/* Value proposition */}
         <p className="text-lg text-muted-foreground/80 mb-8 max-w-4xl mx-auto leading-relaxed">
