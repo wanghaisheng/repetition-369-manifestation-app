@@ -44,11 +44,13 @@ export const MultiLanguageSEO = ({
   const pageDescription = description || SEO_CONFIG.DEFAULT_DESCRIPTION[currentLang];
   
   // 生成页面关键词
-  const page = location.pathname.split('/').filter(Boolean).pop() || 'home';
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  // 移除语言前缀后获取页面名称
+  const page = pathSegments.filter(seg => !['en', 'zh'].includes(seg)).pop() || 'home';
   const pageKeywords = keywords || generatePageKeywords(page, currentLang);
   
-  // 生成规范化URL
-  const canonicalUrl = generateCanonicalUrl(location.pathname, currentLang);
+  // 生成规范化URL（当前路径已包含语言前缀）
+  const canonicalUrl = generateCanonicalUrl(location.pathname);
   
   // 生成Hreflang链接
   const hreflangLinks = generateHreflangLinks(location.pathname);

@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { logger } from '@/utils/logger';
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { RouteHandler } from "@/components/routing/RouteHandler";
+import { LanguageRouter } from "@/components/routing/LanguageRouter";
 import { RedirectHandler } from "@/components/seo/RedirectHandler";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
@@ -92,45 +93,60 @@ const App = () => {
               
               <Toaster />
               <BrowserRouter>
-                <RedirectHandler />
-                <RouteHandler>
-                  <Routes>
-                    {/* Public marketing landing page */}
-                    <Route path="/" element={<Landing />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/method369" element={<Method369 />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
-        <Route path="/user-stories" element={<UserStories />} />
-        <Route path="/blog-admin" element={
-          <ProtectedRoute>
-            <BlogManagement />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin-stats" element={
-          <ProtectedRoute>
-            <AdminStats />
-          </ProtectedRoute>
-        } />
-                    
-                    {/* Authentication route */}
-                    <Route path="/auth" element={<Auth />} />
-                    
-                    {/* Protected main application */}
-                    <Route path="/app" element={<Navigate to="/app/home" replace />} />
-                    <Route path="/app/:tab" element={
-                      <ProtectedRoute>
-                        <Index />
-                      </ProtectedRoute>
-                    } />
-                    
-                    {/* Redirect any other routes to landing */}
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                  </Routes>
-                </RouteHandler>
+                <LanguageRouter>
+                  <RedirectHandler />
+                  <RouteHandler>
+                    <Routes>
+                      {/* 默认语言（中文）- 无前缀 */}
+                      <Route path="/" element={<Landing />} />
+                      <Route path="/about" element={<About />} />
+                      <Route path="/faq" element={<FAQ />} />
+                      <Route path="/method369" element={<Method369 />} />
+                      <Route path="/privacy" element={<Privacy />} />
+                      <Route path="/terms" element={<Terms />} />
+                      <Route path="/blog" element={<Blog />} />
+                      <Route path="/blog/:slug" element={<BlogPost />} />
+                      <Route path="/user-stories" element={<UserStories />} />
+                      
+                      {/* 英文版本 - /en 前缀 */}
+                      <Route path="/en" element={<Landing />} />
+                      <Route path="/en/about" element={<About />} />
+                      <Route path="/en/faq" element={<FAQ />} />
+                      <Route path="/en/method369" element={<Method369 />} />
+                      <Route path="/en/privacy" element={<Privacy />} />
+                      <Route path="/en/terms" element={<Terms />} />
+                      <Route path="/en/blog" element={<Blog />} />
+                      <Route path="/en/blog/:slug" element={<BlogPost />} />
+                      <Route path="/en/user-stories" element={<UserStories />} />
+                      
+                      {/* Admin routes */}
+                      <Route path="/blog-admin" element={
+                        <ProtectedRoute>
+                          <BlogManagement />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/admin-stats" element={
+                        <ProtectedRoute>
+                          <AdminStats />
+                        </ProtectedRoute>
+                      } />
+                      
+                      {/* Authentication route */}
+                      <Route path="/auth" element={<Auth />} />
+                      
+                      {/* Protected main application */}
+                      <Route path="/app" element={<Navigate to="/app/home" replace />} />
+                      <Route path="/app/:tab" element={
+                        <ProtectedRoute>
+                          <Index />
+                        </ProtectedRoute>
+                      } />
+                      
+                      {/* Redirect any other routes to landing */}
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+                  </RouteHandler>
+                </LanguageRouter>
               </BrowserRouter>
               
               {/* PWA Install Prompt */}

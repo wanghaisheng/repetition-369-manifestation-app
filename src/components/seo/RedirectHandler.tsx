@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SEO_CONFIG } from '@/config/seo';
+import { normalizePath, removeLanguagePrefix, isMarketingPage } from '@/utils/languageUrl';
 
 export const RedirectHandler = () => {
   const location = useLocation();
@@ -20,17 +21,10 @@ export const RedirectHandler = () => {
     }
 
     // URL规范化处理
-    let normalizedPath = location.pathname;
+    let normalizedPath = normalizePath(location.pathname);
     
-    // 移除尾随斜杠（除了根路径）
-    if (normalizedPath !== '/' && normalizedPath.endsWith('/')) {
-      normalizedPath = normalizedPath.slice(0, -1);
-    }
-    
-    // 移除重复斜杠
-    normalizedPath = normalizedPath.replace(/\/+/g, '/');
-    
-    // 常见重定向映射
+    // 常见重定向映射（考虑语言前缀）
+    const pathWithoutLang = removeLanguagePrefix(normalizedPath);
     const redirectMap: Record<string, string> = {
       '/home': '/',
       '/index': '/',
@@ -40,8 +34,10 @@ export const RedirectHandler = () => {
     };
     
     // 检查是否需要重定向
-    if (redirectMap[normalizedPath]) {
-      navigate(redirectMap[normalizedPath], { replace: true });
+    if (redirectMap[pathWithoutLang]) {
+      const langPrefix = normalizedPath.startsWith('/en') ? '/en' : '';
+      const redirectTarget = langPrefix + (redirectMap[pathWithoutLang] === '/' && langPrefix ? '' : redirectMap[pathWithoutLang]);
+      navigate(redirectTarget || '/', { replace: true });
       return;
     }
     
@@ -50,15 +46,11 @@ export const RedirectHandler = () => {
       navigate(normalizedPath + location.search + location.hash, { replace: true });
       return;
     }
-
-    // 语言路径处理
-    const pathSegments = normalizedPath.split('/').filter(Boolean);
-    const firstSegment = pathSegments[0];
     
-    // 如果第一个段是支持的语言代码，但不是有效路由，则重定向
-    if (SEO_CONFIG.SUPPORTED_LANGUAGES.includes(firstSegment) && pathSegments.length === 1) {
-      // 语言路径如 /en 重定向到首页并设置语言参数
-      navigate(`/?lang=${firstSegment}`, { replace: true });
+    // 移除默认语言(zh)的显式前缀
+    if (normalizedPath.startsWith('/zh/') || normalizedPath === '/zh') {
+      const pathWithoutZh = normalizedPath.replace(/^\/zh/, '') || '/';
+      navigate(pathWithoutZh + location.search + location.hash, { replace: true });
       return;
     }
     

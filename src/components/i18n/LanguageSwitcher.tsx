@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Globe } from 'lucide-react';
 import {
@@ -9,6 +10,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { getLocalizedPath } from '@/utils/languageUrl';
+import type { SupportedLanguage } from '@/config/routes';
 
 const languages = [
   { code: 'zh', name: '中文', flag: '🇨🇳' },
@@ -17,9 +20,18 @@ const languages = [
 
 export const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLanguageChange = (langCode: string) => {
+    // 更新i18n语言
     i18n.changeLanguage(langCode);
+    
+    // 计算新的URL路径
+    const newPath = getLocalizedPath(location.pathname, langCode as SupportedLanguage);
+    
+    // 导航到新URL（保留search和hash）
+    navigate(newPath + location.search + location.hash, { replace: true });
   };
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
