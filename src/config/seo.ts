@@ -54,23 +54,16 @@ export const SEO_CONFIG = {
   }
 };
 
-// 生成规范化URL
-export const generateCanonicalUrl = (path: string, language?: string): string => {
+// 生成规范化URL（直接使用当前路径，已包含语言前缀）
+export const generateCanonicalUrl = (path: string): string => {
   // 移除尾随斜杠（除了根路径）
   let normalizedPath = path;
   if (path !== '/' && path.endsWith('/')) {
-    normalizedPath = path.slice(0, -1);
+    normalizedPath = normalizedPath.slice(0, -1);
   }
   
   // 移除重复斜杠
   normalizedPath = normalizedPath.replace(/\/+/g, '/');
-  
-  // 如果是英文版本，添加语言前缀
-  if (language === 'en' && normalizedPath !== '/') {
-    normalizedPath = `/en${normalizedPath}`;
-  } else if (language === 'en' && normalizedPath === '/') {
-    normalizedPath = '/en';
-  }
   
   return `${SEO_CONFIG.DOMAIN}${normalizedPath}`;
 };
@@ -83,24 +76,32 @@ export const generatePageKeywords = (page: string, language: string = 'zh'): str
 
 // 生成多语言Hreflang链接
 export const generateHreflangLinks = (pathname: string) => {
+  // 移除语言前缀，获取纯路径
+  const pathWithoutLang = pathname.startsWith('/en/') 
+    ? pathname.replace(/^\/en/, '')
+    : pathname.startsWith('/en')
+    ? pathname.replace(/^\/en$/, '/')
+    : pathname;
+  
   const links = [];
   
-  // 中文版本（默认）
+  // 中文版本（默认，无前缀）
   links.push({
-    lang: 'zh',
-    href: generateCanonicalUrl(pathname, 'zh')
+    lang: 'zh-CN',
+    href: `${SEO_CONFIG.DOMAIN}${pathWithoutLang}`
   });
   
-  // 英文版本
+  // 英文版本（/en前缀）
+  const enPath = pathWithoutLang === '/' ? '/en' : `/en${pathWithoutLang}`;
   links.push({
-    lang: 'en', 
-    href: generateCanonicalUrl(pathname, 'en')
+    lang: 'en',
+    href: `${SEO_CONFIG.DOMAIN}${enPath}`
   });
   
   // x-default指向中文版本
   links.push({
     lang: 'x-default',
-    href: generateCanonicalUrl(pathname, 'zh')
+    href: `${SEO_CONFIG.DOMAIN}${pathWithoutLang}`
   });
   
   return links;

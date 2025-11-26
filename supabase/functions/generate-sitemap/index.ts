@@ -47,36 +47,36 @@ serve(async (req) => {
 
     console.log(`Fetched ${posts?.length || 0} published blog posts`);
 
-    const baseUrl = 'https://heymanifestation.com';
+    const baseUrl = 'https://369.heymanifestation.com';
     const urls: SitemapUrl[] = [];
+    const currentDate = new Date().toISOString().split('T')[0];
 
     // Static pages with their priorities and change frequencies
     const staticPages = [
       { path: '', priority: '1.0', changefreq: 'daily' }, // Homepage
-      { path: 'about', priority: '0.9', changefreq: 'monthly' },
-      { path: 'method369', priority: '0.9', changefreq: 'monthly' },
+      { path: 'about', priority: '0.8', changefreq: 'weekly' },
+      { path: 'method369', priority: '0.8', changefreq: 'weekly' },
       { path: 'faq', priority: '0.8', changefreq: 'weekly' },
-      { path: 'blog', priority: '0.8', changefreq: 'daily' },
-      { path: 'user-stories', priority: '0.7', changefreq: 'weekly' },
-      { path: 'privacy', priority: '0.5', changefreq: 'yearly' },
-      { path: 'terms', priority: '0.5', changefreq: 'yearly' },
-      { path: 'auth', priority: '0.6', changefreq: 'monthly' },
+      { path: 'blog', priority: '0.9', changefreq: 'daily' },
+      { path: 'user-stories', priority: '0.7', changefreq: 'daily' },
+      { path: 'privacy', priority: '0.3', changefreq: 'monthly' },
+      { path: 'terms', priority: '0.3', changefreq: 'monthly' },
     ];
 
-    // Add static pages
+    // Add static pages for both languages
     staticPages.forEach(page => {
-      // Add Chinese version
+      // Chinese version (no prefix)
       urls.push({
-        loc: `${baseUrl}/${page.path}`,
-        lastmod: new Date().toISOString().split('T')[0],
+        loc: page.path ? `${baseUrl}/${page.path}` : baseUrl,
+        lastmod: currentDate,
         changefreq: page.changefreq,
         priority: page.priority,
       });
 
-      // Add English version
+      // English version (/en prefix)
       urls.push({
-        loc: `${baseUrl}/en/${page.path}`,
-        lastmod: new Date().toISOString().split('T')[0],
+        loc: page.path ? `${baseUrl}/en/${page.path}` : `${baseUrl}/en`,
+        lastmod: currentDate,
         changefreq: page.changefreq,
         priority: page.priority,
       });
@@ -85,15 +85,24 @@ serve(async (req) => {
     // Add blog posts by language
     if (posts && posts.length > 0) {
       posts.forEach((post: BlogPost) => {
-        const lastmod = new Date(post.updated_at).toISOString().split('T')[0];
-        const langPrefix = post.language === 'zh' ? '' : `/${post.language}`;
+        const postDate = post.updated_at ? new Date(post.updated_at).toISOString().split('T')[0] : currentDate;
         
-        urls.push({
-          loc: `${baseUrl}${langPrefix}/blog/${post.slug}`,
-          lastmod: lastmod,
-          changefreq: 'weekly',
-          priority: '0.7',
-        });
+        // Generate URL based on post language
+        if (post.language === 'zh') {
+          urls.push({
+            loc: `${baseUrl}/blog/${post.slug}`,
+            lastmod: postDate,
+            changefreq: 'weekly',
+            priority: '0.7',
+          });
+        } else if (post.language === 'en') {
+          urls.push({
+            loc: `${baseUrl}/en/blog/${post.slug}`,
+            lastmod: postDate,
+            changefreq: 'weekly',
+            priority: '0.7',
+          });
+        }
       });
     }
 
@@ -132,13 +141,30 @@ serve(async (req) => {
 });
 
 function generateSitemapXML(urls: SitemapUrl[]): string {
-  const urlEntries = urls.map(url => `
+  const baseUrl = 'https://369.heymanifestation.com';
+  
+  const urlEntries = urls.map((url) => {
+    // Extract path without language prefix for hreflang generation
+    const pathWithoutLang = url.loc
+      .replace(`${baseUrl}/en/`, '/')
+      .replace(`${baseUrl}/en`, '/')
+      .replace(baseUrl, '');
+    
+    // Generate hreflang URLs
+    const zhUrl = pathWithoutLang ? `${baseUrl}${pathWithoutLang}` : baseUrl;
+    const enUrl = pathWithoutLang === '/' || pathWithoutLang === '' ? `${baseUrl}/en` : `${baseUrl}/en${pathWithoutLang}`;
+    
+    return `
   <url>
     <loc>${escapeXml(url.loc)}</loc>
     <lastmod>${url.lastmod}</lastmod>
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>
-  </url>`).join('');
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="${escapeXml(zhUrl)}" />
+    <xhtml:link rel="alternate" hreflang="en" href="${escapeXml(enUrl)}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(zhUrl)}" />
+  </url>`;
+  }).join('');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
