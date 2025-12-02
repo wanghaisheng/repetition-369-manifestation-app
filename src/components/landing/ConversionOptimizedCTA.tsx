@@ -172,13 +172,13 @@ export const ConversionOptimizedCTA = () => {
         <div className="mt-12 space-y-6">
           {/* Share section */}
           <div className="text-center">
-            <h3 className="text-lg font-semibold text-primary-foreground mb-3">
+            <h3 className="text-lg font-semibold !text-white mb-3">
               {i18n.language === 'zh' ? '分享给朋友，一起成长' : 'Share with Friends, Grow Together'}
             </h3>
             <Button 
               onClick={handleShare}
-              variant="outline" 
-              className="border-white/30 text-primary-foreground hover:bg-white/10 transition-all duration-300"
+              variant="ghost" 
+              className="border border-white/30 !text-white hover:bg-white/10 transition-all duration-300"
             >
               {copied ? (
                 <>
