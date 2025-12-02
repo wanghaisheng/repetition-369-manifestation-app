@@ -42,7 +42,6 @@ const resources = {
 };
 
 i18n
-  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
@@ -54,12 +53,8 @@ i18n
       escapeValue: false, // React already does escaping
     },
     
-    detection: {
-      order: ['querystring', 'localStorage', 'navigator', 'htmlTag'],
-      lookupQuerystring: 'lang',
-      lookupLocalStorage: 'language',
-      caches: ['localStorage'],
-    },
+    // 禁用自动语言检测，由LanguageRouter根据URL路径控制
+    lng: 'zh', // 默认语言
     
     react: {
       useSuspense: false, // Avoid suspense for SSR compatibility
