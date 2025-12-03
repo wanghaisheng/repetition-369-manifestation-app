@@ -147,26 +147,26 @@ export const AboutFounderOptimized = () => {
 
           {/* Founder Image/Avatar */}
           <div className="relative">
-            <Card className="bg-gradient-to-br from-primary via-primary/90 to-accent text-primary-foreground border-0 shadow-xl">
+            <Card className="bg-card border shadow-xl">
               <CardContent className="p-12 text-center">
                 <div className="relative mb-8">
-                  <Avatar className="w-32 h-32 mx-auto border-4 border-primary-foreground/20">
-                    <AvatarFallback className="bg-primary-foreground/10 text-4xl">
+                  <Avatar className="w-32 h-32 mx-auto border-4 border-border">
+                    <AvatarFallback className="bg-muted text-4xl">
                       👨‍💻
                     </AvatarFallback>
                   </Avatar>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">✓</span>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-success rounded-full flex items-center justify-center">
+                    <span className="text-success-foreground text-xs font-bold">✓</span>
                   </div>
                 </div>
                 
-                <h3 className="text-2xl font-bold mb-2">Wang Haisheng</h3>
-                <p className="text-primary-foreground/80 mb-6">
+                <h3 className="text-2xl font-bold text-foreground mb-2">Wang Haisheng</h3>
+                <p className="text-muted-foreground mb-6">
                   {i18n.language === 'zh' ? '全栈开发者 & 显化实践者' : 'Full-Stack Developer & Manifestation Practitioner'}
                 </p>
                 
-                <div className="bg-primary-foreground/10 rounded-xl p-4">
-                  <p className="text-sm text-primary-foreground/90 italic">
+                <div className="bg-muted rounded-xl p-4">
+                  <p className="text-sm text-muted-foreground italic">
                     "{i18n.language === 'zh' 
                       ? '技术改变生活，显化实现梦想' 
                       : 'Technology transforms life, manifestation realizes dreams'}"
