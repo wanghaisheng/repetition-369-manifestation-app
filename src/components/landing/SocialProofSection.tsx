@@ -47,7 +47,7 @@ export const SocialProofSection = () => {
   ];
 
   return (
-    <section className="py-24 px-4 bg-card/30">
+    <section className="py-24 px-4 bg-background">
       <div className="container mx-auto max-w-7xl">
         {/* Success Metrics */}
         <div className="text-center mb-20">
@@ -63,7 +63,7 @@ export const SocialProofSection = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {successMetrics.map((metric, index) => (
-              <Card key={index} className="border-0 shadow-sm bg-card/50 backdrop-blur-sm">
+              <Card key={index} className="border shadow-sm bg-card">
                 <CardContent className="p-6 text-center">
                   <div className="flex justify-center mb-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center">
@@ -84,11 +84,11 @@ export const SocialProofSection = () => {
         {/* Testimonials */}
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.slice(0, 6).map((testimonial, index) => (
-            <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card/80 backdrop-blur-sm">
+            <Card key={index} className="border shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card">
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-1 mb-3">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    <Star key={i} className="w-4 h-4 fill-warning text-warning" />
                   ))}
                 </div>
                 <div className="flex items-center space-x-3">
@@ -104,7 +104,7 @@ export const SocialProofSection = () => {
                         {testimonial.name}
                       </CardTitle>
                       {testimonial.verified && (
-                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <CheckCircle className="w-4 h-4 text-success" />
                       )}
                     </div>
                     <CardDescription className="text-sm">{testimonial.role}</CardDescription>
@@ -125,21 +125,21 @@ export const SocialProofSection = () => {
 
         {/* Trust indicators */}
         <div className="mt-16 text-center">
-          <div className="inline-flex items-center space-x-6 p-6 bg-muted/50 rounded-2xl">
+          <div className="inline-flex items-center space-x-6 p-6 bg-section-alt rounded-2xl border border-border">
             <div className="flex items-center space-x-2">
-              <CheckCircle className="w-5 h-5 text-green-500" />
+              <CheckCircle className="w-5 h-5 text-success" />
               <span className="text-sm font-medium text-muted-foreground">
                 {i18n.language === 'zh' ? '100% 安全可靠' : '100% Secure & Safe'}
               </span>
             </div>
             <div className="flex items-center space-x-2">
-              <Shield className="w-5 h-5 text-blue-500" />
+              <Shield className="w-5 h-5 text-info" />
               <span className="text-sm font-medium text-muted-foreground">
                 {i18n.language === 'zh' ? '数据隐私保护' : 'Privacy Protected'}
               </span>
             </div>
             <div className="flex items-center space-x-2">
-              <Users className="w-5 h-5 text-purple-500" />
+              <Users className="w-5 h-5 text-accent" />
               <span className="text-sm font-medium text-muted-foreground">
                 {i18n.language === 'zh' ? '全球用户信赖' : 'Trusted Globally'}
               </span>

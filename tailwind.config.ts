@@ -87,6 +87,37 @@ export default {
 					'soft-pink': '#FFB6C1',
 					'sage-green': '#9CAF88',
 					'cosmic-blue': '#4A90E2'
+				},
+				// Section and badge colors for landing pages
+				section: {
+					alt: 'hsl(var(--section-alt))',
+					highlight: 'hsl(var(--section-highlight))'
+				},
+				badge: {
+					trust: 'hsl(var(--badge-trust))',
+					'trust-text': 'hsl(var(--badge-trust-text))',
+					'trust-border': 'hsl(var(--badge-trust-border))',
+					highlight: 'hsl(var(--badge-highlight))',
+					'highlight-text': 'hsl(var(--badge-highlight-text))',
+					'highlight-border': 'hsl(var(--badge-highlight-border))',
+					success: 'hsl(var(--badge-success))',
+					'success-text': 'hsl(var(--badge-success-text))',
+					'success-border': 'hsl(var(--badge-success-border))',
+					urgent: 'hsl(var(--badge-urgent))',
+					'urgent-text': 'hsl(var(--badge-urgent-text))',
+					'urgent-border': 'hsl(var(--badge-urgent-border))'
+				},
+				success: {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground))'
+				},
+				warning: {
+					DEFAULT: 'hsl(var(--warning))',
+					foreground: 'hsl(var(--warning-foreground))'
+				},
+				info: {
+					DEFAULT: 'hsl(var(--info))',
+					foreground: 'hsl(var(--info-foreground))'
 				}
 			},
 			borderRadius: {

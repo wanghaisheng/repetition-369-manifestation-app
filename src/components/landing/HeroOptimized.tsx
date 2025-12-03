@@ -1,8 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Sparkles, PlayCircle, CheckCircle, Users, TrendingUp } from 'lucide-react';
+import { Sparkles, PlayCircle, Users, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const HeroOptimized = () => {
@@ -19,24 +18,24 @@ export const HeroOptimized = () => {
       <div className="container mx-auto text-center max-w-6xl relative z-10">
         {/* Enhanced Trust Badge with Scarcity */}
         <div className="flex flex-col items-center gap-3 mb-6">
-          <div className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-full animate-fade-in">
+          <div className="flex items-center px-6 py-3 bg-badge-trust border border-badge-trust-border rounded-full animate-fade-in">
             <div className="flex items-center space-x-3">
               <div className="flex -space-x-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full border-2 border-white animate-pulse"></div>
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full border-2 border-white"></div>
-                <div className="w-8 h-8 bg-gradient-to-br from-pink-400 to-red-500 rounded-full border-2 border-white"></div>
+                <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full border-2 border-background animate-pulse"></div>
+                <div className="w-8 h-8 bg-gradient-to-br from-accent to-primary rounded-full border-2 border-background"></div>
+                <div className="w-8 h-8 bg-gradient-to-br from-primary/80 to-accent/80 rounded-full border-2 border-background"></div>
               </div>
-              <span className="text-gray-700 font-medium">
+              <span className="text-badge-trust-text font-medium">
                 {i18n.language === 'zh' ? '5,247+ 用户信赖' : '5,247+ Users Trust Us'}
               </span>
             </div>
           </div>
           
           {/* Early User Badge */}
-          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-full animate-fade-in">
+          <div className="inline-flex items-center px-4 py-2 bg-badge-highlight border border-badge-highlight-border rounded-full animate-fade-in">
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
-              <span className="text-amber-700 font-semibold text-sm">
+              <div className="w-2 h-2 bg-warning rounded-full animate-pulse"></div>
+              <span className="text-badge-highlight-text font-semibold text-sm">
                 {i18n.language === 'zh' ? '🎉 早期用户特权 - 永久免费使用所有功能' : '🎉 Early User Benefits - Forever Free Access'}
               </span>
             </div>
@@ -60,7 +59,7 @@ export const HeroOptimized = () => {
 
         {/* Enhanced Social Proof Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 max-w-4xl mx-auto">
-          <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border hover-scale transition-all duration-300">
+          <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border hover-scale transition-all duration-300">
             <div className="text-3xl md:text-4xl font-bold text-primary mb-1 animate-fade-in">5,247+</div>
             <div className="text-sm text-muted-foreground font-medium">
               {i18n.language === 'zh' ? '月活用户' : 'Monthly Users'}
@@ -69,8 +68,8 @@ export const HeroOptimized = () => {
               {i18n.language === 'zh' ? '↗️ +127 本周' : '↗️ +127 this week'}
             </div>
           </div>
-          <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border hover-scale transition-all duration-300">
-            <div className="text-3xl md:text-4xl font-bold text-green-600 mb-1 animate-fade-in">89%</div>
+          <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border hover-scale transition-all duration-300">
+            <div className="text-3xl md:text-4xl font-bold text-success mb-1 animate-fade-in">89%</div>
             <div className="text-sm text-muted-foreground font-medium">
               {i18n.language === 'zh' ? '成功率' : 'Success Rate'}
             </div>
@@ -78,8 +77,8 @@ export const HeroOptimized = () => {
               {i18n.language === 'zh' ? '✨ 30天内见效' : '✨ Within 30 days'}
             </div>
           </div>
-          <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border hover-scale transition-all duration-300">
-            <div className="text-3xl md:text-4xl font-bold text-purple-600 mb-1 animate-fade-in">4.9/5</div>
+          <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border hover-scale transition-all duration-300">
+            <div className="text-3xl md:text-4xl font-bold text-accent mb-1 animate-fade-in">4.9/5</div>
             <div className="text-sm text-muted-foreground font-medium">
               {i18n.language === 'zh' ? '用户评分' : 'User Rating'}
             </div>
@@ -87,8 +86,8 @@ export const HeroOptimized = () => {
               {i18n.language === 'zh' ? '🏆 App Store评分' : '🏆 App Store Rating'}
             </div>
           </div>
-          <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border hover-scale transition-all duration-300">
-            <div className="text-3xl md:text-4xl font-bold text-orange-600 mb-1 animate-fade-in">18</div>
+          <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border hover-scale transition-all duration-300">
+            <div className="text-3xl md:text-4xl font-bold text-warning mb-1 animate-fade-in">18</div>
             <div className="text-sm text-muted-foreground font-medium">
               {i18n.language === 'zh' ? '平均天数' : 'Average Days'}
             </div>
@@ -100,10 +99,10 @@ export const HeroOptimized = () => {
         
         {/* Real-time Activity Indicator */}
         <div className="flex justify-center mb-8">
-          <div className="inline-flex items-center px-4 py-2 bg-green-50 border border-green-200 rounded-full animate-fade-in">
+          <div className="inline-flex items-center px-4 py-2 bg-badge-success border border-badge-success-border rounded-full animate-fade-in">
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-green-700 text-sm font-medium">
+              <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+              <span className="text-badge-success-text text-sm font-medium">
                 {i18n.language === 'zh' ? '🔥 刚刚有 23 人完成了今日显化练习' : '🔥 23 people just completed today\'s manifestation practice'}
               </span>
             </div>
@@ -136,10 +135,10 @@ export const HeroOptimized = () => {
 
         {/* Enhanced Urgency & Scarcity */}
         <div className="flex flex-col items-center gap-3 text-sm animate-fade-in">
-          <div className="inline-flex items-center px-4 py-2 bg-red-50 border border-red-200 rounded-full">
+          <div className="inline-flex items-center px-4 py-2 bg-badge-urgent border border-badge-urgent-border rounded-full">
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-              <span className="text-red-700 font-medium">
+              <div className="w-2 h-2 bg-destructive rounded-full animate-pulse"></div>
+              <span className="text-badge-urgent-text font-medium">
                 {i18n.language === 'zh' ? '⚡ 限时：早期用户专享永久免费权限' : '⚡ Limited: Early Users Get Forever Free Access'}
               </span>
             </div>
