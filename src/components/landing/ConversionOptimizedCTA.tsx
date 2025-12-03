@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Sparkles, ArrowRight, Clock, Users, Gift, CheckCircle, Share2, Copy } from 'lucide-react';
+import { Sparkles, ArrowRight, Users, Gift, CheckCircle, Share2, Copy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -42,23 +41,8 @@ export const ConversionOptimizedCTA = () => {
   };
   const [email, setEmail] = useState('');
 
-  const benefits = [
-    {
-      icon: Gift,
-      text: i18n.language === 'zh' ? '永久免费使用基础功能' : 'Free Forever Plan'
-    },
-    {
-      icon: CheckCircle,
-      text: i18n.language === 'zh' ? '无需信用卡' : 'No Credit Card Required'
-    },
-    {
-      icon: Users,
-      text: i18n.language === 'zh' ? '加入 5,000+ 用户社区' : 'Join 5,000+ Happy Users'
-    }
-  ];
-
   return (
-    <section className="py-24 px-4 bg-background relative overflow-hidden">
+    <section className="py-24 px-4 bg-section-alt relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-20 w-64 h-64 bg-primary rounded-full blur-3xl"></div>
@@ -68,10 +52,10 @@ export const ConversionOptimizedCTA = () => {
       <div className="container mx-auto max-w-5xl text-center relative z-10">
         {/* Enhanced urgency badge */}
         <div className="flex justify-center mb-6">
-          <div className="inline-flex items-center px-4 py-2 bg-amber-50 border border-amber-200 rounded-full animate-fade-in">
+          <div className="inline-flex items-center px-4 py-2 bg-badge-highlight border border-badge-highlight-border rounded-full animate-fade-in">
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
-              <span className="text-amber-700 font-semibold text-sm">
+              <div className="w-2 h-2 bg-warning rounded-full animate-pulse"></div>
+              <span className="text-badge-highlight-text font-semibold text-sm">
                 {i18n.language === 'zh' ? '⚡ 限时：早期用户专享永久免费权限' : '⚡ Limited: Early Users Get Forever Free Access'}
               </span>
             </div>
@@ -176,11 +160,11 @@ export const ConversionOptimizedCTA = () => {
             <Button 
               onClick={handleShare}
               variant="outline" 
-              className="border-border hover:bg-accent transition-all duration-300"
+              className="border-border hover:bg-accent/10 transition-all duration-300"
             >
               {copied ? (
                 <>
-                  <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
+                  <CheckCircle className="w-4 h-4 mr-2 text-success" />
                   {i18n.language === 'zh' ? '已复制' : 'Copied'}
                 </>
               ) : (
@@ -195,7 +179,7 @@ export const ConversionOptimizedCTA = () => {
           {/* Real-time social proof */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-muted-foreground">
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
               <span>
                 {i18n.language === 'zh' ? `过去24小时已有 ${recentSignups} 人注册` : `${recentSignups} people signed up in 24h`}
               </span>

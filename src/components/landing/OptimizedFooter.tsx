@@ -76,7 +76,7 @@ export const OptimizedFooter = () => {
   };
 
   return (
-    <footer className="bg-card border-t border-border">
+    <footer className="bg-section-alt border-t border-border">
       <div className="container mx-auto px-4 py-16">
         {/* Main Footer Content */}
         <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-8 mb-12">

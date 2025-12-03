@@ -33,13 +33,31 @@
     --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.15);
     --shadow-glow: 0 0 40px hsl(var(--accent) / 0.2);
 
+    /* Section backgrounds for visual rhythm */
+    --section-alt: 210 40% 98%;
+    --section-highlight: 221.2 83.2% 97%;
+    
+    /* Badge colors - unified palette */
+    --badge-trust: 221.2 83.2% 96%;
+    --badge-trust-text: 221.2 83.2% 40%;
+    --badge-trust-border: 221.2 50% 88%;
+    --badge-highlight: 45 100% 96%;
+    --badge-highlight-text: 45 100% 30%;
+    --badge-highlight-border: 45 80% 80%;
+    --badge-success: 142.1 76.2% 96%;
+    --badge-success-text: 142.1 76.2% 30%;
+    --badge-success-border: 142.1 50% 80%;
+    --badge-urgent: 0 84.2% 96%;
+    --badge-urgent-text: 0 84.2% 40%;
+    --badge-urgent-border: 0 60% 85%;
+
     /* Success and status colors */
     --success: 142.1 76.2% 36.3%;
     --success-foreground: 355.7 100% 97.3%;
-    --warning: 32.2 95% 44.1%;
-    --warning-foreground: 355.7 100% 97.3%;
-    --info: 210.4 98% 48%;
-    --info-foreground: 355.7 100% 97.3%;
+    --warning: 45 100% 50%;
+    --warning-foreground: 45 100% 20%;
+    --info: 221.2 83.2% 53.3%;
+    --info-foreground: 210 40% 98%;
   }
 
   .dark {
@@ -64,6 +82,24 @@
     --ring: 224.3 76.3% 94.1%;
 
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary)/0.1), hsl(var(--background)), hsl(var(--accent)/0.1));
+    
+    /* Section backgrounds for visual rhythm - dark mode */
+    --section-alt: 217.2 32.6% 12%;
+    --section-highlight: 217.2 40% 14%;
+    
+    /* Badge colors - dark mode */
+    --badge-trust: 221.2 50% 20%;
+    --badge-trust-text: 221.2 83.2% 80%;
+    --badge-trust-border: 221.2 40% 30%;
+    --badge-highlight: 45 50% 20%;
+    --badge-highlight-text: 45 80% 75%;
+    --badge-highlight-border: 45 40% 30%;
+    --badge-success: 142.1 40% 18%;
+    --badge-success-text: 142.1 60% 70%;
+    --badge-success-border: 142.1 30% 28%;
+    --badge-urgent: 0 50% 20%;
+    --badge-urgent-text: 0 70% 75%;
+    --badge-urgent-border: 0 40% 30%;
   }
 
   * {
