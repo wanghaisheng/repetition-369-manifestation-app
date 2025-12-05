@@ -62,15 +62,7 @@ export const HomeView = () => {
   }
 
   return (
-    <div className="flex-1 bg-ios-secondary-background px-4 py-6 pb-8 overflow-y-auto">
-      {/* Welcome Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">欢迎使用显化369</h1>
-        <h2 className="text-base text-gray-600 font-medium">
-          {activeWishes.length > 0 ? '继续您的显化之旅' : '开始您的第一个愿望吧'}
-        </h2>
-      </div>
-
+    <div className="flex-1 bg-ios-secondary-background px-4 py-4 pb-8 overflow-y-auto">
       {/* Error Alert */}
       {hasErrors && (
         <Card className="p-4 bg-red-50 border-red-200 mb-6">

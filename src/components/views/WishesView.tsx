@@ -80,13 +80,9 @@ export const WishesView = () => {
   }
 
   return (
-    <div className="flex-1 bg-ios-secondary-background px-4 py-6 pb-8 overflow-y-auto">
+    <div className="flex-1 bg-ios-secondary-background px-4 py-4 pb-8 overflow-y-auto">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">我的愿望</h1>
-          <p className="text-gray-600">管理您的显化目标</p>
-        </div>
+      <div className="flex justify-end items-center mb-4">
         <Button
           onClick={() => setShowAddModal(true)}
           className="bg-ios-blue hover:bg-blue-600 rounded-ios px-4 py-2 shadow-ios"

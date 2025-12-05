@@ -11,7 +11,6 @@ import { PracticeStats } from '@/components/practice/PracticeStats';
 import { PracticeCard } from '@/components/practice/PracticeCard';
 import { FocusMode } from '@/components/practice/FocusMode';
 import { WishSelector } from '@/components/practice/WishSelector';
-import { PracticeHeader } from '@/components/practice/PracticeHeader';
 import { EmptyState } from '@/components/practice/EmptyState';
 import { PointsDisplay } from '@/components/gamification/PointsDisplay';
 import { StreakCounter } from '@/components/gamification/StreakCounter';
@@ -207,15 +206,9 @@ export const PracticeView = () => {
 
   return (
     <div className="flex-1 bg-ios-secondary-background overflow-y-auto pb-8">
-      <div className="p-4 space-y-6">
-        <PracticeHeader 
-          title="369练习"
-          subtitle="通过重复书写来强化您的愿望显化"
-        />
-
-        {/* Enhanced header with new features */}
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold text-gray-800">今日练习</h2>
+      <div className="p-4 space-y-4">
+        {/* Header with action buttons */}
+        <div className="flex justify-end items-center">
           <div className="flex space-x-2">
             <Button
               variant="outline"
