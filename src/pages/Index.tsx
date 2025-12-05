@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { TabBar } from '@/components/navigation/TabBar';
+import { DrawerMenu } from '@/components/navigation/DrawerMenu';
 import { HomeView } from '@/components/views/HomeView';
 import { WishesView } from '@/components/views/WishesView';
 import { PracticeView } from '@/components/views/PracticeView';
@@ -122,7 +123,9 @@ const Index = () => {
       <SitemapGenerator />
       
       <div className="min-h-screen bg-ios-secondary-background">
-        <main className="pb-28">
+        <DrawerMenu activeTab={activeTab} onTabChange={handleTabChange} />
+        
+        <main className="pb-28 pt-2">
           {renderContent()}
         </main>
         
