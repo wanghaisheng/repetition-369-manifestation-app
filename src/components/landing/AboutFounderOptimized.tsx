@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import founderPortrait from '@/assets/founder-portrait.jpg';
 import { 
   Star,
   Github,
@@ -151,8 +152,9 @@ export const AboutFounderOptimized = () => {
               <CardContent className="p-12 text-center">
                 <div className="relative mb-8">
                   <Avatar className="w-32 h-32 mx-auto border-4 border-border">
+                    <AvatarImage src={founderPortrait} alt="Wang Haisheng - Founder" className="object-cover" />
                     <AvatarFallback className="bg-muted text-4xl">
-                      👨‍💻
+                      WH
                     </AvatarFallback>
                   </Avatar>
                   <div className="absolute -top-2 -right-2 w-8 h-8 bg-success rounded-full flex items-center justify-center">
