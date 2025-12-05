@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { StatusBar } from '@/components/ui/StatusBar';
 import { TabBar } from '@/components/navigation/TabBar';
 import { HomeView } from '@/components/views/HomeView';
 import { WishesView } from '@/components/views/WishesView';
@@ -14,7 +13,6 @@ import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 
 import { SitemapGenerator } from '@/components/seo/SitemapGenerator';
 import { PageLoadMonitor } from '@/components/performance/PageLoadMonitor';
-import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { RedirectHandler } from '@/components/seo/RedirectHandler';
 
 type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community' | 'settings';
@@ -124,9 +122,6 @@ const Index = () => {
       <SitemapGenerator />
       
       <div className="min-h-screen bg-ios-secondary-background">
-        <StatusBar />
-        <Breadcrumbs />
-        
         <main className="pb-28">
           {renderContent()}
         </main>
