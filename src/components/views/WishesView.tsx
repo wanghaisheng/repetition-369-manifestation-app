@@ -80,7 +80,7 @@ export const WishesView = () => {
   }
 
   return (
-    <div className="flex-1 bg-ios-secondary-background px-4 py-4 pb-8 overflow-y-auto">
+    <div className="flex-1 bg-ios-secondary-background px-4 py-4 overflow-y-auto">
       {/* Header */}
       <div className="flex justify-end items-center mb-4">
         <Button

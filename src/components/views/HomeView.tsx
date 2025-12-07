@@ -62,7 +62,7 @@ export const HomeView = () => {
   }
 
   return (
-    <div className="flex-1 bg-ios-secondary-background px-4 py-4 pb-8 overflow-y-auto">
+    <div className="flex-1 bg-ios-secondary-background px-4 py-4 overflow-y-auto">
       {/* Error Alert */}
       {hasErrors && (
         <Card className="p-4 bg-red-50 border-red-200 mb-6">

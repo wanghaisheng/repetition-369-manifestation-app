@@ -125,7 +125,7 @@ const Index = () => {
       <div className="min-h-screen bg-ios-secondary-background">
         <DrawerMenu activeTab={activeTab} onTabChange={handleTabChange} />
         
-        <main className="pb-28 pt-2">
+        <main className="pb-20">
           {renderContent()}
         </main>
         

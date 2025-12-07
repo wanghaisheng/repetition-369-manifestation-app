@@ -205,7 +205,7 @@ export const PracticeView = () => {
   }
 
   return (
-    <div className="flex-1 bg-ios-secondary-background overflow-y-auto pb-8">
+    <div className="flex-1 bg-ios-secondary-background overflow-y-auto">
       <div className="p-4 space-y-4">
         {/* Header with action buttons */}
         <div className="flex justify-end items-center">

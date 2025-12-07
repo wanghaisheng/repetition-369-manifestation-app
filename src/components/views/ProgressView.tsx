@@ -45,7 +45,7 @@ export const ProgressView = () => {
   }
 
   return (
-    <div className="flex-1 bg-ios-secondary-background px-4 py-4 pb-8 overflow-y-auto">
+    <div className="flex-1 bg-ios-secondary-background px-4 py-4 overflow-y-auto">
       {/* Header */}
       <div className="mb-4">
         <h1 className="text-xl font-bold text-gray-800">我的进度</h1>
