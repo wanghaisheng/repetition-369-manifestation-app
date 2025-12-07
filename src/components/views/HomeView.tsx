@@ -159,7 +159,7 @@ export const HomeView = () => {
       </div>
 
       {/* Quick Actions */}
-      <Card className="p-6 bg-white border-0 shadow-ios rounded-ios mb-6">
+      <Card className={`p-6 bg-white border-0 shadow-ios rounded-ios ${todayPractices.length > 0 ? 'mb-6' : ''}`}>
         <h2 className="text-lg font-semibold text-gray-800 mb-4">快速操作</h2>
         <div className="space-y-3">
           {activeWishes.length > 0 ? (
