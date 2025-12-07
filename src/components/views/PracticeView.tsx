@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Sun, Sunset, Moon, BarChart3, Star } from 'lucide-react';
 import { useWishes } from '@/hooks/useWishes';
 import { usePractice } from '@/hooks/usePractice';
@@ -25,6 +26,7 @@ import { AdvancedPracticeModal } from '@/components/practice/AdvancedPracticeMod
 import { Button } from '@/components/ui/button';
 
 export const PracticeView = () => {
+  const [searchParams] = useSearchParams();
   const { wishes, loading: wishesLoading } = useWishes();
   const { todayPractices, recordPractice, loading: practiceLoading } = usePractice();
   const { user } = useAuth();
@@ -51,6 +53,17 @@ export const PracticeView = () => {
   useEffect(() => {
     scheduleReminders();
   }, []);
+
+  // Auto-select wish from URL params
+  useEffect(() => {
+    const wishIdFromUrl = searchParams.get('wishId');
+    if (wishIdFromUrl && wishes.length > 0) {
+      const wishExists = wishes.some(w => w.id === wishIdFromUrl);
+      if (wishExists) {
+        setSelectedWishId(wishIdFromUrl);
+      }
+    }
+  }, [searchParams, wishes]);
 
   // Send streak notifications when milestones are achieved
   useEffect(() => {
