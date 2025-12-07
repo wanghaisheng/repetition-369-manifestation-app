@@ -69,7 +69,7 @@ export const CommunityView = () => {
   };
 
   return (
-    <div className="flex-1 bg-ios-secondary-background px-4 py-6 pb-8 overflow-y-auto">
+    <div className="flex-1 bg-ios-secondary-background px-4 py-6 overflow-y-auto">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
