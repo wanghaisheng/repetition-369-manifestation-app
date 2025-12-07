@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Heart, Target, Briefcase, Home as HomeIcon, Smile, User, DollarSign } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,7 @@ import { Wish, WishCategory } from '@/types';
 import { logger } from '@/utils/logger';
 
 export const WishesView = () => {
+  const navigate = useNavigate();
   const [showAddModal, setShowAddModal] = useState(false);
   const { wishes, loading, createWish, updateWish, deleteWish } = useWishes();
 
@@ -55,6 +57,10 @@ export const WishesView = () => {
       logger.error('Error creating wish', error);
       throw error;
     }
+  };
+
+  const handleStartPractice = (wishId: string) => {
+    navigate(`/app/practice?wishId=${wishId}`);
   };
 
   const handleToggleStatus = async (wish: Wish) => {
@@ -123,6 +129,7 @@ export const WishesView = () => {
                       <Button 
                         variant="outline" 
                         size="sm"
+                        onClick={() => handleStartPractice(wish.id)}
                         className="rounded-ios border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white"
                       >
                         开始练习
