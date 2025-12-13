@@ -177,11 +177,13 @@ export const CommunityView = () => {
       </div>
 
       {/* Load More */}
-      <div className="text-center mt-6">
-        <Button variant="outline" className="rounded-ios border-ios-blue text-ios-blue px-8">
-          加载更多
-        </Button>
-      </div>
+      {posts.length > 0 && (
+        <div className="text-center mt-6">
+          <Button variant="outline" className="rounded-ios border-ios-blue text-ios-blue px-8">
+            加载更多
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
