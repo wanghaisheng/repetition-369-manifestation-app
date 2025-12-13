@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { TabBar } from '@/components/navigation/TabBar';
 import { DrawerMenu } from '@/components/navigation/DrawerMenu';
@@ -11,17 +10,21 @@ import { CommunityView } from '@/components/views/CommunityView';
 import { SettingsPanel } from '@/components/settings/SettingsPanel';
 import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
-
 import { SitemapGenerator } from '@/components/seo/SitemapGenerator';
 import { PageLoadMonitor } from '@/components/performance/PageLoadMonitor';
 import { RedirectHandler } from '@/components/seo/RedirectHandler';
+import { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 
 type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community' | 'settings';
+
+// Tab order for swipe navigation
+const TAB_ORDER: Tab[] = ['home', 'wishes', 'practice', 'progress', 'community'];
 
 const Index = () => {
   const { tab } = useParams<{ tab: string }>();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('home');
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
 
   // 同步路由参数和状态
   useEffect(() => {
@@ -31,13 +34,57 @@ const Index = () => {
     if (validTabs.includes(currentTab)) {
       setActiveTab(currentTab);
     } else {
-      // 如果路由参数无效，重定向到home
       navigate('/app/home', { replace: true });
     }
   }, [tab, navigate]);
 
+  // Get current tab index
+  const currentTabIndex = TAB_ORDER.indexOf(activeTab);
+
+  // Swipe handlers
+  const handleSwipeLeft = useCallback(() => {
+    if (currentTabIndex < TAB_ORDER.length - 1 && currentTabIndex >= 0) {
+      const nextTab = TAB_ORDER[currentTabIndex + 1];
+      setSlideDirection('left');
+      navigate(`/app/${nextTab}`);
+    }
+  }, [currentTabIndex, navigate]);
+
+  const handleSwipeRight = useCallback(() => {
+    if (currentTabIndex > 0) {
+      const prevTab = TAB_ORDER[currentTabIndex - 1];
+      setSlideDirection('right');
+      navigate(`/app/${prevTab}`);
+    }
+  }, [currentTabIndex, navigate]);
+
+  // Initialize swipe navigation
+  const { containerRef, isSwiping, swipeProgress } = useSwipeNavigation({
+    onSwipeLeft: handleSwipeLeft,
+    onSwipeRight: handleSwipeRight,
+    threshold: 100,
+    enabled: TAB_ORDER.includes(activeTab), // Disable swipe on settings
+  });
+
+  // Reset slide direction after animation
+  useEffect(() => {
+    if (slideDirection) {
+      const timer = setTimeout(() => setSlideDirection(null), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [slideDirection, activeTab]);
+
   // 处理tab切换
   const handleTabChange = (newTab: Tab) => {
+    const newIndex = TAB_ORDER.indexOf(newTab);
+    const oldIndex = TAB_ORDER.indexOf(activeTab);
+    
+    if (newIndex > oldIndex) {
+      setSlideDirection('left');
+    } else if (newIndex < oldIndex) {
+      setSlideDirection('right');
+    }
+    
     navigate(`/app/${newTab}`);
   };
 
@@ -104,12 +151,19 @@ const Index = () => {
 
   const currentSEO = getPageSEO(activeTab);
 
+  // Calculate transform for swipe visual feedback
+  const swipeTransform = isSwiping ? `translateX(${swipeProgress * 30}px)` : '';
+  
+  // Get animation class based on slide direction
+  const getSlideClass = () => {
+    if (!slideDirection) return '';
+    return slideDirection === 'left' ? 'animate-slide-in-left' : 'animate-slide-in-right';
+  };
+
   return (
     <>
-      {/* 重定向处理 */}
       <RedirectHandler />
       
-      {/* 统一SEO - 包含错误边界保护 */}
       <SEOErrorBoundary>
         <UnifiedSEO 
           title={currentSEO.title}
@@ -118,16 +172,43 @@ const Index = () => {
         />
       </SEOErrorBoundary>
       
-      {/* 性能监控和sitemap生成 */}
       <PageLoadMonitor />
       <SitemapGenerator />
       
       <div className="min-h-screen bg-ios-secondary-background">
         <DrawerMenu activeTab={activeTab} onTabChange={handleTabChange} />
         
-        <main className="pb-20">
-          {renderContent()}
+        <main 
+          ref={containerRef}
+          className="pb-20 overflow-hidden"
+          style={{ 
+            transform: swipeTransform,
+            transition: isSwiping ? 'none' : 'transform 0.3s ease-out'
+          }}
+        >
+          <div 
+            key={activeTab} 
+            className={`${getSlideClass()}`}
+          >
+            {renderContent()}
+          </div>
         </main>
+        
+        {/* Swipe indicator dots */}
+        {TAB_ORDER.includes(activeTab) && (
+          <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 flex gap-1.5 z-10">
+            {TAB_ORDER.map((t, index) => (
+              <div
+                key={t}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+                  index === currentTabIndex 
+                    ? 'bg-ios-blue w-4' 
+                    : 'bg-gray-300'
+                }`}
+              />
+            ))}
+          </div>
+        )}
         
         <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
       </div>
