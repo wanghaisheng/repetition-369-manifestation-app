@@ -605,3 +605,206 @@ img[data-src].loaded {
     display: none;
   }
 }
+
+/* ==================== Mobile Touch & Scroll Optimizations ==================== */
+
+/* Smooth momentum scrolling for iOS */
+html {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Prevent pull-to-refresh on mobile but allow normal scrolling */
+body {
+  overscroll-behavior-y: contain;
+}
+
+/* Scrollable containers with smooth momentum */
+.overflow-y-auto,
+.overflow-x-auto,
+[class*="overflow-auto"] {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+
+/* Touch-friendly minimum tap targets (44px per Apple HIG) */
+button,
+a,
+[role="button"],
+.touchable {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Active touch feedback - iOS style press effect */
+@media (hover: none) and (pointer: coarse) {
+  button:active,
+  a:active,
+  [role="button"]:active,
+  .touchable:active {
+    transform: scale(0.97);
+    opacity: 0.8;
+  }
+  
+  .card:active,
+  .wish-card:active,
+  .practice-card:active {
+    transform: scale(0.98);
+    opacity: 0.95;
+  }
+}
+
+/* Smooth transition for touch feedback */
+button,
+a,
+[role="button"],
+.touchable,
+.card,
+.wish-card,
+.practice-card {
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Prevent text selection during touch interactions */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Prevent accidental zoom on form inputs on iOS */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Safe area insets for notched devices */
+.safe-area-inset {
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-area-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 16px);
+}
+
+.safe-area-top {
+  padding-top: max(env(safe-area-inset-top), 16px);
+}
+
+/* Improved scrollbar for touch devices - hide on mobile */
+@media (hover: none) and (pointer: coarse) {
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  
+  * {
+    scrollbar-width: none;
+  }
+}
+
+/* Swipe gesture hint */
+.swipe-hint {
+  animation: swipeHint 2s ease-in-out infinite;
+}
+
+@keyframes swipeHint {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateX(-10px);
+    opacity: 1;
+  }
+}
+
+/* Pull-to-refresh style indicator */
+.pull-indicator {
+  transition: transform 0.2s ease-out;
+}
+
+.pull-indicator.pulling {
+  transform: rotate(180deg);
+}
+
+/* Smooth card entrance animation */
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card-enter {
+  animation: cardSlideUp 0.3s ease-out forwards;
+}
+
+/* Staggered animation for lists */
+.stagger-animation > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-animation > *:nth-child(2) { animation-delay: 50ms; }
+.stagger-animation > *:nth-child(3) { animation-delay: 100ms; }
+.stagger-animation > *:nth-child(4) { animation-delay: 150ms; }
+.stagger-animation > *:nth-child(5) { animation-delay: 200ms; }
+
+/* Fixed bottom navigation safe area */
+.fixed-bottom-nav {
+  padding-bottom: env(safe-area-inset-bottom);
+  bottom: 0;
+}
+
+/* Haptic-like visual feedback */
+@keyframes hapticPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.haptic-feedback:active {
+  animation: hapticPulse 0.1s ease-out;
+}
+
+/* Improve focus states for accessibility */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Prevent layout shift during loading */
+.skeleton-container {
+  contain: layout;
+}
+
+/* GPU acceleration for smooth animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
