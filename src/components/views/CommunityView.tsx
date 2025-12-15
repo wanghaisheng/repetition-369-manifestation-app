@@ -69,13 +69,9 @@ export const CommunityView = () => {
   };
 
   return (
-    <div className="flex-1 bg-ios-secondary-background px-4 py-6 overflow-y-auto">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">显化社区</h1>
-          <p className="text-gray-600">分享经验，互相鼓励</p>
-        </div>
+    <div className="flex-1 bg-ios-secondary-background px-4 py-4 overflow-y-auto">
+      {/* 发布按钮 */}
+      <div className="flex justify-end items-center mb-4">
         <Button className="bg-ios-blue hover:bg-blue-600 rounded-ios px-4 py-2 shadow-ios">
           <Plus className="w-5 h-5 mr-2" />
           发布

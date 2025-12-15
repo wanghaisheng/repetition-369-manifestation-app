@@ -46,11 +46,6 @@ export const ProgressView = () => {
 
   return (
     <div className="flex-1 bg-ios-secondary-background px-4 py-4 overflow-y-auto">
-      {/* Header */}
-      <div className="mb-4">
-        <h1 className="text-xl font-bold text-gray-800">我的进度</h1>
-      </div>
-
       {/* 今日进度 - 圆形进度卡片 */}
       <Card className="p-6 bg-white border-0 shadow-ios rounded-ios mb-4">
         <div className="flex items-center justify-between">
