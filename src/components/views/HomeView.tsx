@@ -25,8 +25,8 @@ export const HomeView = () => {
   const todayProgress = todayPractices.length > 0 && activeWishes.length > 0 ? 
     Math.min((todayPractices.reduce((sum, p) => sum + p.completedCount, 0) / (activeWishes.length * 18)) * 100, 100) : 0;
 
-  // Show loading only if all hooks are still loading
-  const isLoading = wishesLoading && practiceLoading && progressLoading;
+  // Show loading if ANY hook is still loading (use || instead of &&)
+  const isLoading = wishesLoading || practiceLoading || progressLoading;
 
   // Check for errors but don't block the UI
   const hasErrors = wishesError || practiceError || progressError;
