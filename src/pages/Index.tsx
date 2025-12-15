@@ -20,50 +20,68 @@ type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community' | 'settings
 // Tab order for swipe navigation
 const TAB_ORDER: Tab[] = ['home', 'wishes', 'practice', 'progress', 'community'];
 
+// 验证 tab 参数
+const getValidTab = (t: string | undefined): Tab => {
+  const validTabs: Tab[] = ['home', 'wishes', 'practice', 'progress', 'community', 'settings'];
+  return validTabs.includes(t as Tab) ? (t as Tab) : 'home';
+};
+
 const Index = () => {
   const { tab } = useParams<{ tab: string }>();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<Tab>('home');
+  
+  // 直接从 URL 参数初始化，避免首次渲染闪烁
+  const [activeTab, setActiveTab] = useState<Tab>(() => getValidTab(tab));
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // 同步路由参数和状态
   useEffect(() => {
-    const validTabs: Tab[] = ['home', 'wishes', 'practice', 'progress', 'community', 'settings'];
-    const currentTab = tab as Tab;
+    const newTab = getValidTab(tab);
     
-    if (validTabs.includes(currentTab)) {
-      setActiveTab(currentTab);
-    } else {
+    if (newTab !== activeTab) {
+      setActiveTab(newTab);
+    }
+    
+    // 首次加载后标记为已初始化
+    if (!isInitialized) {
+      setIsInitialized(true);
+    }
+    
+    // 无效路由重定向
+    if (tab && !['home', 'wishes', 'practice', 'progress', 'community', 'settings'].includes(tab)) {
       navigate('/app/home', { replace: true });
     }
-  }, [tab, navigate]);
+  }, [tab, navigate, activeTab, isInitialized]);
 
   // Get current tab index
   const currentTabIndex = TAB_ORDER.indexOf(activeTab);
 
-  // Swipe handlers
+  // Swipe handlers - 只在初始化后允许滑动
   const handleSwipeLeft = useCallback(() => {
+    if (!isInitialized) return;
     if (currentTabIndex < TAB_ORDER.length - 1 && currentTabIndex >= 0) {
       const nextTab = TAB_ORDER[currentTabIndex + 1];
       setSlideDirection('left');
       navigate(`/app/${nextTab}`);
     }
-  }, [currentTabIndex, navigate]);
+  }, [currentTabIndex, navigate, isInitialized]);
 
   const handleSwipeRight = useCallback(() => {
+    if (!isInitialized) return;
     if (currentTabIndex > 0) {
       const prevTab = TAB_ORDER[currentTabIndex - 1];
       setSlideDirection('right');
       navigate(`/app/${prevTab}`);
     }
-  }, [currentTabIndex, navigate]);
+  }, [currentTabIndex, navigate, isInitialized]);
 
   // Initialize swipe navigation
   const { containerRef, isSwiping, swipeProgress } = useSwipeNavigation({
     onSwipeLeft: handleSwipeLeft,
     onSwipeRight: handleSwipeRight,
     threshold: 100,
-    enabled: TAB_ORDER.includes(activeTab), // Disable swipe on settings
+    enabled: TAB_ORDER.includes(activeTab) && isInitialized,
   });
 
   // Reset slide direction after animation
@@ -74,11 +92,14 @@ const Index = () => {
     }
   }, [slideDirection, activeTab]);
 
-  // 处理tab切换
+  // 处理tab切换（只有用户主动切换时才触发动画）
   const handleTabChange = (newTab: Tab) => {
+    if (!isInitialized) return;
+    
     const newIndex = TAB_ORDER.indexOf(newTab);
     const oldIndex = TAB_ORDER.indexOf(activeTab);
     
+    // 只有初始化后的切换才显示动画
     if (newIndex > oldIndex) {
       setSlideDirection('left');
     } else if (newIndex < oldIndex) {
@@ -88,7 +109,7 @@ const Index = () => {
     navigate(`/app/${newTab}`);
   };
 
-  const getPageSEO = (tab: Tab) => {
+  const getPageSEO = (currentTab: Tab) => {
     const seoConfig = {
       home: {
         title: '显化369 - 愿望成真的神奇力量',
@@ -122,7 +143,7 @@ const Index = () => {
       }
     };
     
-    return seoConfig[tab] || seoConfig.home;
+    return seoConfig[currentTab] || seoConfig.home;
   };
 
   const renderContent = () => {
@@ -154,9 +175,9 @@ const Index = () => {
   // Calculate transform for swipe visual feedback
   const swipeTransform = isSwiping ? `translateX(${swipeProgress * 30}px)` : '';
   
-  // Get animation class based on slide direction
+  // Get animation class based on slide direction (只在初始化后显示动画)
   const getSlideClass = () => {
-    if (!slideDirection) return '';
+    if (!slideDirection || !isInitialized) return '';
     return slideDirection === 'left' ? 'animate-slide-in-left' : 'animate-slide-in-right';
   };
 
@@ -188,7 +209,7 @@ const Index = () => {
         >
           <div 
             key={activeTab} 
-            className={`${getSlideClass()}`}
+            className={getSlideClass()}
           >
             {renderContent()}
           </div>
