@@ -7,6 +7,7 @@ import { CircularProgress } from '@/components/gamification/CircularProgress';
 import { useProgress } from '@/hooks/useProgress';
 import { useWishes } from '@/hooks/useWishes';
 import { usePractice } from '@/hooks/usePractice';
+import { ProgressViewSkeleton } from '@/components/skeletons/AppSkeletons';
 
 export const ProgressView = () => {
   const { progress, loading: progressLoading, getTodayStats, getWeeklyStats, getMonthlyStats } = useProgress();
@@ -34,14 +35,7 @@ export const ProgressView = () => {
   const todayProgress = todayTargetCount > 0 ? (todayCompletedCount / todayTargetCount) * 100 : 0;
 
   if (isLoading) {
-    return (
-      <div className="flex-1 bg-ios-secondary-background px-4 py-6 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ios-blue mx-auto mb-4"></div>
-          <p className="text-gray-600">加载进度数据中...</p>
-        </div>
-      </div>
-    );
+    return <ProgressViewSkeleton />;
   }
 
   return (

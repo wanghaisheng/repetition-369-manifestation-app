@@ -4,6 +4,7 @@ import { MessageCircle, Heart, Share, Plus, TrendingUp, Users } from 'lucide-rea
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
+import { CommunityViewSkeleton } from '@/components/skeletons/AppSkeletons';
 
 export const CommunityView = () => {
   const [posts] = useState([
