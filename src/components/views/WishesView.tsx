@@ -8,6 +8,7 @@ import { AddWishModal } from '@/components/modals/AddWishModal';
 import { useWishes } from '@/hooks/useWishes';
 import { Wish, WishCategory } from '@/types';
 import { logger } from '@/utils/logger';
+import { WishesViewSkeleton } from '@/components/skeletons/AppSkeletons';
 
 export const WishesView = () => {
   const navigate = useNavigate();
@@ -75,14 +76,7 @@ export const WishesView = () => {
   const activeWishes = wishes.filter(wish => wish.status === 'active');
 
   if (loading) {
-    return (
-      <div className="flex-1 bg-ios-secondary-background px-4 py-6 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ios-blue mx-auto mb-4"></div>
-          <p className="text-gray-600">加载愿望中...</p>
-        </div>
-      </div>
-    );
+    return <WishesViewSkeleton />;
   }
 
   return (

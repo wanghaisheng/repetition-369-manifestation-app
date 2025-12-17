@@ -9,6 +9,7 @@ import { usePractice } from '@/hooks/usePractice';
 import { useProgress } from '@/hooks/useProgress';
 import { AddWishModal } from '@/components/modals/AddWishModal';
 import { useToast } from '@/hooks/use-toast';
+import { HomeViewSkeleton } from '@/components/skeletons/AppSkeletons';
 
 export const HomeView = () => {
   const { wishes, loading: wishesLoading, error: wishesError, createWish, refetch } = useWishes();
@@ -51,14 +52,7 @@ export const HomeView = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex-1 bg-ios-secondary-background px-4 py-6 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ios-blue mx-auto mb-4"></div>
-          <p className="text-gray-600">加载数据中...</p>
-        </div>
-      </div>
-    );
+    return <HomeViewSkeleton />;
   }
 
   return (

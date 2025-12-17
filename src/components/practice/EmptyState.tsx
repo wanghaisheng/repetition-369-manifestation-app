@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/ui/card';
 import { BookOpen, Plus, Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { PracticeViewSkeleton } from '@/components/skeletons/AppSkeletons';
 
 interface EmptyStateProps {
   type: 'loading' | 'noWishes' | 'noPractices';
@@ -13,14 +14,7 @@ interface EmptyStateProps {
 export const EmptyState = ({ type, onCreateWish }: EmptyStateProps) => {
   const { t } = useTranslation('app');
   if (type === 'loading') {
-    return (
-      <div className="flex-1 bg-ios-secondary-background flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-ios-blue mx-auto mb-4" />
-          <p className="text-gray-600">{t('common.loading')}</p>
-        </div>
-      </div>
-    );
+    return <PracticeViewSkeleton />;
   }
 
   if (type === 'noWishes') {
