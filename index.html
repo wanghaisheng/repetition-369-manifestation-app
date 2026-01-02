@@ -3,35 +3,61 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
     <title>显化369 - 愿望成真的神奇力量</title>
     <meta name="description" content="一款极简优雅的显化练习应用，通过369方法帮助您实现愿望。支持愿望管理、书写练习、进度跟踪和社区分享。" />
     <meta name="author" content="显化369团队" />
     <meta name="theme-color" content="#007AFF" />
+
+    <!-- 关键资源预连接 - 优化TTFB -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://hziwbeyokjdswlzzmjem.supabase.co" />
+    
+    <!-- 字体预加载 - 使用font-display:swap避免阻塞 -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+    </noscript>
+
+    <!-- 内联关键CSS - 避免FOUC -->
+    <style>
+      /* 关键首屏样式 */
+      :root{--background:0 0% 100%;--foreground:222.2 84% 4.9%;--primary:221.2 83.2% 53.3%}
+      body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:hsl(var(--background));color:hsl(var(--foreground))}
+      #root{min-height:100vh;display:flex;flex-direction:column}
+      .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:400% 100%;animation:shimmer 1.2s infinite}
+      @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    </style>
 
     <!-- PWA Configuration -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="显化369" />
-    
-    <!-- iOS Safe Area Support -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
 
+    <!-- Open Graph -->
     <meta property="og:title" content="显化369 - 愿望成真的神奇力量" />
     <meta property="og:description" content="通过369方法显化您的愿望，一款专业的显化练习应用" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:image" content="https://369.heymanifestation.com/369-app-icon.png" />
+    <meta property="og:url" content="https://369.heymanifestation.com" />
 
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="显化369 - 愿望成真的神奇力量" />
     <meta name="twitter:description" content="通过369方法显化您的愿望，一款专业的显化练习应用" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:image" content="https://369.heymanifestation.com/369-app-icon.png" />
 
     <!-- iOS Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    
+    <!-- DNS预解析 -->
+    <link rel="dns-prefetch" href="//www.google-analytics.com" />
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
   </head>
 
   <body>

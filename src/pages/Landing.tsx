@@ -1,16 +1,12 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { MultiLanguageSEO } from '@/components/seo/MultiLanguageSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
-
 import { AdvancedStructuredData } from "@/components/seo/AdvancedStructuredData";
 import { SocialMediaCards } from "@/components/seo/SocialMediaCards";
-import { CriticalResourcePreloader } from "@/components/performance/CriticalResourcePreloader";
 import { LazySection } from "@/components/performance/LazySection";
-import { WebVitalsMonitor } from "@/components/performance/WebVitalsMonitor";
 import { OptimizedHeader } from '@/components/landing/OptimizedHeader';
 import { HeroOptimized } from '@/components/landing/HeroOptimized';
 import { OptimizedFeatures } from '@/components/landing/OptimizedFeatures';
@@ -83,8 +79,6 @@ const Landing = () => {
 
   return (
     <>
-      <CriticalResourcePreloader />
-      <WebVitalsMonitor />
       <SEOErrorBoundary>
         <MultiLanguageSEO 
           title={t('hero.title')}
