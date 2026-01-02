@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+/* 字体通过HTML preload加载，避免阻塞渲染 */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
