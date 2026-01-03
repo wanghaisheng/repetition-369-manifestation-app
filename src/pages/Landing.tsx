@@ -81,9 +81,9 @@ const Landing = () => {
     <>
       <SEOErrorBoundary>
         <MultiLanguageSEO 
-          title={t('hero.title')}
-          description={t('hero.description')}
-          keywords={i18n.language === 'zh' ? '显化369,愿望实现,吸引力法则,369方法,冥想练习,正念' : 'manifest369,manifestation,law of attraction,369 method,meditation,mindfulness'}
+          title={t('seo.title', t('hero.title'))}
+          description={t('seo.description', t('hero.description'))}
+          keywords={t('seo.keywords', i18n.language === 'zh' ? '显化369,愿望实现,吸引力法则,369方法,冥想练习,正念' : 'manifest369,manifestation,law of attraction,369 method,meditation,mindfulness')}
         />
       </SEOErrorBoundary>
       <AdvancedStructuredData 

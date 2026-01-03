@@ -62,7 +62,7 @@ const About = () => {
         <section className="py-20 px-4">
           <div className="container mx-auto text-center max-w-4xl">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              {t('about:hero.title')}
+              {t('about:hero.h1', t('about:hero.title'))}
             </h1>
             <p className="text-xl text-gray-600 mb-4 max-w-2xl mx-auto">
               {t('about:hero.subtitle')}

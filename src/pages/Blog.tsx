@@ -100,7 +100,7 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <UnifiedSEO 
-        title={t('app:blog.title') + ' - ' + t('app:blog.subtitle')}
+        title={i18n.language === 'zh' ? '369显化法博客 - 成功案例与方法技巧 | 显化369' : '369 Manifestation Blog - Success Stories & Tips | Manifest369'}
         description={t('app:blog.subtitle')}
         type="website"
         keywords={i18n.language === 'zh' ? '显化369博客,显化方法,成功案例,创始人故事,独立开发' : 'manifestation 369 blog,manifestation method,success stories,founder story,indie development'}
@@ -149,7 +149,7 @@ const Blog = () => {
             <BookOpen className="w-10 h-10 text-primary-foreground" />
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-            {t('app:blog.title')}
+            {i18n.language === 'zh' ? '369显化法博客：成功案例与实践技巧' : '369 Manifestation Blog: Success Stories & Practice Tips'}
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
             {t('app:blog.subtitle')}

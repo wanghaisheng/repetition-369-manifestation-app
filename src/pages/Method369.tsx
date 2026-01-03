@@ -133,7 +133,7 @@ const Method369 = () => {
                 <Sparkles className="w-10 h-10 text-white" />
               </div>
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                {t('method369:hero.title')}
+                {t('method369:hero.h1', t('method369:hero.title'))}
               </h1>
               <p className="text-xl text-gray-600 mb-4 max-w-3xl mx-auto">
                 {t('method369:hero.subtitle')}

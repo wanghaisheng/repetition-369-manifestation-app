@@ -1,29 +1,80 @@
-# SEO H标签层级审计报告
+# SEO Title & H1 优化审计报告
 
 ## 审计日期
-2025-11-25
+2026-01-03（Title格式统一更新）
 
 ## 审计范围
-对显化369应用的关键页面进行H标签（h1-h3）层级结构的全面审计和优化。
+统一所有页面的Title格式为：`主关键词 - 页面描述 | 品牌名`，确保每页H1唯一且包含关键词。
 
 ---
 
-## 审计结果总览
+## 一、Title格式统一
 
-### ✅ 审计页面列表
-1. Landing页面 (`/`)
-2. About页面 (`/about`) 
-3. FAQ页面 (`/faq`)
-4. Method369页面 (`/method369`)
-5. Blog列表页 (`/blog`)
-6. Blog文章页 (`/blog/:slug`)
-7. App主页 (`/app/home`)
+### 统一格式规范
+```
+主关键词 - 页面描述 | 品牌名(显化369/Manifest369)
+```
 
-### 📊 审计统计
-- **审计页面数**: 7个核心页面
-- **发现问题**: 5处H标签问题
-- **已修复**: 5处
-- **修复率**: 100%
+### 优化后的Title列表
+
+| 页面 | 中文Title | 英文Title |
+|------|-----------|-----------|
+| 首页 | 369显化法 - 愿望成真的神奇力量 \| 显化369 | 369 Manifestation Method - Make Your Dreams Come True \| Manifest369 |
+| 方法页 | 369显化法 - 完整指南与科学原理 \| 显化369 | 369 Manifestation Method - Complete Guide & Science \| Manifest369 |
+| FAQ | 369显化法常见问题 - 用户指南与答疑 \| 显化369 | 369 Manifestation FAQ - User Guide & Answers \| Manifest369 |
+| 关于 | 关于我们 - 创始人故事与产品使命 \| 显化369 | About Us - Founder Story & Product Mission \| Manifest369 |
+| 博客 | 369显化法博客 - 成功案例与方法技巧 \| 显化369 | 369 Manifestation Blog - Success Stories & Tips \| Manifest369 |
+| 成功案例 | 369显化法成功案例 - 真实用户故事分享 \| 显化369 | 369 Manifestation Success Stories - Real User Experiences \| Manifest369 |
+| 隐私政策 | 隐私政策 - 数据保护与用户隐私 \| 显化369 | Privacy Policy - Data Protection \| Manifest369 |
+| 服务条款 | 服务条款 - 使用协议与规则 \| 显化369 | Terms of Service - Usage Agreement \| Manifest369 |
+
+---
+
+## 二、H1唯一性与关键词优化
+
+### 每页H1规范
+
+| 页面 | 中文H1 | 英文H1 | 主关键词 |
+|------|--------|--------|----------|
+| 首页 | 369显化法：科学实现愿望的神奇方法 | 369 Manifestation Method: The Scientific Way to Achieve Your Dreams | 369显化法 |
+| 方法页 | 369显化法：基于特斯拉理论的科学显化方法 | 369 Manifestation Method: Tesla's Scientific Approach to Achieving Goals | 369显化法 |
+| FAQ | 369显化法FAQ：从入门到精通的完整答疑 | 369 Manifestation Method FAQ: Complete Guide from Beginner to Expert | 369显化法 |
+| 关于 | 显化369：从技术开发者到显化实践者的创业故事 | Manifest369: From Tech Developer to Manifestation Practitioner | 显化369 |
+| 博客 | 369显化法博客：成功案例与实践技巧 | 369 Manifestation Blog: Success Stories & Practice Tips | 369显化法 |
+| 成功案例 | 369显化法成功案例：真实用户的显化故事 | 369 Manifestation Success Stories: Real User Experiences | 369显化法 |
+| 隐私政策 | 隐私政策：显化369数据保护承诺 | Privacy Policy: Manifest369 Data Protection Commitment | 隐私政策 |
+| 服务条款 | 服务条款：显化369使用协议 | Terms of Service: Manifest369 Usage Agreement | 服务条款 |
+
+---
+
+## 三、技术修改记录
+
+### 修改的文件列表（2026-01-03）
+
+1. **src/config/seo.ts** - 添加BRAND_NAME配置，统一Title格式
+2. **src/i18n/resources/zh/landing.json** - 新增seo块和h1字段
+3. **src/i18n/resources/en/landing.json** - 新增seo块和h1字段
+4. **src/i18n/resources/zh/method369.json** - 更新seo.title和h1字段
+5. **src/i18n/resources/en/method369.json** - 更新seo.title和h1字段
+6. **src/i18n/resources/zh/faq.json** - 更新seo.title和h1字段
+7. **src/i18n/resources/en/faq.json** - 更新seo.title和h1字段
+8. **src/i18n/resources/zh/about.json** - 更新seo.title和h1字段
+9. **src/i18n/resources/en/about.json** - 更新seo.title和h1字段
+10. **src/components/landing/HeroOptimized.tsx** - 使用hero.h1作为H1
+11. **src/pages/Landing.tsx** - 使用seo.title
+12. **src/pages/Method369.tsx** - 使用hero.h1
+13. **src/pages/FAQ.tsx** - 使用hero.h1
+14. **src/pages/About.tsx** - 使用hero.h1
+15. **src/pages/Blog.tsx** - 统一Title格式和H1
+16. **src/pages/UserStories.tsx** - 统一Title格式和H1
+17. **src/pages/Privacy.tsx** - 统一Title格式和H1
+18. **src/pages/Terms.tsx** - 统一Title格式和H1
+
+---
+
+## 四、历史审计记录（2025-11-25）
+
+### 审计结果总览
 
 ---
 

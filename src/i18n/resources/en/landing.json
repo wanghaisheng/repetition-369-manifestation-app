@@ -1,7 +1,12 @@
-
 {
+  "seo": {
+    "title": "369 Manifestation Method - Make Your Dreams Come True | Manifest369",
+    "description": "A smart practice app based on Tesla's 369 manifestation method. Systematically achieve your goals with wish management, 369 practice, and progress tracking.",
+    "keywords": "369 manifestation method,manifest369,law of attraction,wish fulfillment,Tesla 369,meditation practice"
+  },
   "hero": {
-    "title": "Manifest369 - The Magic Power of Making Dreams Come True",
+    "title": "369 Manifestation - Make Dreams Reality",
+    "h1": "369 Manifestation Method: The Scientific Way to Achieve Your Dreams",
     "subtitle": "Smart manifestation app based on Tesla's 369 method",
     "description": "Systematically achieve your desired goals through the scientific 369 method. Daily practice of writing 3, 6, 9 times to let the universe's energy help you manifest your dreams.",
     "cta": "Start Free",

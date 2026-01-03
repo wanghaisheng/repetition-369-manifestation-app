@@ -42,15 +42,15 @@ export const HeroOptimized = () => {
           </div>
         </div>
 
-        {/* Main headline with improved hierarchy */}
+        {/* Main headline - 唯一H1，包含主关键词 */}
         <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-foreground mb-6 leading-tight tracking-tight">
-          {t('hero.title')}
+          {t('hero.h1', t('hero.title'))}
         </h1>
         
-        {/* Subheadline with semantic h2 */}
-        <h2 className="text-xl md:text-2xl text-muted-foreground mb-6 max-w-3xl mx-auto font-medium">
+        {/* Subheadline */}
+        <p className="text-xl md:text-2xl text-muted-foreground mb-6 max-w-3xl mx-auto font-medium">
           {t('hero.subtitle')}
-        </h2>
+        </p>
         
         {/* Value proposition */}
         <p className="text-lg text-muted-foreground/80 mb-8 max-w-4xl mx-auto leading-relaxed">

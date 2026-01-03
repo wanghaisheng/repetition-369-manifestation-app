@@ -102,7 +102,7 @@ const FAQ = () => {
               <HelpCircle className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Frequently Asked Questions
+              {t('faq:hero.h1', t('faq:hero.title'))}
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
               Find the answers you need to start your successful manifestation journey

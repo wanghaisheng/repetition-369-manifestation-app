@@ -10,7 +10,7 @@ const Terms = () => {
     <>
       <SEOErrorBoundary>
         <UnifiedSEO 
-          title="服务条款 - 显化369"
+          title="服务条款 - 使用协议与规则 | 显化369"
           description="显化369应用的服务条款，了解使用我们服务的规则和条件"
           keywords="服务条款,使用协议,法律条款,显化369"
         />
@@ -25,7 +25,7 @@ const Terms = () => {
                 返回首页
               </Button>
             </Link>
-            <h1 className="text-3xl font-bold text-foreground mb-2">服务条款</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">服务条款：显化369使用协议</h1>
             <p className="text-muted-foreground">最后更新：2024年1月</p>
           </div>
 
