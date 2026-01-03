@@ -163,7 +163,7 @@ const UserStories = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <UnifiedSEO 
-        title={i18n.language === 'zh' ? '用户成功案例 - 显化369真实故事分享' : 'User Success Stories - Real Manifestation 369 Experiences'}
+        title={i18n.language === 'zh' ? '369显化法成功案例 - 真实用户故事分享 | 显化369' : '369 Manifestation Success Stories - Real User Experiences | Manifest369'}
         description={i18n.language === 'zh' ? '阅读真实用户的369显化成功故事，涵盖职业、健康、感情、财务等各个方面的成功案例。' : 'Read real user success stories with 369 manifestation method, covering career, health, relationship, finance and personal growth.'}
         type="website"
         keywords={i18n.language === 'zh' ? '369显化成功案例,用户故事,显化真实经历,目标实现,成功分享' : '369 manifestation success stories,user testimonials,real manifestation experiences,goal achievement,success sharing'}
@@ -212,7 +212,7 @@ const UserStories = () => {
             <Heart className="w-10 h-10 text-primary-foreground" />
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-            {i18n.language === 'zh' ? '用户成功案例' : 'Success Stories'}
+            {i18n.language === 'zh' ? '369显化法成功案例：真实用户的显化故事' : '369 Manifestation Success Stories: Real User Experiences'}
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
             {i18n.language === 'zh' 

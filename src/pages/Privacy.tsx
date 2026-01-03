@@ -10,7 +10,7 @@ const Privacy = () => {
     <>
       <SEOErrorBoundary>
         <UnifiedSEO 
-          title="隐私政策 - 显化369"
+          title="隐私政策 - 数据保护与用户隐私 | 显化369"
           description="显化369应用的隐私政策，了解我们如何保护您的个人信息和数据安全"
           keywords="隐私政策,数据保护,用户隐私,显化369"
         />
@@ -25,7 +25,7 @@ const Privacy = () => {
                 返回首页
               </Button>
             </Link>
-            <h1 className="text-3xl font-bold text-foreground mb-2">隐私政策</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">隐私政策：显化369数据保护承诺</h1>
             <p className="text-muted-foreground">最后更新：2024年1月</p>
           </div>
 

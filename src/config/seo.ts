@@ -7,10 +7,16 @@ export const SEO_CONFIG = {
   DEFAULT_LANGUAGE: 'zh',
   SUPPORTED_LANGUAGES: ['zh', 'en'],
   
-  // 默认SEO信息
+  // 默认SEO信息 - 格式: 主关键词 - 页面描述 | 品牌名
   DEFAULT_TITLE: {
-    zh: '显化369 - 愿望成真的神奇力量',
-    en: 'Manifestation 369 - The Magical Power of Making Wishes Come True'
+    zh: '369显化法 - 愿望成真的神奇力量 | 显化369',
+    en: '369 Manifestation Method - Make Your Dreams Come True | Manifest369'
+  },
+  
+  // 品牌名
+  BRAND_NAME: {
+    zh: '显化369',
+    en: 'Manifest369'
   },
   
   DEFAULT_DESCRIPTION: {
