@@ -7,6 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { MultiLanguageSEO } from '@/components/seo/MultiLanguageSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
+import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { 
   Sparkles, 
   ArrowLeft,
@@ -209,6 +210,13 @@ const FAQ = () => {
                 </CardContent>
               </Card>
             </div>
+          </div>
+        </section>
+
+        {/* Internal Links Section */}
+        <section className="py-12 px-4">
+          <div className="container mx-auto max-w-6xl">
+            <EnhancedInternalLinks currentPage="faq" maxLinks={12} showClusterLabels />
           </div>
         </section>
 
