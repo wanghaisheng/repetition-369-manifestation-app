@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { MultiLanguageSEO } from '@/components/seo/MultiLanguageSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
+import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { 
   Sparkles, 
   ArrowLeft,
@@ -158,12 +159,19 @@ const About = () => {
           </div>
         </section>
 
+        {/* Internal Links Section */}
+        <section className="py-12 px-4">
+          <div className="container mx-auto max-w-6xl">
+            <EnhancedInternalLinks currentPage="about" maxLinks={12} showClusterLabels />
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="py-20 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-4xl font-bold mb-4">Join Our Community</h2>
             <p className="text-xl mb-6">Start your manifestation journey today</p>
-            <p className="text-lg mb-8 opacity-90">Whether you're new to manifestation or an experienced practitioner, we have the tools for you</p>
+            <p className="text-lg mb-8 opacity-90">Whether you are new to manifestation or an experienced practitioner, we have the tools for you</p>
             
             <Link to="/auth">
               <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg">

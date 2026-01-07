@@ -15,6 +15,7 @@ import { SocialProofSection } from '@/components/landing/SocialProofSection';
 import { ConversionOptimizedCTA } from '@/components/landing/ConversionOptimizedCTA';
 import { OptimizedFooter } from '@/components/landing/OptimizedFooter';
 import { AdminFloatingButton } from '@/components/admin/AdminFloatingButton';
+import { HomePageLinks } from '@/components/seo/EnhancedInternalLinks';
 import { 
   Sparkles, 
   Star,
@@ -118,6 +119,10 @@ const Landing = () => {
 
         <LazySection fallback={<div className="h-80 bg-muted/10 animate-pulse" />}>
           <SocialProofSection />
+        </LazySection>
+
+        <LazySection fallback={<div className="h-96 bg-muted/10 animate-pulse" />}>
+          <HomePageLinks />
         </LazySection>
 
         <LazySection fallback={<div className="h-48 bg-muted/10 animate-pulse" />}>

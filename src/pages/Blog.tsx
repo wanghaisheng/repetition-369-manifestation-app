@@ -8,6 +8,7 @@ import { AdvancedStructuredData } from '@/components/seo/AdvancedStructuredData'
 import { SocialMediaCards } from '@/components/seo/SocialMediaCards';
 import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
+import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { supabase } from '@/integrations/supabase/client';
 import { SkeletonLoader, CardSkeleton } from '@/components/performance/SkeletonLoader';
 import { 
@@ -312,6 +313,11 @@ const Blog = () => {
             </section>
           </>
         )}
+
+        {/* Internal Links Section */}
+        <section className="mt-16">
+          <EnhancedInternalLinks currentPage="blog" maxLinks={12} showClusterLabels />
+        </section>
 
         {/* Newsletter CTA */}
         <section className="mt-16 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl p-8 text-center">
