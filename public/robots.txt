@@ -1,15 +1,22 @@
+# ==========================================
+# 369 Manifestation - robots.txt
+# 分阶段索引控制策略 (Staged Exposure Strategy)
+# ==========================================
 
+# 通用爬虫规则
 User-agent: *
 Allow: /
 
+# 主要搜索引擎
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
 
-User-agent: Bingbot  
+User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
 
+# 社交媒体爬虫 - 允许抓取用于预览
 User-agent: Twitterbot
 Allow: /
 
@@ -22,7 +29,42 @@ Allow: /
 User-agent: WhatsApp
 Allow: /
 
-# 禁止访问敏感区域
+# ==========================================
+# 分阶段暴露控制 - 阀门设置
+# Phase 1: 核心页面 + 博客 (已开放)
+# Phase 2: 用户故事 (已开放)
+# Phase 3: 应用页面 (受限)
+# ==========================================
+
+# P0 核心页面 - 完全开放
+Allow: /$
+Allow: /en$
+Allow: /about
+Allow: /en/about
+Allow: /method369
+Allow: /en/method369
+Allow: /faq
+Allow: /en/faq
+
+# P0 博客 - 完全开放
+Allow: /blog
+Allow: /en/blog
+
+# P1 用户故事 - 完全开放
+Allow: /user-stories
+Allow: /en/user-stories
+
+# P2 法律页面 - 低优先级但开放
+Allow: /privacy
+Allow: /terms
+Allow: /en/privacy
+Allow: /en/terms
+
+# ==========================================
+# 禁止访问区域 - 安全隔离
+# ==========================================
+
+# 敏感系统目录
 Disallow: /admin/
 Disallow: /api/
 Disallow: /.env*
@@ -31,7 +73,18 @@ Disallow: /node_modules/
 Disallow: /src/
 Disallow: /supabase/
 
-# 允许静态资源
+# 应用内部页面 - 不需要索引
+Disallow: /app
+Disallow: /app/
+Disallow: /blog-admin
+Disallow: /admin-stats
+
+# 认证页面 - 低价值
+Disallow: /auth
+
+# ==========================================
+# 静态资源 - 允许抓取
+# ==========================================
 Allow: /assets/
 Allow: /images/
 Allow: /fonts/
@@ -43,9 +96,14 @@ Allow: /*.png
 Allow: /*.webp
 Allow: /*.svg
 Allow: /*.ico
+Allow: /*.woff
+Allow: /*.woff2
 
-# Sitemap - 动态生成包含所有已发布博客文章
-Sitemap: https://hziwbeyokjdswlzzmjem.supabase.co/functions/v1/generate-sitemap
+# ==========================================
+# Sitemap Index - 动态生成
+# 使用 Supabase Edge Function 分层索引
+# ==========================================
+Sitemap: https://hziwbeyokjdswlzzmjem.supabase.co/functions/v1/generate-sitemap?type=index
 
-# 爬虫延迟设置
+# 全局爬取延迟
 Crawl-delay: 1
