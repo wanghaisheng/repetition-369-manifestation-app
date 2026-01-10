@@ -21,9 +21,15 @@ export const redirectToCanonical = (path: string): string => {
 };
 
 export const generateCanonicalUrl = (path: string): string => {
+  // 确保使用HTTPS和non-www域名
   const baseUrl = 'https://369.heymanifestation.com';
-  const normalizedPath = redirectToCanonical(path);
-  return `${baseUrl}${normalizedPath}`;
+  let normalizedPath = redirectToCanonical(path);
+  
+  // 移除查询参数和哈希
+  normalizedPath = normalizedPath.split('?')[0].split('#')[0];
+  
+  // 根路径返回纯域名，其他路径返回完整URL
+  return normalizedPath === '/' ? baseUrl : `${baseUrl}${normalizedPath}`;
 };
 
 export const enforceHttps = (): void => {

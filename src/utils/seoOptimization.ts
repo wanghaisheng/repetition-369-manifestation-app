@@ -12,6 +12,7 @@ export const normalizeUrl = (path: string): string => {
 };
 
 export const generateCanonicalUrl = (path: string): string => {
+  // 使用统一的HTTPS域名，确保不使用www
   const baseUrl = 'https://369.heymanifestation.com';
   let normalizedPath = path;
   
@@ -22,8 +23,13 @@ export const generateCanonicalUrl = (path: string): string => {
     normalizedPath = `/${path}`;
   }
   
+  // 移除查询参数和哈希（canonical URL不应包含这些）
+  normalizedPath = normalizedPath.split('?')[0].split('#')[0];
+  
   const cleanPath = normalizeUrl(normalizedPath);
-  return `${baseUrl}${cleanPath}`;
+  
+  // 根路径返回无尾随内容，其他路径返回完整路径
+  return cleanPath === '/' ? baseUrl : `${baseUrl}${cleanPath}`;
 };
 
 export const generatePageKeywords = (page: string): string => {

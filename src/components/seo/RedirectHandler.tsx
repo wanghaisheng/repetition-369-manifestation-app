@@ -9,13 +9,24 @@ export const RedirectHandler = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 强制HTTPS重定向（生产环境）
-    if (process.env.NODE_ENV === 'production') {
-      if (typeof window !== 'undefined' && 
-          window.location.protocol !== 'https:' && 
-          !window.location.hostname.includes('localhost') &&
-          !window.location.hostname.includes('127.0.0.1')) {
-        window.location.replace(`https:${window.location.href.substring(window.location.protocol.length)}`);
+    if (typeof window === 'undefined') return;
+    
+    const hostname = window.location.hostname;
+    const protocol = window.location.protocol;
+    const isLocalhost = hostname.includes('localhost') || hostname.includes('127.0.0.1');
+    
+    // 生产环境重定向处理
+    if (!isLocalhost) {
+      // 1. 强制HTTPS重定向
+      if (protocol !== 'https:') {
+        window.location.replace(`https:${window.location.href.substring(protocol.length)}`);
+        return;
+      }
+      
+      // 2. www 到 non-www 重定向（统一URL格式）
+      if (hostname.startsWith('www.')) {
+        const nonWwwUrl = window.location.href.replace('://www.', '://');
+        window.location.replace(nonWwwUrl);
         return;
       }
     }
@@ -41,7 +52,7 @@ export const RedirectHandler = () => {
       return;
     }
     
-    // 检查路径是否需要规范化
+    // 检查路径是否需要规范化（移除尾随斜杠）
     if (normalizedPath !== location.pathname) {
       navigate(normalizedPath + location.search + location.hash, { replace: true });
       return;

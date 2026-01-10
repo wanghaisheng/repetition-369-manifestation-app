@@ -60,18 +60,22 @@ export const SEO_CONFIG = {
   }
 };
 
-// 生成规范化URL（直接使用当前路径，已包含语言前缀）
+// Canonical URL generation - 确保一致的URL格式（HTTPS + non-www）
 export const generateCanonicalUrl = (path: string): string => {
-  // 移除尾随斜杠（除了根路径）
-  let normalizedPath = path;
-  if (path !== '/' && path.endsWith('/')) {
-    normalizedPath = normalizedPath.slice(0, -1);
-  }
+  // 规范化路径：移除重复斜杠、尾随斜杠
+  let normalizedPath = path
+    .replace(/\/+/g, '/') // Remove duplicate slashes
+    .replace(/\/$/, '') // Remove trailing slash
+    || '/'; // Default to root if empty
   
-  // 移除重复斜杠
-  normalizedPath = normalizedPath.replace(/\/+/g, '/');
+  // 移除查询参数和哈希（canonical URL不应包含这些）
+  normalizedPath = normalizedPath.split('?')[0].split('#')[0];
   
-  return `${SEO_CONFIG.DOMAIN}${normalizedPath}`;
+  // 确保始终使用HTTPS和主域名（非www）
+  const baseUrl = SEO_CONFIG.DOMAIN.replace(/^http:/, 'https:').replace('://www.', '://');
+  
+  // 根路径返回纯域名，其他返回完整路径
+  return normalizedPath === '/' ? baseUrl : `${baseUrl}${normalizedPath}`;
 };
 
 // 生成页面关键词
