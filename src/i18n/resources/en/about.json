@@ -1,46 +1,78 @@
 {
   "seo": {
-    "title": "About Us - Founder Story & Product Mission | Manifest369",
-    "description": "Learn about the story behind Manifest369, founder Wang Haisheng's journey from tech developer to manifestation practitioner, and our mission to help users achieve their dreams.",
-    "keywords": "about us,Wang Haisheng,Manifest369,founder story,manifestation,personal growth"
+    "title": "About Us - The Story Behind Manifestation 369 | HeyManifestation",
+    "description": "Learn about the story behind Manifestation 369. The founder overcame self-blame through manifestation practices and created HeyManifestation to share this science-backed method based on neuroplasticity.",
+    "keywords": "about us,Manifestation 369,HeyManifestation,369 method,founder story,manifestation,Tesla 369"
   },
   "hero": {
-    "title": "About Manifest369",
-    "h1": "Manifest369: From Tech Developer to Manifestation Practitioner",
-    "subtitle": "The journey from tech developer to manifestation practitioner, and our mission to help users worldwide achieve their dreams"
+    "title": "About Manifestation 369",
+    "h1": "Manifestation 369: Making Manifestation Practice Simple, Scientific, and Trackable",
+    "subtitle": "Based on the Tesla 369 Method and neuroplasticity science, helping users worldwide reprogram their mindset and achieve their goals through structured practice"
   },
   "stats": {
     "users": "Monthly Users",
     "retention": "User Retention",
     "rating": "User Rating"
   },
+  "brand": {
+    "anchor": "Manifestation 369, a manifestation practice app created by HeyManifestation in 2023",
+    "tagline": "Making manifestation practice simple, scientific, and trackable"
+  },
   "story": {
-    "title": "Our Story",
+    "title": "Founder Story",
+    "intro": "It all started with a simple question: Why is manifestation practice so hard to maintain?",
     "personal": "I'm 38 years old, and for most of my life, I've had a habit of self-blame that started in my childhood. Every mistake, every setback, I would automatically turn inward with harsh criticism. This mindset held me back in countless ways and created patterns of negative thinking that were difficult to break.",
-    "turning": "Three years ago, I reached a breaking point. I knew I needed to change my mindset fundamentally if I was ever going to achieve the life I wanted. I began researching mindset shifts and discovered manifestation techniques.",
-    "problem": "The problem was that there wasn't much practical, easy-to-follow guidance available. Most resources were either too vague or overly complicated.",
-    "solution": "This frustration became my inspiration to create Manifest369. After 6 months of development and testing, we now serve 5,000+ monthly active users with 73% retention rate and 4.7/5 rating."
+    "turning": "Three years ago, I reached a breaking point. I knew I needed to change my mindset fundamentally if I was ever going to achieve the life I wanted. I began researching mindset shifts and discovered manifestation techniques. At first, I was skeptical – the idea that changing your thoughts could change your reality seemed too simple. But I was desperate for change, so I decided to try.",
+    "problem": "The problem was that there wasn't much practical, easy-to-follow guidance available. Most resources were either too vague or overly complicated. I found myself piecing together information from various sources, trying different methods through trial and error.",
+    "solution": "This frustration became my inspiration. I realized I couldn't be the only person struggling to find practical manifestation resources. So I decided to create HeyManifestation – a platform dedicated to making manifestation techniques accessible, practical, and backed by science.",
+    "discovery": "As I explored different manifestation techniques, I discovered the power of the 369 method – inspired by Nikola Tesla's belief in the special properties of these numbers. The structured approach of writing affirmations 3 times in the morning, 6 times in the afternoon, and 9 times at night created a powerful rhythm that seemed to amplify intentions.",
+    "creation": "But I also discovered a problem: there weren't any good tools to support this practice. Consistency is key in manifestation work, but it's easy to forget, especially when you're just starting. That's why I created 'Manifestation 369' – to provide a tool specifically designed to support the 369 method: reminders, affirmation creation guidance, progress tracking, and a community of like-minded practitioners."
+  },
+  "method": {
+    "title": "The Science Behind the 369 Method",
+    "origin": "The 369 method is inspired by Nikola Tesla's belief in the numbers 3, 6, and 9. Tesla once said: 'If you only knew the magnificence of the 3, 6, and 9, then you would have a key to the universe.'",
+    "science": "While the mystical properties of the numbers themselves lack scientific verification, the effectiveness of the 369 method has a solid scientific foundation:",
+    "principles": [
+      "Neuroplasticity: Repetitive writing rewires neural pathways, making positive thinking habitual",
+      "Positive Psychology: Positive affirmations enhance self-efficacy and motivation for action",
+      "Mindfulness Meditation: Focused practice reduces anxiety and enhances intention clarity",
+      "Self-Fulfilling Prophecy: When you believe and expect something, you unconsciously take actions to make it happen"
+    ]
+  },
+  "clarification": {
+    "title": "Our Position",
+    "notMagic": "The 369 method is not magic – it's a psychological training tool",
+    "needAction": "Success requires consistent practice combined with real action",
+    "noGuarantee": "Results vary by individual, depending on practice consistency and personal commitment",
+    "toolNotResult": "We provide tools and methods, not guaranteed outcomes"
   },
   "credentials": {
-    "title": "Professional Background & Achievements",
-    "experience": "15+ years of Internet product development experience",
-    "research": "Deep research in personal growth & psychology",
-    "expertise": "Expert in manifestation method practice & validation",
-    "building": "Building in public, transparently sharing the entire product development process"
+    "title": "Why Choose Manifestation 369",
+    "science": "Based on neuroplasticity and positive psychology principles",
+    "structure": "Systematic practice framework following the Tesla 369 method",
+    "gamification": "Points, levels, and badge system to maintain practice motivation",
+    "bilingual": "Full Chinese and English interface, serving global users",
+    "community": "Real user success stories, building trust and belonging"
   },
   "metrics": {
-    "title": "Validated Metrics",
+    "title": "Product Data",
     "monthlyUsers": "Monthly Active Users",
-    "mrr": "Monthly Recurring Revenue",
-    "retention": "Monthly Retention",
-    "nps": "Net Promoter Score"
+    "practiceDay": "Recommended Practice Period",
+    "languages": "Supported Languages",
+    "features": "Core Features"
   },
   "mission": {
-    "title": "Our Mission", 
-    "description": "Our mission is to help others experience this same transformation. We believe everyone deserves access to tools that can help them shift their mindset, overcome limiting beliefs, and create the life they truly desire. By making manifestation practices accessible, structured, and enjoyable, we hope to empower people worldwide to transform their realities."
+    "title": "Our Mission",
+    "description": "My personal transformation through manifestation practices has been profound. The self-blame that once dominated my thoughts has largely dissolved, replaced by self-compassion and a positive outlook. This change wasn't overnight – it took consistent practice and the right techniques. But the results have been life-changing.",
+    "goal": "Our mission is to help others experience this same transformation. We believe everyone deserves access to tools that can help them shift their mindset, overcome limiting beliefs, and create the life they truly desire. By making manifestation practices accessible, structured, and enjoyable, we hope to empower people worldwide to transform their realities."
   },
   "cta": {
-    "title": "Join Our Community",
-    "description": "Start your manifestation journey today. Whether you're new to manifestation or an experienced practitioner, we have the tools for you."
+    "title": "Join the Manifestation 369 Community",
+    "subtitle": "Start Your Manifestation Journey",
+    "description": "Whether you're new to manifestation or an experienced practitioner, we have the tools for you. Just a few minutes a day, 33 days of consistency, and experience the transformation in your thinking."
+  },
+  "future": {
+    "title": "Future Plans",
+    "description": "'Manifestation 369' is the first in a series of planned apps from HeyManifestation. In the future, we'll be releasing more apps, including 'Pillow Manifestation' and 'Two Cups Manifestation' – each focused on different manifestation techniques."
   }
 }
