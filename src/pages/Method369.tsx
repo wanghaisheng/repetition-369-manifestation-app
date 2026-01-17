@@ -34,7 +34,7 @@ const Method369 = () => {
     '@type': 'HowTo',
     name: t('method369:seo.title'),
     description: t('method369:seo.description'),
-    totalTime: 'PT21D', // 21 days
+    totalTime: 'P45D', // 33-45 days (using upper bound)
     supply: [
       { '@type': 'HowToSupply', name: t('method369:supplies.journal') },
       { '@type': 'HowToSupply', name: t('method369:supplies.pen') },
@@ -65,6 +65,15 @@ const Method369 = () => {
     { name: t('method369:steps.step3.title'), text: t('method369:steps.step3.description') },
   ];
 
+  // 辟谣声明点
+  const disclaimerPoints = [
+    t('method369:disclaimer.points.0'),
+    t('method369:disclaimer.points.1'),
+    t('method369:disclaimer.points.2'),
+    t('method369:disclaimer.points.3'),
+    t('method369:disclaimer.points.4'),
+  ];
+
   return (
     <>
       <SEOErrorBoundary>
@@ -80,14 +89,14 @@ const Method369 = () => {
         title={t('method369:seo.title')}
         description={t('method369:seo.description')}
         howToSteps={howToSteps}
-        author="显化369团队"
+        author="HeyManifestation"
         image="/369-app-icon.png"
       />
       <SocialMediaCards 
         title={t('method369:seo.title')}
         description={t('method369:seo.description')}
         type="article"
-        author="显化369团队"
+        author="HeyManifestation"
         image="/369-app-icon.png"
       />
 
@@ -157,9 +166,15 @@ const Method369 = () => {
                 <p className="mb-6">
                   {t('method369:what.description2')}
                 </p>
-                <blockquote className="border-l-4 border-blue-500 pl-6 italic text-blue-800 bg-blue-50 p-4 rounded-r-lg">
+                <blockquote className="border-l-4 border-blue-500 pl-6 italic text-blue-800 bg-blue-50 p-4 rounded-r-lg mb-6">
                   "{t('method369:what.teslaQuote')}" - Nikola Tesla
                 </blockquote>
+                {/* 重要澄清声明 */}
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                  <p className="text-amber-800 font-medium">
+                    {t('method369:what.clarification')}
+                  </p>
+                </div>
               </div>
             </div>
           </section>
@@ -226,18 +241,21 @@ const Method369 = () => {
 
               {/* Timeline */}
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2 text-center">
                   {t('method369:timeline.title')}
                 </h3>
+                <p className="text-gray-600 text-center mb-6">
+                  {t('method369:timeline.subtitle')}
+                </p>
                 <div className="max-w-2xl mx-auto">
                   <div className="space-y-4">
                     {[
-                      { day: '1-7', title: t('method369:timeline.week1.title'), desc: t('method369:timeline.week1.desc') },
-                      { day: '8-14', title: t('method369:timeline.week2.title'), desc: t('method369:timeline.week2.desc') },
-                      { day: '15-21', title: t('method369:timeline.week3.title'), desc: t('method369:timeline.week3.desc') }
+                      { day: '1-14', title: t('method369:timeline.week1.title'), desc: t('method369:timeline.week1.desc') },
+                      { day: '15-28', title: t('method369:timeline.week2.title'), desc: t('method369:timeline.week2.desc') },
+                      { day: '29-45', title: t('method369:timeline.week3.title'), desc: t('method369:timeline.week3.desc') }
                     ].map((phase, index) => (
                       <div key={index} className="flex items-start space-x-4">
-                        <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                        <div className="flex-shrink-0 w-16 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                           {phase.day}
                         </div>
                         <div>
@@ -252,15 +270,18 @@ const Method369 = () => {
             </div>
           </section>
 
-          {/* Scientific Background */}
+          {/* Scientific Background - 三大科学原理 */}
           <section className="py-16 bg-white rounded-2xl mb-12">
             <div className="max-w-4xl mx-auto px-6">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4 text-center">
                 {t('method369:science.title')}
               </h2>
+              <p className="text-lg text-gray-600 text-center mb-8">
+                {t('method369:science.subtitle')}
+              </p>
               
-              <div className="grid md:grid-cols-2 gap-8 mb-8">
-                <div>
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
+                <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-xl">
                   <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                     <Lightbulb className="w-6 h-6 text-yellow-500 mr-2" />
                     {t('method369:science.neuroplasticity.title')}
@@ -270,13 +291,23 @@ const Method369 = () => {
                   </p>
                 </div>
                 
-                <div>
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl">
                   <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                     <TrendingUp className="w-6 h-6 text-green-500 mr-2" />
-                    {t('method369:science.repetition.title')}
+                    {t('method369:science.positivePhychology.title')}
                   </h3>
                   <p className="text-gray-700 leading-relaxed">
-                    {t('method369:science.repetition.description')}
+                    {t('method369:science.positivePhychology.description')}
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-indigo-50 p-6 rounded-xl">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                    <BookOpen className="w-6 h-6 text-purple-500 mr-2" />
+                    {t('method369:science.mindfulness.title')}
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    {t('method369:science.mindfulness.description')}
                   </p>
                 </div>
               </div>
@@ -288,6 +319,25 @@ const Method369 = () => {
                 <p className="text-gray-700 leading-relaxed">
                   {t('method369:science.research.description')}
                 </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Disclaimer Section */}
+          <section className="py-12 mb-12">
+            <div className="max-w-4xl mx-auto px-6">
+              <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                  {t('method369:disclaimer.title')}
+                </h2>
+                <ul className="space-y-3">
+                  {disclaimerPoints.map((point, index) => (
+                    <li key={index} className="flex items-start space-x-3">
+                      <CheckCircle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-700">{point}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </section>
