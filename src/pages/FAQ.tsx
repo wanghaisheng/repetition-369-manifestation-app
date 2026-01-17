@@ -22,7 +22,8 @@ import { SocialMediaCards } from "@/components/seo/SocialMediaCards";
 const FAQ = () => {
   const { t } = useTranslation(['common', 'faq']);
 
-  const faqItems = [
+  // 基础知识FAQ
+  const basicFaqItems = [
     { question: t('faq:basic.q1.question'), answer: t('faq:basic.q1.answer') },
     { question: t('faq:basic.q2.question'), answer: t('faq:basic.q2.answer') },
     { question: t('faq:basic.q3.question'), answer: t('faq:basic.q3.answer') },
@@ -30,6 +31,17 @@ const FAQ = () => {
     { question: t('faq:basic.q5.question'), answer: t('faq:basic.q5.answer') },
     { question: t('faq:basic.q6.question'), answer: t('faq:basic.q6.answer') },
   ];
+
+  // 常见误区澄清FAQ
+  const clarificationFaqItems = [
+    { question: t('faq:clarifications.q1.question'), answer: t('faq:clarifications.q1.answer') },
+    { question: t('faq:clarifications.q2.question'), answer: t('faq:clarifications.q2.answer') },
+    { question: t('faq:clarifications.q3.question'), answer: t('faq:clarifications.q3.answer') },
+    { question: t('faq:clarifications.q4.question'), answer: t('faq:clarifications.q4.answer') },
+  ];
+
+  // 合并所有FAQ用于结构化数据
+  const allFaqItems = [...basicFaqItems, ...clarificationFaqItems];
 
   return (
     <>
@@ -44,14 +56,14 @@ const FAQ = () => {
         type="FAQPage"
         title={t('faq:seo.title', 'FAQ - Manifestation 369 User Guide')}
         description={t('faq:seo.description', 'Find answers to frequently asked questions about Manifestation 369')}
-        faqItems={faqItems}
-        author="显化369团队"
+        faqItems={allFaqItems}
+        author="HeyManifestation"
       />
       <SocialMediaCards 
         title={t('faq:seo.title', 'FAQ - Manifestation 369 User Guide')}
         description={t('faq:seo.description', 'Find answers to frequently asked questions about Manifestation 369')}
         type="article"
-        author="显化369团队"
+        author="HeyManifestation"
       />
 
       {/* FAQ结构化数据 */}
@@ -59,7 +71,7 @@ const FAQ = () => {
         {JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'FAQPage',
-          mainEntity: faqItems.map(item => ({
+          mainEntity: allFaqItems.map(item => ({
             '@type': 'Question',
             name: item.question,
             acceptedAnswer: {
@@ -106,12 +118,12 @@ const FAQ = () => {
               {t('faq:hero.h1', t('faq:hero.title'))}
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Find the answers you need to start your successful manifestation journey
+              {t('faq:hero.subtitle')}
             </p>
           </div>
         </section>
 
-        {/* FAQ Section */}
+        {/* Basic FAQ Section */}
         <section className="py-20 px-4 bg-white">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
@@ -120,11 +132,42 @@ const FAQ = () => {
             </div>
             
             <Accordion type="single" collapsible className="space-y-4">
-              {faqItems.map((faq, index) => (
+              {basicFaqItems.map((faq, index) => (
                 <AccordionItem 
                   key={index} 
-                  value={`faq-${index}`}
+                  value={`basic-${index}`}
                   className="border border-gray-200 rounded-lg px-6"
+                >
+                  <AccordionTrigger className="text-left hover:no-underline py-6">
+                    <h3 className="text-lg font-medium text-gray-900 pr-4">
+                      {faq.question}
+                    </h3>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-6">
+                    <p className="text-gray-700 leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </section>
+
+        {/* Clarifications FAQ Section */}
+        <section className="py-20 px-4 bg-gradient-to-br from-amber-50 to-orange-50">
+          <div className="container mx-auto max-w-4xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('faq:clarifications.title')}</h2>
+              <p className="text-lg text-gray-600">{t('faq:clarifications.subtitle')}</p>
+            </div>
+            
+            <Accordion type="single" collapsible className="space-y-4">
+              {clarificationFaqItems.map((faq, index) => (
+                <AccordionItem 
+                  key={index} 
+                  value={`clarification-${index}`}
+                  className="border border-amber-200 rounded-lg px-6 bg-white"
                 >
                   <AccordionTrigger className="text-left hover:no-underline py-6">
                     <h3 className="text-lg font-medium text-gray-900 pr-4">
