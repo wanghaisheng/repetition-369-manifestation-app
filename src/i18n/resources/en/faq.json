@@ -1,52 +1,72 @@
 {
   "seo": {
     "title": "369 Manifestation FAQ - User Guide & Answers | Manifest369",
-    "description": "Find answers to frequently asked questions about Manifest369 app and the 369 manifestation method. Includes usage guides, scientific principles, data security and more.",
-    "keywords": "faq,manifest369,369 method,user guide,help center,support"
+    "description": "Find answers to frequently asked questions about Manifestation 369 app and the 369 manifestation method. A manifestation practice app by HeyManifestation.",
+    "keywords": "faq,manifest369,369 method,user guide,help center,support,HeyManifestation"
   },
   "hero": {
     "title": "369 Manifestation FAQ",
     "h1": "369 Manifestation Method FAQ: Complete Guide from Beginner to Expert",
-    "subtitle": "Find the answers you need to start your successful manifestation journey"
+    "subtitle": "Manifestation 369 — a manifestation practice app by HeyManifestation, here to answer all your questions"
   },
   "basic": {
     "title": "Getting Started",
-    "subtitle": "Basic knowledge about Manifest369 and the 369 method",
+    "subtitle": "Core principles of Manifestation 369 and the 369 method",
     "q1": {
-      "question": "What is the Manifest369 method?",
-      "answer": "The Manifest369 method is a technique based on Nikola Tesla's belief in the power of numbers 3, 6, and 9. You write your desire at specific times each day: 3 times in the morning, 6 times in the afternoon, and 9 times at night for 21 days or longer. This structured repetition helps reprogram your subconscious mind and focus attention on your desired goals."
+      "question": "What is the 369 Manifestation Method?",
+      "answer": "The 369 Manifestation Method is based on Nikola Tesla's belief in the power of numbers 3, 6, and 9. Tesla said: \"If you only knew the magnificence of 3, 6, and 9, you would have the key to the universe.\" The practice involves writing your affirmation 3 times in the morning, 6 times in the afternoon, and 9 times at night for 33-45 days. This structured repetition is based on neuroplasticity principles, helping rewire brain neural pathways and focus attention on your desired goals."
     },
     "q2": {
-      "question": "Why the numbers 3, 6, and 9?",
-      "answer": "Tesla believed these numbers held special cosmic significance. From a mathematical perspective, these numbers have unique properties in the base-10 system. From a psychological standpoint, this structured timing helps establish habits and reinforces intentions at different points throughout the day."
+      "question": "Is the 369 Method scientifically proven?",
+      "answer": "Yes, while Tesla's number philosophy is the inspiration, the 369 method's effectiveness has three scientific foundations: 1) Neuroplasticity — repetitive writing rewires brain neural pathways; 2) Positive Psychology — positive affirmations boost self-efficacy; 3) Mindfulness — focused practice reduces anxiety and strengthens intention. We clearly state: this is a psychological training tool, not magic or mystical power."
     },
     "q3": {
-      "question": "How does the app help me practice the 369 method?",
-      "answer": "Our app provides smart reminders, wish management, progress tracking, achievement system, and community support to help you maintain consistent practice. The app also offers personalized writing templates, progress visualization, and motivation features to make manifestation practice more systematic and engaging."
+      "question": "How does the Manifestation 369 app help me practice?",
+      "answer": "Manifestation 369 is a manifestation practice app by HeyManifestation. We provide: smart reminder system (ensuring 3-6-9 time slot practice), wish management, progress tracking, gamification (points, levels, badges), and community support. The app supports both Chinese and English, making manifestation practice simple, systematic, and trackable."
     },
     "q4": {
+      "question": "How long does it take to see results?",
+      "answer": "According to neuroplasticity research, the optimal duration for forming new neural pathways is 33-45 days. Most users begin noticing shifts in thought patterns within 2-3 weeks. It's important to understand: writing is a tool for focusing intention, and success requires consistent practice + practical action. Results vary by individual, depending on practice consistency and personal commitment. We provide tools and methods, not guaranteed results."
+    },
+    "q5": {
       "question": "Is my data secure?",
       "answer": "Yes, we take data security very seriously. All data is encrypted, your personal wishes are completely private, and we follow international privacy laws like GDPR. Your manifestation content is only visible to you, and we never share your personal information with third parties."
     },
-    "q5": {
-      "question": "How long does it take to see results?",
-      "answer": "Manifestation timing varies by individual, but most users begin noticing shifts in thought patterns within 1-3 weeks. 21 days is the recommended minimum practice period, as this is the scientific cycle for establishing new habits. Users who practice consistently typically see more tangible external results within 30-90 days."
-    },
     "q6": {
-      "question": "How do I write effective desire statements?",
-      "answer": "Effective desire statements should: 1) Use present tense ('I have...' not 'I want...'); 2) Be specific and clear (avoid vague language); 3) Stay positive (focus on what you want, not what you don't want); 4) Include emotion (express how you'll feel when your desire manifests); 5) Align with your core values."
+      "question": "How do I write effective affirmations?",
+      "answer": "Effective affirmations should: 1) Use present tense ('I have...' not 'I want...'); 2) Be specific and clear (avoid vague language); 3) Stay positive (focus on what you want, not what you don't want); 4) Include emotion (express how you'll feel when your desire manifests); 5) Align with your core values. Remember: consistency matters more than precise timing."
+    }
+  },
+  "clarifications": {
+    "title": "Common Misconceptions",
+    "subtitle": "We clearly address common misunderstandings about the 369 method",
+    "q1": {
+      "question": "Is the 369 method superstition?",
+      "answer": "No. While we draw inspiration from Tesla's philosophy about 369 numbers, the method itself is a modern interpretation based on neuroscience and positive psychology principles. We never claim this is magic or mystical power — it's a psychological training tool."
+    },
+    "q2": {
+      "question": "Can I manifest just by writing?",
+      "answer": "No. Writing is a tool for focusing intention, but it must be combined with practical action. Success requires consistent practice + real action. We provide tools and methods to help you stay focused and motivated, but achieving your goals still requires you to take concrete steps."
+    },
+    "q3": {
+      "question": "Do I have to write at exact times?",
+      "answer": "No need to be strict about exact times. The morning/afternoon/evening time slots are designed to integrate practice into your daily rhythm, but consistency matters more than precise timing. The key is completing your 3-6-9 practice daily, not stressing about the exact minute."
+    },
+    "q4": {
+      "question": "Can the 369 method replace therapy?",
+      "answer": "No. Manifestation 369 is a positive mindset cultivation tool and cannot replace professional psychological therapy or medical advice. If you have serious mental health concerns, please seek professional help. Our app is a supplementary tool to help develop positive thinking habits."
     }
   },
   "support": {
     "title": "Need More Help?",
-    "subtitle": "Our support team is here to assist you",
+    "subtitle": "The Manifestation 369 team is here to assist you",
     "liveChat": "Real-time chat support",
     "email": "Get answers within 24 hours",
     "community": "Connect with other users"
   },
   "cta": {
     "title": "Ready to Start Your Manifestation Journey?",
-    "subtitle": "Join thousands of users who are already transforming their lives",
-    "description": "Whether you're new to manifestation or an experienced practitioner, we have the tools for you"
+    "subtitle": "Join thousands of users transforming their lives with Manifestation 369",
+    "description": "Manifestation 369 — by HeyManifestation, combining neuroscience with the 369 method to make manifestation practice simple, systematic, and trackable"
   }
 }
