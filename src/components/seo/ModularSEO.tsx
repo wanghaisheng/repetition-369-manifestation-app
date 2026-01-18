@@ -1,7 +1,11 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { generatePageKeywords, generateCanonicalUrl } from '@/utils/seoOptimization';
+import { 
+  SEO_CONFIG, 
+  generateCanonicalUrl, 
+  generatePageKeywords,
+  generateHreflangLinks 
+} from '@/config/seo';
 
 interface ModularSEOProps {
   page: string;
@@ -15,11 +19,12 @@ export const ModularSEO = ({
   page, 
   title, 
   description, 
-  image = 'https://xianghua369.com/og-image.jpg',
+  image = SEO_CONFIG.DEFAULT_OG_IMAGE,
   keywords 
 }: ModularSEOProps) => {
-  const canonicalUrl = generateCanonicalUrl(page);
+  const canonicalUrl = generateCanonicalUrl(`/${page}`);
   const pageKeywords = keywords || generatePageKeywords(page);
+  const hreflangLinks = generateHreflangLinks(`/${page}`);
   
   return (
     <Helmet>
@@ -29,8 +34,18 @@ export const ModularSEO = ({
       <meta name="googlebot" content="index, follow" />
       <meta name="bingbot" content="index, follow" />
       
-      {/* Canonical URL */}
+      {/* Canonical URL - 防止重复内容问题 */}
       <link rel="canonical" href={canonicalUrl} />
+      
+      {/* Hreflang Links - 多语言版本 */}
+      {hreflangLinks.map((link) => (
+        <link
+          key={link.lang}
+          rel="alternate"
+          hrefLang={link.lang}
+          href={link.href}
+        />
+      ))}
       
       {/* Enhanced Open Graph */}
       <meta property="og:title" content={title} />
@@ -38,7 +53,7 @@ export const ModularSEO = ({
       <meta property="og:image" content={image} />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="显化369" />
+      <meta property="og:site_name" content={SEO_CONFIG.BRAND_NAME.zh} />
       <meta property="og:locale" content="zh_CN" />
       
       {/* Twitter Cards */}

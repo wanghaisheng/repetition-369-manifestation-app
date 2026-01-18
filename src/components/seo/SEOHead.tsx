@@ -1,5 +1,10 @@
-
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
+import { 
+  SEO_CONFIG, 
+  generateCanonicalUrl, 
+  generateHreflangLinks 
+} from '@/config/seo';
 
 interface SEOHeadProps {
   title?: string;
@@ -14,17 +19,26 @@ interface SEOHeadProps {
 }
 
 export const SEOHead = ({
-  title = '显化369 - 愿望成真的神奇力量',
-  description = '一款极简优雅的显化练习应用，通过369方法帮助您实现愿望。支持愿望管理、书写练习、进度跟踪和社区分享。',
+  title = SEO_CONFIG.DEFAULT_TITLE.zh,
+  description = SEO_CONFIG.DEFAULT_DESCRIPTION.zh,
   keywords = '显化,369方法,吸引力法则,愿望实现,冥想,正念,个人成长,心理学',
-  image = 'https://lovable.dev/opengraph-image-p98pqg.png',
-  url = 'https://xianghua369.com',
+  image = SEO_CONFIG.DEFAULT_OG_IMAGE,
+  url,
   type = 'website',
-  author = '显化369团队',
+  author = SEO_CONFIG.ORGANIZATION.name.zh,
   publishedTime,
   modifiedTime
 }: SEOHeadProps) => {
-  const fullTitle = title.includes('显化369') ? title : `${title} | 显化369`;
+  let location;
+  try {
+    location = useLocation();
+  } catch (error) {
+    location = { pathname: '/' };
+  }
+
+  const canonicalUrl = url || generateCanonicalUrl(location.pathname);
+  const hreflangLinks = generateHreflangLinks(location.pathname);
+  const fullTitle = title.includes(SEO_CONFIG.BRAND_NAME.zh) ? title : `${title} | ${SEO_CONFIG.BRAND_NAME.zh}`;
   
   return (
     <Helmet>
@@ -37,17 +51,27 @@ export const SEOHead = ({
       <meta name="googlebot" content="index, follow" />
       <meta name="bingbot" content="index, follow" />
       
-      {/* Canonical URL */}
-      <link rel="canonical" href={url} />
+      {/* Canonical URL - 防止重复内容问题 */}
+      <link rel="canonical" href={canonicalUrl} />
+      
+      {/* Hreflang Links - 多语言版本 */}
+      {hreflangLinks.map((link) => (
+        <link
+          key={link.lang}
+          rel="alternate"
+          hrefLang={link.lang}
+          href={link.href}
+        />
+      ))}
       
       {/* Open Graph Tags */}
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content={type} />
-      <meta property="og:url" content={url} />
+      <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={image} />
       <meta property="og:image:alt" content={title} />
-      <meta property="og:site_name" content="显化369" />
+      <meta property="og:site_name" content={SEO_CONFIG.BRAND_NAME.zh} />
       <meta property="og:locale" content="zh_CN" />
       
       {/* Twitter Cards */}
@@ -71,8 +95,8 @@ export const SEOHead = ({
       {/* Additional SEO Tags */}
       <meta name="theme-color" content="#007AFF" />
       <meta name="msapplication-TileColor" content="#007AFF" />
-      <meta name="application-name" content="显化369" />
-      <meta name="apple-mobile-web-app-title" content="显化369" />
+      <meta name="application-name" content={SEO_CONFIG.BRAND_NAME.zh} />
+      <meta name="apple-mobile-web-app-title" content={SEO_CONFIG.BRAND_NAME.zh} />
       
       {/* Preconnect to external domains */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />

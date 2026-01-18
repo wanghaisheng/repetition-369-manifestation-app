@@ -1,5 +1,5 @@
-
 import { Helmet } from 'react-helmet-async';
+import { SEO_CONFIG } from '@/config/seo';
 
 interface WebApplicationSchema {
   name: string;
@@ -60,8 +60,8 @@ export const StructuredData = ({ type, data }: StructuredDataProps) => {
         ...baseSchema,
         '@type': 'Organization',
         sameAs: [
-          'https://twitter.com/xianghua369',
-          'https://weibo.com/xianghua369'
+          'https://x.com/edwin_uestc',
+          'https://github.com/wanghaisheng'
         ]
       };
     }
@@ -83,9 +83,9 @@ export const WebAppStructuredData = () => (
   <StructuredData
     type="WebApplication"
     data={{
-      name: '显化369',
-      description: '一款极简优雅的显化练习应用，通过369方法帮助您实现愿望',
-      url: 'https://xianghua369.com',
+      name: SEO_CONFIG.BRAND_NAME.zh,
+      description: SEO_CONFIG.DEFAULT_DESCRIPTION.zh,
+      url: SEO_CONFIG.DOMAIN,
       applicationCategory: 'LifestyleApplication',
       operatingSystem: 'Any'
     }}
@@ -96,14 +96,14 @@ export const OrganizationStructuredData = () => (
   <StructuredData
     type="Organization"
     data={{
-      name: '显化369团队',
-      url: 'https://xianghua369.com',
-      logo: 'https://xianghua369.com/logo.png',
-      description: '专注于显化练习和个人成长的团队',
+      name: SEO_CONFIG.ORGANIZATION.name.zh,
+      url: SEO_CONFIG.DOMAIN,
+      logo: `${SEO_CONFIG.DOMAIN}/369-app-icon.png`,
+      description: SEO_CONFIG.ORGANIZATION.description.zh,
       contactPoint: {
         '@type': 'ContactPoint',
         contactType: 'customer service',
-        email: 'support@xianghua369.com'
+        email: 'support@heymanifestation.com'
       }
     }}
   />

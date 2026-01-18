@@ -1,8 +1,12 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import { generateCanonicalUrl, generatePageKeywords } from '@/utils/seoOptimization';
+import { 
+  SEO_CONFIG, 
+  generateCanonicalUrl, 
+  generatePageKeywords,
+  generateHreflangLinks 
+} from '@/config/seo';
 
 interface UnifiedSEOProps {
   title?: string;
@@ -14,10 +18,10 @@ interface UnifiedSEOProps {
 }
 
 export const UnifiedSEO = ({
-  title = '显化369 - 愿望成真的神奇力量',
-  description = '基于特斯拉369显化法则的智能练习应用，帮助您系统化实现愿望目标。支持愿望管理、369练习、进度跟踪和社区分享。',
+  title = SEO_CONFIG.DEFAULT_TITLE.zh,
+  description = SEO_CONFIG.DEFAULT_DESCRIPTION.zh,
   keywords,
-  image = 'https://lovable.dev/opengraph-image-p98pqg.png',
+  image = SEO_CONFIG.DEFAULT_OG_IMAGE,
   type = 'website',
   includeStructuredData = true
 }: UnifiedSEOProps) => {
@@ -30,13 +34,14 @@ export const UnifiedSEO = ({
 
   const canonicalUrl = generateCanonicalUrl(location.pathname);
   const pageKeywords = keywords || generatePageKeywords(location.pathname.split('/')[1] || 'home');
+  const hreflangLinks = generateHreflangLinks(location.pathname);
 
   const structuredData = includeStructuredData ? {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: '显化369',
+    name: SEO_CONFIG.BRAND_NAME.zh,
     description: description,
-    url: 'https://xianghua369.com',
+    url: SEO_CONFIG.DOMAIN,
     applicationCategory: 'LifestyleApplication',
     operatingSystem: 'Any',
     offers: {
@@ -51,11 +56,10 @@ export const UnifiedSEO = ({
     },
     author: {
       '@type': 'Organization',
-      name: '显化369团队',
-      url: 'https://xianghua369.com'
+      name: SEO_CONFIG.ORGANIZATION.name.zh,
+      url: SEO_CONFIG.DOMAIN
     }
   } : null;
-
   const criticalStyles = `
     .ios-blur {
       backdrop-filter: blur(20px);
@@ -92,13 +96,23 @@ export const UnifiedSEO = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={pageKeywords} />
-      <meta name="author" content="显化369团队" />
+      <meta name="author" content={SEO_CONFIG.ORGANIZATION.name.zh} />
       <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       <meta name="bingbot" content="index, follow" />
       
-      {/* Canonical URL */}
+      {/* Canonical URL - 防止重复内容问题 */}
       <link rel="canonical" href={canonicalUrl} />
+      
+      {/* Hreflang Links - 多语言版本 */}
+      {hreflangLinks.map((link) => (
+        <link
+          key={link.lang}
+          rel="alternate"
+          hrefLang={link.lang}
+          href={link.href}
+        />
+      ))}
       
       {/* Open Graph */}
       <meta property="og:title" content={title} />
@@ -107,7 +121,7 @@ export const UnifiedSEO = ({
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={image} />
       <meta property="og:image:alt" content={title} />
-      <meta property="og:site_name" content="显化369" />
+      <meta property="og:site_name" content={SEO_CONFIG.BRAND_NAME.zh} />
       <meta property="og:locale" content="zh_CN" />
       
       {/* Twitter Cards */}
@@ -121,7 +135,7 @@ export const UnifiedSEO = ({
       <meta name="theme-color" content="#007AFF" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-      <meta name="apple-mobile-web-app-title" content="显化369" />
+      <meta name="apple-mobile-web-app-title" content={SEO_CONFIG.BRAND_NAME.zh} />
       
       {/* Performance Optimization */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -151,7 +165,7 @@ export const UnifiedSEO = ({
       )}
       
       {/* Alternative Formats */}
-      <link rel="alternate" type="application/rss+xml" title="显化369 RSS Feed" href="/rss.xml" />
+      <link rel="alternate" type="application/rss+xml" title={`${SEO_CONFIG.BRAND_NAME.zh} RSS Feed`} href="/rss.xml" />
     </Helmet>
   );
 };
