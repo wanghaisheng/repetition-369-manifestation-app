@@ -1,5 +1,8 @@
-
-// URL optimization utilities
+// URL optimization utilities - 使用统一配置
+import { 
+  SEO_CONFIG, 
+  generateCanonicalUrl as configGenerateCanonicalUrl 
+} from '@/config/seo';
 
 export const redirectToCanonical = (path: string): string => {
   // Remove trailing slashes except for root
@@ -20,17 +23,8 @@ export const redirectToCanonical = (path: string): string => {
   return redirectMap[cleanPath] || cleanPath;
 };
 
-export const generateCanonicalUrl = (path: string): string => {
-  // 确保使用HTTPS和non-www域名
-  const baseUrl = 'https://369.heymanifestation.com';
-  let normalizedPath = redirectToCanonical(path);
-  
-  // 移除查询参数和哈希
-  normalizedPath = normalizedPath.split('?')[0].split('#')[0];
-  
-  // 根路径返回纯域名，其他路径返回完整URL
-  return normalizedPath === '/' ? baseUrl : `${baseUrl}${normalizedPath}`;
-};
+// Re-export from config for backwards compatibility
+export const generateCanonicalUrl = configGenerateCanonicalUrl;
 
 export const enforceHttps = (): void => {
   if (typeof window !== 'undefined' && 
