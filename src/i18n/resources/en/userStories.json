@@ -1,0 +1,60 @@
+{
+  "seo": {
+    "title": "369 Manifestation Success Stories - Real User Experiences | Manifest369",
+    "description": "Read real user success stories with 369 manifestation method, covering career, health, relationship, finance and personal growth.",
+    "keywords": "369 manifestation success stories,user testimonials,real manifestation experiences,goal achievement,success sharing"
+  },
+  "hero": {
+    "title": "User Success Stories",
+    "h1": "369 Manifestation Success Stories: Real User Experiences",
+    "subtitle": "Real users share their successful experiences achieving goals with the 369 manifestation method",
+    "description": "Real user success stories and experiences with 369 manifestation method"
+  },
+  "categories": {
+    "all": "All",
+    "career": "Career",
+    "health": "Health",
+    "relationship": "Relationship",
+    "finance": "Finance",
+    "personal": "Personal Growth"
+  },
+  "stories": {
+    "featured": "Featured",
+    "featuredTitle": "Featured Success Stories",
+    "moreTitle": "More Success Stories",
+    "days": "days",
+    "noStories": "No Stories Found",
+    "beFirst": "Be the first to share your success story!"
+  },
+  "form": {
+    "shareStory": "Share Your Story",
+    "shareTitle": "Share Your Success Story",
+    "shareDescription": "Share your 369 manifestation success to inspire others to achieve their goals",
+    "storyTitle": "Story Title",
+    "storyTitlePlaceholder": "Summarize your success in a short title",
+    "category": "Category",
+    "goalAchieved": "Goal Achieved",
+    "goalAchievedPlaceholder": "Briefly describe the specific goal you achieved",
+    "daysToSuccess": "Days to Success",
+    "yourStory": "Your Story",
+    "yourStoryPlaceholder": "Describe your 369 manifestation experience in detail...",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "location": "Location",
+    "locationPlaceholder": "City",
+    "anonymous": "Share anonymously",
+    "anonymousUser": "Anonymous User",
+    "cancel": "Cancel",
+    "submit": "Submit Story"
+  },
+  "toast": {
+    "submitSuccess": "Story submitted successfully, pending review",
+    "submitFailed": "Submission failed, please try again"
+  },
+  "cta": {
+    "title": "Have Your Own Success Story?",
+    "description": "Share your 369 manifestation success to inspire others to achieve their dreams",
+    "shareButton": "Share My Story",
+    "readMore": "Read More Articles"
+  }
+}

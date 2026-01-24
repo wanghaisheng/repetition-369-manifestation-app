@@ -1,0 +1,60 @@
+{
+  "seo": {
+    "title": "369显化法成功案例 - 真实用户故事分享 | 显化369",
+    "description": "阅读真实用户的369显化成功故事，涵盖职业、健康、感情、财务等各个方面的成功案例。",
+    "keywords": "369显化成功案例,用户故事,显化真实经历,目标实现,成功分享"
+  },
+  "hero": {
+    "title": "用户成功案例",
+    "h1": "369显化法成功案例：真实用户的显化故事",
+    "subtitle": "真实用户分享他们使用369显化方法实现目标的成功经历",
+    "description": "真实用户分享的369显化成功故事和经历"
+  },
+  "categories": {
+    "all": "全部",
+    "career": "职业发展",
+    "health": "健康",
+    "relationship": "感情关系",
+    "finance": "财务",
+    "personal": "个人成长"
+  },
+  "stories": {
+    "featured": "精选",
+    "featuredTitle": "精选成功案例",
+    "moreTitle": "更多成功案例",
+    "days": "天",
+    "noStories": "暂无相关案例",
+    "beFirst": "成为第一个分享成功案例的人吧！"
+  },
+  "form": {
+    "shareStory": "分享你的故事",
+    "shareTitle": "分享你的成功故事",
+    "shareDescription": "分享你的369显化成功经历，激励更多人实现目标",
+    "storyTitle": "故事标题",
+    "storyTitlePlaceholder": "用简短的标题概括你的成功",
+    "category": "类别",
+    "goalAchieved": "实现的目标",
+    "goalAchievedPlaceholder": "简述你实现的具体目标",
+    "daysToSuccess": "达成目标用时（天）",
+    "yourStory": "详细故事",
+    "yourStoryPlaceholder": "详细描述你的369显化经历...",
+    "name": "姓名",
+    "namePlaceholder": "你的姓名",
+    "location": "所在地",
+    "locationPlaceholder": "城市",
+    "anonymous": "匿名分享",
+    "anonymousUser": "匿名用户",
+    "cancel": "取消",
+    "submit": "提交故事"
+  },
+  "toast": {
+    "submitSuccess": "故事提交成功，等待审核",
+    "submitFailed": "提交失败，请重试"
+  },
+  "cta": {
+    "title": "你也有成功故事吗？",
+    "description": "分享你的369显化成功经历，激励更多人实现梦想",
+    "shareButton": "分享我的故事",
+    "readMore": "阅读更多文章"
+  }
+}
