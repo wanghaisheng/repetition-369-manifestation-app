@@ -11,6 +11,7 @@ import zhMarketing from './resources/zh/marketing.json';
 import zhAbout from './resources/zh/about.json';
 import zhFaq from './resources/zh/faq.json';
 import zhMethod369 from './resources/zh/method369.json';
+import zhUserStories from './resources/zh/userStories.json';
 
 import enCommon from './resources/en/common.json';
 import enLanding from './resources/en/landing.json';
@@ -19,6 +20,7 @@ import enMarketing from './resources/en/marketing.json';
 import enAbout from './resources/en/about.json';
 import enFaq from './resources/en/faq.json';
 import enMethod369 from './resources/en/method369.json';
+import enUserStories from './resources/en/userStories.json';
 
 const resources = {
   zh: {
@@ -29,6 +31,7 @@ const resources = {
     about: zhAbout,
     faq: zhFaq,
     method369: zhMethod369,
+    userStories: zhUserStories,
   },
   en: {
     common: enCommon,
@@ -38,6 +41,7 @@ const resources = {
     about: enAbout,
     faq: enFaq,
     method369: enMethod369,
+    userStories: enUserStories,
   },
 };
 
@@ -47,7 +51,7 @@ i18n
     resources,
     fallbackLng: 'zh',
     defaultNS: 'common',
-    ns: ['common', 'landing', 'app', 'marketing', 'about', 'faq', 'method369'],
+    ns: ['common', 'landing', 'app', 'marketing', 'about', 'faq', 'method369', 'userStories'],
     
     interpolation: {
       escapeValue: false, // React already does escaping
