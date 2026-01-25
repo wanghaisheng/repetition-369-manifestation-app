@@ -2,15 +2,34 @@
 
 ## 概述
 
-本项目使用 Puppeteer 进行预渲染，确保搜索引擎能够正确抓取 SPA 页面内容。
+本项目使用 Puppeteer 进行预渲染，支持：
+- 静态营销页面（中英文双语）
+- 动态博客文章页面（从 Supabase 数据库获取）
 
 ## 文件结构
 
 ```
 scripts/
-├── prerender.mjs          # 主预渲染脚本
+├── prerender.mjs          # 主预渲染脚本（支持动态路由）
 ├── prerender-routes.json  # 路由配置（与 sitemap 同步）
+├── README-PRERENDER.md    # 本文档
 └── generate-sitemap.js    # Sitemap 生成脚本
+```
+
+## 动态博客预渲染
+
+脚本会自动从 Supabase 数据库获取所有已发布的博客文章，并为每篇文章生成预渲染的 HTML：
+
+```javascript
+// 从 blog_posts 表获取
+{
+  "table": "blog_posts",
+  "filter": { "published": true },
+  "urlPattern": {
+    "zh": "/blog/{slug}",      // 中文文章
+    "en": "/en/blog/{slug}"    // 英文文章
+  }
+}
 ```
 
 ## 路由同步
@@ -36,19 +55,6 @@ chmod +x prerender-build.sh
 
 ```bash
 # 确保已运行 npm run build
-node scripts/prerender.mjs
-```
-
-### 手动步骤
-
-```bash
-# 1. 构建应用
-npm run build
-
-# 2. 启动预览服务器（在另一个终端）
-npm run preview
-
-# 3. 运行预渲染脚本
 node scripts/prerender.mjs
 ```
 

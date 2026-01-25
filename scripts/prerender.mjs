@@ -3,7 +3,8 @@
 /**
  * 预渲染脚本 - Prerendering Script
  * 
- * 使用 Puppeteer 对营销页面进行预渲染，生成静态 HTML 文件
+ * 使用 Puppeteer 对营销页面和动态博客页面进行预渲染
+ * 从 Supabase 获取已发布的博客文章 slug
  * 复用 sitemap 的路由配置，确保一致性
  */
 
@@ -24,6 +25,10 @@ const BASE_URL = `http://127.0.0.1:${PREVIEW_PORT}`;
 const SUPPORTED_LOCALES = ['zh', 'en'];
 const DEFAULT_LOCALE = 'zh';
 
+// Supabase 配置
+const SUPABASE_URL = 'https://hziwbeyokjdswlzzmjem.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aXdiZXlva2pkc3dsenptamVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2OTcwMDgsImV4cCI6MjA2NjI3MzAwOH0.Gg6MndKGFjMjN7TVClOgCVnVWeWBhpngIaQKtRL0wBQ';
+
 // 营销页面 - 与 src/config/routes.ts 保持同步
 const MARKETING_PAGES = [
   { path: '', name: 'landing' },
@@ -36,10 +41,40 @@ const MARKETING_PAGES = [
   { path: 'terms', name: 'terms' },
 ];
 
-// 获取所有需要预渲染的路由
-function getAllRoutesToPrerender() {
+// 从 Supabase 获取已发布的博客文章
+async function fetchBlogPosts() {
+  console.log('📡 Fetching blog posts from Supabase...');
+  
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/blog_posts?published=eq.true&select=slug,language`,
+      {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const posts = await response.json();
+    console.log(`   ✅ Found ${posts.length} published blog posts`);
+    return posts;
+  } catch (error) {
+    console.error('   ❌ Failed to fetch blog posts:', error.message);
+    return [];
+  }
+}
+
+// 获取所有需要预渲染的路由（包括动态博客页面）
+async function getAllRoutesToPrerender() {
   const routes = [];
 
+  // 1. 添加静态营销页面
   MARKETING_PAGES.forEach(page => {
     // 中文版本（默认，不带前缀）
     routes.push({
@@ -54,6 +89,29 @@ function getAllRoutesToPrerender() {
       locale: 'en',
       name: `${page.name}-en`,
     });
+  });
+
+  // 2. 获取并添加动态博客页面
+  const blogPosts = await fetchBlogPosts();
+  
+  blogPosts.forEach(post => {
+    if (post.language === 'zh') {
+      // 中文博客文章
+      routes.push({
+        url: `/blog/${post.slug}`,
+        locale: 'zh',
+        name: `blog-${post.slug}`,
+        dynamic: true,
+      });
+    } else if (post.language === 'en') {
+      // 英文博客文章
+      routes.push({
+        url: `/en/blog/${post.slug}`,
+        locale: 'en',
+        name: `blog-${post.slug}-en`,
+        dynamic: true,
+      });
+    }
   });
 
   return routes;
@@ -188,10 +246,17 @@ async function main() {
   let browser = null;
 
   try {
-    // 获取所有路由
-    const routes = getAllRoutesToPrerender();
-    console.log(`📋 Found ${routes.length} routes to prerender:\n`);
-    routes.forEach(r => console.log(`   - ${r.url} (${r.locale})`));
+    // 获取所有路由（包括从数据库获取的动态博客页面）
+    const routes = await getAllRoutesToPrerender();
+    
+    const staticCount = routes.filter(r => !r.dynamic).length;
+    const dynamicCount = routes.filter(r => r.dynamic).length;
+    
+    console.log(`📋 Found ${routes.length} routes to prerender:`);
+    console.log(`   - Static pages: ${staticCount}`);
+    console.log(`   - Dynamic blog posts: ${dynamicCount}\n`);
+    
+    routes.forEach(r => console.log(`   ${r.dynamic ? '📝' : '📄'} ${r.url} (${r.locale})`));
     console.log('');
 
     // 启动预览服务器
