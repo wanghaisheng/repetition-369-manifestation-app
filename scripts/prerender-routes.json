@@ -1,6 +1,7 @@
 {
   "description": "预渲染路由配置 - 与 src/config/routes.ts 和 sitemap 保持同步",
   "baseUrl": "https://369.heymanifestation.com",
+  "supabaseUrl": "https://hziwbeyokjdswlzzmjem.supabase.co",
   "supportedLocales": ["zh", "en"],
   "defaultLocale": "zh",
   "marketingPages": [
@@ -12,6 +13,19 @@
     { "path": "user-stories", "name": "user-stories", "priority": "0.8" },
     { "path": "privacy", "name": "privacy", "priority": "0.3" },
     { "path": "terms", "name": "terms", "priority": "0.3" }
+  ],
+  "dynamicPages": [
+    {
+      "type": "blog",
+      "table": "blog_posts",
+      "slugField": "slug",
+      "languageField": "language",
+      "filter": { "published": true },
+      "urlPattern": {
+        "zh": "/blog/{slug}",
+        "en": "/en/blog/{slug}"
+      }
+    }
   ],
   "excludeFromPrerender": [
     "/app",
