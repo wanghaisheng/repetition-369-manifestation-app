@@ -37,8 +37,14 @@ echo "🖼️  Step 2: Starting prerendering..."
 node scripts/prerender.mjs
 
 echo ""
+
+# 步骤 3: 验证 SEO 元素
+echo "🔍 Step 3: Validating SEO elements..."
+node scripts/validate-prerender.mjs
+
+echo ""
 echo "========================================"
-echo "✨ Build and prerender complete!"
+echo "✨ Build, prerender, and validation complete!"
 echo "📁 Output directory: dist/"
 echo "========================================"
 echo ""
