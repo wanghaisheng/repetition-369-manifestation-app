@@ -1,0 +1,261 @@
+#!/usr/bin/env node
+
+/**
+ * 预渲染脚本 - Prerendering Script
+ * 
+ * 使用 Puppeteer 对营销页面进行预渲染，生成静态 HTML 文件
+ * 复用 sitemap 的路由配置，确保一致性
+ */
+
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { spawn } from 'child_process';
+import puppeteer from 'puppeteer';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootDir = path.resolve(__dirname, '..');
+const distDir = path.join(rootDir, 'dist');
+
+// 配置
+const PREVIEW_PORT = process.env.PREVIEW_PORT || 4173;
+const BASE_URL = `http://127.0.0.1:${PREVIEW_PORT}`;
+const SUPPORTED_LOCALES = ['zh', 'en'];
+const DEFAULT_LOCALE = 'zh';
+
+// 营销页面 - 与 src/config/routes.ts 保持同步
+const MARKETING_PAGES = [
+  { path: '', name: 'landing' },
+  { path: 'about', name: 'about' },
+  { path: 'faq', name: 'faq' },
+  { path: 'method369', name: 'method369' },
+  { path: 'blog', name: 'blog' },
+  { path: 'user-stories', name: 'user-stories' },
+  { path: 'privacy', name: 'privacy' },
+  { path: 'terms', name: 'terms' },
+];
+
+// 获取所有需要预渲染的路由
+function getAllRoutesToPrerender() {
+  const routes = [];
+
+  MARKETING_PAGES.forEach(page => {
+    // 中文版本（默认，不带前缀）
+    routes.push({
+      url: page.path ? `/${page.path}` : '/',
+      locale: 'zh',
+      name: page.name,
+    });
+
+    // 英文版本（带 /en 前缀）
+    routes.push({
+      url: page.path ? `/en/${page.path}` : '/en',
+      locale: 'en',
+      name: `${page.name}-en`,
+    });
+  });
+
+  return routes;
+}
+
+// 启动预览服务器
+function startPreviewServer() {
+  return new Promise((resolve, reject) => {
+    console.log('🚀 Starting preview server...');
+    
+    const server = spawn('npx', ['vite', 'preview', '--port', PREVIEW_PORT.toString()], {
+      cwd: rootDir,
+      stdio: ['pipe', 'pipe', 'pipe'],
+      shell: true,
+    });
+
+    let serverReady = false;
+
+    server.stdout.on('data', (data) => {
+      const output = data.toString();
+      console.log(`[Server] ${output}`);
+      
+      if (output.includes('Local:') || output.includes(`${PREVIEW_PORT}`)) {
+        serverReady = true;
+        // 等待服务器完全启动
+        setTimeout(() => resolve(server), 2000);
+      }
+    });
+
+    server.stderr.on('data', (data) => {
+      console.error(`[Server Error] ${data.toString()}`);
+    });
+
+    server.on('error', (error) => {
+      reject(error);
+    });
+
+    // 超时处理
+    setTimeout(() => {
+      if (!serverReady) {
+        console.log('⏳ Server startup timeout, assuming ready...');
+        resolve(server);
+      }
+    }, 10000);
+  });
+}
+
+// 预渲染单个页面
+async function prerenderPage(browser, route) {
+  const { url, locale, name } = route;
+  const fullUrl = `${BASE_URL}${url}`;
+  
+  console.log(`📄 Prerendering: ${url} (${locale})`);
+  
+  const page = await browser.newPage();
+  
+  try {
+    // 设置视口
+    await page.setViewport({
+      width: 1920,
+      height: 1080,
+    });
+
+    // 设置用户代理
+    await page.setUserAgent('Mozilla/5.0 (compatible; Prerender/1.0; +https://369.heymanifestation.com)');
+
+    // 访问页面
+    await page.goto(fullUrl, {
+      waitUntil: 'networkidle0',
+      timeout: 30000,
+    });
+
+    // 等待内容加载
+    await page.waitForTimeout(2000);
+
+    // 获取渲染后的 HTML
+    let html = await page.content();
+
+    // 清理预渲染标记，避免重复 hydration
+    html = html.replace(
+      /<script[^>]*>window\.__PRERENDERED__\s*=\s*true;<\/script>/g,
+      ''
+    );
+
+    // 添加预渲染标记
+    html = html.replace(
+      '</head>',
+      '<script>window.__PRERENDERED__ = true;</script></head>'
+    );
+
+    // 确定输出路径
+    let outputPath;
+    if (url === '/') {
+      outputPath = path.join(distDir, 'index.html');
+    } else if (url === '/en') {
+      outputPath = path.join(distDir, 'en', 'index.html');
+    } else {
+      outputPath = path.join(distDir, url.slice(1), 'index.html');
+    }
+
+    // 确保目录存在
+    const outputDir = path.dirname(outputPath);
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+
+    // 写入文件
+    fs.writeFileSync(outputPath, html);
+    console.log(`   ✅ Saved: ${outputPath.replace(distDir, 'dist')}`);
+
+    return { success: true, url };
+  } catch (error) {
+    console.error(`   ❌ Failed: ${url}`, error.message);
+    return { success: false, url, error: error.message };
+  } finally {
+    await page.close();
+  }
+}
+
+// 主函数
+async function main() {
+  console.log('\n🔨 369 Manifestation - Prerender Script');
+  console.log('========================================\n');
+
+  // 检查 dist 目录是否存在
+  if (!fs.existsSync(distDir)) {
+    console.error('❌ Error: dist directory not found. Please run "npm run build" first.');
+    process.exit(1);
+  }
+
+  let server = null;
+  let browser = null;
+
+  try {
+    // 获取所有路由
+    const routes = getAllRoutesToPrerender();
+    console.log(`📋 Found ${routes.length} routes to prerender:\n`);
+    routes.forEach(r => console.log(`   - ${r.url} (${r.locale})`));
+    console.log('');
+
+    // 启动预览服务器
+    server = await startPreviewServer();
+    console.log(`✅ Preview server running at ${BASE_URL}\n`);
+
+    // 启动 Puppeteer
+    console.log('🌐 Launching browser...');
+    browser = await puppeteer.launch({
+      headless: 'new',
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+      ],
+    });
+    console.log('✅ Browser launched\n');
+
+    // 预渲染所有页面
+    console.log('📝 Starting prerender...\n');
+    const results = [];
+    
+    for (const route of routes) {
+      const result = await prerenderPage(browser, route);
+      results.push(result);
+    }
+
+    // 打印结果摘要
+    const successful = results.filter(r => r.success).length;
+    const failed = results.filter(r => !r.success).length;
+
+    console.log('\n========================================');
+    console.log('📊 Prerender Summary');
+    console.log('========================================');
+    console.log(`   ✅ Successful: ${successful}`);
+    console.log(`   ❌ Failed: ${failed}`);
+    console.log(`   📁 Output: ${distDir}`);
+    console.log('========================================\n');
+
+    if (failed > 0) {
+      console.log('Failed pages:');
+      results.filter(r => !r.success).forEach(r => {
+        console.log(`   - ${r.url}: ${r.error}`);
+      });
+    }
+
+    console.log('✨ Prerender complete!\n');
+
+  } catch (error) {
+    console.error('❌ Prerender failed:', error);
+    process.exit(1);
+  } finally {
+    // 清理
+    if (browser) {
+      await browser.close();
+      console.log('🌐 Browser closed');
+    }
+    if (server) {
+      server.kill();
+      console.log('🔌 Preview server stopped');
+    }
+  }
+}
+
+// 运行
+main().catch(console.error);
