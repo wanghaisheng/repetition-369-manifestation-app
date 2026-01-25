@@ -1,0 +1,31 @@
+{
+  "description": "预渲染路由配置 - 与 src/config/routes.ts 和 sitemap 保持同步",
+  "baseUrl": "https://369.heymanifestation.com",
+  "supportedLocales": ["zh", "en"],
+  "defaultLocale": "zh",
+  "marketingPages": [
+    { "path": "", "name": "landing", "priority": "1.0" },
+    { "path": "about", "name": "about", "priority": "0.9" },
+    { "path": "faq", "name": "faq", "priority": "0.8" },
+    { "path": "method369", "name": "method369", "priority": "0.9" },
+    { "path": "blog", "name": "blog", "priority": "0.9" },
+    { "path": "user-stories", "name": "user-stories", "priority": "0.8" },
+    { "path": "privacy", "name": "privacy", "priority": "0.3" },
+    { "path": "terms", "name": "terms", "priority": "0.3" }
+  ],
+  "excludeFromPrerender": [
+    "/app",
+    "/app/*",
+    "/auth",
+    "/blog-admin",
+    "/admin-stats"
+  ],
+  "prerenderConfig": {
+    "waitTime": 2000,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "timeout": 30000
+  }
+}
