@@ -31,7 +31,25 @@
     "affirmation": "Affirmation",
     "category": "Category",
     "color": "Color",
-    "isActive": "Active Status"
+    "isActive": "Active Status",
+    "addWish": "Add Wish",
+    "startPractice": "Practice",
+    "pause": "Pause",
+    "activate": "Activate",
+    "createdAt": "Created",
+    "categories": {
+      "career": "Career",
+      "health": "Health",
+      "relationship": "Relationship",
+      "wealth": "Wealth",
+      "personal": "Personal",
+      "other": "Other"
+    },
+    "emptyState": {
+      "title": "No Wishes Yet",
+      "description": "Create your first manifestation goal and start the 369 practice journey",
+      "cta": "Create First Wish"
+    }
   },
   "practice": {
     "title": "369 Practice",
