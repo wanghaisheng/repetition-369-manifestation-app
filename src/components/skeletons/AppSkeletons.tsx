@@ -52,30 +52,43 @@ export const HomeViewSkeleton = () => (
 
 // 愿望页骨架屏
 export const WishesViewSkeleton = () => (
-  <div className="flex-1 bg-ios-secondary-background px-4 py-4 overflow-y-auto">
-    {/* 按钮骨架 */}
-    <div className="flex justify-end items-center mb-4">
-      <Skeleton className="h-10 w-28 rounded-ios" />
+  <div className="flex-1 bg-secondary/30 px-4 py-5 overflow-y-auto">
+    {/* Header skeleton */}
+    <div className="flex justify-end items-center mb-5">
+      <Skeleton className="h-10 w-28 rounded-xl" />
     </div>
 
-    {/* 愿望卡片骨架 */}
+    {/* Wish cards skeleton */}
     <div className="space-y-4">
       {[1, 2, 3].map((i) => (
-        <Card key={i} className="p-6 bg-white border-0 shadow-ios rounded-ios">
-          <div className="flex items-start space-x-4">
-            <Skeleton className="w-12 h-12 rounded-ios flex-shrink-0" />
-            <div className="flex-1">
-              <div className="flex items-center space-x-2 mb-2">
-                <Skeleton className="h-5 w-32" />
-                <Skeleton className="h-5 w-12 rounded-full" />
-              </div>
-              <Skeleton className="h-4 w-full mb-1" />
-              <Skeleton className="h-4 w-3/4 mb-3" />
-              <div className="flex justify-between items-center">
-                <Skeleton className="h-3 w-24" />
-                <div className="flex space-x-2">
-                  <Skeleton className="h-8 w-20 rounded-ios" />
-                  <Skeleton className="h-8 w-16 rounded-ios" />
+        <Card key={i} className="relative overflow-hidden bg-card border-0 shadow-md rounded-2xl">
+          {/* Gradient accent bar */}
+          <Skeleton className="absolute top-0 left-0 right-0 h-1" />
+          
+          <div className="p-5">
+            <div className="flex items-start gap-4">
+              {/* Category icon skeleton */}
+              <Skeleton className="w-14 h-14 rounded-2xl shrink-0" />
+              
+              {/* Content skeleton */}
+              <div className="flex-1 min-w-0">
+                {/* Title & badge */}
+                <div className="flex items-center gap-2 mb-2">
+                  <Skeleton className="h-5 w-32" />
+                  <Skeleton className="h-5 w-14 rounded-full" />
+                </div>
+                
+                {/* Affirmation */}
+                <Skeleton className="h-4 w-full mb-1" />
+                <Skeleton className="h-4 w-3/4 mb-4" />
+                
+                {/* Footer */}
+                <div className="flex items-center justify-between">
+                  <Skeleton className="h-3 w-20" />
+                  <div className="flex items-center gap-2">
+                    <Skeleton className="h-8 w-24 rounded-xl" />
+                    <Skeleton className="h-8 w-16 rounded-xl" />
+                  </div>
                 </div>
               </div>
             </div>
