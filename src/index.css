@@ -58,6 +58,25 @@
     --warning-foreground: 45 100% 20%;
     --info: 221.2 83.2% 53.3%;
     --info-foreground: 210 40% 98%;
+    
+    /* App-specific semantic colors */
+    --app-surface: 0 0% 100%;
+    --app-surface-elevated: 0 0% 100%;
+    --app-surface-secondary: 220 14% 96%;
+    --app-text-primary: 220 14% 10%;
+    --app-text-secondary: 220 10% 46%;
+    --app-text-tertiary: 220 8% 65%;
+    
+    /* Manifestation spiritual colors */
+    --manifest-glow: 45 100% 60%;
+    --manifest-aura: 262.1 60% 75%;
+    --manifest-energy: 280 80% 65%;
+    --manifest-calm: 200 60% 70%;
+    
+    /* Card hierarchy */
+    --card-hero: linear-gradient(135deg, hsl(45 80% 96%), hsl(262 60% 97%));
+    --card-elevated: 0 0% 100%;
+    --card-subtle: 220 14% 98%;
   }
 
   .dark {
