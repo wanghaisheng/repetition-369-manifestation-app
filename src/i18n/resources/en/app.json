@@ -73,7 +73,30 @@
     "completionRate": "Completion Rate",
     "weeklyChart": "This Week",
     "monthlyChart": "Monthly Stats",
-    "achievements": "Achievements"
+    "achievements": "Achievements",
+    "todayCompletion": "Today's Completion",
+    "days": "days",
+    "sessions": "sessions",
+    "totalWishes": "Total Wishes",
+    "achieved": "Achieved",
+    "longestStreak": "Longest Streak",
+    "todayProgress": "Today's Progress",
+    "completed": "Completed",
+    "target": "Target",
+    "weeklyStats": "Weekly Stats",
+    "weekProgress": "Week Progress",
+    "wishCompletion": "Wish Completion Rate",
+    "inProgress": "In Progress",
+    "monthlyTrend": "Monthly Trend",
+    "practiceCount": "Practice Count",
+    "badges": {
+      "streak7": "7-Day Streak",
+      "firstWish": "First Wish",
+      "practice100": "Practice Master",
+      "streak30": "Persistence Master",
+      "weekWarrior": "Week Warrior",
+      "perfectWeek": "Perfect Week"
+    }
   },
   "wishSelector": {
     "title": "Select Practice Wish",

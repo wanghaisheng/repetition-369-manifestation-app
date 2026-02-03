@@ -176,69 +176,128 @@ export const PracticeViewSkeleton = () => (
   </div>
 );
 
-// 进度页骨架屏
+// Progress View Skeleton - Matching new modular component structure
 export const ProgressViewSkeleton = () => (
-  <div className="flex-1 bg-ios-secondary-background px-4 py-4 overflow-y-auto">
-    {/* 今日进度圆形卡片骨架 */}
-    <Card className="p-6 bg-white border-0 shadow-ios rounded-ios mb-4">
+  <div className="flex-1 bg-background px-4 py-4 overflow-y-auto space-y-4">
+    {/* Hero Progress Card Skeleton */}
+    <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-primary/30 via-accent/30 to-primary/20 p-6 shadow-xl">
       <div className="flex items-center justify-between">
-        <div className="flex-1">
-          <Skeleton className="h-5 w-24 mb-2" />
-          <div className="flex items-baseline gap-2 mb-3">
-            <Skeleton className="h-8 w-16" />
-            <Skeleton className="h-4 w-12" />
+        <div className="flex-1 space-y-3">
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-5 h-5 rounded" />
+            <Skeleton className="h-5 w-24" />
           </div>
-          <div className="flex items-center gap-4">
-            <Skeleton className="h-4 w-12" />
-            <Skeleton className="h-4 w-12" />
+          <div className="flex items-baseline gap-3">
+            <Skeleton className="h-10 w-20" />
+            <Skeleton className="h-5 w-16 rounded-full" />
+          </div>
+          <div className="flex items-center gap-5">
+            <Skeleton className="h-4 w-14" />
+            <Skeleton className="h-4 w-14" />
           </div>
         </div>
-        <Skeleton className="w-20 h-20 rounded-full" />
+        <Skeleton className="w-[88px] h-[88px] rounded-full" />
       </div>
     </Card>
 
-    {/* 横向统计卡片骨架 */}
-    <div className="flex gap-3 overflow-x-auto pb-2 mb-4">
+    {/* Stats Carousel Skeleton */}
+    <div className="flex gap-3 overflow-x-auto pb-1 -mx-4 px-4">
       {[1, 2, 3, 4].map((i) => (
-        <Card key={i} className="flex-shrink-0 w-32 p-3 bg-white border-0 shadow-ios rounded-ios">
-          <div className="flex flex-col items-center text-center">
-            <Skeleton className="w-10 h-10 rounded-full mb-2" />
-            <Skeleton className="h-6 w-12 mb-1" />
-            <Skeleton className="h-3 w-16" />
+        <Card key={i} className="flex-shrink-0 w-[100px] min-w-[100px] p-3 border-0 shadow-md">
+          <div className="flex flex-col items-center text-center space-y-2">
+            <Skeleton className="w-8 h-8 rounded-xl" />
+            <Skeleton className="h-5 w-8" />
+            <Skeleton className="h-3 w-12" />
           </div>
         </Card>
       ))}
     </div>
 
-    {/* 统计卡片骨架 */}
-    {[1, 2].map((i) => (
-      <Card key={i} className="p-4 bg-white border-0 shadow-ios rounded-ios mb-4">
-        <div className="flex items-center justify-between mb-3">
-          <Skeleton className="h-5 w-24" />
-          <Skeleton className="h-4 w-16" />
+    {/* Weekly Progress Card Skeleton */}
+    <Card className="border-0 shadow-lg">
+      <div className="p-4 border-b border-border/50">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-8 h-8 rounded-xl" />
+            <Skeleton className="h-5 w-20" />
+          </div>
+          <Skeleton className="h-4 w-10" />
         </div>
-        <Skeleton className="h-2 w-full mb-3" />
-        <div className="grid grid-cols-3 gap-4 pt-2 border-t border-gray-100">
-          {[1, 2, 3].map((j) => (
-            <div key={j} className="text-center">
-              <Skeleton className="h-5 w-12 mx-auto mb-1" />
-              <Skeleton className="h-3 w-16 mx-auto" />
+        <Skeleton className="h-2.5 w-full mb-4" />
+        <div className="grid grid-cols-3 gap-3">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="text-center p-2">
+              <Skeleton className="h-5 w-8 mx-auto mb-1" />
+              <Skeleton className="h-3 w-10 mx-auto" />
             </div>
           ))}
         </div>
-      </Card>
-    ))}
-
-    {/* 成就徽章骨架 */}
-    <Card className="p-4 bg-white border-0 shadow-ios rounded-ios">
-      <Skeleton className="h-5 w-24 mb-3" />
-      <div className="grid grid-cols-4 gap-3">
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="text-center">
-            <Skeleton className="w-12 h-12 rounded-full mx-auto mb-1.5" />
-            <Skeleton className="h-3 w-14 mx-auto" />
+      </div>
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-8 h-8 rounded-xl" />
+            <Skeleton className="h-5 w-20" />
           </div>
-        ))}
+          <Skeleton className="h-3 w-12" />
+        </div>
+        <Skeleton className="h-2 w-full" />
+      </div>
+    </Card>
+
+    {/* Wish Completion Card Skeleton */}
+    <Card className="border-0 shadow-lg bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/10 dark:to-orange-950/10">
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-8 h-8 rounded-xl" />
+            <Skeleton className="h-5 w-24" />
+          </div>
+          <Skeleton className="h-3 w-10" />
+        </div>
+        <Skeleton className="h-2 w-full mb-3" />
+        <div className="flex justify-between pt-2 border-t border-border/30">
+          <div className="flex-1 text-center">
+            <Skeleton className="h-5 w-6 mx-auto mb-1" />
+            <Skeleton className="h-3 w-10 mx-auto" />
+          </div>
+          <div className="flex-1 text-center">
+            <Skeleton className="h-5 w-6 mx-auto mb-1" />
+            <Skeleton className="h-3 w-10 mx-auto" />
+          </div>
+        </div>
+      </div>
+    </Card>
+
+    {/* Monthly Trend Chart Skeleton */}
+    <Card className="border-0 shadow-lg">
+      <div className="p-4">
+        <div className="flex items-center gap-2 mb-4">
+          <Skeleton className="w-8 h-8 rounded-xl" />
+          <Skeleton className="h-5 w-20" />
+        </div>
+        <Skeleton className="h-[140px] w-full rounded-lg" />
+      </div>
+    </Card>
+
+    {/* Achievements Grid Skeleton */}
+    <Card className="border-0 shadow-lg">
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Skeleton className="w-8 h-8 rounded-xl" />
+            <Skeleton className="h-5 w-20" />
+          </div>
+          <Skeleton className="h-5 w-10 rounded-full" />
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="text-center">
+              <Skeleton className="w-14 h-14 rounded-2xl mx-auto mb-2" />
+              <Skeleton className="h-3 w-12 mx-auto" />
+            </div>
+          ))}
+        </div>
       </div>
     </Card>
   </div>
