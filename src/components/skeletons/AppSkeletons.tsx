@@ -99,75 +99,82 @@ export const WishesViewSkeleton = () => (
   </div>
 );
 
-// 练习页骨架屏
+// Practice View Skeleton - Apple Mindfulness inspired
 export const PracticeViewSkeleton = () => (
-  <div className="flex-1 bg-ios-secondary-background overflow-y-auto">
+  <div className="flex-1 bg-background overflow-y-auto">
     <div className="p-4 space-y-4">
-      {/* 按钮骨架 */}
-      <div className="flex justify-end items-center">
-        <div className="flex space-x-2">
-          <Skeleton className="h-9 w-24 rounded-md" />
-          <Skeleton className="h-9 w-20 rounded-md" />
-        </div>
+      {/* Header actions skeleton */}
+      <div className="flex justify-end items-center gap-2">
+        <Skeleton className="h-9 w-20 rounded-xl" />
+        <Skeleton className="h-9 w-20 rounded-xl" />
       </div>
 
-      {/* 游戏化状态骨架 */}
-      <div className="grid grid-cols-1 gap-4">
-        <div className="grid grid-cols-2 gap-4">
-          {[1, 2].map((i) => (
-            <Card key={i} className="p-4 bg-white border-0 shadow-ios rounded-ios">
-              <div className="flex items-center space-x-3">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <div>
-                  <Skeleton className="h-5 w-16 mb-1" />
-                  <Skeleton className="h-3 w-12" />
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-        
-        {/* 等级进度骨架 */}
-        <Card className="p-4 bg-white border-0 shadow-ios rounded-ios">
-          <div className="flex justify-between items-center mb-2">
-            <Skeleton className="h-4 w-20" />
-            <Skeleton className="h-4 w-16" />
-          </div>
-          <Skeleton className="h-2 w-full" />
-        </Card>
-      </div>
-
-      {/* 统计卡片骨架 */}
-      <Card className="p-4 bg-white border-0 shadow-ios rounded-ios">
-        <div className="grid grid-cols-3 gap-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="text-center">
-              <Skeleton className="h-8 w-12 mx-auto mb-1" />
-              <Skeleton className="h-3 w-16 mx-auto" />
+      {/* Hero Card Skeleton */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-primary/30 via-accent/30 to-primary/20 p-6 shadow-xl">
+        <div className="flex items-center justify-between">
+          <div className="flex-1 space-y-4">
+            <div className="flex items-center gap-2">
+              <Skeleton className="w-5 h-5 rounded" />
+              <Skeleton className="h-5 w-24" />
             </div>
-          ))}
+            <div className="space-y-3">
+              <div className="flex items-baseline gap-3">
+                <Skeleton className="h-10 w-16" />
+                <Skeleton className="h-5 w-10" />
+              </div>
+              <div className="flex items-center gap-4">
+                <Skeleton className="h-6 w-24 rounded-full" />
+                <Skeleton className="h-6 w-16 rounded-full" />
+              </div>
+            </div>
+          </div>
+          <Skeleton className="w-[100px] h-[100px] rounded-full" />
         </div>
       </Card>
 
-      {/* 愿望选择器骨架 */}
-      <Card className="p-4 bg-white border-0 shadow-ios rounded-ios">
+      {/* Quick Stats Skeleton */}
+      <div className="grid grid-cols-2 gap-3">
+        {[1, 2].map((i) => (
+          <Card key={i} className="p-3 border-0 shadow-md">
+            <div className="flex items-center gap-3">
+              <Skeleton className="w-8 h-8 rounded-xl" />
+              <div>
+                <Skeleton className="h-5 w-14 mb-1" />
+                <Skeleton className="h-3 w-10" />
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      {/* Wish Selector Skeleton */}
+      <Card className="p-4 border-0 shadow-md">
         <Skeleton className="h-5 w-24 mb-3" />
-        <Skeleton className="h-12 w-full rounded-ios" />
+        <Skeleton className="h-12 w-full rounded-xl" />
       </Card>
 
-      {/* 练习卡片骨架 */}
-      <Skeleton className="h-6 w-32 mb-4" />
-      <div className="space-y-4">
+      {/* Time Slot Cards Skeleton */}
+      <div className="space-y-3">
+        <Skeleton className="h-4 w-28" />
         {[1, 2, 3].map((i) => (
-          <Card key={i} className="p-4 bg-white border-0 shadow-ios rounded-ios">
-            <div className="flex items-center space-x-4">
-              <Skeleton className="w-12 h-12 rounded-ios flex-shrink-0" />
+          <Card key={i} className="border-0 shadow-lg p-4">
+            <div className="flex items-start gap-4">
+              <Skeleton className="w-14 h-14 rounded-2xl flex-shrink-0" />
               <div className="flex-1">
-                <Skeleton className="h-5 w-24 mb-1" />
-                <Skeleton className="h-3 w-32 mb-2" />
-                <Skeleton className="h-2 w-full" />
+                <div className="flex items-center justify-between mb-1">
+                  <Skeleton className="h-5 w-24" />
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                </div>
+                <Skeleton className="h-4 w-full mb-2" />
+                <div className="flex items-center gap-2 mb-3">
+                  <Skeleton className="h-3 w-20" />
+                  <Skeleton className="h-3 w-16" />
+                </div>
+                <Skeleton className="h-2 w-full mb-1" />
               </div>
-              <Skeleton className="h-8 w-16 rounded-ios" />
+            </div>
+            <div className="mt-4 flex justify-end">
+              <Skeleton className="h-9 w-28 rounded-xl" />
             </div>
           </Card>
         ))}
