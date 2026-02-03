@@ -73,7 +73,30 @@
     "completionRate": "完成率",
     "weeklyChart": "本周练习",
     "monthlyChart": "本月统计",
-    "achievements": "成就徽章"
+    "achievements": "成就徽章",
+    "todayCompletion": "今日完成度",
+    "days": "天",
+    "sessions": "场",
+    "totalWishes": "总愿望",
+    "achieved": "已实现",
+    "longestStreak": "最长连续",
+    "todayProgress": "今日进度",
+    "completed": "已完成",
+    "target": "目标",
+    "weeklyStats": "本周统计",
+    "weekProgress": "周进度",
+    "wishCompletion": "愿望实现率",
+    "inProgress": "进行中",
+    "monthlyTrend": "月度趋势",
+    "practiceCount": "练习次数",
+    "badges": {
+      "streak7": "连续7天",
+      "firstWish": "首个愿望",
+      "practice100": "练习达人",
+      "streak30": "坚持大师",
+      "weekWarrior": "一周勇士",
+      "perfectWeek": "完美一周"
+    }
   },
   "wishSelector": {
     "title": "选择练习愿望",
