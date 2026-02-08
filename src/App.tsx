@@ -35,6 +35,7 @@ const Auth = lazy(() => import("@/pages/Auth"));
 const Index = lazy(() => import("./pages/Index"));
 const BlogManagement = lazy(() => import("./components/blog/BlogManagement").then(m => ({ default: m.BlogManagement })));
 const AdminStats = lazy(() => import("./pages/AdminStats"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 // 延迟加载第三方分析组件
 const GoogleAnalytics = lazy(() => import("@/components/analytics/GoogleAnalytics").then(m => ({ default: m.GoogleAnalytics })));
@@ -175,8 +176,8 @@ const App = () => {
                           </ProtectedRoute>
                         } />
                         
-                        {/* Redirect any other routes to landing */}
-                        <Route path="*" element={<Navigate to="/" replace />} />
+                        {/* 404 for unknown routes - proper SEO handling */}
+                        <Route path="*" element={<NotFound />} />
                       </Routes>
                     </Suspense>
                   </RouteHandler>
