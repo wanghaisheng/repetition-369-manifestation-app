@@ -1,9 +1,17 @@
-
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { SEO_CONFIG } from '@/config/seo';
-import { normalizePath, removeLanguagePrefix, isMarketingPage } from '@/utils/languageUrl';
+import { normalizePath } from '@/utils/languageUrl';
 
+/**
+ * RedirectHandler - 简化版
+ * 
+ * 只处理客户端 URL 规范化：
+ * - 移除尾随斜杠
+ * - 移除 /zh 前缀（默认语言不需要前缀）
+ * 
+ * 注意：HTTP→HTTPS 和 www→non-www 重定向应在 CDN/服务器层配置
+ * 不存在的页面应返回 404，而非客户端重定向
+ */
 export const RedirectHandler = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -11,48 +19,9 @@ export const RedirectHandler = () => {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     
-    const hostname = window.location.hostname;
-    const protocol = window.location.protocol;
-    const isLocalhost = hostname.includes('localhost') || hostname.includes('127.0.0.1');
+    // URL 规范化：移除尾随斜杠
+    const normalizedPath = normalizePath(location.pathname);
     
-    // 生产环境重定向处理
-    if (!isLocalhost) {
-      // 1. 强制HTTPS重定向
-      if (protocol !== 'https:') {
-        window.location.replace(`https:${window.location.href.substring(protocol.length)}`);
-        return;
-      }
-      
-      // 2. www 到 non-www 重定向（统一URL格式）
-      if (hostname.startsWith('www.')) {
-        const nonWwwUrl = window.location.href.replace('://www.', '://');
-        window.location.replace(nonWwwUrl);
-        return;
-      }
-    }
-
-    // URL规范化处理
-    let normalizedPath = normalizePath(location.pathname);
-    
-    // 常见重定向映射（考虑语言前缀）
-    const pathWithoutLang = removeLanguagePrefix(normalizedPath);
-    const redirectMap: Record<string, string> = {
-      '/home': '/',
-      '/index': '/',
-      '/main': '/',
-      '/index.html': '/',
-      '/home.html': '/',
-    };
-    
-    // 检查是否需要重定向
-    if (redirectMap[pathWithoutLang]) {
-      const langPrefix = normalizedPath.startsWith('/en') ? '/en' : '';
-      const redirectTarget = langPrefix + (redirectMap[pathWithoutLang] === '/' && langPrefix ? '' : redirectMap[pathWithoutLang]);
-      navigate(redirectTarget || '/', { replace: true });
-      return;
-    }
-    
-    // 检查路径是否需要规范化（移除尾随斜杠）
     if (normalizedPath !== location.pathname) {
       navigate(normalizedPath + location.search + location.hash, { replace: true });
       return;

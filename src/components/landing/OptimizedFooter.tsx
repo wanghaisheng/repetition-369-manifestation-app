@@ -69,9 +69,8 @@ export const OptimizedFooter = () => {
     ],
     legal: [
       { name: t('common:footer.privacy'), href: '/privacy' },
-      { name: t('common:footer.terms'), href: '/terms' },
-      { name: t('common:footer.cookies'), href: '/cookies' },
-      { name: t('common:footer.security'), href: '/security' }
+      { name: t('common:footer.terms'), href: '/terms' }
+      // Removed dead links: /cookies and /security (pages don't exist)
     ]
   };
 
