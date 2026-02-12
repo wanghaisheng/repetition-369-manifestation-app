@@ -13,7 +13,7 @@ import {
   Shield,
   FileText
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 export const OptimizedFooter = () => {
   const { t } = useTranslation(['landing', 'common']);

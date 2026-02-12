@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@tanstack/react-router';
 import { trackWebVitals, monitorMemoryUsage } from '@/utils/performance';
 import { logger } from '@/utils/logger';
 

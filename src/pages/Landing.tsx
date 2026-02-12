@@ -25,7 +25,7 @@ import {
   Coffee,
   Heart
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 const Landing = () => {
   const { t, i18n } = useTranslation(['landing', 'common']);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -58,7 +58,7 @@ interface RelatedPost {
 }
 
 const BlogPostPage = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug } = useParams({ from: '/blog/$slug' });
   const { t, i18n } = useTranslation(['common']);
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);

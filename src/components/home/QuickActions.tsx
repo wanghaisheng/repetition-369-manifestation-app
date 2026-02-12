@@ -1,6 +1,6 @@
 import { Zap, Plus, Target, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 
 interface QuickActionsProps {
   hasActiveWishes: boolean;
@@ -20,7 +20,7 @@ export const QuickActions = ({ hasActiveWishes, onCreateWish }: QuickActionsProp
             icon={Zap}
             label="开始今日练习"
             sublabel="继续你的显化之旅"
-            onClick={() => navigate('/app/practice')}
+            onClick={() => navigate({ to: '/app/practice' })}
             variant="primary"
           />
         ) : (
@@ -37,7 +37,7 @@ export const QuickActions = ({ hasActiveWishes, onCreateWish }: QuickActionsProp
           icon={Target}
           label="管理愿望"
           sublabel="查看和编辑愿望列表"
-          onClick={() => navigate('/app/wishes')}
+          onClick={() => navigate({ to: '/app/wishes' })}
           variant="secondary"
         />
       </div>

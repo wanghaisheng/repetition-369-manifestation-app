@@ -3,7 +3,7 @@ import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 const Privacy = () => {
   return (

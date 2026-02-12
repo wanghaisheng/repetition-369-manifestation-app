@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Sparkles, PlayCircle, Users, TrendingUp } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 export const HeroOptimized = () => {
   const { t, i18n } = useTranslation(['landing', 'common']);

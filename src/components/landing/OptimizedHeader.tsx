@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { Sparkles } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 export const OptimizedHeader = () => {
   const { t } = useTranslation(['common']);

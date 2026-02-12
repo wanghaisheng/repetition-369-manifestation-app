@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { 
   SEO_CONFIG, 

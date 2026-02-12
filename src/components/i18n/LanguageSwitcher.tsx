@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Globe } from 'lucide-react';
 import {
@@ -31,7 +31,7 @@ export const LanguageSwitcher = () => {
     const newPath = getLocalizedPath(location.pathname, langCode as SupportedLanguage);
     
     // 导航到新URL（保留search和hash）
-    navigate(newPath + location.search + location.hash, { replace: true });
+    navigate({ to: newPath + location.search + location.hash, replace: true });
   };
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];

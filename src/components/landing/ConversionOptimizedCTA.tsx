@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Sparkles, ArrowRight, Users, Gift, CheckCircle, Share2, Copy } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
 export const ConversionOptimizedCTA = () => {

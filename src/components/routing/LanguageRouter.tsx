@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromPath } from '@/utils/languageUrl';
 
