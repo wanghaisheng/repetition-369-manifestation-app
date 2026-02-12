@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { normalizePath } from '@/utils/languageUrl';
 
 /**
@@ -23,14 +23,14 @@ export const RedirectHandler = () => {
     const normalizedPath = normalizePath(location.pathname);
     
     if (normalizedPath !== location.pathname) {
-      navigate(normalizedPath + location.search + location.hash, { replace: true });
+      navigate({ to: normalizedPath + location.search + location.hash, replace: true });
       return;
     }
     
     // 移除默认语言(zh)的显式前缀
     if (normalizedPath.startsWith('/zh/') || normalizedPath === '/zh') {
       const pathWithoutZh = normalizedPath.replace(/^\/zh/, '') || '/';
-      navigate(pathWithoutZh + location.search + location.hash, { replace: true });
+      navigate({ to: pathWithoutZh + location.search + location.hash, replace: true });
       return;
     }
     

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Navigate, useSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearch, Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,7 +10,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { Sparkles, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 
 const Auth = () => {
@@ -19,15 +18,16 @@ const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSignUpMode, setIsSignUpMode] = useState(false);
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearch({ from: '/auth' });
   const navigate = useNavigate();
 
   // 获取重定向路径
-  const redirectPath = searchParams.get('redirect') || '/app';
+  const redirectPath = searchParams.redirect || '/app';
 
   // Redirect if already authenticated
   if (isAuthenticated) {
-    return <Navigate to={redirectPath} replace />;
+    navigate({ to: redirectPath, replace: true });
+    return null;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,7 +61,7 @@ const Auth = () => {
           });
           // 登录成功后重定向到目标页面
           setTimeout(() => {
-            navigate(redirectPath);
+            navigate({ to: redirectPath });
           }, 1000);
         }
       }

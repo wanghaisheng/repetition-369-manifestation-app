@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowLeft, Save, TrendingUp } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 
 const AdminStats = () => {
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ const AdminStats = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => navigate('/')}
+                  onClick={() => navigate({ to: '/' })}
                 >
                   <ArrowLeft className="h-5 w-5" />
                 </Button>

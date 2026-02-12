@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Navigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { RefreshCw, AlertCircle, ArrowLeft } from 'lucide-react';
@@ -104,7 +104,8 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   // Redirect to auth if not authenticated
   if (!isAuthenticated) {
     console.log('ProtectedRoute: Redirecting to auth');
-    return <Navigate to={`/auth?redirect=${encodeURIComponent(window.location.pathname)}`} replace />;
+    window.location.href = `/auth?redirect=${encodeURIComponent(window.location.pathname)}`;
+    return null;
   }
 
   // Render protected content

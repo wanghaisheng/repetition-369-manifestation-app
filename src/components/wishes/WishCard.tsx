@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { Target, Briefcase, Heart, Smile, User, DollarSign, Play, Pause, PlayCircle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -66,7 +66,7 @@ export const WishCard = ({ wish, onToggleStatus }: WishCardProps) => {
   };
 
   const handleStartPractice = () => {
-    navigate(`/app/practice?wishId=${wish.id}`);
+    navigate({ to: `/app/practice?wishId=${wish.id}` } as any);
   };
 
   const formattedDate = new Date(wish.createdAt).toLocaleDateString(

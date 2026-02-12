@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { redirectToCanonical } from '@/utils/urlOptimization';
 import { trackWebVitals } from '@/utils/performance';
 
@@ -13,7 +13,7 @@ export const RouteHandler: React.FC<{ children: React.ReactNode }> = ({ children
       // URL规范化处理
       const canonicalPath = redirectToCanonical(location.pathname);
       if (canonicalPath !== location.pathname) {
-        navigate(canonicalPath, { replace: true });
+        navigate({ to: canonicalPath, replace: true });
         return;
       }
 

@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearch } from '@tanstack/react-router';
 import { Star, BarChart3 } from 'lucide-react';
 import { useWishes } from '@/hooks/useWishes';
 import { usePractice } from '@/hooks/usePractice';
@@ -27,7 +27,7 @@ import { useTranslation } from 'react-i18next';
 
 export const PracticeView = () => {
   const { t } = useTranslation('app');
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearch({ strict: false }) as { wishId?: string };
   const { wishes, loading: wishesLoading } = useWishes();
   const { todayPractices, practiceHistory, recordPractice, loading: practiceLoading } = usePractice();
   const { user } = useAuth();
@@ -58,7 +58,7 @@ export const PracticeView = () => {
 
   // Auto-select wish from URL
   useEffect(() => {
-    const wishIdFromUrl = searchParams.get('wishId');
+    const wishIdFromUrl = searchParams.wishId;
     if (wishIdFromUrl && wishes.length > 0) {
       const wishExists = wishes.some(w => w.id === wishIdFromUrl);
       if (wishExists) {

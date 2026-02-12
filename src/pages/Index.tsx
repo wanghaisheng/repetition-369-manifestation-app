@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from '@tanstack/react-router';
 import { TabBar } from '@/components/navigation/TabBar';
 import { DrawerMenu } from '@/components/navigation/DrawerMenu';
 import { HomeView } from '@/components/views/HomeView';
@@ -14,6 +14,7 @@ import { SitemapGenerator } from '@/components/seo/SitemapGenerator';
 import { PageLoadMonitor } from '@/components/performance/PageLoadMonitor';
 import { RedirectHandler } from '@/components/seo/RedirectHandler';
 import { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
+import { Route } from '@/routes/app/$tab';
 
 type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community' | 'settings';
 
@@ -27,7 +28,7 @@ const getValidTab = (t: string | undefined): Tab => {
 };
 
 const Index = () => {
-  const { tab } = useParams<{ tab: string }>();
+  const { tab } = Route.useParams();
   const navigate = useNavigate();
   
   // 直接从 URL 参数初始化，避免首次渲染闪烁
@@ -50,7 +51,7 @@ const Index = () => {
     
     // 无效路由重定向
     if (tab && !['home', 'wishes', 'practice', 'progress', 'community', 'settings'].includes(tab)) {
-      navigate('/app/home', { replace: true });
+      navigate({ to: '/app/home', replace: true });
     }
   }, [tab, navigate, activeTab, isInitialized]);
 
@@ -63,7 +64,7 @@ const Index = () => {
     if (currentTabIndex < TAB_ORDER.length - 1 && currentTabIndex >= 0) {
       const nextTab = TAB_ORDER[currentTabIndex + 1];
       setSlideDirection('left');
-      navigate(`/app/${nextTab}`);
+      navigate({ to: `/app/${nextTab}` });
     }
   }, [currentTabIndex, navigate, isInitialized]);
 
@@ -72,7 +73,7 @@ const Index = () => {
     if (currentTabIndex > 0) {
       const prevTab = TAB_ORDER[currentTabIndex - 1];
       setSlideDirection('right');
-      navigate(`/app/${prevTab}`);
+      navigate({ to: `/app/${prevTab}` });
     }
   }, [currentTabIndex, navigate, isInitialized]);
 
@@ -106,7 +107,7 @@ const Index = () => {
       setSlideDirection('right');
     }
     
-    navigate(`/app/${newTab}`);
+    navigate({ to: `/app/${newTab}` });
   };
 
   const getPageSEO = (currentTab: Tab) => {
