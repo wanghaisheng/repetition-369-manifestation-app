@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: {
           // 核心React库
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'react-vendor': ['react', 'react-dom'],
           // UI组件库
           'ui-vendor': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tabs'],
           // 工具库
