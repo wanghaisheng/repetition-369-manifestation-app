@@ -184,8 +184,6 @@ const Index = () => {
 
   return (
     <>
-      <RedirectHandler />
-      
       <SEOErrorBoundary>
         <UnifiedSEO 
           title={currentSEO.title}
