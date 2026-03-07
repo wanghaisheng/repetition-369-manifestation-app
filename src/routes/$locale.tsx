@@ -12,7 +12,7 @@ export const Route = createRoute({
       throw redirect({ to: rest });
     }
     if (!SUPPORTED_LANGUAGES.includes(locale as any)) {
-      throw redirect({ to: '/$', params: { _splat: locale } });
+      throw redirect({ to: '/' });
     }
   },
   component: Outlet,
