@@ -10,15 +10,16 @@ import { Route as blogIndexRoute } from './routes/blog/index';
 import { Route as blogSlugRoute } from './routes/blog/$slug';
 import { Route as userStoriesRoute } from './routes/user-stories';
 import { Route as authRoute } from './routes/auth';
-import { Route as enIndexRoute } from './routes/en/index';
-import { Route as enAboutRoute } from './routes/en/about';
-import { Route as enFaqRoute } from './routes/en/faq';
-import { Route as enMethod369Route } from './routes/en/method369';
-import { Route as enPrivacyRoute } from './routes/en/privacy';
-import { Route as enTermsRoute } from './routes/en/terms';
-import { Route as enBlogIndexRoute } from './routes/en/blog/index';
-import { Route as enBlogSlugRoute } from './routes/en/blog/$slug';
-import { Route as enUserStoriesRoute } from './routes/en/user-stories';
+import { Route as localeRoute } from './routes/$locale';
+import { Route as localeIndexRoute } from './routes/$locale/index';
+import { Route as localeAboutRoute } from './routes/$locale/about';
+import { Route as localeFaqRoute } from './routes/$locale/faq';
+import { Route as localeMethod369Route } from './routes/$locale/method369';
+import { Route as localePrivacyRoute } from './routes/$locale/privacy';
+import { Route as localeTermsRoute } from './routes/$locale/terms';
+import { Route as localeBlogIndexRoute } from './routes/$locale/blog/index';
+import { Route as localeBlogSlugRoute } from './routes/$locale/blog/$slug';
+import { Route as localeUserStoriesRoute } from './routes/$locale/user-stories';
 import { Route as appIndexRoute } from './routes/app/index';
 import { Route as appTabRoute } from './routes/app/$tab';
 import { Route as blogAdminRoute } from './routes/blog-admin';
@@ -36,15 +37,17 @@ const routeTree = rootRoute.addChildren([
   blogSlugRoute,
   userStoriesRoute,
   authRoute,
-  enIndexRoute,
-  enAboutRoute,
-  enFaqRoute,
-  enMethod369Route,
-  enPrivacyRoute,
-  enTermsRoute,
-  enBlogIndexRoute,
-  enBlogSlugRoute,
-  enUserStoriesRoute,
+  localeRoute.addChildren([
+    localeIndexRoute,
+    localeAboutRoute,
+    localeFaqRoute,
+    localeMethod369Route,
+    localePrivacyRoute,
+    localeTermsRoute,
+    localeBlogIndexRoute,
+    localeBlogSlugRoute,
+    localeUserStoriesRoute,
+  ]),
   appIndexRoute,
   appTabRoute,
   blogAdminRoute,
