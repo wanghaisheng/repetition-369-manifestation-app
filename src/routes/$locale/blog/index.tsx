@@ -1,8 +1,8 @@
 import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
-import { Route as rootRoute } from '../../__root';
+import { Route as localeRoute } from '../../$locale';
 
 export const Route = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/en/blog',
+  getParentRoute: () => localeRoute,
+  path: 'blog',
   component: lazyRouteComponent(() => import('@/pages/Blog')),
 });
