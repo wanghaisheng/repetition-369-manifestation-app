@@ -12,7 +12,7 @@ import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { SitemapGenerator } from '@/components/seo/SitemapGenerator';
 import { PageLoadMonitor } from '@/components/performance/PageLoadMonitor';
-import { RedirectHandler } from '@/components/seo/RedirectHandler';
+
 import { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 import { Route } from '@/routes/app/$tab';
 
