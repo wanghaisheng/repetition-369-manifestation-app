@@ -100,7 +100,7 @@ export const ConversionOptimizedCTA = () => {
               {i18n.language === 'zh' ? '无需信用卡' : 'No Credit Card Required'}
             </span>
             <div className="text-xs text-muted-foreground">
-              {i18n.language === 'zh' ? `✓ 今日已有 ${recentSignups} 人注册` : `✓ ${recentSignups} signed up today`}
+              {i18n.language === 'zh' ? '✓ 立即开始使用' : '✓ Start using now'}
             </div>
           </div>
           <div className="flex flex-col items-center justify-center space-y-2 text-foreground hover-scale transition-all duration-300">
