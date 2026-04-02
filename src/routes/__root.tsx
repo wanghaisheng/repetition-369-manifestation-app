@@ -11,9 +11,8 @@ import { WebAppStructuredData, OrganizationStructuredData } from '@/components/s
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { ANALYTICS_CONFIG } from '@/config/analytics';
-import { SearchConsoleVerification } from '@/components/seo/SearchConsoleVerification';
+import { RootHelmet } from '@/components/seo/RootHelmet';
 import { WebVitalsMonitor } from '@/components/performance/WebVitalsMonitor';
-import { CriticalResourceOptimizer } from '@/components/seo/CriticalResourceOptimizer';
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
 import { getLanguageFromPath } from '@/utils/languageUrl';
 import { normalizePath } from '@/utils/languageUrl';
@@ -151,10 +150,9 @@ const RootComponent = () => {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <TooltipProvider>
-              {/* Global SEO */}
+              {/* Unified SEO Head — reads staticData.seo from matched routes */}
               <SEOErrorBoundary>
-                <SearchConsoleVerification />
-                <CriticalResourceOptimizer />
+                <RootHelmet />
                 <WebAppStructuredData />
                 <OrganizationStructuredData />
               </SEOErrorBoundary>
@@ -171,7 +169,7 @@ const RootComponent = () => {
               
               <Toaster />
               
-              {/* Route-level logic (replaces LanguageRouter, RouteHandler, RedirectHandler) */}
+              {/* Route-level logic */}
               <LanguageSync />
               <RedirectNormalizer />
               <RouteEffects />
