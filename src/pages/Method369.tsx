@@ -72,30 +72,6 @@ const Method369 = () => {
 
   return (
     <>
-      <SEOErrorBoundary>
-        <MultiLanguageSEO 
-          title={t('method369:seo.title')}
-          description={t('method369:seo.description')}
-          keywords={t('method369:seo.keywords')}
-          type="article"
-        />
-      </SEOErrorBoundary>
-      <AdvancedStructuredData 
-        type="HowTo"
-        title={t('method369:seo.title')}
-        description={t('method369:seo.description')}
-        howToSteps={howToSteps}
-        author="HeyManifestation"
-        image="/369-app-icon.png"
-      />
-      <SocialMediaCards 
-        title={t('method369:seo.title')}
-        description={t('method369:seo.description')}
-        type="article"
-        author="HeyManifestation"
-        image="/369-app-icon.png"
-      />
-
       <Helmet>
         <script type="application/ld+json">
           {JSON.stringify(howToStructuredData)}

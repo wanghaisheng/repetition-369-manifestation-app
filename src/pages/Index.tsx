@@ -182,14 +182,6 @@ const Index = () => {
 
   return (
     <>
-      <SEOErrorBoundary>
-        <UnifiedSEO 
-          title={currentSEO.title}
-          description={currentSEO.description}
-          keywords={currentSEO.keywords}
-        />
-      </SEOErrorBoundary>
-      
       <PageLoadMonitor />
       <SitemapGenerator />
       

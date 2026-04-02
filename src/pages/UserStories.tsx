@@ -162,25 +162,6 @@ const UserStories = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      <UnifiedSEO 
-        title={t('seo.title')}
-        description={t('seo.description')}
-        type="website"
-        keywords={t('seo.keywords')}
-      />
-      <AdvancedStructuredData 
-        type="WebPage"
-        title={t('hero.title')}
-        description={t('hero.description')}
-        author={t('common:appName')}
-      />
-      <SocialMediaCards 
-        title={t('seo.title')}
-        description={t('seo.description')}
-        type="website"
-      />
-
-      {/* Header */}
       <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
