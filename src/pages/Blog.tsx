@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { supabase } from '@/integrations/supabase/client';
-import { supabase } from '@/integrations/supabase/client';
 import { SkeletonLoader, CardSkeleton } from '@/components/performance/SkeletonLoader';
 import { 
   Sparkles, 

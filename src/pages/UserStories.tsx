@@ -11,7 +11,6 @@ import { Label } from '@/components/ui/label';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { supabase } from '@/integrations/supabase/client';
-import { supabase } from '@/integrations/supabase/client';
 import { SkeletonLoader, CardSkeleton } from '@/components/performance/SkeletonLoader';
 import { logger } from '@/utils/logger';
 import { 
