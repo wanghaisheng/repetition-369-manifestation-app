@@ -8,8 +8,6 @@ import { PracticeView } from '@/components/views/PracticeView';
 import { ProgressView } from '@/components/views/ProgressView';
 import { CommunityView } from '@/components/views/CommunityView';
 import { SettingsPanel } from '@/components/settings/SettingsPanel';
-import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
-import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { SitemapGenerator } from '@/components/seo/SitemapGenerator';
 import { PageLoadMonitor } from '@/components/performance/PageLoadMonitor';
 
