@@ -8,11 +8,9 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AdvancedStructuredData } from '@/components/seo/AdvancedStructuredData';
-import { SocialMediaCards } from '@/components/seo/SocialMediaCards';
-import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
+import { supabase } from '@/integrations/supabase/client';
 import { supabase } from '@/integrations/supabase/client';
 import { SkeletonLoader, CardSkeleton } from '@/components/performance/SkeletonLoader';
 import { logger } from '@/utils/logger';
