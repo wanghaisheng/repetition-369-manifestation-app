@@ -173,7 +173,7 @@ export const ConversionOptimizedCTA = () => {
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
               <span>
-                {i18n.language === 'zh' ? `过去24小时已有 ${recentSignups} 人注册` : `${recentSignups} people signed up in 24h`}
+                {i18n.language === 'zh' ? '5,247+ 用户已加入' : '5,247+ users joined'}
               </span>
             </div>
             <div className="flex items-center space-x-2">
