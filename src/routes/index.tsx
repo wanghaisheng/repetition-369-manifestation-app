@@ -7,5 +7,12 @@ const Landing = lazy(() => import('@/pages/Landing'));
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
+  staticData: {
+    seo: {
+      titleKey: 'landing:seo.title',
+      descriptionKey: 'landing:seo.description',
+      keywordsKey: 'landing:seo.keywords',
+    }
+  },
   component: Landing,
 });
