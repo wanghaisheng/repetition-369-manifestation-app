@@ -4,8 +4,6 @@ import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { MultiLanguageSEO } from '@/components/seo/MultiLanguageSEO';
-import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { 
@@ -16,8 +14,6 @@ import {
   Mail,
   ExternalLink
 } from 'lucide-react';
-import { AdvancedStructuredData } from "@/components/seo/AdvancedStructuredData";
-import { SocialMediaCards } from "@/components/seo/SocialMediaCards";
 
 const FAQ = () => {
   const { t } = useTranslation(['common', 'faq']);
