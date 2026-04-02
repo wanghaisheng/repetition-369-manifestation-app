@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,31 +9,23 @@ import { toast } from 'sonner';
 
 export const ConversionOptimizedCTA = () => {
   const { t, i18n } = useTranslation(['landing', 'common']);
-  const [recentSignups, setRecentSignups] = useState(73);
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    // Simulate real-time signup updates
-    const interval = setInterval(() => {
-      setRecentSignups(prev => prev + Math.floor(Math.random() * 3));
-    }, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
   const handleShare = async () => {
-    if (navigator.share) {
+    const shareData = {
+      title: i18n.language === 'zh' ? '显化369 - 科学显化，实现梦想' : 'Manifest 369 - Scientific Manifestation',
+      text: i18n.language === 'zh' ? '发现Tesla的369秘密，用科学方法实现你的愿望！' : 'Discover Tesla\'s 369 secret and manifest your dreams scientifically!',
+      url: typeof window !== 'undefined' ? window.location.origin : 'https://369.heymanifestation.com'
+    };
+    
+    if (typeof navigator !== 'undefined' && navigator.share) {
       try {
-        await navigator.share({
-          title: i18n.language === 'zh' ? '显化369 - 科学显化，实现梦想' : 'Manifest 369 - Scientific Manifestation',
-          text: i18n.language === 'zh' ? '发现Tesla的369秘密，用科学方法实现你的愿望！' : 'Discover Tesla\'s 369 secret and manifest your dreams scientifically!',
-          url: window.location.origin
-        });
+        await navigator.share(shareData);
       } catch (err) {
-        console.log('Error sharing:', err);
+        // User cancelled or error
       }
-    } else {
-      // Fallback to clipboard
-      await navigator.clipboard.writeText(window.location.origin);
+    } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      await navigator.clipboard.writeText(shareData.url);
       setCopied(true);
       toast.success(i18n.language === 'zh' ? '链接已复制到剪贴板' : 'Link copied to clipboard');
       setTimeout(() => setCopied(false), 2000);
