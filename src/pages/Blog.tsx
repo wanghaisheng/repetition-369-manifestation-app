@@ -4,9 +4,6 @@ import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { AdvancedStructuredData } from '@/components/seo/AdvancedStructuredData';
-import { SocialMediaCards } from '@/components/seo/SocialMediaCards';
-import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { supabase } from '@/integrations/supabase/client';
@@ -100,25 +97,6 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      <UnifiedSEO 
-        title={i18n.language === 'zh' ? '369显化法博客 - 成功案例与方法技巧 | 显化369' : '369 Manifestation Blog - Success Stories & Tips | Manifest369'}
-        description={t('app:blog.subtitle')}
-        type="website"
-        keywords={i18n.language === 'zh' ? '显化369博客,显化方法,成功案例,创始人故事,独立开发' : 'manifestation 369 blog,manifestation method,success stories,founder story,indie development'}
-      />
-      <AdvancedStructuredData 
-        type="WebPage"
-        title={t('app:blog.title')}
-        description={t('app:blog.subtitle')}
-        author="显化369团队"
-      />
-      <SocialMediaCards 
-        title={t('app:blog.title') + ' - ' + t('app:blog.subtitle')}
-        description={t('app:blog.subtitle')}
-        type="website"
-      />
-
-      {/* Header */}
       <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">

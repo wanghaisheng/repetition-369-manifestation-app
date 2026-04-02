@@ -4,8 +4,6 @@ import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { MultiLanguageSEO } from '@/components/seo/MultiLanguageSEO';
-import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { 
@@ -16,8 +14,6 @@ import {
   Mail,
   ExternalLink
 } from 'lucide-react';
-import { AdvancedStructuredData } from "@/components/seo/AdvancedStructuredData";
-import { SocialMediaCards } from "@/components/seo/SocialMediaCards";
 
 const FAQ = () => {
   const { t } = useTranslation(['common', 'faq']);
@@ -45,43 +41,6 @@ const FAQ = () => {
 
   return (
     <>
-      <SEOErrorBoundary>
-        <MultiLanguageSEO 
-          title={t('faq:seo.title', 'FAQ - Manifestation 369 User Guide')}
-          description={t('faq:seo.description', 'Find answers to frequently asked questions about Manifestation 369')}
-          keywords={t('faq:seo.keywords', 'faq,manifestation 369,help,guide')}
-        />
-      </SEOErrorBoundary>
-      <AdvancedStructuredData 
-        type="FAQPage"
-        title={t('faq:seo.title', 'FAQ - Manifestation 369 User Guide')}
-        description={t('faq:seo.description', 'Find answers to frequently asked questions about Manifestation 369')}
-        faqItems={allFaqItems}
-        author="HeyManifestation"
-      />
-      <SocialMediaCards 
-        title={t('faq:seo.title', 'FAQ - Manifestation 369 User Guide')}
-        description={t('faq:seo.description', 'Find answers to frequently asked questions about Manifestation 369')}
-        type="article"
-        author="HeyManifestation"
-      />
-
-      {/* FAQ结构化数据 */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: allFaqItems.map(item => ({
-            '@type': 'Question',
-            name: item.question,
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: item.answer
-            }
-          }))
-        })}
-      </script>
-
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         {/* Header */}
         <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b">

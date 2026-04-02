@@ -16,5 +16,10 @@ const ProtectedApp = () => (
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
   path: '/app/$tab',
+  staticData: {
+    seo: {
+      noindex: true,
+    }
+  },
   component: ProtectedApp,
 });

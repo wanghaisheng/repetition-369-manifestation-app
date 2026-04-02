@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { MultiLanguageSEO } from '@/components/seo/MultiLanguageSEO';
-import { SEOErrorBoundary } from '@/components/seo/SEOErrorBoundary';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
@@ -21,8 +19,6 @@ import {
   CheckCircle,
   Star
 } from 'lucide-react';
-import { AdvancedStructuredData } from "@/components/seo/AdvancedStructuredData";
-import { SocialMediaCards } from "@/components/seo/SocialMediaCards";
 import { Helmet } from 'react-helmet-async';
 
 const Method369 = () => {
@@ -76,30 +72,6 @@ const Method369 = () => {
 
   return (
     <>
-      <SEOErrorBoundary>
-        <MultiLanguageSEO 
-          title={t('method369:seo.title')}
-          description={t('method369:seo.description')}
-          keywords={t('method369:seo.keywords')}
-          type="article"
-        />
-      </SEOErrorBoundary>
-      <AdvancedStructuredData 
-        type="HowTo"
-        title={t('method369:seo.title')}
-        description={t('method369:seo.description')}
-        howToSteps={howToSteps}
-        author="HeyManifestation"
-        image="/369-app-icon.png"
-      />
-      <SocialMediaCards 
-        title={t('method369:seo.title')}
-        description={t('method369:seo.description')}
-        type="article"
-        author="HeyManifestation"
-        image="/369-app-icon.png"
-      />
-
       <Helmet>
         <script type="application/ld+json">
           {JSON.stringify(howToStructuredData)}

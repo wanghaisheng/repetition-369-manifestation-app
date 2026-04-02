@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,31 +9,23 @@ import { toast } from 'sonner';
 
 export const ConversionOptimizedCTA = () => {
   const { t, i18n } = useTranslation(['landing', 'common']);
-  const [recentSignups, setRecentSignups] = useState(73);
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    // Simulate real-time signup updates
-    const interval = setInterval(() => {
-      setRecentSignups(prev => prev + Math.floor(Math.random() * 3));
-    }, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
   const handleShare = async () => {
-    if (navigator.share) {
+    const shareData = {
+      title: i18n.language === 'zh' ? '显化369 - 科学显化，实现梦想' : 'Manifest 369 - Scientific Manifestation',
+      text: i18n.language === 'zh' ? '发现Tesla的369秘密，用科学方法实现你的愿望！' : 'Discover Tesla\'s 369 secret and manifest your dreams scientifically!',
+      url: typeof window !== 'undefined' ? window.location.origin : 'https://369.heymanifestation.com'
+    };
+    
+    if (typeof navigator !== 'undefined' && navigator.share) {
       try {
-        await navigator.share({
-          title: i18n.language === 'zh' ? '显化369 - 科学显化，实现梦想' : 'Manifest 369 - Scientific Manifestation',
-          text: i18n.language === 'zh' ? '发现Tesla的369秘密，用科学方法实现你的愿望！' : 'Discover Tesla\'s 369 secret and manifest your dreams scientifically!',
-          url: window.location.origin
-        });
+        await navigator.share(shareData);
       } catch (err) {
-        console.log('Error sharing:', err);
+        // User cancelled or error
       }
-    } else {
-      // Fallback to clipboard
-      await navigator.clipboard.writeText(window.location.origin);
+    } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      await navigator.clipboard.writeText(shareData.url);
       setCopied(true);
       toast.success(i18n.language === 'zh' ? '链接已复制到剪贴板' : 'Link copied to clipboard');
       setTimeout(() => setCopied(false), 2000);
@@ -108,7 +100,7 @@ export const ConversionOptimizedCTA = () => {
               {i18n.language === 'zh' ? '无需信用卡' : 'No Credit Card Required'}
             </span>
             <div className="text-xs text-muted-foreground">
-              {i18n.language === 'zh' ? `✓ 今日已有 ${recentSignups} 人注册` : `✓ ${recentSignups} signed up today`}
+              {i18n.language === 'zh' ? '✓ 立即开始使用' : '✓ Start using now'}
             </div>
           </div>
           <div className="flex flex-col items-center justify-center space-y-2 text-foreground hover-scale transition-all duration-300">
@@ -181,7 +173,7 @@ export const ConversionOptimizedCTA = () => {
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
               <span>
-                {i18n.language === 'zh' ? `过去24小时已有 ${recentSignups} 人注册` : `${recentSignups} people signed up in 24h`}
+                {i18n.language === 'zh' ? '5,247+ 用户已加入' : '5,247+ users joined'}
               </span>
             </div>
             <div className="flex items-center space-x-2">

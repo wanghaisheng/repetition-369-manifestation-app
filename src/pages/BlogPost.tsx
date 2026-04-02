@@ -4,9 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { AdvancedStructuredData } from '@/components/seo/AdvancedStructuredData';
-import { SocialMediaCards } from '@/components/seo/SocialMediaCards';
-import { UnifiedSEO } from '@/components/seo/UnifiedSEO';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { supabase } from '@/integrations/supabase/client';
 import { SkeletonLoader } from '@/components/performance/SkeletonLoader';
@@ -212,30 +209,6 @@ const BlogPostPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      <UnifiedSEO 
-        title={post.seo_title || post.title}
-        description={post.seo_description || post.excerpt || post.title}
-        type="article"
-        keywords={post.seo_keywords || post.tags.join(',')}
-      />
-      <AdvancedStructuredData 
-        type="Article"
-        title={post.title}
-        description={post.excerpt || post.title}
-        author={post.author}
-        publishedDate={post.created_at}
-        image={post.featured_image}
-      />
-      <SocialMediaCards 
-        title={post.title}
-        description={post.excerpt || post.title}
-        type="article"
-        author={post.author}
-        publishedTime={post.created_at}
-        image={post.featured_image}
-      />
-
-      {/* Header */}
       <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
