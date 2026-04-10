@@ -191,15 +191,15 @@ const BlogPostPage = () => {
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-foreground mb-4">
-            {i18n.language === 'zh' ? '文章未找到' : 'Article Not Found'}
+            {t('app:blogPost.articleNotFound')}
           </h1>
           <p className="text-muted-foreground mb-6">
-            {i18n.language === 'zh' ? '请检查URL是否正确' : 'Please check if the URL is correct'}
+            {t('app:blogPost.checkUrl')}
           </p>
           <Link to="/blog">
             <Button>
               <ArrowLeft className="w-4 h-4 mr-2" />
-              {i18n.language === 'zh' ? '返回博客' : 'Back to Blog'}
+              {t('app:blogPost.backToBlog')}
             </Button>
           </Link>
         </div>
