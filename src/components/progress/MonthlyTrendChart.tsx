@@ -14,19 +14,19 @@ interface MonthlyTrendChartProps {
   monthlyStats: MonthlyStats[];
 }
 
-const chartConfig = {
-  practices: {
-    label: "练习次数",
-    color: "hsl(var(--primary))"
-  },
-  completed: {
-    label: "完成目标",
-    color: "hsl(var(--manifest-gold))"
-  }
-} satisfies ChartConfig;
-
 export const MonthlyTrendChart = ({ monthlyStats }: MonthlyTrendChartProps) => {
   const { t } = useTranslation('app');
+
+  const chartConfig = {
+    practices: {
+      label: t('chartLabels.practiceCount'),
+      color: "hsl(var(--primary))"
+    },
+    completed: {
+      label: t('chartLabels.completedGoal'),
+      color: "hsl(var(--manifest-gold))"
+    }
+  } satisfies ChartConfig;
 
   if (!monthlyStats || monthlyStats.length === 0) {
     return null;
@@ -47,7 +47,7 @@ export const MonthlyTrendChart = ({ monthlyStats }: MonthlyTrendChartProps) => {
               <BarChart3 className="w-4 h-4 text-indigo-500" />
             </div>
             <h3 className="font-semibold text-foreground">
-              {t('progress.monthlyTrend', '月度趋势')}
+              {t('progress.monthlyTrend')}
             </h3>
           </div>
         </div>
@@ -84,7 +84,7 @@ export const MonthlyTrendChart = ({ monthlyStats }: MonthlyTrendChartProps) => {
           <div className="flex items-center gap-1.5">
             <div className="w-2.5 h-2.5 rounded-sm bg-primary" />
             <span className="text-xs text-muted-foreground">
-              {t('progress.practiceCount', '练习次数')}
+              {t('progress.practiceCount')}
             </span>
           </div>
         </div>

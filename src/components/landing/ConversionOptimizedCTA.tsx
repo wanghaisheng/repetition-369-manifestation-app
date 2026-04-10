@@ -6,16 +6,18 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Sparkles, ArrowRight, Users, Gift, CheckCircle, Share2, Copy } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { toast } from 'sonner';
+import { SEO_CONFIG } from '@/config/seo';
 
 export const ConversionOptimizedCTA = () => {
-  const { t, i18n } = useTranslation(['landing', 'common']);
+  const { t } = useTranslation(['landing', 'common']);
   const [copied, setCopied] = useState(false);
+  const [email, setEmail] = useState('');
 
   const handleShare = async () => {
     const shareData = {
-      title: i18n.language === 'zh' ? '显化369 - 科学显化，实现梦想' : 'Manifest 369 - Scientific Manifestation',
-      text: i18n.language === 'zh' ? '发现Tesla的369秘密，用科学方法实现你的愿望！' : 'Discover Tesla\'s 369 secret and manifest your dreams scientifically!',
-      url: typeof window !== 'undefined' ? window.location.origin : 'https://369.heymanifestation.com'
+      title: t('cta.shareData.title'),
+      text: t('cta.shareData.text'),
+      url: typeof window !== 'undefined' ? window.location.origin : SEO_CONFIG.DOMAIN
     };
     
     if (typeof navigator !== 'undefined' && navigator.share) {
@@ -27,11 +29,10 @@ export const ConversionOptimizedCTA = () => {
     } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
       await navigator.clipboard.writeText(shareData.url);
       setCopied(true);
-      toast.success(i18n.language === 'zh' ? '链接已复制到剪贴板' : 'Link copied to clipboard');
+      toast.success(t('cta.copiedToClipboard'));
       setTimeout(() => setCopied(false), 2000);
     }
   };
-  const [email, setEmail] = useState('');
 
   return (
     <section className="py-24 px-4 bg-section-alt relative overflow-hidden">
@@ -48,7 +49,7 @@ export const ConversionOptimizedCTA = () => {
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-warning rounded-full animate-pulse"></div>
               <span className="text-badge-highlight-text font-semibold text-sm">
-                {i18n.language === 'zh' ? '⚡ 限时：早期用户专享永久免费权限' : '⚡ Limited: Early Users Get Forever Free Access'}
+                {t('landing:hero.urgencyBadge')}
               </span>
             </div>
           </div>
@@ -76,7 +77,7 @@ export const ConversionOptimizedCTA = () => {
               <Sparkles className="w-6 h-6 mr-3 group-hover:animate-spin" />
               {t('common:buttons.getStarted')}
               <span className="ml-3 text-sm bg-white/20 px-3 py-1 rounded-full">
-                {i18n.language === 'zh' ? '永久免费' : 'Forever Free'}
+                {t('cta.foreverFree')}
               </span>
               <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -88,28 +89,28 @@ export const ConversionOptimizedCTA = () => {
           <div className="flex flex-col items-center justify-center space-y-2 text-foreground hover-scale transition-all duration-300">
             <Gift className="w-8 h-8 mb-2 text-primary" />
             <span className="font-medium text-center">
-              {i18n.language === 'zh' ? '永久免费使用基础功能' : 'Free Forever Plan'}
+              {t('cta.freePlan')}
             </span>
             <div className="text-xs text-muted-foreground">
-              {i18n.language === 'zh' ? '✓ 已有 5,247+ 用户享受' : '✓ 5,247+ users enjoying'}
+              {t('cta.freePlanProof')}
             </div>
           </div>
           <div className="flex flex-col items-center justify-center space-y-2 text-foreground hover-scale transition-all duration-300">
             <CheckCircle className="w-8 h-8 mb-2 text-primary" />
             <span className="font-medium text-center">
-              {i18n.language === 'zh' ? '无需信用卡' : 'No Credit Card Required'}
+              {t('cta.noCreditCard')}
             </span>
             <div className="text-xs text-muted-foreground">
-              {i18n.language === 'zh' ? '✓ 立即开始使用' : '✓ Start using now'}
+              {t('cta.noCreditCardProof')}
             </div>
           </div>
           <div className="flex flex-col items-center justify-center space-y-2 text-foreground hover-scale transition-all duration-300">
             <Users className="w-8 h-8 mb-2 text-primary" />
             <span className="font-medium text-center">
-              {i18n.language === 'zh' ? '加入活跃社区' : 'Join Active Community'}
+              {t('cta.joinCommunity')}
             </span>
             <div className="text-xs text-muted-foreground">
-              {i18n.language === 'zh' ? '✓ 89% 成功率验证' : '✓ 89% success rate verified'}
+              {t('cta.joinCommunityProof')}
             </div>
           </div>
         </div>
@@ -118,12 +119,12 @@ export const ConversionOptimizedCTA = () => {
         <Card className="max-w-md mx-auto bg-card border shadow-sm">
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold text-foreground mb-4">
-              {i18n.language === 'zh' ? '或者订阅我们的更新' : 'Or Subscribe for Updates'}
+              {t('cta.subscribeTitle')}
             </h3>
             <div className="flex gap-3">
               <Input
                 type="email"
-                placeholder={i18n.language === 'zh' ? '输入您的邮箱' : 'Enter your email'}
+                placeholder={t('cta.emailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="bg-background border-input"
@@ -131,13 +132,11 @@ export const ConversionOptimizedCTA = () => {
               <Button 
                 className="bg-primary text-primary-foreground hover:bg-primary/90 px-6"
               >
-                {i18n.language === 'zh' ? '订阅' : 'Subscribe'}
+                {t('cta.subscribe')}
               </Button>
             </div>
             <p className="text-xs text-muted-foreground mt-3">
-              {i18n.language === 'zh' 
-                ? '我们承诺不会发送垃圾邮件，您可以随时取消订阅。' 
-                : 'No spam. Unsubscribe at any time.'}
+              {t('cta.noSpam')}
             </p>
           </CardContent>
         </Card>
@@ -147,7 +146,7 @@ export const ConversionOptimizedCTA = () => {
           {/* Share section */}
           <div className="text-center">
             <h3 className="text-lg font-semibold text-foreground mb-3">
-              {i18n.language === 'zh' ? '分享给朋友，一起成长' : 'Share with Friends, Grow Together'}
+              {t('cta.shareTitle')}
             </h3>
             <Button 
               onClick={handleShare}
@@ -157,12 +156,12 @@ export const ConversionOptimizedCTA = () => {
               {copied ? (
                 <>
                   <CheckCircle className="w-4 h-4 mr-2 text-success" />
-                  {i18n.language === 'zh' ? '已复制' : 'Copied'}
+                  {t('cta.linkCopied')}
                 </>
               ) : (
                 <>
                   <Share2 className="w-4 h-4 mr-2" />
-                  {i18n.language === 'zh' ? '分享链接' : 'Share Link'}
+                  {t('cta.shareLink')}
                 </>
               )}
             </Button>
@@ -173,12 +172,12 @@ export const ConversionOptimizedCTA = () => {
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
               <span>
-                {i18n.language === 'zh' ? '5,247+ 用户已加入' : '5,247+ users joined'}
+                {t('cta.usersJoined')}
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <Sparkles className="w-4 h-4" />
-              <span>{i18n.language === 'zh' ? '平均 2 分钟完成设置' : 'Setup in 2 minutes'}</span>
+              <span>{t('cta.setupTime')}</span>
             </div>
           </div>
         </div>
