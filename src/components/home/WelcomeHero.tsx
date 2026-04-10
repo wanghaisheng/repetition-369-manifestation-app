@@ -1,11 +1,14 @@
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
 
 interface WelcomeHeroProps {
   onCreateWish: () => void;
 }
 
 export const WelcomeHero = ({ onCreateWish }: WelcomeHeroProps) => {
+  const { t } = useTranslation('app');
+
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[hsl(var(--manifest-glow)/0.15)] via-background to-[hsl(var(--manifest-aura)/0.1)] p-6 mb-6">
       {/* Decorative elements */}
@@ -20,10 +23,10 @@ export const WelcomeHero = ({ onCreateWish }: WelcomeHeroProps) => {
         
         {/* Content */}
         <h1 className="text-2xl font-bold text-foreground mb-2">
-          开启显化之旅
+          {t('home.welcomeTitle')}
         </h1>
         <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-xs">
-          每天书写3次、6次、9次，用专注的意念将愿望注入宇宙能量场
+          {t('home.welcomeDesc')}
         </p>
         
         {/* CTA */}
@@ -31,7 +34,7 @@ export const WelcomeHero = ({ onCreateWish }: WelcomeHeroProps) => {
           onClick={onCreateWish}
           className="group bg-foreground hover:bg-foreground/90 text-background rounded-xl px-5 py-2.5 h-auto font-medium shadow-lg shadow-foreground/10"
         >
-          创建第一个愿望
+          {t('home.createFirstWishBtn')}
           <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-0.5" />
         </Button>
       </div>

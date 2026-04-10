@@ -54,7 +54,7 @@ export const WishCard = ({ wish, onToggleStatus }: WishCardProps) => {
   
   const config = categoryConfig[wish.category] || categoryConfig.other;
   const CategoryIcon = config.icon;
-  const isZh = i18n.language?.startsWith('zh');
+  const dateLocale = i18n.language === 'zh' ? 'zh-CN' : 'en-US';
 
   const categoryNames: Record<WishCategory, string> = {
     career: t('wishes.categories.career'),
@@ -70,7 +70,7 @@ export const WishCard = ({ wish, onToggleStatus }: WishCardProps) => {
   };
 
   const formattedDate = new Date(wish.createdAt).toLocaleDateString(
-    isZh ? 'zh-CN' : 'en-US',
+    dateLocale,
     { month: 'short', day: 'numeric' }
   );
 

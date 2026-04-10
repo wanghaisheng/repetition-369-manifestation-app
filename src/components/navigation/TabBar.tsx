@@ -1,5 +1,6 @@
 
 import { Home, Heart, Edit3, TrendingUp, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community' | 'settings';
 
@@ -9,12 +10,14 @@ interface TabBarProps {
 }
 
 export const TabBar = ({ activeTab, onTabChange }: TabBarProps) => {
+  const { t } = useTranslation('app');
+
   const tabs = [
-    { id: 'home' as Tab, icon: Home, label: '首页' },
-    { id: 'wishes' as Tab, icon: Heart, label: '愿望' },
-    { id: 'practice' as Tab, icon: Edit3, label: '练习' },
-    { id: 'progress' as Tab, icon: TrendingUp, label: '进度' },
-    { id: 'community' as Tab, icon: Users, label: '社区' },
+    { id: 'home' as Tab, icon: Home, labelKey: 'nav.home' },
+    { id: 'wishes' as Tab, icon: Heart, labelKey: 'nav.wishes' },
+    { id: 'practice' as Tab, icon: Edit3, labelKey: 'nav.practice' },
+    { id: 'progress' as Tab, icon: TrendingUp, labelKey: 'nav.progress' },
+    { id: 'community' as Tab, icon: Users, labelKey: 'nav.community' },
   ];
 
   return (
@@ -36,7 +39,7 @@ export const TabBar = ({ activeTab, onTabChange }: TabBarProps) => {
                 size={24} 
                 className={`mb-1 ${isActive ? 'fill-current' : ''}`}
               />
-              <span className="text-xs font-medium">{tab.label}</span>
+              <span className="text-xs font-medium">{t(tab.labelKey)}</span>
             </button>
           );
         })}

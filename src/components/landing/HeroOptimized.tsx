@@ -5,7 +5,7 @@ import { Sparkles, PlayCircle, Users, TrendingUp } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
 export const HeroOptimized = () => {
-  const { t, i18n } = useTranslation(['landing', 'common']);
+  const { t } = useTranslation(['landing', 'common']);
 
   return (
     <section className="relative py-24 px-4 overflow-hidden">
@@ -26,7 +26,7 @@ export const HeroOptimized = () => {
                 <div className="w-8 h-8 bg-gradient-to-br from-primary/80 to-accent/80 rounded-full border-2 border-background"></div>
               </div>
               <span className="text-badge-trust-text font-medium">
-                {i18n.language === 'zh' ? '5,247+ 用户信赖' : '5,247+ Users Trust Us'}
+                {t('hero.trustBadge')}
               </span>
             </div>
           </div>
@@ -36,13 +36,13 @@ export const HeroOptimized = () => {
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-warning rounded-full animate-pulse"></div>
               <span className="text-badge-highlight-text font-semibold text-sm">
-                {i18n.language === 'zh' ? '🎉 早期用户特权 - 永久免费使用所有功能' : '🎉 Early User Benefits - Forever Free Access'}
+                {t('hero.earlyUserBadge')}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Main headline - 唯一H1，包含主关键词 */}
+        {/* Main headline */}
         <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-foreground mb-6 leading-tight tracking-tight">
           {t('hero.h1', t('hero.title'))}
         </h1>
@@ -62,37 +62,37 @@ export const HeroOptimized = () => {
           <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border hover-scale transition-all duration-300">
             <div className="text-3xl md:text-4xl font-bold text-primary mb-1 animate-fade-in">5,247+</div>
             <div className="text-sm text-muted-foreground font-medium">
-              {i18n.language === 'zh' ? '月活用户' : 'Monthly Users'}
+              {t('hero.monthlyUsers')}
             </div>
             <div className="text-xs text-muted-foreground/60 mt-1">
-              {i18n.language === 'zh' ? '↗️ +127 本周' : '↗️ +127 this week'}
+              {t('hero.monthlyUsersGrowth')}
             </div>
           </div>
           <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border hover-scale transition-all duration-300">
             <div className="text-3xl md:text-4xl font-bold text-success mb-1 animate-fade-in">89%</div>
             <div className="text-sm text-muted-foreground font-medium">
-              {i18n.language === 'zh' ? '成功率' : 'Success Rate'}
+              {t('hero.successRate')}
             </div>
             <div className="text-xs text-muted-foreground/60 mt-1">
-              {i18n.language === 'zh' ? '✨ 30天内见效' : '✨ Within 30 days'}
+              {t('hero.successRateNote')}
             </div>
           </div>
           <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border hover-scale transition-all duration-300">
             <div className="text-3xl md:text-4xl font-bold text-accent mb-1 animate-fade-in">4.9/5</div>
             <div className="text-sm text-muted-foreground font-medium">
-              {i18n.language === 'zh' ? '用户评分' : 'User Rating'}
+              {t('hero.userRating')}
             </div>
             <div className="text-xs text-muted-foreground/60 mt-1">
-              {i18n.language === 'zh' ? '🏆 App Store评分' : '🏆 App Store Rating'}
+              {t('hero.userRatingNote')}
             </div>
           </div>
           <div className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border hover-scale transition-all duration-300">
             <div className="text-3xl md:text-4xl font-bold text-warning mb-1 animate-fade-in">18</div>
             <div className="text-sm text-muted-foreground font-medium">
-              {i18n.language === 'zh' ? '平均天数' : 'Average Days'}
+              {t('hero.averageDays')}
             </div>
             <div className="text-xs text-muted-foreground/60 mt-1">
-              {i18n.language === 'zh' ? '⚡ 愿望实现时间' : '⚡ To manifest goals'}
+              {t('hero.averageDaysNote')}
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@ export const HeroOptimized = () => {
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
               <span className="text-badge-success-text text-sm font-medium">
-                {i18n.language === 'zh' ? '🔥 刚刚有 23 人完成了今日显化练习' : '🔥 23 people just completed today\'s manifestation practice'}
+                {t('hero.realtimeActivity')}
               </span>
             </div>
           </div>
@@ -119,7 +119,7 @@ export const HeroOptimized = () => {
               <Sparkles className="w-5 h-5 mr-2 group-hover:animate-spin" />
               {t('hero.cta')}
               <span className="ml-2 text-xs bg-white/20 px-2 py-1 rounded-full">
-                {i18n.language === 'zh' ? '免费' : 'Free'}
+                {t('hero.free')}
               </span>
             </Button>
           </Link>
@@ -139,7 +139,7 @@ export const HeroOptimized = () => {
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-destructive rounded-full animate-pulse"></div>
               <span className="text-badge-urgent-text font-medium">
-                {i18n.language === 'zh' ? '⚡ 限时：早期用户专享永久免费权限' : '⚡ Limited: Early Users Get Forever Free Access'}
+                {t('hero.urgencyBadge')}
               </span>
             </div>
           </div>
@@ -148,14 +148,14 @@ export const HeroOptimized = () => {
             <div className="flex items-center">
               <Users className="w-4 h-4 mr-2" />
               <span>
-                {i18n.language === 'zh' ? '过去24小时已有 ' : 'In the last 24 hours, '}
+                {t('hero.newUsersJoined')}
                 <span className="font-semibold text-primary animate-pulse">+127</span>
-                {i18n.language === 'zh' ? ' 位新用户加入' : ' new users joined'}
+                {t('hero.newUsersJoinedSuffix')}
               </span>
             </div>
             <div className="flex items-center">
               <TrendingUp className="w-4 h-4 mr-2" />
-              <span>{i18n.language === 'zh' ? '🏆 早期用户将获得专属徽章' : '🏆 Early users get exclusive badges'}</span>
+              <span>{t('hero.earlyBadgeReward')}</span>
             </div>
           </div>
         </div>

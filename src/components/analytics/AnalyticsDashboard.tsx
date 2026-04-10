@@ -66,8 +66,8 @@ export const AnalyticsDashboard = ({ onClose }: AnalyticsDashboardProps) => {
       // Fallback to copy
       await SocialService.shareContent({ platform: 'copy', content: shareContent });
       toast({
-        title: '已复制到剪贴板',
-        description: '您可以将内容粘贴到任何社交平台分享'
+        title: t('shareModal.toast.contentCopied'),
+        description: t('shareModal.toast.shareComplete')
       });
     }
   };

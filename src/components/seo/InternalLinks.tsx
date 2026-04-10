@@ -3,10 +3,11 @@ import React from 'react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Target, TrendingUp, Users, Heart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface RelatedPage {
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
   href: string;
   icon: React.ReactNode;
   relevance: number;
@@ -18,34 +19,34 @@ interface InternalLinksProps {
 }
 
 export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps) => {
-  const location = useLocation();
+  const { t } = useTranslation('app');
   
   const allPages: Record<string, RelatedPage[]> = {
     '/': [
       {
-        title: '愿望管理',
-        description: '创建和管理你的369显化愿望',
+        titleKey: 'internalLinks.wishManagement',
+        descriptionKey: 'internalLinks.wishManagementDesc',
         href: '/wishes',
         icon: <Heart className="w-4 h-4" />,
         relevance: 0.9
       },
       {
-        title: '开始练习',
-        description: '立即开始369书写练习',
+        titleKey: 'internalLinks.startPractice',
+        descriptionKey: 'internalLinks.startPracticeDesc',
         href: '/practice',
         icon: <Target className="w-4 h-4" />,
         relevance: 0.85
       },
       {
-        title: '查看进度',
-        description: '了解你的显化进展',
+        titleKey: 'internalLinks.viewProgress',
+        descriptionKey: 'internalLinks.viewProgressDesc',
         href: '/progress',
         icon: <TrendingUp className="w-4 h-4" />,
         relevance: 0.8
       },
       {
-        title: '社区分享',
-        description: '与其他显化者交流经验',
+        titleKey: 'internalLinks.communityShare',
+        descriptionKey: 'internalLinks.communityShareDesc',
         href: '/community',
         icon: <Users className="w-4 h-4" />,
         relevance: 0.7
@@ -53,22 +54,22 @@ export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps)
     ],
     '/wishes': [
       {
-        title: '开始练习',
-        description: '用你的愿望开始369练习',
+        titleKey: 'internalLinks.startPractice',
+        descriptionKey: 'internalLinks.usePractice',
         href: '/practice',
         icon: <Target className="w-4 h-4" />,
         relevance: 0.95
       },
       {
-        title: '查看进度',
-        description: '跟踪愿望显化进度',
+        titleKey: 'internalLinks.viewProgress',
+        descriptionKey: 'internalLinks.trackWishProgress',
         href: '/progress',
         icon: <TrendingUp className="w-4 h-4" />,
         relevance: 0.85
       },
       {
-        title: '首页',
-        description: '返回应用首页',
+        titleKey: 'nav.home',
+        descriptionKey: 'internalLinks.backToHome',
         href: '/',
         icon: <Heart className="w-4 h-4" />,
         relevance: 0.6
@@ -76,22 +77,22 @@ export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps)
     ],
     '/practice': [
       {
-        title: '愿望管理',
-        description: '管理你的显化愿望',
+        titleKey: 'internalLinks.wishManagement',
+        descriptionKey: 'internalLinks.adjustWishes',
         href: '/wishes',
         icon: <Heart className="w-4 h-4" />,
         relevance: 0.9
       },
       {
-        title: '查看进度',
-        description: '查看练习统计和进度',
+        titleKey: 'internalLinks.viewProgress',
+        descriptionKey: 'internalLinks.viewProgressDesc',
         href: '/progress',
         icon: <TrendingUp className="w-4 h-4" />,
         relevance: 0.85
       },
       {
-        title: '社区分享',
-        description: '分享你的练习心得',
+        titleKey: 'internalLinks.communityShare',
+        descriptionKey: 'internalLinks.sharePractice',
         href: '/community',
         icon: <Users className="w-4 h-4" />,
         relevance: 0.7
@@ -99,22 +100,22 @@ export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps)
     ],
     '/progress': [
       {
-        title: '继续练习',
-        description: '继续你的369练习',
+        titleKey: 'internalLinks.continuePractice',
+        descriptionKey: 'internalLinks.continuePracticeDesc',
         href: '/practice',
         icon: <Target className="w-4 h-4" />,
         relevance: 0.9
       },
       {
-        title: '愿望管理',
-        description: '调整和优化愿望',
+        titleKey: 'internalLinks.wishManagement',
+        descriptionKey: 'internalLinks.adjustWishes',
         href: '/wishes',
         icon: <Heart className="w-4 h-4" />,
         relevance: 0.8
       },
       {
-        title: '社区分享',
-        description: '分享你的成功故事',
+        titleKey: 'internalLinks.communityShare',
+        descriptionKey: 'internalLinks.shareSuccess',
         href: '/community',
         icon: <Users className="w-4 h-4" />,
         relevance: 0.75
@@ -122,22 +123,22 @@ export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps)
     ],
     '/community': [
       {
-        title: '我的进度',
-        description: '查看个人显化数据',
+        titleKey: 'internalLinks.myProgress',
+        descriptionKey: 'internalLinks.myProgressDesc',
         href: '/progress',
         icon: <TrendingUp className="w-4 h-4" />,
         relevance: 0.8
       },
       {
-        title: '开始练习',
-        description: '受到启发？立即开始练习',
+        titleKey: 'internalLinks.startPractice',
+        descriptionKey: 'internalLinks.inspired',
         href: '/practice',
         icon: <Target className="w-4 h-4" />,
         relevance: 0.75
       },
       {
-        title: '愿望管理',
-        description: '创建新的显化愿望',
+        titleKey: 'internalLinks.wishManagement',
+        descriptionKey: 'internalLinks.createNew',
         href: '/wishes',
         icon: <Heart className="w-4 h-4" />,
         relevance: 0.7
@@ -155,7 +156,7 @@ export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps)
   return (
     <Card className="mt-6">
       <CardHeader>
-        <CardTitle className="text-lg">相关页面</CardTitle>
+        <CardTitle className="text-lg">{t('internalLinks.relatedPages')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid gap-3">
@@ -163,18 +164,18 @@ export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps)
             <Link
               key={page.href}
               to={page.href}
-              className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors group"
+              className="flex items-center justify-between p-3 rounded-lg border hover:bg-accent/10 transition-colors group"
             >
               <div className="flex items-center space-x-3">
-                <div className="text-ios-blue">{page.icon}</div>
+                <div className="text-primary">{page.icon}</div>
                 <div>
-                  <h4 className="font-medium text-gray-900 group-hover:text-ios-blue">
-                    {page.title}
+                  <h4 className="font-medium text-foreground group-hover:text-primary">
+                    {t(page.titleKey)}
                   </h4>
-                  <p className="text-sm text-gray-600">{page.description}</p>
+                  <p className="text-sm text-muted-foreground">{t(page.descriptionKey)}</p>
                 </div>
               </div>
-              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-ios-blue" />
+              <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
             </Link>
           ))}
         </div>
@@ -183,33 +184,34 @@ export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps)
   );
 };
 
-// 用于页面底部的相关链接组件
+// Related links for page footer
 export const RelatedLinks = ({ exclude = [] }: { exclude?: string[] }) => {
   const location = useLocation();
+  const { t } = useTranslation('app');
   
   const quickLinks = [
-    { title: '首页', href: '/', description: '返回应用首页' },
-    { title: '愿望管理', href: '/wishes', description: '管理显化愿望' },
-    { title: '练习中心', href: '/practice', description: '开始369练习' },
-    { title: '进度跟踪', href: '/progress', description: '查看显化进度' },
-    { title: '社区分享', href: '/community', description: '交流显化经验' }
+    { titleKey: 'nav.home', href: '/', descriptionKey: 'internalLinks.backToHome' },
+    { titleKey: 'internalLinks.wishManagement', href: '/wishes', descriptionKey: 'internalLinks.wishManagementDesc' },
+    { titleKey: 'internalLinks.practiceCenter', href: '/practice', descriptionKey: 'internalLinks.practiceStartDesc' },
+    { titleKey: 'internalLinks.progressTracking', href: '/progress', descriptionKey: 'internalLinks.progressTrackingDesc' },
+    { titleKey: 'internalLinks.communityShare', href: '/community', descriptionKey: 'internalLinks.communityExchange' }
   ].filter(link => !exclude.includes(link.href) && link.href !== location.pathname);
 
   return (
-    <div className="mt-8 pt-6 border-t border-gray-200">
-      <h3 className="text-lg font-semibold mb-4">快速导航</h3>
+    <div className="mt-8 pt-6 border-t border-border">
+      <h3 className="text-lg font-semibold mb-4">{t('internalLinks.quickNav')}</h3>
       <div className="grid grid-cols-2 gap-4">
         {quickLinks.map((link) => (
           <Link
             key={link.href}
             to={link.href}
-            className="flex flex-col p-3 rounded-lg border hover:border-ios-blue hover:bg-blue-50 transition-colors"
+            className="flex flex-col p-3 rounded-lg border hover:border-primary hover:bg-primary/5 transition-colors"
           >
-            <span className="font-medium text-gray-900 hover:text-ios-blue">
-              {link.title}
+            <span className="font-medium text-foreground hover:text-primary">
+              {t(link.titleKey)}
             </span>
-            <span className="text-sm text-gray-600 mt-1">
-              {link.description}
+            <span className="text-sm text-muted-foreground mt-1">
+              {t(link.descriptionKey)}
             </span>
           </Link>
         ))}

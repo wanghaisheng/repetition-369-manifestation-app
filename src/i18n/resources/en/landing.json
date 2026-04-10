@@ -10,7 +10,23 @@
     "subtitle": "Smart manifestation app based on Tesla's 369 method",
     "description": "Systematically achieve your desired goals through the scientific 369 method. Daily practice of writing 3, 6, 9 times to let the universe's energy help you manifest your dreams.",
     "cta": "Start Free",
-    "watchDemo": "Watch Demo"
+    "watchDemo": "Watch Demo",
+    "trustBadge": "5,247+ Users Trust Us",
+    "earlyUserBadge": "🎉 Early User Benefits - Forever Free Access",
+    "monthlyUsers": "Monthly Users",
+    "monthlyUsersGrowth": "↗️ +127 this week",
+    "successRate": "Success Rate",
+    "successRateNote": "✨ Within 30 days",
+    "userRating": "User Rating",
+    "userRatingNote": "🏆 App Store Rating",
+    "averageDays": "Average Days",
+    "averageDaysNote": "⚡ To manifest goals",
+    "realtimeActivity": "🔥 23 people just completed today's manifestation practice",
+    "free": "Free",
+    "urgencyBadge": "⚡ Limited: Early Users Get Forever Free Access",
+    "newUsersJoined": "In the last 24 hours, ",
+    "newUsersJoinedSuffix": " new users joined",
+    "earlyBadgeReward": "🏆 Early users get exclusive badges"
   },
   "features": {
     "title": "Why Choose Manifest369?",
@@ -110,7 +126,28 @@
   "cta": {
     "title": "Start Your Manifestation Journey",
     "subtitle": "Register now and experience the magical power of 369 manifestation",
-    "description": "Completely free, no hidden fees. Start creating the life you want."
+    "description": "Completely free, no hidden fees. Start creating the life you want.",
+    "foreverFree": "Forever Free",
+    "freePlan": "Free Forever Plan",
+    "freePlanProof": "✓ 5,247+ users enjoying",
+    "noCreditCard": "No Credit Card Required",
+    "noCreditCardProof": "✓ Start using now",
+    "joinCommunity": "Join Active Community",
+    "joinCommunityProof": "✓ 89% success rate verified",
+    "subscribeTitle": "Or Subscribe for Updates",
+    "emailPlaceholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "noSpam": "No spam. Unsubscribe at any time.",
+    "shareTitle": "Share with Friends, Grow Together",
+    "shareLink": "Share Link",
+    "linkCopied": "Copied",
+    "copiedToClipboard": "Link copied to clipboard",
+    "usersJoined": "5,247+ users joined",
+    "setupTime": "Setup in 2 minutes",
+    "shareData": {
+      "title": "Manifest 369 - Scientific Manifestation",
+      "text": "Discover Tesla's 369 secret and manifest your dreams scientifically!"
+    }
   },
   "nav": {
     "moreInfo": "Learn More"

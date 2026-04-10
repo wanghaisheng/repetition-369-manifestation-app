@@ -11,12 +11,14 @@ import { TodayProgressCard } from '@/components/home/TodayProgressCard';
 import { QuickStatsRow } from '@/components/home/QuickStatsRow';
 import { QuickActions } from '@/components/home/QuickActions';
 import { RecentActivity } from '@/components/home/RecentActivity';
+import { useTranslation } from 'react-i18next';
 
 export const HomeView = () => {
   const { wishes, loading: wishesLoading, error: wishesError, createWish, refetch } = useWishes();
   const { todayPractices, loading: practiceLoading, error: practiceError } = usePractice();
   const { progress, loading: progressLoading, error: progressError, getTodayStats, getWeeklyStats } = useProgress();
   const { toast } = useToast();
+  const { t } = useTranslation('app');
   const [isAddWishModalOpen, setIsAddWishModalOpen] = useState(false);
 
   const activeWishes = wishes.filter(wish => wish.status === 'active');
@@ -34,15 +36,15 @@ export const HomeView = () => {
     try {
       await createWish(wishData);
       toast({
-        title: "愿望创建成功",
-        description: "您的愿望已添加，可以开始练习了！",
+        title: t('home.wishCreateSuccess'),
+        description: t('home.wishCreateSuccessDesc'),
       });
       setIsAddWishModalOpen(false);
       refetch();
     } catch (error) {
       toast({
-        title: "创建失败",
-        description: "创建愿望时出现错误，请重试",
+        title: t('home.wishCreateFailed'),
+        description: t('home.wishCreateFailedDesc'),
         variant: "destructive",
       });
     }
@@ -59,7 +61,7 @@ export const HomeView = () => {
       {/* Error Alert */}
       {hasErrors && (
         <Card className="p-4 bg-destructive/10 border-destructive/20 mb-4">
-          <p className="text-destructive text-sm">数据加载时遇到问题，但您仍可以正常使用应用</p>
+          <p className="text-destructive text-sm">{t('home.dataLoadError')}</p>
         </Card>
       )}
 

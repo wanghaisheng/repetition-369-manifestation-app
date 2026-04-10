@@ -9,6 +9,7 @@ import { usePoints } from '@/hooks/usePoints';
 import { useStreak } from '@/hooks/useStreak';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 import { logger } from '@/utils/logger';
 
 interface FocusModeProps {
@@ -30,6 +31,7 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
   const [showCelebration, setShowCelebration] = useState(false);
   const [pointsEarned, setPointsEarned] = useState(0);
   const [streakUpdated, setStreakUpdated] = useState(false);
+  const { t } = useTranslation('app');
   
   const { user } = useAuth();
   const { addPoints } = usePoints(user?.id || 'default');
@@ -61,28 +63,20 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
     if (entries.length === period.target) {
       setIsCompleting(true);
       try {
-        // Complete the practice first
         await onComplete(entries, 'good');
         
-        // Award points for completing writing
-        const basePoints = await addPoints('completeWriting', entries.length, `完成${period.title}练习`);
+        const basePoints = await addPoints('completeWriting', entries.length, t('focusMode.completedPractice', { title: period.title }));
         let totalPoints = basePoints;
         
-        // Update streak
         const wasStreakUpdated = await updateStreak();
         if (wasStreakUpdated) {
           setStreakUpdated(true);
         }
         
-        // Check for daily goal completion (if all periods done today)
-        // This would need to be implemented based on today's total progress
-        
-        // Check achievements
         await checkAchievements();
         
         setPointsEarned(totalPoints);
         
-        // Keep celebration modal open for a moment to show rewards
         setTimeout(() => {
           onClose();
         }, 2000);
@@ -98,10 +92,10 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg bg-white rounded-ios border-0 shadow-ios">
+      <DialogContent className="max-w-lg bg-card rounded-ios border-0 shadow-ios">
         <DialogHeader>
           <div className="flex items-center justify-between">
-            <DialogTitle className="text-lg font-semibold text-gray-800">
+            <DialogTitle className="text-lg font-semibold text-foreground">
               {period.title}
             </DialogTitle>
             <Button
@@ -116,90 +110,91 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
         </DialogHeader>
 
         <div className="space-y-6">
-          {/* 愿望显示 */}
-          <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-ios">
-            <h3 className="font-medium text-gray-800 mb-1">您的愿望</h3>
-            <p className="text-gray-700">{wish.affirmation}</p>
+          {/* Wish display */}
+          <div className="p-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-ios">
+            <h3 className="font-medium text-foreground mb-1">{t('focusMode.yourWish')}</h3>
+            <p className="text-muted-foreground">{wish.affirmation}</p>
           </div>
 
-          {/* 进度显示 */}
+          {/* Progress */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium text-gray-700">
-                进度: {entries.length}/{period.target}
+              <span className="text-sm font-medium text-muted-foreground">
+                {t('focusMode.progressLabel')}: {entries.length}/{period.target}
               </span>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-muted-foreground">
                 {Math.round(progress)}%
               </span>
             </div>
             <Progress value={progress} className="h-2" />
           </div>
 
-          {/* 输入区域 */}
+          {/* Input area */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              第 {entries.length + 1} 次书写
+            <label className="block text-sm font-medium text-muted-foreground mb-2">
+              {t('focusMode.writeEntry', { count: entries.length + 1 })}
             </label>
             <Textarea
               value={currentEntry}
               onChange={(e) => setCurrentEntry(e.target.value)}
-              placeholder={`请书写您的愿望肯定句...`}
-              className="min-h-24 rounded-ios border-gray-200 focus:ring-2 focus:ring-ios-blue focus:border-transparent"
+              placeholder={t('focusMode.writePlaceholder')}
+              className="min-h-24 rounded-ios border-border focus:ring-2 focus:ring-primary focus:border-transparent"
               disabled={entries.length >= period.target}
             />
             <Button
               onClick={handleAddEntry}
               disabled={!currentEntry.trim() || entries.length >= period.target}
-              className="mt-3 bg-gradient-to-r from-manifest-warm-gold to-manifest-lavender text-white rounded-ios"
+              className="mt-3 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-ios"
             >
-              添加第 {entries.length + 1} 次
+              {t('focusMode.addEntry', { count: entries.length + 1 })}
             </Button>
           </div>
 
-          {/* 已完成的条目 */}
+          {/* Completed entries */}
           {entries.length > 0 && (
             <div className="max-h-40 overflow-y-auto space-y-2">
-              <h4 className="text-sm font-medium text-gray-700">已完成:</h4>
+              <h4 className="text-sm font-medium text-muted-foreground">{t('focusMode.completedEntries')}</h4>
               {entries.map((entry, index) => (
-                <div key={index} className="flex items-start space-x-2 p-2 bg-green-50 rounded-ios">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-gray-700 flex-1">{entry}</p>
+                <div key={index} className="flex items-start space-x-2 p-2 bg-success/10 rounded-ios">
+                  <CheckCircle className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <p className="text-sm text-muted-foreground flex-1">{entry}</p>
                 </div>
               ))}
             </div>
           )}
 
-          {/* 庆祝动画和奖励显示 */}
+          {/* Celebration */}
           {showCelebration && (
-            <div className="text-center p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-ios">
-              <Sparkles className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
-              <p className="text-lg font-semibold text-gray-800 mb-1">恭喜完成!</p>
-              <p className="text-sm text-gray-600 mb-3">您已完成本时段的{period.target}次练习</p>
+            <div className="text-center p-4 bg-gradient-to-r from-warning/10 to-accent/10 rounded-ios">
+              <Sparkles className="w-8 h-8 text-warning mx-auto mb-2" />
+              <p className="text-lg font-semibold text-foreground mb-1">{t('focusMode.congratulations')}</p>
+              <p className="text-sm text-muted-foreground mb-3">
+                {t('focusMode.completedSession', { target: period.target })}
+              </p>
               
-              {/* 奖励预览 */}
               <div className="flex items-center justify-center space-x-4 text-sm">
-                <div className="flex items-center space-x-1 text-manifest-gold">
+                <div className="flex items-center space-x-1 text-warning">
                   <Star className="w-4 h-4" />
-                  <span>+{period.target * 10} 点数</span>
+                  <span>{t('focusMode.pointsEarned', { points: period.target * 10 })}</span>
                 </div>
                 {streakUpdated && (
-                  <div className="flex items-center space-x-1 text-ios-orange">
+                  <div className="flex items-center space-x-1 text-accent">
                     <Flame className="w-4 h-4" />
-                    <span>连击更新</span>
+                    <span>{t('focusMode.streakUpdated')}</span>
                   </div>
                 )}
               </div>
             </div>
           )}
 
-          {/* 完成按钮 */}
+          {/* Complete button */}
           {entries.length === period.target && (
             <Button
               onClick={handleComplete}
               disabled={isCompleting}
-              className="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-ios"
+              className="w-full bg-gradient-to-r from-success to-primary text-primary-foreground rounded-ios"
             >
-              {isCompleting ? '保存中...' : '完成练习'}
+              {isCompleting ? t('focusMode.savingProgress') : t('focusMode.completePractice')}
             </Button>
           )}
         </div>

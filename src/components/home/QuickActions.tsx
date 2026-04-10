@@ -1,6 +1,6 @@
 import { Zap, Plus, Target, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 
 interface QuickActionsProps {
   hasActiveWishes: boolean;
@@ -9,25 +9,26 @@ interface QuickActionsProps {
 
 export const QuickActions = ({ hasActiveWishes, onCreateWish }: QuickActionsProps) => {
   const navigate = useNavigate();
+  const { t } = useTranslation('app');
   
   return (
     <div className="bg-card rounded-2xl p-5 shadow-sm border border-border/50 mb-4">
-      <h2 className="font-semibold text-foreground mb-4">快速开始</h2>
+      <h2 className="font-semibold text-foreground mb-4">{t('home.quickStart')}</h2>
       
       <div className="space-y-2.5">
         {hasActiveWishes ? (
           <ActionButton
             icon={Zap}
-            label="开始今日练习"
-            sublabel="继续你的显化之旅"
+            label={t('home.startPractice')}
+            sublabel={t('home.continuePractice')}
             onClick={() => navigate({ to: '/app/practice' })}
             variant="primary"
           />
         ) : (
           <ActionButton
             icon={Plus}
-            label="创建第一个愿望"
-            sublabel="开启显化之旅"
+            label={t('home.createFirstWish')}
+            sublabel={t('home.startJourney')}
             onClick={onCreateWish}
             variant="primary"
           />
@@ -35,8 +36,8 @@ export const QuickActions = ({ hasActiveWishes, onCreateWish }: QuickActionsProp
         
         <ActionButton
           icon={Target}
-          label="管理愿望"
-          sublabel="查看和编辑愿望列表"
+          label={t('home.manageWishes')}
+          sublabel={t('home.viewEditWishes')}
           onClick={() => navigate({ to: '/app/wishes' })}
           variant="secondary"
         />

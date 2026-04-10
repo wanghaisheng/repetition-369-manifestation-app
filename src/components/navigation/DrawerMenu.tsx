@@ -17,6 +17,7 @@ import {
   SheetTrigger,
   SheetClose,
 } from '@/components/ui/sheet';
+import { useTranslation } from 'react-i18next';
 
 interface DrawerMenuProps {
   activeTab: string;
@@ -24,13 +25,15 @@ interface DrawerMenuProps {
 }
 
 export const DrawerMenu = ({ activeTab, onTabChange }: DrawerMenuProps) => {
+  const { t } = useTranslation('app');
+
   const appPages = [
-    { id: 'home', icon: Home, label: '首页' },
-    { id: 'wishes', icon: Heart, label: '愿望' },
-    { id: 'practice', icon: Sparkles, label: '练习' },
-    { id: 'progress', icon: BarChart3, label: '进度' },
-    { id: 'community', icon: Users, label: '社区' },
-    { id: 'settings', icon: Settings, label: '设置' },
+    { id: 'home', icon: Home, labelKey: 'nav.home' },
+    { id: 'wishes', icon: Heart, labelKey: 'nav.wishes' },
+    { id: 'practice', icon: Sparkles, labelKey: 'nav.practice' },
+    { id: 'progress', icon: BarChart3, labelKey: 'nav.progress' },
+    { id: 'community', icon: Users, labelKey: 'nav.community' },
+    { id: 'settings', icon: Settings, labelKey: 'nav.settings' },
   ];
 
   return (
@@ -46,7 +49,7 @@ export const DrawerMenu = ({ activeTab, onTabChange }: DrawerMenuProps) => {
       </SheetTrigger>
       <SheetContent side="left" className="w-64 p-0">
         <SheetHeader className="p-4 border-b">
-          <SheetTitle className="text-left">显化369</SheetTitle>
+          <SheetTitle className="text-left">{t('nav.brandName')}</SheetTitle>
         </SheetHeader>
         
         <div className="p-3">
@@ -58,7 +61,7 @@ export const DrawerMenu = ({ activeTab, onTabChange }: DrawerMenuProps) => {
                 onClick={() => onTabChange(page.id)}
               >
                 <page.icon className="w-4 h-4 mr-3" />
-                {page.label}
+                {t(page.labelKey)}
               </Button>
             </SheetClose>
           ))}
