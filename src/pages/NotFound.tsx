@@ -1,42 +1,38 @@
 import { useLocation, Link } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Home, Search, BookOpen, HelpCircle, Sparkles } from "lucide-react";
+import { Home, BookOpen, HelpCircle, Sparkles } from "lucide-react";
+import { logger } from "@/utils/logger";
+import { DEFAULT_LANGUAGE } from "@/config/routes";
 
 const NotFound = () => {
   const location = useLocation();
-  const { t, i18n } = useTranslation(['common']);
-  const isEnglish = i18n.language === 'en' || location.pathname.startsWith('/en');
+  const { t, i18n } = useTranslation(['app', 'common']);
+  const isNonDefault = i18n.language !== DEFAULT_LANGUAGE;
+  const langPrefix = isNonDefault ? `/${i18n.language}` : '';
 
-  useEffect(() => {
-    // Log 404 for analytics
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
+  logger.error("404 Error: User attempted to access non-existent route:", location.pathname);
 
   const popularPages = [
     { 
-      name: isEnglish ? "Home" : "首页", 
-      href: isEnglish ? "/en" : "/", 
+      name: t('app:notFound.home'), 
+      href: isNonDefault ? `/${i18n.language}` : '/', 
       icon: Home 
     },
     { 
-      name: isEnglish ? "369 Method" : "369法则", 
-      href: isEnglish ? "/en/method369" : "/method369", 
+      name: t('app:notFound.method369'), 
+      href: `${langPrefix}/method369`, 
       icon: Sparkles 
     },
     { 
-      name: isEnglish ? "FAQ" : "常见问题", 
-      href: isEnglish ? "/en/faq" : "/faq", 
+      name: t('app:notFound.faq'), 
+      href: `${langPrefix}/faq`, 
       icon: HelpCircle 
     },
     { 
-      name: isEnglish ? "Blog" : "博客", 
-      href: isEnglish ? "/en/blog" : "/blog", 
+      name: t('app:notFound.blog'), 
+      href: `${langPrefix}/blog`, 
       icon: BookOpen 
     },
   ];
@@ -44,13 +40,9 @@ const NotFound = () => {
   return (
     <>
       <Helmet>
-        {/* Critical: noindex to prevent 404 pages from being indexed */}
         <meta name="robots" content="noindex, nofollow" />
-        <title>{isEnglish ? "Page Not Found | 369 Manifestation" : "页面未找到 | 369显化法"}</title>
-        <meta name="description" content={isEnglish 
-          ? "The page you're looking for doesn't exist. Return to our homepage or explore popular pages."
-          : "您访问的页面不存在。返回首页或探索热门页面。"
-        } />
+        <title>{t('app:notFound.pageTitle')}</title>
+        <meta name="description" content={t('app:notFound.pageDesc')} />
       </Helmet>
       
       <div className="min-h-screen bg-background flex items-center justify-center px-4">
@@ -63,27 +55,24 @@ const NotFound = () => {
           
           {/* Message */}
           <h2 className="text-2xl font-semibold text-foreground mb-3">
-            {isEnglish ? "Page Not Found" : "页面未找到"}
+            {t('app:notFound.title')}
           </h2>
           <p className="text-muted-foreground mb-8">
-            {isEnglish 
-              ? "The page you're looking for doesn't exist or has been moved."
-              : "您访问的页面不存在或已被移动。"
-            }
+            {t('app:notFound.description')}
           </p>
           
           {/* Primary CTA */}
           <Button asChild size="lg" className="mb-8">
-            <Link to={isEnglish ? "/en" : "/"}>
+            <Link to={isNonDefault ? `/${i18n.language}` : '/'}>
               <Home className="w-4 h-4 mr-2" />
-              {isEnglish ? "Back to Home" : "返回首页"}
+              {t('app:notFound.backHome')}
             </Link>
           </Button>
           
           {/* Popular Pages */}
           <div className="border-t border-border pt-6">
             <p className="text-sm text-muted-foreground mb-4">
-              {isEnglish ? "Or explore these pages:" : "或探索这些页面："}
+              {t('app:notFound.explorePages')}
             </p>
             <div className="grid grid-cols-2 gap-3">
               {popularPages.map((page) => (
