@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useLocation, useMatches } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { DEFAULT_LANGUAGE } from '@/config/routes';
 import { 
   SEO_CONFIG, 
   generateCanonicalUrl, 
@@ -31,7 +32,7 @@ export const RootHelmet = () => {
   const location = useLocation();
   const { t, i18n } = useTranslation();
   
-  const currentLang = (i18n.language || 'zh') as 'zh' | 'en';
+  const currentLang = (i18n.language || DEFAULT_LANGUAGE) as 'zh' | 'en';
 
   // Merge seo from all matched routes (deepest wins)
   let seo: RouteSEOData = {};
