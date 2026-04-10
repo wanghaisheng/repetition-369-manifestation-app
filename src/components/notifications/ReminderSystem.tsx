@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Bell, Clock, Target, Zap, Award } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 import { logger } from '@/utils/logger';
 
 interface ReminderSettings {
@@ -21,6 +22,7 @@ interface NotificationPermission {
 }
 
 export const ReminderSystem = () => {
+  const { t } = useTranslation('app');
   const [settings, setSettings] = useState<ReminderSettings>({
     practiceReminders: false,
     streakProtection: false,
@@ -31,11 +33,10 @@ export const ReminderSystem = () => {
 
   const [permission, setPermission] = useState<NotificationPermission>({
     granted: false,
-    supported: 'Notification' in window
+    supported: typeof window !== 'undefined' && 'Notification' in window
   });
 
   useEffect(() => {
-    // 检查通知权限状态
     if (permission.supported) {
       setPermission(prev => ({
         ...prev,
@@ -43,7 +44,6 @@ export const ReminderSystem = () => {
       }));
     }
 
-    // 从本地存储加载设置
     const savedSettings = localStorage.getItem('reminder-settings');
     if (savedSettings) {
       setSettings(JSON.parse(savedSettings));
@@ -52,7 +52,7 @@ export const ReminderSystem = () => {
 
   const requestNotificationPermission = async () => {
     if (!permission.supported) {
-      toast.error('您的浏览器不支持通知功能');
+      toast.error(t('reminders.notSupported'));
       return;
     }
 
@@ -63,22 +63,21 @@ export const ReminderSystem = () => {
       setPermission(prev => ({ ...prev, granted }));
       
       if (granted) {
-        toast.success('通知权限已开启！');
-        // 发送测试通知
+        toast.success(t('reminders.permissionGranted'));
         showTestNotification();
       } else {
-        toast.error('通知权限被拒绝，请在浏览器设置中手动开启');
+        toast.error(t('reminders.permissionDenied'));
       }
     } catch (error) {
       logger.error('Failed to request notification permission', error);
-      toast.error('无法获取通知权限');
+      toast.error(t('reminders.permissionFailed'));
     }
   };
 
   const showTestNotification = () => {
     if (permission.granted) {
-      new Notification('显化369提醒设置成功！', {
-        body: '您将收到练习提醒和重要通知',
+      new Notification(t('reminders.testNotificationTitle'), {
+        body: t('reminders.testNotificationBody'),
         icon: '/favicon.ico',
         tag: 'test-notification'
       });
@@ -90,7 +89,6 @@ export const ReminderSystem = () => {
     setSettings(newSettings);
     localStorage.setItem('reminder-settings', JSON.stringify(newSettings));
     
-    // 如果启用了通知但没有权限，请求权限
     if (value && !permission.granted && permission.supported) {
       requestNotificationPermission();
     }
@@ -98,87 +96,84 @@ export const ReminderSystem = () => {
 
   const scheduleReminders = () => {
     if (!permission.granted) return;
-
-    // 清除现有的提醒
-    // 这里应该集成到service worker或使用其他持久化方案
     logger.log('Setting reminder times', settings.customTimes);
-    toast.success('提醒时间已设置！');
+    toast.success(t('reminders.remindersSaved'));
   };
 
   const reminderTypes = [
     {
       key: 'practiceReminders' as const,
-      title: '练习提醒',
-      description: '在设定时间提醒你进行369练习',
+      titleKey: 'reminders.practiceReminders',
+      descriptionKey: 'reminders.practiceRemindersDesc',
       icon: <Target className="w-5 h-5" />,
-      color: 'text-blue-600'
+      color: 'text-primary'
     },
     {
       key: 'streakProtection' as const,
-      title: '连击保护',
-      description: '当连击即将中断时及时提醒',
+      titleKey: 'reminders.streakProtection',
+      descriptionKey: 'reminders.streakProtectionDesc',
       icon: <Zap className="w-5 h-5" />,
-      color: 'text-yellow-600'
+      color: 'text-warning'
     },
     {
       key: 'achievementNotifications' as const,
-      title: '成就通知',
-      description: '解锁新成就时立即通知',
+      titleKey: 'reminders.achievementNotifications',
+      descriptionKey: 'reminders.achievementNotificationsDesc',
       icon: <Award className="w-5 h-5" />,
-      color: 'text-green-600'
+      color: 'text-success'
     },
     {
       key: 'dailyMotivation' as const,
-      title: '每日激励',
-      description: '每天发送正能量消息',
+      titleKey: 'reminders.dailyMotivation',
+      descriptionKey: 'reminders.dailyMotivationDesc',
       icon: <Bell className="w-5 h-5" />,
-      color: 'text-purple-600'
+      color: 'text-accent'
     }
   ];
 
   return (
     <div className="space-y-6">
-      {/* 权限状态卡片 */}
+      {/* Permission status */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
             <Bell className="w-5 h-5 mr-2" />
-            通知权限
+            {t('reminders.notificationPermission')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           {!permission.supported ? (
             <div className="text-center py-4">
-              <p className="text-gray-600 mb-4">您的浏览器不支持通知功能</p>
+              <p className="text-muted-foreground mb-4">{t('reminders.notSupportedBrowser')}</p>
             </div>
           ) : permission.granted ? (
             <div className="flex items-center justify-between">
-              <div className="flex items-center text-green-600">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                通知权限已开启
+              <div className="flex items-center text-success">
+                <div className="w-2 h-2 bg-success rounded-full mr-2"></div>
+                {t('reminders.permissionEnabled')}
               </div>
               <Button onClick={showTestNotification} variant="outline" size="sm">
-                测试通知
+                {t('reminders.testNotification')}
               </Button>
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="flex items-center text-orange-600">
-                <div className="w-2 h-2 bg-orange-500 rounded-full mr-2"></div>
-                需要开启通知权限
+              <div className="flex items-center text-warning">
+                <div className="w-2 h-2 bg-warning rounded-full mr-2"></div>
+                {t('reminders.needPermission')}
               </div>
               <Button onClick={requestNotificationPermission} className="w-full">
-                开启通知权限
+                {t('reminders.enablePermission')}
               </Button>
             </div>
           )}
         </CardContent>
       </Card>
 
-      {/* 提醒设置 */}
+      {/* Reminder settings */}
       <Card>
         <CardHeader>
-          <CardTitle>提醒设置</CardTitle>
+          <CardTitle>{t('reminders.reminderSettings')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           {reminderTypes.map((type) => (
@@ -186,8 +181,8 @@ export const ReminderSystem = () => {
               <div className="flex items-center space-x-3">
                 <div className={type.color}>{type.icon}</div>
                 <div>
-                  <h3 className="font-medium">{type.title}</h3>
-                  <p className="text-sm text-gray-600">{type.description}</p>
+                  <h3 className="font-medium">{t(type.titleKey)}</h3>
+                  <p className="text-sm text-muted-foreground">{t(type.descriptionKey)}</p>
                 </div>
               </div>
               <Switch
@@ -200,13 +195,13 @@ export const ReminderSystem = () => {
         </CardContent>
       </Card>
 
-      {/* 提醒时间设置 */}
+      {/* Reminder time settings */}
       {(settings.practiceReminders || settings.dailyMotivation) && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
               <Clock className="w-5 h-5 mr-2" />
-              提醒时间
+              {t('reminders.reminderTime')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -222,13 +217,13 @@ export const ReminderSystem = () => {
                         newTimes[index] = e.target.value;
                         updateSetting('customTimes', newTimes);
                       }}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-ios-blue focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   </div>
                 ))}
               </div>
               <Button onClick={scheduleReminders} className="w-full" variant="outline">
-                保存提醒时间
+                {t('reminders.saveReminderTime')}
               </Button>
             </div>
           </CardContent>
@@ -238,50 +233,49 @@ export const ReminderSystem = () => {
   );
 };
 
-// 智能提醒建议组件
+// Smart reminder suggestions component
 export const SmartReminderSuggestions = () => {
+  const { t } = useTranslation('app');
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
-    // 基于用户行为分析生成智能建议
     const generateSuggestions = () => {
       const now = new Date();
       const hour = now.getHours();
       const suggestions = [];
 
       if (hour < 10) {
-        suggestions.push('建议在早上9点设置练习提醒，开启美好的一天');
+        suggestions.push(t('reminders.morningSuggestion'));
       }
       
       if (hour > 17) {
-        suggestions.push('晚上6点是反思和练习的好时间');
+        suggestions.push(t('reminders.eveningSuggestion'));
       }
 
-      // 基于本地存储的练习历史分析最佳时间
       const practiceHistory = JSON.parse(localStorage.getItem('practice-history') || '[]');
       if (practiceHistory.length > 0) {
-        suggestions.push('根据您的练习习惯，为您推荐最佳提醒时间');
+        suggestions.push(t('reminders.historySuggestion'));
       }
 
       setSuggestions(suggestions);
     };
 
     generateSuggestions();
-  }, []);
+  }, [t]);
 
   if (suggestions.length === 0) return null;
 
   return (
     <Card className="mt-4">
       <CardHeader>
-        <CardTitle className="text-base">智能建议</CardTitle>
+        <CardTitle className="text-base">{t('reminders.smartSuggestions')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
           {suggestions.map((suggestion, index) => (
             <div key={index} className="flex items-start space-x-2">
-              <div className="w-1.5 h-1.5 bg-ios-blue rounded-full mt-2 flex-shrink-0"></div>
-              <p className="text-sm text-gray-600">{suggestion}</p>
+              <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+              <p className="text-sm text-muted-foreground">{suggestion}</p>
             </div>
           ))}
         </div>
