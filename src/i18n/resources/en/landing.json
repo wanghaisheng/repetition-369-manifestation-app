@@ -126,7 +126,28 @@
   "cta": {
     "title": "Start Your Manifestation Journey",
     "subtitle": "Register now and experience the magical power of 369 manifestation",
-    "description": "Completely free, no hidden fees. Start creating the life you want."
+    "description": "Completely free, no hidden fees. Start creating the life you want.",
+    "foreverFree": "Forever Free",
+    "freePlan": "Free Forever Plan",
+    "freePlanProof": "✓ 5,247+ users enjoying",
+    "noCreditCard": "No Credit Card Required",
+    "noCreditCardProof": "✓ Start using now",
+    "joinCommunity": "Join Active Community",
+    "joinCommunityProof": "✓ 89% success rate verified",
+    "subscribeTitle": "Or Subscribe for Updates",
+    "emailPlaceholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "noSpam": "No spam. Unsubscribe at any time.",
+    "shareTitle": "Share with Friends, Grow Together",
+    "shareLink": "Share Link",
+    "linkCopied": "Copied",
+    "copiedToClipboard": "Link copied to clipboard",
+    "usersJoined": "5,247+ users joined",
+    "setupTime": "Setup in 2 minutes",
+    "shareData": {
+      "title": "Manifest 369 - Scientific Manifestation",
+      "text": "Discover Tesla's 369 secret and manifest your dreams scientifically!"
+    }
   },
   "nav": {
     "moreInfo": "Learn More"

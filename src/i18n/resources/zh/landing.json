@@ -126,7 +126,28 @@
   "cta": {
     "title": "开启您的显化之旅",
     "subtitle": "立即注册，体验369显化法的神奇力量",
-    "description": "完全免费，无隐藏费用。开始创造您想要的人生吧。"
+    "description": "完全免费，无隐藏费用。开始创造您想要的人生吧。",
+    "foreverFree": "永久免费",
+    "freePlan": "永久免费使用基础功能",
+    "freePlanProof": "✓ 已有 5,247+ 用户享受",
+    "noCreditCard": "无需信用卡",
+    "noCreditCardProof": "✓ 立即开始使用",
+    "joinCommunity": "加入活跃社区",
+    "joinCommunityProof": "✓ 89% 成功率验证",
+    "subscribeTitle": "或者订阅我们的更新",
+    "emailPlaceholder": "输入您的邮箱",
+    "subscribe": "订阅",
+    "noSpam": "我们承诺不会发送垃圾邮件，您可以随时取消订阅。",
+    "shareTitle": "分享给朋友，一起成长",
+    "shareLink": "分享链接",
+    "linkCopied": "已复制",
+    "copiedToClipboard": "链接已复制到剪贴板",
+    "usersJoined": "5,247+ 用户已加入",
+    "setupTime": "平均 2 分钟完成设置",
+    "shareData": {
+      "title": "显化369 - 科学显化，实现梦想",
+      "text": "发现Tesla的369秘密，用科学方法实现你的愿望！"
+    }
   },
   "nav": {
     "moreInfo": "了解更多"
