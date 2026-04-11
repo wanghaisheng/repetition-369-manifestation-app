@@ -5,6 +5,7 @@
  */
 import type { StorageAdapter } from './types';
 import { supabaseAdapter } from './supabase';
+import { d1Adapter } from './d1';
 
 export type { StorageAdapter, DataAdapter, AuthAdapter } from './types';
 export type {
@@ -22,14 +23,9 @@ export type {
 
 function resolveAdapter(): StorageAdapter {
   const provider = import.meta.env.VITE_STORAGE_PROVIDER || 'supabase';
-
   switch (provider) {
-    case 'd1': {
-      // 动态导入避免打包未使用的适配器
-      // 注意: 这里用同步导入因为 adapter 在应用启动时就需要
-      const { d1Adapter } = require('./d1');
+    case 'd1':
       return d1Adapter;
-    }
     case 'supabase':
     default:
       return supabaseAdapter;
