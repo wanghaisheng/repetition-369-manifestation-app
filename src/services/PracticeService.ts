@@ -1,69 +1,69 @@
 
-import { supabase } from '@/integrations/supabase/client';
+import { storage } from '@/adapters';
 import { PracticeSession } from '@/types';
 
+interface PracticeRow {
+  id: string;
+  wish_id: string;
+  user_id: string;
+  date: string;
+  time_slot: string;
+  completed_count: number;
+  target_count: number;
+  duration: number | null;
+  affirmation_text: string | null;
+  mood: string | null;
+  created_at: string;
+}
+
+function rowToSession(row: PracticeRow): PracticeSession {
+  return {
+    id: row.id,
+    wishId: row.wish_id,
+    date: new Date(row.date),
+    timeSlot: row.time_slot as 'morning' | 'afternoon' | 'evening',
+    completedCount: row.completed_count,
+    targetCount: row.target_count,
+    duration: row.duration || 0,
+    affirmationText: row.affirmation_text || '',
+    mood: row.mood as any,
+    userId: row.user_id,
+  };
+}
+
 export class PracticeService {
-  static async getTodayPractices(userId?: string): Promise<PracticeSession[]> {
+  static async getTodayPractices(_userId?: string): Promise<PracticeSession[]> {
     try {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const tomorrow = new Date(today);
       tomorrow.setDate(tomorrow.getDate() + 1);
 
-      const { data, error } = await supabase
-        .from('practice_sessions')
-        .select('*')
-        .gte('date', today.toISOString())
-        .lt('date', tomorrow.toISOString())
-        .order('created_at', { ascending: false });
+      const { data, error } = await storage.data.query<PracticeRow>('practice_sessions', {
+        filters: [
+          { column: 'date', operator: 'gte', value: today.toISOString() },
+          { column: 'date', operator: 'lt', value: tomorrow.toISOString() },
+        ],
+        order: [{ column: 'created_at', ascending: false }],
+      });
 
-      if (error) throw error;
-
-      return data?.map(session => ({
-        id: session.id,
-        wishId: session.wish_id,
-        date: new Date(session.date),
-        timeSlot: session.time_slot as 'morning' | 'afternoon' | 'evening',
-        completedCount: session.completed_count,
-        targetCount: session.target_count,
-        duration: session.duration || 0,
-        affirmationText: session.affirmation_text || '',
-        mood: session.mood as any,
-        userId: session.user_id
-      })) || [];
+      if (error) throw new Error(error.message);
+      return data?.map(rowToSession) || [];
     } catch (error) {
       console.error('Error fetching today practices:', error);
       return [];
     }
   }
 
-  static async getPracticeHistory(userId?: string, limit?: number): Promise<PracticeSession[]> {
+  static async getPracticeHistory(_userId?: string, limit?: number): Promise<PracticeSession[]> {
     try {
-      let query = supabase
-        .from('practice_sessions')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const { data, error } = await storage.data.query<PracticeRow>('practice_sessions', {
+        order: [{ column: 'created_at', ascending: false }],
+        limit,
+      });
 
-      if (limit) {
-        query = query.limit(limit);
-      }
-
-      const { data, error } = await query;
-
-      if (error) throw error;
-
-      return data?.map(session => ({
-        id: session.id,
-        wishId: session.wish_id,
-        date: new Date(session.date),
-        timeSlot: session.time_slot as 'morning' | 'afternoon' | 'evening',
-        completedCount: session.completed_count,
-        targetCount: session.target_count,
-        duration: session.duration || 0,
-        affirmationText: session.affirmation_text || '',
-        mood: session.mood as any,
-        userId: session.user_id
-      })) || [];
+      if (error) throw new Error(error.message);
+      return data?.map(rowToSession) || [];
     } catch (error) {
       console.error('Error fetching practice history:', error);
       return [];
@@ -72,62 +72,47 @@ export class PracticeService {
 
   static async recordPractice(sessionData: Omit<PracticeSession, 'id'>): Promise<PracticeSession> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('User not authenticated');
+      const { data: authUser } = await storage.auth.getUser();
+      if (!authUser) throw new Error('User not authenticated');
 
-      const { data, error } = await supabase
-        .from('practice_sessions')
-        .insert({
-          user_id: user.id,
-          wish_id: sessionData.wishId,
-          date: sessionData.date.toISOString(),
-          time_slot: sessionData.timeSlot,
-          completed_count: sessionData.completedCount,
-          target_count: sessionData.targetCount,
-          duration: sessionData.duration,
-          affirmation_text: sessionData.affirmationText,
-          mood: sessionData.mood
-        })
-        .select()
-        .single();
+      const { data, error } = await storage.data.insert<PracticeRow>('practice_sessions', {
+        user_id: authUser.id,
+        wish_id: sessionData.wishId,
+        date: sessionData.date.toISOString(),
+        time_slot: sessionData.timeSlot,
+        completed_count: sessionData.completedCount,
+        target_count: sessionData.targetCount,
+        duration: sessionData.duration,
+        affirmation_text: sessionData.affirmationText,
+        mood: sessionData.mood,
+      });
 
-      if (error) throw error;
-
-      return {
-        id: data.id,
-        wishId: data.wish_id,
-        date: new Date(data.date),
-        timeSlot: data.time_slot as 'morning' | 'afternoon' | 'evening',
-        completedCount: data.completed_count,
-        targetCount: data.target_count,
-        duration: data.duration || 0,
-        affirmationText: data.affirmation_text || '',
-        mood: data.mood as any,
-        userId: data.user_id
-      };
+      if (error || !data) throw new Error(error?.message || 'Insert failed');
+      return rowToSession(data);
     } catch (error) {
       console.error('Error recording practice:', error);
       throw error;
     }
   }
 
-  static async isTodayCompleted(userId: string, wishId: string): Promise<boolean> {
+  static async isTodayCompleted(_userId: string, wishId: string): Promise<boolean> {
     try {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const tomorrow = new Date(today);
       tomorrow.setDate(tomorrow.getDate() + 1);
 
-      const { data, error } = await supabase
-        .from('practice_sessions')
-        .select('completed_count')
-        .eq('wish_id', wishId)
-        .gte('date', today.toISOString())
-        .lt('date', tomorrow.toISOString());
+      const { data, error } = await storage.data.query<PracticeRow>('practice_sessions', {
+        select: 'completed_count',
+        filters: [
+          { column: 'wish_id', operator: 'eq', value: wishId },
+          { column: 'date', operator: 'gte', value: today.toISOString() },
+          { column: 'date', operator: 'lt', value: tomorrow.toISOString() },
+        ],
+      });
 
-      if (error) throw error;
-
-      const totalCompleted = data?.reduce((sum, session) => sum + session.completed_count, 0) || 0;
+      if (error) throw new Error(error.message);
+      const totalCompleted = data?.reduce((sum, s) => sum + s.completed_count, 0) || 0;
       return totalCompleted >= 18; // 3 + 6 + 9 = 18
     } catch (error) {
       console.error('Error checking today completion:', error);
