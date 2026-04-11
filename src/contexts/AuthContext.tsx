@@ -1,7 +1,8 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
-import { User as SupabaseUser, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+import { Session } from '@supabase/supabase-js';
+import { storage } from '@/adapters';
+import type { AuthUser } from '@/adapters';
 import { User, AuthState, SignUpData, SignInData } from '@/types/auth';
 import { logger } from '@/utils/logger';
 
@@ -28,8 +29,17 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const AUTH_TIMEOUT = 10000; // 10 seconds
 const MAX_RETRIES = 3;
+
+function adapterUserToUser(u: AuthUser): User {
+  return {
+    id: u.id,
+    email: u.email,
+    fullName: u.fullName,
+    avatarUrl: u.avatarUrl,
+    createdAt: u.createdAt,
+  };
+}
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
@@ -38,98 +48,78 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [authError, setAuthError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
 
-  logger.auth('AuthProvider: Current state', { 
-    isLoading, 
-    hasUser: !!user, 
-    hasSession: !!session, 
+  logger.auth('AuthProvider: Current state', {
+    isLoading,
+    hasUser: !!user,
+    hasSession: !!session,
     authError,
-    retryCount 
+    retryCount,
   });
 
-  const handleAuthError = useCallback((error: any, context: string) => {
-    console.error(`Auth error in ${context}:`, error);
-    
-    // Handle specific LockManager errors
-    if (error?.message?.includes('LockManager')) {
-      console.warn('LockManager error detected, using fallback approach');
-      setAuthError('认证系统暂时不可用，正在尝试恢复...');
-      return;
-    }
-    
-    setAuthError(`认证错误: ${error?.message || '未知错误'}`);
-  }, []);
-
-  const loadUserProfile = useCallback(async (userId: string, userEmail: string) => {
+  const loadUserProfile = useCallback(async (userId: string, userEmail: string): Promise<User> => {
     try {
       logger.auth('Loading user profile for:', userId);
-      
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .maybeSingle();
-      
-      if (error && error.code !== 'PGRST116') { // PGRST116 is "not found"
+
+      const { data: profile, error } = await storage.data.queryOne<{
+        id: string;
+        email: string | null;
+        full_name: string | null;
+        avatar_url: string | null;
+        created_at: string;
+      }>('profiles', {
+        filters: [{ column: 'id', operator: 'eq', value: userId }],
+      });
+
+      if (error) {
         console.error('Profile fetch error:', error);
-        throw error;
       }
-      
+
       if (profile) {
-        console.log('Profile loaded successfully');
         return {
           id: profile.id,
           email: profile.email || userEmail,
           fullName: profile.full_name || undefined,
           avatarUrl: profile.avatar_url || undefined,
-          createdAt: profile.created_at
-        };
-      } else {
-        console.log('No profile found, creating basic user object');
-        return {
-          id: userId,
-          email: userEmail,
-          createdAt: new Date().toISOString()
+          createdAt: profile.created_at,
         };
       }
+
+      return { id: userId, email: userEmail, createdAt: new Date().toISOString() };
     } catch (error) {
       console.error('Error loading user profile:', error);
-      // Return basic user object as fallback
-      return {
-        id: userId,
-        email: userEmail,
-        createdAt: new Date().toISOString()
-      };
+      return { id: userId, email: userEmail, createdAt: new Date().toISOString() };
     }
   }, []);
 
-  const handleAuthStateChange = useCallback((event: string, sess: Session | null) => {
-    console.log('Auth state change:', event, { hasSession: !!sess });
+  const handleAuthStateChange = useCallback(
+    (event: string, adapterSession: any) => {
+      console.log('Auth state change:', event, { hasSession: !!adapterSession });
 
-    // Only synchronous state updates here to avoid deadlocks
-    setSession(sess);
-    setAuthError(null);
+      setSession(adapterSession as Session | null);
+      setAuthError(null);
 
-    if (sess?.user) {
-      // Set a minimal user immediately
-      const minimalUser: User = {
-        id: sess.user.id,
-        email: sess.user.email || '',
-        createdAt: new Date().toISOString(),
-      };
-      setUser(minimalUser);
+      if (adapterSession?.user) {
+        const u = adapterSession.user;
+        const minimalUser: User = {
+          id: u.id,
+          email: u.email || '',
+          createdAt: new Date().toISOString(),
+        };
+        setUser(minimalUser);
 
-      // Defer any Supabase calls to next tick
-      setTimeout(() => {
-        loadUserProfile(sess.user!.id, sess.user!.email || '')
-          .then((profile) => setUser(profile))
-          .catch((err) => console.warn('Deferred profile load error:', err));
-      }, 0);
-    } else {
-      setUser(null);
-    }
+        setTimeout(() => {
+          loadUserProfile(u.id, u.email || '')
+            .then((profile) => setUser(profile))
+            .catch((err) => console.warn('Deferred profile load error:', err));
+        }, 0);
+      } else {
+        setUser(null);
+      }
 
-    setIsLoading(false);
-  }, [loadUserProfile]);
+      setIsLoading(false);
+    },
+    [loadUserProfile],
+  );
 
   const initializeAuth = useCallback(async () => {
     console.log('Initializing auth system...');
@@ -138,102 +128,94 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setIsLoading(true);
       setAuthError(null);
 
-      // Set up auth state listener FIRST
-      const { data: { subscription } } = supabase.auth.onAuthStateChange(handleAuthStateChange);
+      // Set up listener FIRST
+      const unsubscribe = storage.auth.onAuthStateChange(handleAuthStateChange);
 
-      // THEN check for existing session (no artificial timeout)
-      const { data: { session }, error } = await supabase.auth.getSession();
-      if (error) throw error;
+      // Check existing session
+      const { data: sess, error } = await storage.auth.getSession();
+      if (error) throw new Error(error.message);
 
-      console.log('Initial session check completed', { hasSession: !!session });
+      console.log('Initial session check completed', { hasSession: !!sess });
+      handleAuthStateChange('INITIAL_SESSION', sess);
 
-      // Use the same handler to normalize state updates
-      handleAuthStateChange('INITIAL_SESSION', session);
-
-      return subscription;
-    } catch (error) {
+      return unsubscribe;
+    } catch (error: any) {
       console.error('Auth initialization error:', error);
-      handleAuthError(error, 'initialization');
 
-      // Fallback: assume no auth and continue
+      if (error?.message?.includes('LockManager')) {
+        console.warn('LockManager error detected, using fallback approach');
+        setAuthError('认证系统暂时不可用，正在尝试恢复...');
+      } else {
+        setAuthError(`认证错误: ${error?.message || '未知错误'}`);
+      }
+
       setSession(null);
       setUser(null);
       setIsLoading(false);
 
-      // Still set up the listener for future auth events
-      const { data: { subscription } } = supabase.auth.onAuthStateChange(handleAuthStateChange);
-      return subscription;
+      const unsubscribe = storage.auth.onAuthStateChange(handleAuthStateChange);
+      return unsubscribe;
     }
-  }, [handleAuthStateChange, handleAuthError]);
+  }, [handleAuthStateChange]);
 
   const retryAuth = useCallback(async () => {
     if (retryCount >= MAX_RETRIES) {
       setAuthError('认证系统多次尝试失败，请刷新页面重试');
       return;
     }
-    
+
     console.log(`Retrying auth (attempt ${retryCount + 1}/${MAX_RETRIES})`);
-    setRetryCount(prev => prev + 1);
+    setRetryCount((prev) => prev + 1);
     setIsLoading(true);
-    
-    // Wait a bit before retrying
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     try {
-      const subscription = await initializeAuth();
-      setRetryCount(0); // Reset on success
-      return subscription;
+      await initializeAuth();
+      setRetryCount(0);
     } catch (error) {
       console.error('Retry failed:', error);
     }
   }, [retryCount, initializeAuth]);
 
   useEffect(() => {
-    let subscription: any;
-    
+    let unsubscribe: (() => void) | undefined;
+
     const setupAuth = async () => {
-      subscription = await initializeAuth();
+      unsubscribe = await initializeAuth();
     };
-    
+
     setupAuth();
-    
-    // Auto-retry on auth errors after a delay
+
     if (authError && retryCount < MAX_RETRIES) {
       const retryTimer = setTimeout(() => {
         retryAuth();
       }, 3000);
-      
+
       return () => {
         clearTimeout(retryTimer);
-        subscription?.unsubscribe();
+        unsubscribe?.();
       };
     }
-    
-    return () => subscription?.unsubscribe();
+
+    return () => unsubscribe?.();
   }, [initializeAuth, authError, retryCount, retryAuth]);
 
   const signUp = async (data: SignUpData) => {
     try {
       console.log('Attempting sign up for:', data.email);
       const redirectUrl = `${window.location.origin}/`;
-      
-      const { error } = await supabase.auth.signUp({
+
+      const { error } = await storage.auth.signUp({
         email: data.email,
         password: data.password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: {
-            full_name: data.fullName
-          }
-        }
+        fullName: data.fullName,
+        redirectUrl,
       });
-      
-      if (error) {
-        console.error('Sign up error:', error);
-      } else {
-        console.log('Sign up successful');
-      }
-      
+
+      if (error) console.error('Sign up error:', error);
+      else console.log('Sign up successful');
+
       return { error };
     } catch (error) {
       console.error('Sign up exception:', error);
@@ -244,17 +226,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const signIn = async (data: SignInData) => {
     try {
       console.log('Attempting sign in for:', data.email);
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error } = await storage.auth.signIn({
         email: data.email,
-        password: data.password
+        password: data.password,
       });
-      
-      if (error) {
-        console.error('Sign in error:', error);
-      } else {
-        console.log('Sign in successful');
-      }
-      
+
+      if (error) console.error('Sign in error:', error);
+      else console.log('Sign in successful');
+
       return { error };
     } catch (error) {
       console.error('Sign in exception:', error);
@@ -265,7 +244,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const signOut = async () => {
     try {
       console.log('Attempting sign out');
-      await supabase.auth.signOut();
+      await storage.auth.signOut();
       console.log('Sign out successful');
     } catch (error) {
       console.error('Sign out error:', error);
@@ -277,20 +256,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     try {
       console.log('Updating profile for user:', user.id);
-      const { error } = await supabase
-        .from('profiles')
-        .update({
+      const { error } = await storage.data.update(
+        'profiles',
+        {
           full_name: data.fullName,
           avatar_url: data.avatarUrl,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', user.id);
+          updated_at: new Date().toISOString(),
+        },
+        [{ column: 'id', operator: 'eq', value: user.id }],
+      );
 
-      if (error) {
-        console.error('Profile update error:', error);
-      } else {
-        console.log('Profile updated successfully');
-      }
+      if (error) console.error('Profile update error:', error);
+      else console.log('Profile updated successfully');
 
       return { error };
     } catch (error) {
@@ -309,12 +286,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     signOut,
     updateProfile,
     retryAuth,
-    authError
+    authError,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
