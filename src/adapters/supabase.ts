@@ -49,7 +49,7 @@ function toStorageError(error: any) {
 const supabaseData: DataAdapter = {
   async query<T>(table: string, options?: QueryOptions): Promise<QueryResult<T>> {
     try {
-      let q = supabase.from(table).select(options?.select || '*');
+      let q = (supabase.from as any)(table).select(options?.select || '*');
       q = applyFilters(q, options?.filters);
       if (options?.order) {
         for (const o of options.order) {
@@ -68,7 +68,7 @@ const supabaseData: DataAdapter = {
 
   async queryOne<T>(table: string, options?: QueryOptions): Promise<SingleResult<T>> {
     try {
-      let q = supabase.from(table).select(options?.select || '*');
+      let q = (supabase.from as any)(table).select(options?.select || '*');
       q = applyFilters(q, options?.filters);
       const { data, error } = await q.maybeSingle();
       return { data: data as T | null, error: toStorageError(error) };
@@ -79,7 +79,7 @@ const supabaseData: DataAdapter = {
 
   async insert<T>(table: string, data: Record<string, unknown>): Promise<SingleResult<T>> {
     try {
-      const { data: result, error } = await supabase.from(table).insert(data).select().single();
+      const { data: result, error } = await (supabase.from as any)(table).insert(data).select().single();
       return { data: result as T | null, error: toStorageError(error) };
     } catch (e) {
       return { data: null, error: toStorageError(e) };
@@ -88,7 +88,7 @@ const supabaseData: DataAdapter = {
 
   async update<T>(table: string, data: Record<string, unknown>, filters: QueryFilter[]): Promise<SingleResult<T>> {
     try {
-      let q = supabase.from(table).update(data);
+      let q = (supabase.from as any)(table).update(data);
       q = applyFilters(q, filters);
       const { data: result, error } = await q.select().single();
       return { data: result as T | null, error: toStorageError(error) };
@@ -99,7 +99,7 @@ const supabaseData: DataAdapter = {
 
   async delete(table: string, filters: QueryFilter[]): Promise<MutationResult> {
     try {
-      let q = supabase.from(table).delete();
+      let q = (supabase.from as any)(table).delete();
       q = applyFilters(q, filters);
       const { error } = await q;
       return { data: null, error: toStorageError(error) };
