@@ -132,19 +132,27 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)',
+				'ios': '12px',
+				'ios-small': '8px',
 				'storybook': '1.25rem',
 				'storybook-lg': '1.75rem',
 				'blob': '40% 60% 55% 45% / 60% 40% 65% 35%',
 			},
 			fontFamily: {
+				'sf-pro': ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'system-ui', 'sans-serif'],
 				'storybook': ['Lora', 'Georgia', 'serif'],
 				'handwritten': ['"Nothing You Could Do"', 'cursive'],
 				'body': ['"Noto Sans SC"', 'system-ui', 'sans-serif'],
 			},
 			boxShadow: {
+				'ios': '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+				'ios-elevated': '0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1)',
 				'storybook': 'var(--shadow-storybook)',
 				'storybook-hover': 'var(--shadow-storybook-hover)',
 				'elegant': 'var(--shadow-elegant)',
+			},
+			backdropBlur: {
+				'ios': '20px',
 			},
 			keyframes: {
 				'accordion-down': {
