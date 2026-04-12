@@ -64,6 +64,30 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				// Storybook Warmth palette
+				// Legacy aliases → mapped to storybook tokens (migrate components gradually)
+				ios: {
+					blue: 'hsl(var(--primary))',
+					green: 'hsl(var(--success))',
+					orange: 'hsl(var(--warning))',
+					red: 'hsl(var(--destructive))',
+					purple: 'hsl(var(--accent))',
+					pink: 'hsl(var(--accent))',
+					gray: 'hsl(var(--muted-foreground))',
+					'gray-light': 'hsl(var(--muted))',
+					'gray-medium': 'hsl(var(--border))',
+					'system-background': 'hsl(var(--background))',
+					'secondary-background': 'hsl(var(--secondary))',
+					'tertiary-background': 'hsl(var(--card))',
+				},
+				manifest: {
+					gold: 'hsl(var(--storybook-honey))',
+					'warm-gold': 'hsl(var(--storybook-honey))',
+					'light-gold': 'hsl(var(--storybook-cream))',
+					lavender: 'hsl(var(--storybook-blush))',
+					'soft-pink': 'hsl(var(--storybook-coral))',
+					'sage-green': 'hsl(var(--storybook-sage))',
+					'cosmic-blue': 'hsl(var(--info))',
+				},
 				storybook: {
 					honey: 'hsl(var(--storybook-honey))',
 					coral: 'hsl(var(--storybook-coral))',
