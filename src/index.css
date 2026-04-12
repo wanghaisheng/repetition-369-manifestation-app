@@ -1,124 +1,143 @@
-/* 字体通过HTML preload加载，避免阻塞渲染 */
+/* Storybook Warmth Design System */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 262.1 83.3% 57.8%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.75rem;
+    /* Core palette — Storybook Warmth */
+    --background: 40 40% 99%;
+    --foreground: 25 30% 15%;
+    --card: 42 45% 98%;
+    --card-foreground: 25 30% 15%;
+    --popover: 40 40% 99%;
+    --popover-foreground: 25 30% 15%;
+    --primary: 32 85% 55%;
+    --primary-foreground: 40 40% 99%;
+    --secondary: 40 60% 95%;
+    --secondary-foreground: 25 30% 20%;
+    --muted: 45 30% 94%;
+    --muted-foreground: 25 15% 50%;
+    --accent: 350 65% 65%;
+    --accent-foreground: 40 40% 99%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 40 40% 99%;
+    --border: 35 25% 88%;
+    --input: 35 25% 88%;
+    --ring: 32 85% 55%;
+    --radius: 1rem;
 
-    /* Landing page specific colors */
+    /* Storybook semantic tokens */
+    --storybook-honey: 38 80% 58%;
+    --storybook-coral: 12 70% 72%;
+    --storybook-sage: 135 25% 58%;
+    --storybook-cream: 42 50% 96%;
+    --storybook-bark: 25 35% 30%;
+    --storybook-blush: 350 50% 90%;
+
+    /* Gradients & shadows — warm tones */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
     --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--muted)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)/0.05), hsl(var(--background)), hsl(var(--accent)/0.05));
-    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.15);
-    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.2);
+    --gradient-hero: linear-gradient(135deg, hsl(var(--storybook-cream)), hsl(var(--background)), hsl(var(--storybook-blush)));
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--storybook-bark) / 0.1);
+    --shadow-glow: 0 0 40px hsl(var(--storybook-honey) / 0.15);
+    --shadow-storybook: 0 4px 20px -4px hsl(var(--storybook-bark) / 0.08);
+    --shadow-storybook-hover: 0 8px 30px -6px hsl(var(--storybook-bark) / 0.12);
 
     /* Section backgrounds for visual rhythm */
-    --section-alt: 210 40% 98%;
-    --section-highlight: 221.2 83.2% 97%;
-    
-    /* Badge colors - unified palette */
-    --badge-trust: 221.2 83.2% 96%;
-    --badge-trust-text: 221.2 83.2% 40%;
-    --badge-trust-border: 221.2 50% 88%;
-    --badge-highlight: 45 100% 96%;
-    --badge-highlight-text: 45 100% 30%;
-    --badge-highlight-border: 45 80% 80%;
-    --badge-success: 142.1 76.2% 96%;
-    --badge-success-text: 142.1 76.2% 30%;
-    --badge-success-border: 142.1 50% 80%;
-    --badge-urgent: 0 84.2% 96%;
-    --badge-urgent-text: 0 84.2% 40%;
-    --badge-urgent-border: 0 60% 85%;
+    --section-alt: 42 40% 97%;
+    --section-highlight: 38 60% 96%;
 
-    /* Success and status colors */
-    --success: 142.1 76.2% 36.3%;
-    --success-foreground: 355.7 100% 97.3%;
-    --warning: 45 100% 50%;
-    --warning-foreground: 45 100% 20%;
-    --info: 221.2 83.2% 53.3%;
-    --info-foreground: 210 40% 98%;
-    
-    /* App-specific semantic colors */
-    --app-surface: 0 0% 100%;
-    --app-surface-elevated: 0 0% 100%;
-    --app-surface-secondary: 220 14% 96%;
-    --app-text-primary: 220 14% 10%;
-    --app-text-secondary: 220 10% 46%;
-    --app-text-tertiary: 220 8% 65%;
-    
-    /* Manifestation spiritual colors */
-    --manifest-glow: 45 100% 60%;
-    --manifest-aura: 262.1 60% 75%;
-    --manifest-energy: 280 80% 65%;
-    --manifest-calm: 200 60% 70%;
-    
+    /* Badge colors — warm palette */
+    --badge-trust: 38 60% 94%;
+    --badge-trust-text: 32 60% 35%;
+    --badge-trust-border: 38 40% 85%;
+    --badge-highlight: 45 80% 94%;
+    --badge-highlight-text: 45 80% 30%;
+    --badge-highlight-border: 45 60% 80%;
+    --badge-success: 135 40% 92%;
+    --badge-success-text: 135 40% 30%;
+    --badge-success-border: 135 30% 78%;
+    --badge-urgent: 0 65% 94%;
+    --badge-urgent-text: 0 65% 40%;
+    --badge-urgent-border: 0 45% 85%;
+
+    /* Status colors */
+    --success: 135 50% 42%;
+    --success-foreground: 40 40% 99%;
+    --warning: 38 90% 52%;
+    --warning-foreground: 25 30% 15%;
+    --info: 200 55% 50%;
+    --info-foreground: 40 40% 99%;
+
+    /* App surfaces */
+    --app-surface: 42 45% 98%;
+    --app-surface-elevated: 40 40% 99%;
+    --app-surface-secondary: 45 30% 96%;
+    --app-text-primary: 25 30% 15%;
+    --app-text-secondary: 25 15% 45%;
+    --app-text-tertiary: 25 10% 60%;
+
+    /* Manifestation spiritual colors — warm version */
+    --manifest-glow: 38 80% 62%;
+    --manifest-aura: 350 50% 72%;
+    --manifest-energy: 12 70% 65%;
+    --manifest-calm: 135 30% 65%;
+
     /* Card hierarchy */
-    --card-hero: linear-gradient(135deg, hsl(45 80% 96%), hsl(262 60% 97%));
-    --card-elevated: 0 0% 100%;
-    --card-subtle: 220 14% 98%;
+    --card-hero: linear-gradient(135deg, hsl(var(--storybook-cream)), hsl(var(--storybook-blush) / 0.3));
+    --card-elevated: 40 40% 99%;
+    --card-subtle: 45 30% 97%;
+
+    /* Organic radius */
+    --radius-organic: 1.5rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 262.1 83.3% 57.8%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
+    --background: 25 25% 8%;
+    --foreground: 40 30% 92%;
+    --card: 25 22% 11%;
+    --card-foreground: 40 30% 92%;
+    --popover: 25 22% 11%;
+    --popover-foreground: 40 30% 92%;
+    --primary: 32 75% 52%;
+    --primary-foreground: 25 25% 8%;
+    --secondary: 25 20% 16%;
+    --secondary-foreground: 40 30% 92%;
+    --muted: 25 18% 16%;
+    --muted-foreground: 35 15% 60%;
+    --accent: 350 55% 58%;
+    --accent-foreground: 40 30% 92%;
+    --destructive: 0 55% 35%;
+    --destructive-foreground: 40 30% 92%;
+    --border: 25 18% 20%;
+    --input: 25 18% 20%;
+    --ring: 32 75% 52%;
 
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)/0.1), hsl(var(--background)), hsl(var(--accent)/0.1));
-    
-    /* Section backgrounds for visual rhythm - dark mode */
-    --section-alt: 217.2 32.6% 12%;
-    --section-highlight: 217.2 40% 14%;
-    
-    /* Badge colors - dark mode */
-    --badge-trust: 221.2 50% 20%;
-    --badge-trust-text: 221.2 83.2% 80%;
-    --badge-trust-border: 221.2 40% 30%;
-    --badge-highlight: 45 50% 20%;
-    --badge-highlight-text: 45 80% 75%;
-    --badge-highlight-border: 45 40% 30%;
-    --badge-success: 142.1 40% 18%;
-    --badge-success-text: 142.1 60% 70%;
-    --badge-success-border: 142.1 30% 28%;
-    --badge-urgent: 0 50% 20%;
-    --badge-urgent-text: 0 70% 75%;
-    --badge-urgent-border: 0 40% 30%;
+    --storybook-honey: 38 70% 50%;
+    --storybook-coral: 12 55% 60%;
+    --storybook-sage: 135 20% 45%;
+    --storybook-cream: 42 30% 14%;
+    --storybook-bark: 25 20% 75%;
+    --storybook-blush: 350 30% 20%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(var(--storybook-cream)), hsl(var(--background)), hsl(var(--storybook-blush)));
+
+    --section-alt: 25 18% 12%;
+    --section-highlight: 32 25% 14%;
+
+    --badge-trust: 32 30% 18%;
+    --badge-trust-text: 32 50% 75%;
+    --badge-trust-border: 32 25% 28%;
+    --badge-highlight: 45 30% 18%;
+    --badge-highlight-text: 45 60% 70%;
+    --badge-highlight-border: 45 25% 28%;
+    --badge-success: 135 25% 16%;
+    --badge-success-text: 135 40% 65%;
+    --badge-success-border: 135 20% 26%;
+    --badge-urgent: 0 35% 18%;
+    --badge-urgent-text: 0 50% 72%;
+    --badge-urgent-border: 0 30% 28%;
   }
 
   * {
@@ -130,7 +149,8 @@
   }
 }
 
-/* Critical CSS for above-the-fold content */
+/* ==================== Critical Above-the-Fold ==================== */
+
 .hero-section {
   background: var(--gradient-hero);
   will-change: transform;
@@ -138,33 +158,28 @@
   backface-visibility: hidden;
 }
 
-/* Skeleton screen animations */
+/* Skeleton shimmer */
 @keyframes shimmer {
-  0% {
-    background-position: -468px 0;
-  }
-  100% {
-    background-position: 468px 0;
-  }
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
 }
 
 .loading-skeleton {
-  background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted)/0.5) 50%, hsl(var(--muted)) 75%);
+  background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted) / 0.5) 50%, hsl(var(--muted)) 75%);
   background-size: 400% 100%;
   animation: shimmer 1.2s ease-in-out infinite;
 }
 
-/* Lazy image loading */
+/* Lazy images */
 .lazy-image {
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
-
 .lazy-image.loaded {
   opacity: 1;
 }
 
-/* Font rendering optimization */
+/* Font rendering */
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -172,436 +187,96 @@
 }
 
 /* Hardware acceleration for interactive elements */
-.btn,
-.card,
-button {
+.btn, .card, button {
   will-change: transform;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
 }
 
-/* 在tailwindcss的base中已经包含了preflight，这里可以省略 */
-/* html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+/* ==================== Storybook Warmth Textures ==================== */
+
+/* Paper texture overlay — subtle noise via SVG */
+.paper-texture {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* Watercolor edge — soft irregular border */
+.watercolor-edge {
+  border-radius: var(--radius-organic);
+  box-shadow: 
+    inset 0 0 30px hsl(var(--storybook-cream) / 0.5),
+    var(--shadow-storybook);
 }
 
-* {
-  box-sizing: border-box;
-} */
+/* ==================== Scrollbar — Warm ==================== */
 
-/* 滚动条样式 */
 ::-webkit-scrollbar {
-  width: 8px; /* 滚动条宽度 */
-  height: 8px; /* 滚动条高度 */
+  width: 8px;
+  height: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* 滚动条轨道背景色 */
+  background: hsl(var(--muted));
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #ccc; /* 滚动条滑块颜色 */
-  border-radius: 4px; /* 滚动条滑块圆角 */
+  background: hsl(var(--border));
+  border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #bbb; /* 滚动条滑块悬停颜色 */
+  background: hsl(var(--muted-foreground) / 0.4);
 }
 
-/* iOS风格阴影 */
-.shadow-ios {
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
+/* ==================== Form States — Semantic ==================== */
 
-/* 圆角 */
-.rounded-ios {
-  border-radius: 10px;
+input:active, textarea:active, select:active {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 5px hsl(var(--primary) / 0.3);
 }
-
-/* 背景颜色 */
-.bg-ios-secondary-background {
-  background-color: #f2f2f7;
-}
-
-/* 文本颜色 */
-.text-ios-blue {
-  color: #007aff;
-}
-
-/* 边框颜色 */
-.border-ios-gray {
-  border-color: #d1d1d6;
-}
-
-/* 激活状态 */
-input:active,
-textarea:active,
-select:active {
-  border-color: #007aff;
-  box-shadow: 0 0 5px rgba(0, 122, 255, 0.3);
-}
-
-/* 焦点状态 */
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: #007aff;
-  box-shadow: 0 0 5px rgba(0, 122, 255, 0.3);
+input:focus, textarea:focus, select:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 5px hsl(var(--primary) / 0.3);
   outline: none;
 }
-
-/* 禁用状态 */
-input:disabled,
-textarea:disabled,
-select:disabled {
-  background-color: #f2f2f7;
-  color: #8e8e93;
-  border-color: #d1d1d6;
+input:disabled, textarea:disabled, select:disabled {
+  background-color: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+  border-color: hsl(var(--border));
 }
 
-/* 按钮样式 */
-.btn-ios {
-  background-color: #007aff;
-  color: white;
-  border-radius: 8px;
-  padding: 10px 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  cursor: pointer;
-  border: none;
-}
+/* ==================== Performance ==================== */
 
-.btn-ios:hover {
-  background-color: #0063cc;
-}
-
-.btn-ios:active {
-  background-color: #005299;
-}
-
-/* Manifest 暖金色 */
-.from-manifest-warm-gold {
-  --tw-gradient-from: #d4af37;
-  --tw-gradient-to: rgba(212, 175, 55, 0);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-/* Manifest 淡紫色 */
-.to-manifest-lavender {
-  --tw-gradient-to: #e6e6fa;
-}
-
-/* 进度条样式 */
-.progress-bar {
-  width: 100%;
-  height: 10px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  background-color: #007aff;
-  width: 0%; /* 通过JavaScript动态设置 */
-  transition: width 0.3s ease;
-}
-
-/* 愿望卡片样式 */
-.wish-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  margin-bottom: 10px;
-}
-
-.wish-card h3 {
-  font-size: 1.2em;
-  margin-bottom: 5px;
-}
-
-.wish-card p {
-  color: #666;
-}
-
-/* 练习计时器样式 */
-.practice-timer {
-  font-size: 2em;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 15px;
-}
-
-/* 书写界面样式 */
-.writing-interface {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 15px;
-}
-
-.writing-interface textarea {
-  width: 100%;
-  min-height: 150px;
-  border: none;
-  resize: vertical;
-  font-size: 1em;
-}
-
-/* 练习头部样式 */
-.practice-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-/* 练习卡片样式 */
-.practice-card {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-/* 练习统计样式 */
-.practice-stats {
-  margin-bottom: 15px;
-}
-
-.practice-stats h4 {
-  font-size: 1.1em;
-  margin-bottom: 5px;
-}
-
-/* 空状态样式 */
-.empty-state {
-  text-align: center;
-  color: #888;
-  padding: 20px;
-}
-
-/* 专注模式样式 */
-.focus-mode {
-  background-color: #000;
-  color: #fff;
-  padding: 20px;
-}
-
-/* 游戏化系统样式 */
-.points-display {
-  font-size: 1.2em;
-  color: #ffc107;
-}
-
-.streak-counter {
-  font-size: 1em;
-  color: #2196f3;
-}
-
-.achievement-badge {
-  display: inline-block;
-  padding: 5px 10px;
-  background-color: #4caf50;
-  color: #fff;
-  border-radius: 5px;
-}
-
-.achievement-notification {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.level-progress {
-  width: 100%;
-  height: 12px;
-  background-color: #ddd;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.level-progress-fill {
-  height: 100%;
-  background-color: #9c27b0;
-  width: 0%; /* 通过JavaScript动态设置 */
-  transition: width 0.3s ease;
-}
-
-/* 动画计数器样式 */
-.animated-counter {
-  font-size: 2em;
-  font-weight: bold;
-  color: #e91e63;
-}
-
-/* 圆形进度条样式 */
-.circular-progress {
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-
-.circular-progress-bar {
-  fill: none;
-  stroke-width: 8px;
-  stroke-linecap: round;
-  stroke: #4caf50;
-  transition: stroke-dashoffset 0.3s ease;
-}
-
-.circular-progress-track {
-  fill: none;
-  stroke-width: 8px;
-  stroke: #ddd;
-}
-
-.circular-progress-percentage {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #333;
-}
-
-/* 分析仪表板样式 */
-.analytics-dashboard {
-  background-color: #f5f5f5;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.analytics-dashboard h2 {
-  font-size: 1.5em;
-  margin-bottom: 15px;
-}
-
-/* 分享模态框样式 */
-.share-modal {
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.share-modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-/* 高级练习模态框样式 */
-.advanced-practice-modal {
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.advanced-practice-modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-/* SEOHead 组件样式 */
-.seo-head {
-  /* 可以添加一些全局的SEO样式 */
-}
-
-/* StructuredData 组件样式 */
-.structured-data {
-  /* 可以添加一些结构化数据样式 */
-}
-
-/* Breadcrumbs 组件样式 */
-.breadcrumbs {
-  /* 可以添加一些面包屑导航样式 */
-}
-
-/* GoogleAnalytics 组件样式 */
-.google-analytics {
-  /* 可以添加一些Google Analytics样式 */
-}
-
-/* MicrosoftClarity 组件样式 */
-.microsoft-clarity {
-  /* 可以添加一些Microsoft Clarity样式 */
-}
-
-/* GoogleAdsense 组件样式 */
-.google-adsense {
-  /* 可以添加一些Google AdSense样式 */
-}
-
-/* 广告容器样式 */
-.adsense-container {
-  text-align: center;
-}
-
-/* 性能模式样式 */
 .performance-mode * {
   transition: none !important;
   animation: none !important;
 }
-
 .performance-mode .animate-spin,
 .performance-mode .animate-pulse,
 .performance-mode .animate-bounce {
   animation: none !important;
 }
 
-/* 懒加载图片样式 */
 img[data-src] {
   opacity: 0;
   transition: opacity 0.3s;
 }
-
 img[data-src].loaded {
   opacity: 1;
 }
 
-/* 内链悬停效果 */
+/* Internal link hover */
 .internal-link {
-  @apply transition-colors duration-200 hover:text-ios-blue;
+  @apply transition-colors duration-200;
+  &:hover { color: hsl(var(--primary)); }
 }
 
-/* 通知样式 */
+/* Notification badge */
 .notification-badge {
-  @apply absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center;
+  @apply absolute -top-1 -right-1 text-xs rounded-full w-5 h-5 flex items-center justify-center;
+  background-color: hsl(var(--destructive));
+  color: hsl(var(--destructive-foreground));
 }
 
-/* Web Vitals 优化 */
-.loading-skeleton {
-  @apply animate-pulse bg-gray-200 rounded;
-}
-
-/* 响应式优化 */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -614,247 +289,169 @@ img[data-src].loaded {
   .text-balance {
     text-wrap: balance;
   }
-  
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
 }
 
-/* ==================== Mobile Touch & Scroll Optimizations ==================== */
+/* ==================== Mobile Touch & Scroll ==================== */
 
-/* Smooth momentum scrolling for iOS */
 html {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
 }
-
-/* Prevent pull-to-refresh on mobile but allow normal scrolling */
 body {
   overscroll-behavior-y: contain;
 }
 
-/* Scrollable containers with smooth momentum */
-.overflow-y-auto,
-.overflow-x-auto,
-[class*="overflow-auto"] {
+.overflow-y-auto, .overflow-x-auto, [class*="overflow-auto"] {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   scroll-behavior: smooth;
 }
 
-/* Touch-friendly minimum tap targets (44px per Apple HIG) */
-button,
-a,
-[role="button"],
-.touchable {
+/* Touch targets — 44px minimum (Apple HIG) */
+button, a, [role="button"], .touchable {
   min-height: 44px;
   min-width: 44px;
 }
 
-/* Active touch feedback - iOS style press effect */
+/* Active touch feedback */
 @media (hover: none) and (pointer: coarse) {
-  button:active,
-  a:active,
-  [role="button"]:active,
-  .touchable:active {
+  button:active, a:active, [role="button"]:active, .touchable:active {
     transform: scale(0.97);
     opacity: 0.8;
   }
-  
-  .card:active,
-  .wish-card:active,
-  .practice-card:active {
+  .card:active {
     transform: scale(0.98);
     opacity: 0.95;
   }
 }
 
 /* Smooth transition for touch feedback */
-button,
-a,
-[role="button"],
-.touchable,
-.card,
-.wish-card,
-.practice-card {
+button, a, [role="button"], .touchable, .card {
   transition: transform 0.15s ease-out, opacity 0.15s ease-out;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
-/* Prevent text selection during touch interactions */
 .no-select {
   -webkit-user-select: none;
   user-select: none;
 }
 
-/* Prevent accidental zoom on form inputs on iOS */
+/* Prevent zoom on form inputs — iOS */
 @media screen and (max-width: 768px) {
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="number"],
-  input[type="tel"],
-  input[type="url"],
-  input[type="search"],
-  textarea,
-  select {
+  input[type="text"], input[type="email"], input[type="password"],
+  input[type="number"], input[type="tel"], input[type="url"],
+  input[type="search"], textarea, select {
     font-size: 16px !important;
   }
 }
 
-/* Safe area insets for notched devices */
+/* Safe area insets */
 .safe-area-inset {
   padding-top: env(safe-area-inset-top);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
 }
+.safe-area-bottom { padding-bottom: max(env(safe-area-inset-bottom), 16px); }
+.safe-area-top { padding-top: max(env(safe-area-inset-top), 16px); }
 
-.safe-area-bottom {
-  padding-bottom: max(env(safe-area-inset-bottom), 16px);
-}
-
-.safe-area-top {
-  padding-top: max(env(safe-area-inset-top), 16px);
-}
-
-/* Improved scrollbar for touch devices - hide on mobile */
+/* Hide scrollbar on touch devices */
 @media (hover: none) and (pointer: coarse) {
-  ::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;
-  }
-  
-  * {
-    scrollbar-width: none;
-  }
+  ::-webkit-scrollbar { width: 0; height: 0; display: none; }
+  * { scrollbar-width: none; }
 }
 
-/* Swipe gesture hint */
+/* Swipe hint */
 .swipe-hint {
   animation: swipeHint 2s ease-in-out infinite;
 }
-
 @keyframes swipeHint {
-  0%, 100% {
-    transform: translateX(0);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translateX(-10px);
-    opacity: 1;
-  }
+  0%, 100% { transform: translateX(0); opacity: 0.5; }
+  50% { transform: translateX(-10px); opacity: 1; }
 }
 
-/* Pull-to-refresh style indicator */
-.pull-indicator {
-  transition: transform 0.2s ease-out;
-}
+/* Pull indicator */
+.pull-indicator { transition: transform 0.2s ease-out; }
+.pull-indicator.pulling { transform: rotate(180deg); }
 
-.pull-indicator.pulling {
-  transform: rotate(180deg);
-}
-
-/* Smooth card entrance animation */
+/* Card entrance */
 @keyframes cardSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+.animate-card-enter { animation: cardSlideUp 0.3s ease-out forwards; }
 
-.animate-card-enter {
-  animation: cardSlideUp 0.3s ease-out forwards;
-}
-
-/* Staggered animation for lists */
+/* Staggered list animation */
 .stagger-animation > *:nth-child(1) { animation-delay: 0ms; }
 .stagger-animation > *:nth-child(2) { animation-delay: 50ms; }
 .stagger-animation > *:nth-child(3) { animation-delay: 100ms; }
 .stagger-animation > *:nth-child(4) { animation-delay: 150ms; }
 .stagger-animation > *:nth-child(5) { animation-delay: 200ms; }
 
-/* Fixed bottom navigation safe area */
+/* Fixed bottom nav */
 .fixed-bottom-nav {
   padding-bottom: env(safe-area-inset-bottom);
   bottom: 0;
 }
 
-/* Haptic-like visual feedback */
+/* Haptic feedback */
 @keyframes hapticPulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
 }
+.haptic-feedback:active { animation: hapticPulse 0.1s ease-out; }
 
-.haptic-feedback:active {
-  animation: hapticPulse 0.1s ease-out;
-}
-
-/* Improve focus states for accessibility */
-button:focus-visible,
-a:focus-visible,
-[role="button"]:focus-visible {
+/* Focus states */
+button:focus-visible, a:focus-visible, [role="button"]:focus-visible {
   outline: 2px solid hsl(var(--primary));
   outline-offset: 2px;
 }
 
-/* Prevent layout shift during loading */
-.skeleton-container {
-  contain: layout;
-}
+/* Layout shift prevention */
+.skeleton-container { contain: layout; }
 
-/* GPU acceleration for smooth animations */
+/* GPU acceleration */
 .gpu-accelerated {
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
 }
 
-/* Page slide animations for swipe navigation */
+/* Page slide animations */
 @keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-slide-in-left { animation: slideInLeft 0.25s ease-out forwards; }
+.animate-slide-in-right { animation: slideInRight 0.25s ease-out forwards; }
+
+/* ==================== Storybook Animations ==================== */
+
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
-.animate-slide-in-left {
-  animation: slideInLeft 0.25s ease-out forwards;
+@keyframes sprout {
+  0% { transform: scaleY(0) translateY(20px); opacity: 0; }
+  60% { transform: scaleY(1.05) translateY(-2px); opacity: 1; }
+  100% { transform: scaleY(1) translateY(0); opacity: 1; }
 }
 
-.animate-slide-in-right {
-  animation: slideInRight 0.25s ease-out forwards;
+@keyframes pageTurn {
+  0% { transform: perspective(800px) rotateY(0deg); }
+  100% { transform: perspective(800px) rotateY(-15deg); }
 }
