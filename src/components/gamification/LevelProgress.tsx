@@ -22,7 +22,6 @@ export const LevelProgress = ({
   const levelName = PointsService.getLevelName(level);
   const levelColor = PointsService.getLevelColor(level);
   
-  // Calculate progress percentage
   const currentLevelBase = level > 1 ? 
     [0, 500, 1500, 5000, 15000, 30000, 60000, 100000][level - 1] || 0 : 0;
   const nextLevelPoints = currentLevelBase + pointsToNextLevel;
@@ -39,9 +38,9 @@ export const LevelProgress = ({
           size={50}
           strokeWidth={6}
           color="url(#levelGradient)"
-          backgroundColor="#e2e8f0"
+          backgroundColor="hsl(var(--muted))"
         >
-          <div className="text-xs font-bold text-gray-700">
+          <div className="text-xs font-bold text-muted-foreground">
             L{level}
           </div>
         </CircularProgress>
@@ -50,7 +49,7 @@ export const LevelProgress = ({
           <div className={`text-sm font-semibold ${levelColor} truncate`}>
             {levelName}
           </div>
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-muted-foreground">
             还需 <AnimatedCounter value={pointsToNextLevel} /> 点数升级
           </div>
         </div>
@@ -58,8 +57,8 @@ export const LevelProgress = ({
         <svg width="0" height="0">
           <defs>
             <linearGradient id="levelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#667eea" />
-              <stop offset="100%" stopColor="#764ba2" />
+              <stop offset="0%" stopColor="hsl(var(--primary))" />
+              <stop offset="100%" stopColor="hsl(var(--accent))" />
             </linearGradient>
           </defs>
         </svg>
@@ -75,13 +74,13 @@ export const LevelProgress = ({
           size={120}
           strokeWidth={10}
           color="url(#levelGradient)"
-          backgroundColor="#e2e8f0"
+          backgroundColor="hsl(var(--muted))"
         >
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-800">
+            <div className="text-2xl font-bold text-foreground">
               {level}
             </div>
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-muted-foreground">
               等级
             </div>
           </div>
@@ -92,16 +91,16 @@ export const LevelProgress = ({
         {levelName}
       </div>
       
-      <div className="text-sm text-gray-600 space-y-1">
+      <div className="text-sm text-muted-foreground space-y-1">
         <div>
           总点数: <AnimatedCounter value={totalPoints} className="font-semibold" />
         </div>
         {pointsToNextLevel > 0 ? (
           <div>
-            升级还需: <AnimatedCounter value={pointsToNextLevel} className="font-semibold text-ios-blue" />
+            升级还需: <AnimatedCounter value={pointsToNextLevel} className="font-semibold text-primary" />
           </div>
         ) : (
-          <div className="text-manifest-gold font-semibold">
+          <div className="text-storybook-honey font-semibold">
             已达到最高等级！
           </div>
         )}
@@ -110,8 +109,8 @@ export const LevelProgress = ({
       <svg width="0" height="0">
         <defs>
           <linearGradient id="levelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#667eea" />
-            <stop offset="100%" stopColor="#764ba2" />
+            <stop offset="0%" stopColor="hsl(var(--primary))" />
+            <stop offset="100%" stopColor="hsl(var(--accent))" />
           </linearGradient>
         </defs>
       </svg>
