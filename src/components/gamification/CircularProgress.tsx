@@ -15,8 +15,8 @@ export const CircularProgress = ({
   value,
   size = 80,
   strokeWidth = 8,
-  color = '#667eea',
-  backgroundColor = '#e2e8f0',
+  color = 'hsl(var(--primary))',
+  backgroundColor = 'hsl(var(--muted))',
   children,
   className = ''
 }: CircularProgressProps) => {

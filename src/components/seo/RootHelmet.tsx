@@ -113,7 +113,7 @@ export const RootHelmet = () => {
       <meta name="twitter:image:alt" content={title} />
       
       {/* Mobile */}
-      <meta name="theme-color" content="#007AFF" />
+      <meta name="theme-color" content="hsl(38, 80%, 58%)" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-title" content={siteName} />

@@ -78,29 +78,29 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-storybook-cream via-background to-storybook-blush flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="flex items-center justify-between mb-8">
           <Link 
             to="/" 
-            className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+            className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             返回首页
           </Link>
           
           <div className="flex items-center space-x-2">
-            <Sparkles className="w-6 h-6 text-blue-500" />
-            <span className="text-xl font-bold text-gray-900">显化369</span>
+            <Sparkles className="w-6 h-6 text-primary" />
+            <span className="text-xl font-bold text-foreground">显化369</span>
           </div>
         </div>
 
         <Card className="border-0 shadow-xl">
           <CardHeader className="text-center pb-2">
-            <CardTitle className="text-2xl font-bold text-gray-900">
+            <CardTitle className="text-2xl font-bold text-foreground">
               {isSignUpMode ? '创建账户' : '欢迎回来'}
             </CardTitle>
-            <CardDescription className="text-gray-600">
+            <CardDescription className="text-muted-foreground">
               {isSignUpMode ? '开始您的显化之旅' : '继续您的显化练习'}
             </CardDescription>
           </CardHeader>
@@ -142,22 +142,22 @@ const Auth = () => {
                     {isLoading ? '注册中...' : '创建账户'}
                   </Button>
                 </form>
-                <p className="text-xs text-center text-gray-500 mt-4">
+                <p className="text-xs text-center text-muted-foreground mt-4">
                   注册即表示您同意我们的服务条款和隐私政策
                 </p>
               </TabsContent>
             </Tabs>
             
             <div className="mt-6 pt-4 border-t text-center">
-              <p className="text-sm text-gray-600">显化369 完全免费使用，无隐藏费用</p>
+              <p className="text-sm text-muted-foreground">显化369 完全免费使用，无隐藏费用</p>
             </div>
           </CardContent>
         </Card>
         
         <div className="mt-6 text-center">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             需要帮助？{' '}
-            <a href="https://x.com/edwin_uestc" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
+            <a href="https://x.com/edwin_uestc" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80">
               联系开发者
             </a>
           </p>

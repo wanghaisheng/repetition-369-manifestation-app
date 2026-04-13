@@ -45,11 +45,12 @@ export const KeywordDensityChecker: React.FC<KeywordDensityCheckerProps> = ({
   const getStatusIcon = (status: 'low' | 'optimal' | 'high') => {
     switch (status) {
       case 'low':
-        return <TrendingDown className="w-4 h-4 text-yellow-500" />;
+        return <TrendingDown className="w-4 h-4 text-storybook-honey" />;
       case 'optimal':
-        return <CheckCircle2 className="w-4 h-4 text-green-500" />;
+        return <CheckCircle2 className="w-4 h-4 text-storybook-sage" />;
       case 'high':
-        return <TrendingUp className="w-4 h-4 text-red-500" />;
+        return <TrendingUp className="w-4 h-4 text-destructive" />;
+    }
     }
   };
 
@@ -74,9 +75,9 @@ export const KeywordDensityChecker: React.FC<KeywordDensityCheckerProps> = ({
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 60) return 'text-yellow-600';
-    return 'text-red-600';
+    if (score >= 80) return 'text-storybook-sage';
+    if (score >= 60) return 'text-storybook-honey';
+    return 'text-destructive';
   };
 
   if (!content || parseKeywords(keywords).length === 0) {

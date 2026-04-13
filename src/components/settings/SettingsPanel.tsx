@@ -87,7 +87,7 @@ export const SettingsPanel = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-medium">{t('settingsPanel.performance.mode')}</h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     {t('settingsPanel.performance.modeDesc')}
                   </p>
                 </div>
@@ -106,18 +106,18 @@ export const SettingsPanel = () => {
                 </div>
                 
                 {memoryInfo && (
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-muted rounded-lg p-4">
                     <div className="grid grid-cols-3 gap-4 text-sm">
                       <div>
-                        <span className="text-gray-600">{t('settingsPanel.performance.used')}</span>
+                        <span className="text-muted-foreground">{t('settingsPanel.performance.used')}</span>
                         <div className="font-medium">{memoryInfo.used} {t('settingsPanel.performance.mb')}</div>
                       </div>
                       <div>
-                        <span className="text-gray-600">{t('settingsPanel.performance.total')}</span>
+                        <span className="text-muted-foreground">{t('settingsPanel.performance.total')}</span>
                         <div className="font-medium">{memoryInfo.total} {t('settingsPanel.performance.mb')}</div>
                       </div>
                       <div>
-                        <span className="text-gray-600">{t('settingsPanel.performance.limit')}</span>
+                        <span className="text-muted-foreground">{t('settingsPanel.performance.limit')}</span>
                         <div className="font-medium">{memoryInfo.limit} {t('settingsPanel.performance.mb')}</div>
                       </div>
                     </div>
@@ -136,14 +136,14 @@ export const SettingsPanel = () => {
             <CardContent className="space-y-4">
               <div>
                 <h3 className="font-medium mb-2">{t('settingsPanel.privacy.localData')}</h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-muted-foreground mb-4">
                   {t('settingsPanel.privacy.localDataDesc')}
                 </p>
               </div>
 
               <div className="border-t pt-4">
                 <h3 className="font-medium mb-2">{t('settingsPanel.privacy.clearData')}</h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-muted-foreground mb-4">
                   {t('settingsPanel.privacy.clearDataDesc')}
                 </p>
                 <Button onClick={() => setShowClearDataDialog(true)} variant="destructive">
@@ -162,21 +162,21 @@ export const SettingsPanel = () => {
             <CardContent className="space-y-4">
               <div>
                 <h3 className="font-medium">{t('settingsPanel.about.version')}</h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   {t('settingsPanel.about.versionNumber')}
                 </p>
               </div>
 
               <div>
                 <h3 className="font-medium">{t('settingsPanel.about.method369')}</h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   {t('settingsPanel.about.methodDesc')}
                 </p>
               </div>
 
               <div>
                 <h3 className="font-medium">{t('settingsPanel.about.techStack')}</h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   {t('settingsPanel.about.techStackInfo')}
                 </p>
               </div>
