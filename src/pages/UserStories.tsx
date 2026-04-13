@@ -107,13 +107,13 @@ const UserStories = () => {
 
   const getCategoryColor = (category: string) => {
     const colors = {
-      career: 'bg-blue-100 text-blue-800',
-      health: 'bg-green-100 text-green-800',
-      relationship: 'bg-pink-100 text-pink-800',
-      finance: 'bg-yellow-100 text-yellow-800',
-      personal: 'bg-purple-100 text-purple-800',
+      career: 'bg-primary/10 text-primary',
+      health: 'bg-storybook-sage/10 text-storybook-sage',
+      relationship: 'bg-storybook-coral/10 text-storybook-coral',
+      finance: 'bg-storybook-honey/10 text-storybook-honey',
+      personal: 'bg-accent/10 text-accent',
     };
-    return colors[category as keyof typeof colors] || 'bg-gray-100 text-gray-800';
+    return colors[category as keyof typeof colors] || 'bg-muted text-muted-foreground';
   };
 
   const handleSubmitStory = async (e: React.FormEvent) => {
@@ -430,7 +430,7 @@ const UserStories = () => {
                           </div>
                           <div className="flex items-center space-x-1">
                             {[...Array(5)].map((_, i) => (
-                              <Star key={i} className={`w-3 h-3 ${i < story.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
+                              <Star key={i} className={`w-3 h-3 ${i < story.rating ? 'fill-storybook-honey text-storybook-honey' : 'text-muted-foreground/30'}`} />
                             ))}
                           </div>
                         </div>

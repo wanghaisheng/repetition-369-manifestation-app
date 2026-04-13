@@ -49,8 +49,8 @@ export const WishCompletionCard = ({
           <div className="flex justify-between pt-2 border-t border-amber-200/50 dark:border-amber-800/50">
             <div className="flex-1 text-center">
               <div className="flex items-center justify-center gap-1">
-                <Star className="w-3 h-3 text-emerald-500 fill-emerald-500" />
-                <span className="text-base font-bold text-emerald-600 dark:text-emerald-400">{achievedWishes}</span>
+                <Star className="w-3 h-3 text-storybook-sage fill-storybook-sage" />
+                <span className="text-base font-bold text-storybook-sage">{achievedWishes}</span>
               </div>
               <div className="text-xs text-muted-foreground">{t('progress.achieved', '已实现')}</div>
             </div>
