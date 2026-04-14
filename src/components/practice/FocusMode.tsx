@@ -40,11 +40,7 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
 
   useEffect(() => {
     if (isOpen) {
-      setEntries([]);
-      setCurrentEntry('');
-      setShowCelebration(false);
-      setPointsEarned(0);
-      setStreakUpdated(false);
+      setEntries([]); setCurrentEntry(''); setShowCelebration(false); setPointsEarned(0); setStreakUpdated(false);
     }
   }, [isOpen]);
 
@@ -52,10 +48,7 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
     if (currentEntry.trim() && entries.length < period.target) {
       setEntries([...entries, currentEntry.trim()]);
       setCurrentEntry('');
-      
-      if (entries.length + 1 === period.target) {
-        setShowCelebration(true);
-      }
+      if (entries.length + 1 === period.target) setShowCelebration(true);
     }
   };
 
@@ -64,23 +57,13 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
       setIsCompleting(true);
       try {
         await onComplete(entries, 'good');
-        
         const basePoints = await addPoints('completeWriting', entries.length, t('focusMode.completedPractice', { title: period.title }));
         let totalPoints = basePoints;
-        
         const wasStreakUpdated = await updateStreak();
-        if (wasStreakUpdated) {
-          setStreakUpdated(true);
-        }
-        
+        if (wasStreakUpdated) setStreakUpdated(true);
         await checkAchievements();
-        
         setPointsEarned(totalPoints);
-        
-        setTimeout(() => {
-          onClose();
-        }, 2000);
-        
+        setTimeout(() => onClose(), 2000);
       } catch (error) {
         logger.error('Error completing practice', error);
         setIsCompleting(false);
@@ -92,93 +75,68 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg bg-card rounded-ios border-0 shadow-ios">
+      <DialogContent className="max-w-lg bg-card rounded-storybook-lg border-0 shadow-storybook-hover">
         <DialogHeader>
           <div className="flex items-center justify-between">
-            <DialogTitle className="text-lg font-semibold text-foreground">
-              {period.title}
-            </DialogTitle>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="rounded-ios"
-            >
+            <DialogTitle className="text-lg font-storybook font-semibold text-foreground">{period.title}</DialogTitle>
+            <Button variant="ghost" size="sm" onClick={onClose} className="rounded-storybook">
               <X className="w-4 h-4" />
             </Button>
           </div>
         </DialogHeader>
 
         <div className="space-y-6">
-          {/* Wish display */}
-          <div className="p-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-ios">
+          <div className="p-4 bg-gradient-to-r from-storybook-honey/5 to-storybook-coral/5 rounded-storybook">
             <h3 className="font-medium text-foreground mb-1">{t('focusMode.yourWish')}</h3>
             <p className="text-muted-foreground">{wish.affirmation}</p>
           </div>
 
-          {/* Progress */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium text-muted-foreground">
-                {t('focusMode.progressLabel')}: {entries.length}/{period.target}
-              </span>
-              <span className="text-sm text-muted-foreground">
-                {Math.round(progress)}%
-              </span>
+              <span className="text-sm font-medium text-muted-foreground">{t('focusMode.progressLabel')}: {entries.length}/{period.target}</span>
+              <span className="text-sm text-muted-foreground">{Math.round(progress)}%</span>
             </div>
             <Progress value={progress} className="h-2" />
           </div>
 
-          {/* Input area */}
           <div>
             <label className="block text-sm font-medium text-muted-foreground mb-2">
               {t('focusMode.writeEntry', { count: entries.length + 1 })}
             </label>
-            <Textarea
-              value={currentEntry}
-              onChange={(e) => setCurrentEntry(e.target.value)}
+            <Textarea value={currentEntry} onChange={(e) => setCurrentEntry(e.target.value)}
               placeholder={t('focusMode.writePlaceholder')}
-              className="min-h-24 rounded-ios border-border focus:ring-2 focus:ring-primary focus:border-transparent"
-              disabled={entries.length >= period.target}
-            />
-            <Button
-              onClick={handleAddEntry}
-              disabled={!currentEntry.trim() || entries.length >= period.target}
-              className="mt-3 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-ios"
-            >
+              className="min-h-24 rounded-storybook border-border focus:ring-2 focus:ring-storybook-honey focus:border-transparent"
+              disabled={entries.length >= period.target} />
+            <Button onClick={handleAddEntry} disabled={!currentEntry.trim() || entries.length >= period.target}
+              className="mt-3 bg-gradient-to-r from-storybook-honey to-storybook-coral text-white rounded-storybook">
               {t('focusMode.addEntry', { count: entries.length + 1 })}
             </Button>
           </div>
 
-          {/* Completed entries */}
           {entries.length > 0 && (
             <div className="max-h-40 overflow-y-auto space-y-2">
               <h4 className="text-sm font-medium text-muted-foreground">{t('focusMode.completedEntries')}</h4>
               {entries.map((entry, index) => (
-                <div key={index} className="flex items-start space-x-2 p-2 bg-success/10 rounded-ios">
-                  <CheckCircle className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                <div key={index} className="flex items-start space-x-2 p-2 bg-storybook-sage/10 rounded-storybook">
+                  <CheckCircle className="w-4 h-4 text-storybook-sage mt-0.5 flex-shrink-0" />
                   <p className="text-sm text-muted-foreground flex-1">{entry}</p>
                 </div>
               ))}
             </div>
           )}
 
-          {/* Celebration */}
           {showCelebration && (
-            <div className="text-center p-4 bg-gradient-to-r from-warning/10 to-accent/10 rounded-ios">
-              <Sparkles className="w-8 h-8 text-warning mx-auto mb-2" />
-              <p className="text-lg font-semibold text-foreground mb-1">{t('focusMode.congratulations')}</p>
-              <p className="text-sm text-muted-foreground mb-3">
-                {t('focusMode.completedSession', { target: period.target })}
-              </p>
-              
+            <div className="text-center p-4 bg-gradient-to-r from-storybook-honey/10 to-storybook-coral/10 rounded-storybook">
+              <Sparkles className="w-8 h-8 text-storybook-honey mx-auto mb-2" />
+              <p className="text-lg font-storybook font-semibold text-foreground mb-1">{t('focusMode.congratulations')}</p>
+              <p className="text-sm text-muted-foreground mb-3">{t('focusMode.completedSession', { target: period.target })}</p>
               <div className="flex items-center justify-center space-x-4 text-sm">
-                <div className="flex items-center space-x-1 text-warning">
+                <div className="flex items-center space-x-1 text-storybook-honey">
                   <Star className="w-4 h-4" />
                   <span>{t('focusMode.pointsEarned', { points: period.target * 10 })}</span>
                 </div>
                 {streakUpdated && (
-                  <div className="flex items-center space-x-1 text-accent">
+                  <div className="flex items-center space-x-1 text-storybook-coral">
                     <Flame className="w-4 h-4" />
                     <span>{t('focusMode.streakUpdated')}</span>
                   </div>
@@ -187,13 +145,9 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
             </div>
           )}
 
-          {/* Complete button */}
           {entries.length === period.target && (
-            <Button
-              onClick={handleComplete}
-              disabled={isCompleting}
-              className="w-full bg-gradient-to-r from-success to-primary text-primary-foreground rounded-ios"
-            >
+            <Button onClick={handleComplete} disabled={isCompleting}
+              className="w-full bg-gradient-to-r from-storybook-sage to-storybook-honey text-white rounded-storybook">
               {isCompleting ? t('focusMode.savingProgress') : t('focusMode.completePractice')}
             </Button>
           )}

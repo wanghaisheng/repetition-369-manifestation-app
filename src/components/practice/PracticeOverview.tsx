@@ -1,4 +1,5 @@
 
+import { useTranslation } from 'react-i18next';
 import { CheckCircle2, Circle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { TimeSlot } from '@/types';
@@ -24,9 +25,11 @@ export const PracticeOverview = ({
   todayProgress,
   currentPeriod
 }: PracticeOverviewProps) => {
+  const { t } = useTranslation('app');
+
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-gray-800">今日总览</h3>
+      <h3 className="text-lg font-storybook font-semibold text-foreground">{t('practiceOverview.todayTitle')}</h3>
       {Object.entries(periods).map(([periodKey, period]) => {
         const Icon = period.icon;
         const progress = todayProgress[periodKey as keyof typeof todayProgress];
@@ -36,34 +39,34 @@ export const PracticeOverview = ({
         return (
           <Card 
             key={periodKey} 
-            className={`p-4 border-0 shadow-ios rounded-ios ${
-              isCurrentPeriod ? 'ring-2 ring-ios-blue ring-opacity-50' : ''
+            className={`p-4 border-0 shadow-storybook rounded-storybook-lg ${
+              isCurrentPeriod ? 'ring-2 ring-storybook-honey ring-opacity-50' : ''
             }`}
           >
             <div className="flex items-center space-x-4">
-              <div className={`w-12 h-12 rounded-ios bg-gradient-to-br ${period.color} flex items-center justify-center`}>
+              <div className={`w-12 h-12 rounded-storybook bg-gradient-to-br ${period.color} flex items-center justify-center`}>
                 <Icon className="w-6 h-6 text-white" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center space-x-2">
-                  <h4 className="font-medium text-gray-800">{period.title}</h4>
+                  <h4 className="font-medium text-foreground">{period.title}</h4>
                   {isCurrentPeriod && (
-                    <span className="text-xs bg-ios-blue text-white px-2 py-1 rounded-full">
-                      当前
+                    <span className="text-xs bg-storybook-honey text-white px-2 py-1 rounded-full">
+                      {t('practiceOverview.current')}
                     </span>
                   )}
                 </div>
                 <div className="flex items-center space-x-4 mt-1">
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-muted-foreground">
                     {progress.completed} / {progress.target}
                   </span>
                   <div className="flex space-x-1">
                     {Array.from({ length: progress.target }, (_, i) => (
                       <div key={i}>
                         {i < progress.completed ? (
-                          <CheckCircle2 className="w-4 h-4 text-ios-green" />
+                          <CheckCircle2 className="w-4 h-4 text-storybook-sage" />
                         ) : (
-                          <Circle className="w-4 h-4 text-gray-300" />
+                          <Circle className="w-4 h-4 text-muted-foreground/30" />
                         )}
                       </div>
                     ))}
@@ -71,7 +74,7 @@ export const PracticeOverview = ({
                 </div>
               </div>
               {isPeriodCompleted && (
-                <CheckCircle2 className="w-6 h-6 text-ios-green" />
+                <CheckCircle2 className="w-6 h-6 text-storybook-sage" />
               )}
             </div>
           </Card>
