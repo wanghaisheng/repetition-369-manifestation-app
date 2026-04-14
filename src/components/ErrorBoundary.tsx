@@ -27,13 +27,13 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="min-h-screen flex items-center justify-center bg-background">
           <div className="text-center p-8">
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">出现了一些问题</h1>
-            <p className="text-gray-600 mb-6">应用遇到了错误，正在尝试恢复...</p>
+            <h1 className="text-2xl font-bold text-foreground mb-4">出现了一些问题</h1>
+            <p className="text-muted-foreground mb-6">应用遇到了错误，正在尝试恢复...</p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 rounded-storybook"
             >
               刷新页面
             </button>

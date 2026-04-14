@@ -22,33 +22,33 @@ export const StatsCarousel = ({
       icon: Target,
       value: totalWishes,
       label: t('progress.totalWishes', '总愿望'),
-      gradient: 'from-blue-500/20 to-indigo-500/20',
-      iconColor: 'text-blue-500',
-      iconBg: 'bg-blue-500/10'
+      gradient: 'from-storybook-honey/20 to-storybook-coral/20',
+      iconColor: 'text-storybook-honey',
+      iconBg: 'bg-storybook-honey/10'
     },
     {
       icon: Award,
       value: achievedWishes,
       label: t('progress.achieved', '已实现'),
-      gradient: 'from-emerald-500/20 to-green-500/20',
-      iconColor: 'text-emerald-500',
-      iconBg: 'bg-emerald-500/10'
+      gradient: 'from-storybook-sage/20 to-storybook-sage/10',
+      iconColor: 'text-storybook-sage',
+      iconBg: 'bg-storybook-sage/10'
     },
     {
       icon: Activity,
       value: totalSessions,
       label: t('progress.totalPractices', '总练习'),
-      gradient: 'from-amber-500/20 to-orange-500/20',
-      iconColor: 'text-amber-500',
-      iconBg: 'bg-amber-500/10'
+      gradient: 'from-storybook-coral/20 to-storybook-honey/20',
+      iconColor: 'text-storybook-coral',
+      iconBg: 'bg-storybook-coral/10'
     },
     {
       icon: Flame,
       value: longestStreak,
       label: t('progress.longestStreak', '最长连续'),
-      gradient: 'from-rose-500/20 to-pink-500/20',
-      iconColor: 'text-rose-500',
-      iconBg: 'bg-rose-500/10'
+      gradient: 'from-storybook-honey/20 to-storybook-blush/30',
+      iconColor: 'text-storybook-honey',
+      iconBg: 'bg-storybook-honey/10'
     }
   ];
 
@@ -57,13 +57,13 @@ export const StatsCarousel = ({
       {stats.map((stat, index) => (
         <Card 
           key={index}
-          className={`flex-shrink-0 w-[calc(25%-0.75rem)] min-w-[100px] p-3 border-0 shadow-md bg-gradient-to-br ${stat.gradient} backdrop-blur-sm`}
+          className={`flex-shrink-0 w-[calc(25%-0.75rem)] min-w-[100px] p-3 border-0 shadow-storybook bg-gradient-to-br ${stat.gradient} backdrop-blur-sm rounded-storybook-lg`}
         >
           <div className="flex flex-col items-center text-center space-y-2">
-            <div className={`${stat.iconBg} rounded-xl p-2`}>
+            <div className={`${stat.iconBg} rounded-storybook p-2`}>
               <stat.icon className={`w-4 h-4 ${stat.iconColor}`} />
             </div>
-            <div className="text-xl font-bold text-foreground">{stat.value}</div>
+            <div className="text-xl font-storybook font-bold text-foreground">{stat.value}</div>
             <div className="text-xs text-muted-foreground font-medium">{stat.label}</div>
           </div>
         </Card>

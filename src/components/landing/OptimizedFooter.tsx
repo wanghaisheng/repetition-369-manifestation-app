@@ -19,34 +19,14 @@ export const OptimizedFooter = () => {
   const { t } = useTranslation(['landing', 'common']);
 
   const socialLinks = [
-    {
-      name: 'Twitter',
-      url: 'https://x.com/edwin_uestc',
-      icon: Twitter
-    },
-    {
-      name: 'GitHub',
-      url: 'https://github.com/wanghaisheng',
-      icon: Github
-    },
-    {
-      name: 'LinkedIn',
-      url: 'https://www.linkedin.com/in/wanghaisheng/',
-      icon: Linkedin
-    }
+    { name: 'Twitter', url: 'https://x.com/edwin_uestc', icon: Twitter },
+    { name: 'GitHub', url: 'https://github.com/wanghaisheng', icon: Github },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/wanghaisheng/', icon: Linkedin }
   ];
 
   const supportLinks = [
-    {
-      name: t('support.platforms.kofi'),
-      url: 'https://ko-fi.com/tiktoka33697',
-      icon: Coffee
-    },
-    {
-      name: t('support.platforms.patreon'),
-      url: 'https://patreon.com/wanghaisheng',
-      icon: Heart
-    }
+    { name: t('support.platforms.kofi'), url: 'https://ko-fi.com/tiktoka33697', icon: Coffee },
+    { name: t('support.platforms.patreon'), url: 'https://patreon.com/wanghaisheng', icon: Heart }
   ];
 
   const footerLinks = {
@@ -70,43 +50,35 @@ export const OptimizedFooter = () => {
     legal: [
       { name: t('common:footer.privacy'), href: '/privacy' },
       { name: t('common:footer.terms'), href: '/terms' }
-      // Removed dead links: /cookies and /security (pages don't exist)
     ]
   };
 
   return (
-    <footer className="bg-section-alt border-t border-border">
+    <footer className="bg-storybook-cream/30 border-t border-border paper-texture">
       <div className="container mx-auto px-4 py-16">
-        {/* Main Footer Content */}
         <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-8 mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-primary-foreground" />
+              <div className="w-8 h-8 bg-gradient-to-br from-storybook-honey to-storybook-coral rounded-storybook flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-foreground">{t('common:appName')}</span>
+              <span className="text-xl font-storybook font-bold text-foreground">{t('common:appName')}</span>
             </div>
             <p className="text-muted-foreground mb-6 leading-relaxed">
               {t('hero.subtitle')}
             </p>
             
-            {/* Social Links */}
             <div className="flex space-x-3">
               {socialLinks.map((link) => (
                 <Button
                   key={link.name}
                   variant="outline"
                   size="icon"
-                  className="hover:bg-primary hover:text-primary-foreground transition-colors"
+                  className="hover:bg-storybook-honey hover:text-white hover:border-storybook-honey transition-colors rounded-storybook"
                   asChild
                 >
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={link.name}
-                  >
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
                     <link.icon className="w-4 h-4" />
                   </a>
                 </Button>
@@ -116,16 +88,11 @@ export const OptimizedFooter = () => {
 
           {/* Product Links */}
           <div>
-            <h3 className="font-semibold text-foreground mb-4">
-              {t('common:footer.product')}
-            </h3>
+            <h3 className="font-storybook font-semibold text-foreground mb-4">{t('common:footer.product')}</h3>
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                  >
+                  <a href={link.href} className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                     {link.name}
                   </a>
                 </li>
@@ -135,24 +102,16 @@ export const OptimizedFooter = () => {
 
           {/* Company Links */}
           <div>
-            <h3 className="font-semibold text-foreground mb-4">
-              {t('common:footer.company')}
-            </h3>
+            <h3 className="font-storybook font-semibold text-foreground mb-4">{t('common:footer.company')}</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   {link.href.startsWith('/') ? (
-                    <Link
-                      to={link.href}
-                      className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                    >
+                    <Link to={link.href} className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                       {link.name}
                     </Link>
                   ) : (
-                    <a
-                      href={link.href}
-                      className="text-muted-foreground hover:text-foreground transition-colors text-sm flex items-center space-x-1"
-                    >
+                    <a href={link.href} className="text-muted-foreground hover:text-foreground transition-colors text-sm flex items-center space-x-1">
                       <span>{link.name}</span>
                       {link.href.includes('mailto:') && <Mail className="w-3 h-3" />}
                     </a>
@@ -162,26 +121,18 @@ export const OptimizedFooter = () => {
             </ul>
           </div>
 
-          {/* Support & Help */}
+          {/* Support */}
           <div>
-            <h3 className="font-semibold text-foreground mb-4">
-              {t('common:footer.support')}
-            </h3>
+            <h3 className="font-storybook font-semibold text-foreground mb-4">{t('common:footer.support')}</h3>
             <ul className="space-y-3">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
                   {link.href.startsWith('/') ? (
-                    <Link
-                      to={link.href}
-                      className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                    >
+                    <Link to={link.href} className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                       {link.name}
                     </Link>
                   ) : (
-                    <a
-                      href={link.href}
-                      className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                    >
+                    <a href={link.href} className="text-muted-foreground hover:text-foreground transition-colors text-sm">
                       {link.name}
                     </a>
                   )}
@@ -192,34 +143,21 @@ export const OptimizedFooter = () => {
 
           {/* Donation Links */}
           <div>
-            <h3 className="font-semibold text-foreground mb-4">
-              {t('landing:support.title')}
-            </h3>
+            <h3 className="font-storybook font-semibold text-foreground mb-4">{t('landing:support.title')}</h3>
             <div className="space-y-3 mb-6">
               {supportLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
+                <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                   <link.icon className="w-4 h-4" />
                   <span>{link.name}</span>
                 </a>
               ))}
             </div>
 
-            <h4 className="font-medium text-foreground mb-3 text-sm">
-              {t('common:footer.legal')}
-            </h4>
+            <h4 className="font-medium text-foreground mb-3 text-sm">{t('common:footer.legal')}</h4>
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-xs flex items-center space-x-1"
-                  >
+                  <a href={link.href} className="text-muted-foreground hover:text-foreground transition-colors text-xs flex items-center space-x-1">
                     <FileText className="w-3 h-3" />
                     <span>{link.name}</span>
                   </a>
@@ -231,7 +169,6 @@ export const OptimizedFooter = () => {
 
         <Separator className="my-8" />
 
-        {/* Bottom Footer */}
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="flex items-center space-x-4 text-sm text-muted-foreground">
             <p>{t('common:footer.copyright')}</p>

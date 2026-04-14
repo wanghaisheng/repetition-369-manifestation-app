@@ -15,13 +15,13 @@ export const OptimizedFeatures = () => {
   const icons = [Target, Bell, TrendingUp, Users, Zap, Shield, Heart, Smartphone];
 
   return (
-    <section className="py-24 px-4 bg-section-alt">
+    <section className="py-24 px-4 bg-storybook-cream/30 paper-texture">
       <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-16">
-          <Badge variant="outline" className="mb-4 px-4 py-2">
+          <Badge variant="outline" className="mb-4 px-4 py-2 rounded-storybook border-storybook-honey/30">
             {t('features.badge')}
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+          <h2 className="text-4xl md:text-5xl font-storybook font-bold text-foreground mb-6">
             {t('features.title')}
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -36,13 +36,13 @@ export const OptimizedFeatures = () => {
             return (
               <Card 
                 key={index} 
-                className="group border-0 shadow-sm hover:shadow-xl transition-all duration-500 transform hover:scale-105 bg-card/80 backdrop-blur-sm"
+                className="group border-0 shadow-storybook hover:shadow-storybook-hover transition-all duration-500 transform hover:scale-105 bg-card/80 backdrop-blur-sm rounded-storybook-lg"
               >
                 <CardHeader className="text-center pb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-6 transition-transform duration-300">
-                    <Icon className="w-8 h-8 text-primary-foreground" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-storybook-honey to-storybook-coral rounded-storybook-lg flex items-center justify-center mx-auto mb-4 group-hover:rotate-6 transition-transform duration-300">
+                    <Icon className="w-8 h-8 text-white" />
                   </div>
-                  <CardTitle className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+                  <CardTitle className="text-lg font-storybook font-semibold text-foreground group-hover:text-storybook-honey transition-colors">
                     {feature.title}
                   </CardTitle>
                 </CardHeader>
@@ -58,8 +58,8 @@ export const OptimizedFeatures = () => {
 
         {/* Feature highlight section */}
         <div className="mt-20 text-center">
-          <div className="bg-section-highlight rounded-3xl p-8 md:p-12 border border-border">
-            <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+          <div className="bg-storybook-blush/30 rounded-storybook-lg p-8 md:p-12 border border-storybook-coral/10">
+            <h3 className="text-2xl md:text-3xl font-storybook font-bold text-foreground mb-4">
               {t('features.highlight.title')}
             </h3>
             <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
@@ -72,7 +72,7 @@ export const OptimizedFeatures = () => {
                 { icon: Heart, text: t('features.highlight.items.loved') },
                 { icon: Smartphone, text: t('features.highlight.items.mobile') }
               ].map((item, index) => (
-                <Badge key={index} variant="secondary" className="px-4 py-2 text-sm font-medium">
+                <Badge key={index} variant="secondary" className="px-4 py-2 text-sm font-medium rounded-storybook">
                   <item.icon className="w-4 h-4 mr-2" />
                   {item.text}
                 </Badge>
