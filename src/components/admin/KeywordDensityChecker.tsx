@@ -51,7 +51,6 @@ export const KeywordDensityChecker: React.FC<KeywordDensityCheckerProps> = ({
       case 'high':
         return <TrendingUp className="w-4 h-4 text-destructive" />;
     }
-    }
   };
 
   const getStatusBadge = (status: 'low' | 'optimal' | 'high') => {
