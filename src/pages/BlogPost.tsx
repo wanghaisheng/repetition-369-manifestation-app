@@ -70,7 +70,6 @@ const BlogPostPage = () => {
   const fetchPost = async () => {
     setLoading(true);
     try {
-      // Fetch the main post
       const { data: postData, error: postError } = await supabase
         .from('blog_posts')
         .select('*')
@@ -84,13 +83,11 @@ const BlogPostPage = () => {
       if (postData) {
         setPost(postData);
         
-        // Increment view count
         await supabase
           .from('blog_posts')
           .update({ view_count: (postData.view_count || 0) + 1 })
           .eq('id', postData.id);
 
-        // Fetch related posts
         const { data: relatedData } = await supabase
           .from('blog_posts')
           .select('id, title, slug, excerpt, author, category, created_at, reading_time, tags, view_count')
@@ -103,7 +100,6 @@ const BlogPostPage = () => {
         setRelatedPosts(relatedData || []);
       }
     } catch (error) {
-      console.error('Error fetching blog post:', error);
       toast.error(i18n.language === 'zh' ? '文章加载失败' : 'Failed to load article');
     } finally {
       setLoading(false);
@@ -141,7 +137,6 @@ const BlogPostPage = () => {
           toast.success(i18n.language === 'zh' ? '链接已复制到剪贴板' : 'Link copied to clipboard');
           return;
         } catch (error) {
-          console.error('Failed to copy link:', error);
           toast.error(i18n.language === 'zh' ? '复制失败' : 'Failed to copy link');
           return;
         }
@@ -154,11 +149,10 @@ const BlogPostPage = () => {
     }
   };
 
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-        <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b">
+        <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Link to="/blog">
@@ -168,14 +162,13 @@ const BlogPostPage = () => {
                 </Button>
               </Link>
               <div className="flex items-center space-x-2">
-                <Sparkles className="w-8 h-8 text-primary" />
-                <span className="text-2xl font-bold text-foreground">{t('appName')}</span>
+                <Sparkles className="w-8 h-8 text-storybook-honey" />
+                <span className="text-2xl font-storybook font-bold text-foreground">{t('appName')}</span>
               </div>
             </div>
             <LanguageSwitcher />
           </div>
         </header>
-
         <div className="container mx-auto px-4 py-8 max-w-4xl">
           <SkeletonLoader variant="text" width="60%" height={40} className="mb-4" />
           <SkeletonLoader variant="text" width="40%" height={20} className="mb-8" />
@@ -190,14 +183,14 @@ const BlogPostPage = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-foreground mb-4">
+          <h1 className="text-4xl font-storybook font-bold text-foreground mb-4">
             {t('app:blogPost.articleNotFound')}
           </h1>
           <p className="text-muted-foreground mb-6">
             {t('app:blogPost.checkUrl')}
           </p>
           <Link to="/blog">
-            <Button>
+            <Button className="rounded-storybook">
               <ArrowLeft className="w-4 h-4 mr-2" />
               {t('app:blogPost.backToBlog')}
             </Button>
@@ -209,7 +202,7 @@ const BlogPostPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b">
+      <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link to="/blog">
@@ -219,34 +212,32 @@ const BlogPostPage = () => {
               </Button>
             </Link>
             <div className="flex items-center space-x-2">
-              <Sparkles className="w-8 h-8 text-primary" />
-              <span className="text-2xl font-bold text-foreground">{t('appName')}</span>
+              <Sparkles className="w-8 h-8 text-storybook-honey" />
+              <span className="text-2xl font-storybook font-bold text-foreground">{t('appName')}</span>
             </div>
           </div>
-          
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
             <Link to="/auth">
-              <Button>{t('buttons.getStarted')}</Button>
+              <Button className="rounded-storybook">{t('buttons.getStarted')}</Button>
             </Link>
           </div>
         </div>
       </header>
 
       <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Article Header */}
         <article>
           <header className="mb-8">
             <div className="flex items-center gap-2 mb-4">
-              <Badge variant="secondary">{post.category}</Badge>
+              <Badge variant="secondary" className="rounded-storybook">{post.category}</Badge>
               {post.tags.slice(0, 3).map((tag) => (
-                <Badge key={tag} variant="outline" className="text-xs">
+                <Badge key={tag} variant="outline" className="text-xs rounded-storybook">
                   {tag}
                 </Badge>
               ))}
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-storybook font-bold text-foreground mb-6 leading-tight">
               {post.title}
             </h1>
             
@@ -277,56 +268,35 @@ const BlogPostPage = () => {
               <span className="text-sm text-muted-foreground mr-2">
                 {i18n.language === 'zh' ? '分享：' : 'Share:'}
               </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => sharePost('twitter')}
-                className="hover:bg-blue-50 hover:text-blue-600"
-              >
+              <Button variant="outline" size="sm" onClick={() => sharePost('twitter')} className="hover:bg-storybook-cream rounded-storybook">
                 <Twitter className="w-4 h-4" />
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => sharePost('linkedin')}
-                className="hover:bg-blue-50 hover:text-blue-700"
-              >
+              <Button variant="outline" size="sm" onClick={() => sharePost('linkedin')} className="hover:bg-storybook-cream rounded-storybook">
                 <Linkedin className="w-4 h-4" />
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => sharePost('facebook')}
-                className="hover:bg-blue-50 hover:text-blue-800"
-              >
+              <Button variant="outline" size="sm" onClick={() => sharePost('facebook')} className="hover:bg-storybook-cream rounded-storybook">
                 <Facebook className="w-4 h-4" />
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => sharePost('copy')}
-                className="hover:bg-gray-50"
-              >
+              <Button variant="outline" size="sm" onClick={() => sharePost('copy')} className="hover:bg-storybook-cream rounded-storybook">
                 <LinkIcon className="w-4 h-4" />
               </Button>
             </div>
           </header>
 
-          {/* Article Content */}
           <MarkdownRenderer content={post.content} />
         </article>
 
         {/* Related Posts */}
         {relatedPosts.length > 0 && (
           <section className="mt-16">
-            <h2 className="text-3xl font-bold text-foreground mb-8">
+            <h2 className="text-3xl font-storybook font-bold text-foreground mb-8">
               {i18n.language === 'zh' ? '相关文章' : 'Related Articles'}
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {relatedPosts.map((relatedPost) => (
-                <Card key={relatedPost.id} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group">
+                <Card key={relatedPost.id} className="border-0 shadow-storybook hover:shadow-storybook-hover transition-all duration-300 group rounded-storybook-lg">
                   <CardHeader>
-                    <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                    <CardTitle className="text-lg font-storybook group-hover:text-storybook-honey transition-colors">
                       <Link to={`/blog/${relatedPost.slug}`}>
                         {relatedPost.title}
                       </Link>
@@ -351,8 +321,8 @@ const BlogPostPage = () => {
         )}
 
         {/* Newsletter CTA */}
-        <section className="mt-16 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl p-8 text-center">
-          <h2 className="text-3xl font-bold text-foreground mb-4">
+        <section className="mt-16 bg-gradient-to-r from-storybook-honey/10 via-storybook-coral/5 to-storybook-honey/10 rounded-storybook-lg p-8 text-center">
+          <h2 className="text-3xl font-storybook font-bold text-foreground mb-4">
             {i18n.language === 'zh' ? '喜欢这篇文章？' : 'Enjoyed This Article?'}
           </h2>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
@@ -362,7 +332,7 @@ const BlogPostPage = () => {
             }
           </p>
           <Link to="/newsletter">
-            <Button size="lg" className="px-8 py-4 text-lg">
+            <Button size="lg" className="px-8 py-4 text-lg rounded-storybook-lg">
               <Sparkles className="w-5 h-5 mr-2" />
               {i18n.language === 'zh' ? '立即订阅' : 'Subscribe Now'}
             </Button>
