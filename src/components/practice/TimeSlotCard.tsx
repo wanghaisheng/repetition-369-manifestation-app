@@ -18,23 +18,23 @@ interface TimeSlotCardProps {
 const slotConfig = {
   morning: {
     icon: Sun,
-    gradient: 'from-amber-400 via-orange-400 to-rose-400',
-    bgGradient: 'from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30',
-    accentColor: 'text-amber-600 dark:text-amber-400',
+    gradient: 'from-storybook-honey via-storybook-coral to-storybook-coral',
+    bgGradient: 'from-storybook-cream/50 to-storybook-blush/30',
+    accentColor: 'text-storybook-honey',
     time: '06:00 - 12:00'
   },
   afternoon: {
     icon: Sunset,
-    gradient: 'from-orange-400 via-rose-400 to-purple-400',
-    bgGradient: 'from-orange-50 to-rose-50 dark:from-orange-950/30 dark:to-rose-950/30',
-    accentColor: 'text-rose-600 dark:text-rose-400',
+    gradient: 'from-storybook-coral via-storybook-coral to-storybook-honey',
+    bgGradient: 'from-storybook-blush/30 to-storybook-cream/50',
+    accentColor: 'text-storybook-coral',
     time: '12:00 - 18:00'
   },
   evening: {
     icon: Moon,
-    gradient: 'from-indigo-400 via-purple-400 to-violet-500',
-    bgGradient: 'from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30',
-    accentColor: 'text-indigo-600 dark:text-indigo-400',
+    gradient: 'from-storybook-sage via-storybook-sage to-storybook-bark/70',
+    bgGradient: 'from-storybook-sage/10 to-storybook-cream/30',
+    accentColor: 'text-storybook-sage',
     time: '18:00 - 24:00'
   }
 };
@@ -54,110 +54,97 @@ export const TimeSlotCard = ({
   const progressPercent = target > 0 ? Math.min((completed / target) * 100, 100) : 0;
 
   const slotNames = {
-    morning: t('practice.morningTitle', '晨间修行'),
-    afternoon: t('practice.afternoonTitle', '午间修行'),
-    evening: t('practice.eveningTitle', '晚间修行')
+    morning: t('practice.morningTitle'),
+    afternoon: t('practice.afternoonTitle'),
+    evening: t('practice.eveningTitle')
   };
 
   const slotDescriptions = {
-    morning: t('practice.morningDesc', '以清澈的意念开启新的一天'),
-    afternoon: t('practice.afternoonDesc', '在繁忙中保持内心的专注'),
-    evening: t('practice.eveningDesc', '带着感恩的心迎接夜晚')
+    morning: t('practice.morningDesc'),
+    afternoon: t('practice.afternoonDesc'),
+    evening: t('practice.eveningDesc')
   };
 
   return (
     <Card 
       className={cn(
-        "relative overflow-hidden border-0 shadow-lg transition-all duration-300",
-        isActive && !isCompleted && "ring-2 ring-primary/50 scale-[1.02]",
+        "relative overflow-hidden border-0 shadow-storybook transition-all duration-300 rounded-storybook-lg",
+        isActive && !isCompleted && "ring-2 ring-storybook-honey/50 scale-[1.02]",
         isCompleted && "opacity-80",
         `bg-gradient-to-br ${config.bgGradient}`
       )}
     >
-      {/* Completed overlay */}
       {isCompleted && (
-        <div className="absolute inset-0 bg-emerald-500/10 z-10" />
+        <div className="absolute inset-0 bg-storybook-sage/10 z-10" />
       )}
       
       <div className="relative p-4">
         <div className="flex items-start gap-4">
-          {/* Icon with gradient background */}
           <div className={cn(
-            "relative flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center",
+            "relative flex-shrink-0 w-14 h-14 rounded-storybook-lg flex items-center justify-center",
             `bg-gradient-to-br ${config.gradient}`,
-            "shadow-lg"
+            "shadow-storybook"
           )}>
             <Icon className="w-7 h-7 text-white" />
             {isCompleted && (
-              <div className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center shadow-md">
+              <div className="absolute -top-1 -right-1 w-5 h-5 bg-storybook-sage rounded-full flex items-center justify-center shadow-md">
                 <CheckCircle className="w-3.5 h-3.5 text-white" />
               </div>
             )}
           </div>
           
-          {/* Content */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-1">
-              <h3 className="font-semibold text-foreground">
-                {slotNames[slot]}
-              </h3>
+              <h3 className="font-storybook font-semibold text-foreground">{slotNames[slot]}</h3>
               {isActive && !isCompleted && (
-                <span className="text-xs font-medium px-2 py-0.5 bg-primary/20 text-primary rounded-full">
-                  {t('practice.currentSlot', '当前时段')}
+                <span className="text-xs font-medium px-2 py-0.5 bg-storybook-honey/20 text-storybook-honey rounded-full">
+                  {t('practice.currentSlot')}
                 </span>
               )}
             </div>
             
-            <p className="text-sm text-muted-foreground mb-2 line-clamp-1">
-              {slotDescriptions[slot]}
-            </p>
+            <p className="text-sm text-muted-foreground mb-2 line-clamp-1">{slotDescriptions[slot]}</p>
             
             <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
               <Clock className="w-3 h-3" />
               <span>{config.time}</span>
               <span className="text-muted-foreground/50">·</span>
-              <span>{target}× {t('practice.affirmations', '肯定句')}</span>
+              <span>{target}× {t('practice.affirmations')}</span>
             </div>
             
-            {/* Progress bar */}
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
-                <span className="text-xs text-muted-foreground">
-                  {t('practice.progress', '进度')}
-                </span>
-                <span className={cn("text-xs font-medium", config.accentColor)}>
-                  {completed}/{target}
-                </span>
+                <span className="text-xs text-muted-foreground">{t('practice.progress')}</span>
+                <span className={cn("text-xs font-medium", config.accentColor)}>{completed}/{target}</span>
               </div>
               <Progress value={progressPercent} className="h-2" />
             </div>
           </div>
         </div>
         
-        {/* Action button */}
         <div className="mt-4 flex justify-end">
           {isCompleted ? (
-            <div className="flex items-center gap-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+            <div className="flex items-center gap-1.5 text-sm font-medium text-storybook-sage">
               <CheckCircle className="w-4 h-4" />
-              <span>{t('practice.completedLabel', '已完成')}</span>
+              <span>{t('practice.completedLabel')}</span>
             </div>
           ) : isLocked ? (
-            <Button variant="outline" size="sm" disabled className="rounded-xl">
+            <Button variant="outline" size="sm" disabled className="rounded-storybook">
               <Lock className="w-4 h-4 mr-1.5" />
-              {t('practice.locked', '未到时间')}
+              {t('practice.locked')}
             </Button>
           ) : (
             <Button 
               size="sm" 
               onClick={onStart}
               className={cn(
-                "rounded-xl shadow-md transition-all",
+                "rounded-storybook shadow-storybook transition-all",
                 `bg-gradient-to-r ${config.gradient} hover:opacity-90`,
                 "text-white"
               )}
             >
               <Play className="w-4 h-4 mr-1.5" />
-              {t('practice.startNow', '开始修行')}
+              {t('practice.startNow')}
             </Button>
           )}
         </div>

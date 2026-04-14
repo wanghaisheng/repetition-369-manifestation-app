@@ -1,8 +1,10 @@
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Star, TrendingUp, Calendar } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { PointsService, UserPoints } from '@/services/PointsService';
+import { logger } from '@/utils/logger';
 
 interface PointsDisplayProps {
   userId: string;
@@ -10,28 +12,24 @@ interface PointsDisplayProps {
   showAnimation?: boolean;
 }
 
-export const PointsDisplay = ({ 
-  userId, 
-  variant = 'compact', 
-  showAnimation = true 
-}: PointsDisplayProps) => {
+export const PointsDisplay = ({ userId, variant = 'compact', showAnimation = true }: PointsDisplayProps) => {
+  const { t } = useTranslation('app');
   const [userPoints, setUserPoints] = useState<UserPoints | null>(null);
   const [loading, setLoading] = useState(true);
   const [animatePoints, setAnimatePoints] = useState(false);
 
-  const loadPoints = async () => {
-    try {
-      setLoading(true);
-      const points = await PointsService.getUserPoints(userId);
-      setUserPoints(points);
-    } catch (error) {
-      console.error('Error loading points:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const loadPoints = async () => {
+      try {
+        setLoading(true);
+        const points = await PointsService.getUserPoints(userId);
+        setUserPoints(points);
+      } catch (error) {
+        logger.error('Error loading points', error);
+      } finally {
+        setLoading(false);
+      }
+    };
     loadPoints();
   }, [userId]);
 
@@ -44,61 +42,48 @@ export const PointsDisplay = ({
   }, [userPoints?.totalPoints, showAnimation]);
 
   if (loading) {
-    return (
-      <div className="animate-pulse">
-        <div className="h-16 bg-gray-200 rounded-ios"></div>
-      </div>
-    );
+    return <div className="animate-pulse"><div className="h-16 bg-muted rounded-storybook" /></div>;
   }
-
   if (!userPoints) return null;
 
   if (variant === 'compact') {
     return (
-      <div className="flex items-center space-x-2 bg-gradient-to-r from-manifest-warm-gold/10 to-manifest-gold/10 px-4 py-2 rounded-ios">
-        <Star className="w-5 h-5 text-manifest-gold" />
-        <span className={`font-semibold text-gray-800 ${animatePoints ? 'animate-pulse scale-110' : ''} transition-all duration-300`}>
+      <div className="flex items-center space-x-2 bg-gradient-to-r from-storybook-honey/10 to-storybook-coral/10 px-4 py-2 rounded-storybook">
+        <Star className="w-5 h-5 text-storybook-honey" />
+        <span className={`font-semibold text-foreground ${animatePoints ? 'animate-pulse scale-110' : ''} transition-all duration-300`}>
           {userPoints.totalPoints.toLocaleString()}
         </span>
-        <span className="text-sm text-gray-600">点数</span>
+        <span className="text-sm text-muted-foreground">{t('points.label')}</span>
       </div>
     );
   }
 
   return (
-    <Card className="p-6 bg-gradient-to-br from-manifest-warm-gold/5 to-manifest-gold/5 border-manifest-gold/20">
+    <Card className="p-6 bg-gradient-to-br from-storybook-honey/5 to-storybook-coral/5 border-storybook-honey/20 rounded-storybook-lg">
       <div className="text-center mb-4">
-        <div className="w-16 h-16 bg-gradient-to-br from-manifest-warm-gold to-manifest-gold rounded-full flex items-center justify-center mx-auto mb-3">
+        <div className="w-16 h-16 bg-gradient-to-br from-storybook-honey to-storybook-coral rounded-full flex items-center justify-center mx-auto mb-3">
           <Star className="w-8 h-8 text-white" />
         </div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-1">我的点数</h3>
+        <h3 className="text-lg font-storybook font-semibold text-foreground mb-1">{t('points.myPoints')}</h3>
       </div>
-
       <div className="space-y-4">
-        {/* 总点数 */}
         <div className="text-center">
-          <div className={`text-3xl font-bold text-manifest-gold mb-1 ${animatePoints ? 'animate-bounce' : ''} transition-all duration-300`}>
+          <div className={`text-3xl font-storybook font-bold text-storybook-honey mb-1 ${animatePoints ? 'animate-bounce' : ''} transition-all duration-300`}>
             {userPoints.totalPoints.toLocaleString()}
           </div>
-          <div className="text-sm text-gray-600">累计点数</div>
+          <div className="text-sm text-muted-foreground">{t('points.total')}</div>
         </div>
-
-        {/* 今日点数 */}
-        <div className="flex items-center justify-between p-3 bg-white rounded-ios">
+        <div className="flex items-center justify-between p-3 bg-card rounded-storybook">
           <div className="flex items-center space-x-2">
-            <Calendar className="w-4 h-4 text-ios-blue" />
-            <span className="text-sm font-medium text-gray-700">今日获得</span>
+            <Calendar className="w-4 h-4 text-storybook-honey" />
+            <span className="text-sm font-medium text-muted-foreground">{t('points.todayEarned')}</span>
           </div>
-          <span className="font-semibold text-ios-blue">
-            +{userPoints.todayPoints}
-          </span>
+          <span className="font-semibold text-storybook-honey">+{userPoints.todayPoints}</span>
         </div>
-
-        {/* 趋势指示 */}
         {userPoints.pointsHistory.length > 0 && (
-          <div className="flex items-center justify-center space-x-2 text-ios-green">
+          <div className="flex items-center justify-center space-x-2 text-storybook-sage">
             <TrendingUp className="w-4 h-4" />
-            <span className="text-sm">持续成长中</span>
+            <span className="text-sm">{t('points.growing')}</span>
           </div>
         )}
       </div>

@@ -13,12 +13,12 @@ export const WishSelector = ({ wishes, selectedWishId, onWishChange }: WishSelec
   const { t } = useTranslation('app');
   
   return (
-    <Card className="mb-6 p-4 bg-white border-0 shadow-ios rounded-ios">
-      <h3 className="font-semibold text-gray-800 mb-3">{t('wishSelector.title')}</h3>
+    <Card className="mb-6 p-4 bg-card border-0 shadow-storybook rounded-storybook-lg">
+      <h3 className="font-storybook font-semibold text-foreground mb-3">{t('wishSelector.title')}</h3>
       <select
         value={selectedWishId}
         onChange={(e) => onWishChange(e.target.value)}
-        className="w-full p-3 border border-gray-200 rounded-ios focus:ring-2 focus:ring-ios-blue focus:border-transparent"
+        className="w-full p-3 border border-border rounded-storybook bg-background text-foreground focus:ring-2 focus:ring-storybook-honey focus:border-transparent"
       >
         <option value="">{t('wishSelector.placeholder')}</option>
         {wishes.map(wish => (
