@@ -1,4 +1,3 @@
-
 {
   "auth": {
     "signIn": "Sign In",
@@ -142,7 +141,14 @@
     "selectWish": "Select a wish to start today's 369 practice"
   },
   "notifications": {
-    "empty": "No notifications"
+    "empty": "No notifications",
+    "title": "Notifications",
+    "settings": "Notification Settings",
+    "practiceReminders": "Practice Reminders",
+    "streakProtection": "Streak Protection",
+    "achievements": "Achievements",
+    "dailySummary": "Daily Summary",
+    "clearAll": "Clear All"
   },
   "analytics": {
     "empty": "No analytics data"
@@ -551,5 +557,63 @@
     "progressTracking": "Progress Tracking",
     "progressTrackingDesc": "View manifestation progress",
     "communityExchange": "Exchange manifestation experiences"
+  },
+  "streak": {
+    "dayStreak": "Day Streak",
+    "record": "Record",
+    "consecutiveDays": "Consecutive Days",
+    "longestRecord": "Longest Record",
+    "days": "days",
+    "nextMilestone": "Next Milestone",
+    "daysUntilNext": "{{days}} days to go"
+  },
+  "achievement": {
+    "unlocked": "Unlocked",
+    "newAchievement": "New Achievement",
+    "pointsReward": "Points Reward",
+    "unlockFeatures": "Unlocked Features",
+    "awesome": "Awesome",
+    "points": "Points"
+  },
+  "milestone": {
+    "title": "Milestone Reached",
+    "subtitle": "Congrats on reaching a new height",
+    "consecutiveDays": "{{days}} consecutive days",
+    "pointsReward": "Points Reward",
+    "next": "Next Goal",
+    "awesome": "Keep going"
+  },
+  "points": {
+    "label": "Points",
+    "myPoints": "My Points",
+    "total": "Total",
+    "todayEarned": "Earned Today",
+    "growing": "Growing steadily"
+  },
+  "practiceOverview": {
+    "todayTitle": "Today's Practice",
+    "current": "Current"
+  },
+  "practiceTimer": {
+    "completed": "Completed",
+    "completedDesc": "This round is complete",
+    "title": "Practice Timer",
+    "repProgress": "Rep Progress",
+    "remaining": "Remaining",
+    "totalProgress": "Total Progress",
+    "start": "Start",
+    "pause": "Pause",
+    "reset": "Reset",
+    "tip": "Stay present and gently repeat your affirmation"
+  },
+  "practiceStats": {
+    "minutes": "min",
+    "seconds": "sec",
+    "todayProgress": "Today's Progress",
+    "complete": "Complete",
+    "streak": "Streak",
+    "streakDays": "days",
+    "weeklyRate": "Weekly Rate",
+    "timeSpent": "Time Spent"
   }
 }
