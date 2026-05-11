@@ -103,14 +103,16 @@ export const HeroOptimized = () => {
               </span>
             </Button>
           </Link>
-          <Button
-            variant="outline"
-            size="lg"
-            className="px-8 py-6 text-lg font-storybook font-semibold border-2 border-storybook-bark/15 hover:bg-storybook-cream rounded-storybook-lg animate-scale-in"
-          >
-            <PlayCircle className="w-5 h-5 mr-2" />
-            {t('hero.watchDemo')}
-          </Button>
+          <Link to="/try" className="group animate-scale-in">
+            <Button
+              variant="outline"
+              size="lg"
+              className="px-8 py-6 text-lg font-storybook font-semibold border-2 border-storybook-honey/40 text-storybook-bark hover:bg-storybook-cream rounded-storybook-lg"
+            >
+              <PlayCircle className="w-5 h-5 mr-2" />
+              {t('hero.tryNoSignup')}
+            </Button>
+          </Link>
         </div>
 
         {/* Urgency — soft storybook treatment */}

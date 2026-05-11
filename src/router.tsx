@@ -10,6 +10,7 @@ import { Route as blogIndexRoute } from './routes/blog/index';
 import { Route as blogSlugRoute } from './routes/blog/$slug';
 import { Route as userStoriesRoute } from './routes/user-stories';
 import { Route as authRoute } from './routes/auth';
+import { Route as tryRoute } from './routes/try';
 import { Route as localeRoute } from './routes/$locale';
 import { Route as localeIndexRoute } from './routes/$locale/index';
 import { Route as localeAboutRoute } from './routes/$locale/about';
@@ -37,6 +38,7 @@ const routeTree = rootRoute.addChildren([
   blogSlugRoute,
   userStoriesRoute,
   authRoute,
+  tryRoute,
   localeRoute.addChildren([
     localeIndexRoute,
     localeAboutRoute,
