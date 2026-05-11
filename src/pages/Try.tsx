@@ -1,0 +1,289 @@
+import { useState } from 'react';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+import { Sparkles, ArrowRight, ArrowLeft, Heart, Briefcase, Coins, Activity, Star, Pencil } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Card } from '@/components/ui/card';
+import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
+import { Wish, WishCategory, Mood } from '@/types';
+import { cn } from '@/lib/utils';
+
+type Step = 'category' | 'affirmation' | 'practice' | 'celebrate';
+
+const TRY_STORAGE_KEY = 'try-369-state';
+
+const categoryIcons: Record<string, any> = {
+  career: Briefcase,
+  wealth: Coins,
+  relationship: Heart,
+  health: Activity,
+};
+
+const categoryGradients: Record<string, string> = {
+  career: 'from-storybook-honey to-storybook-coral',
+  wealth: 'from-storybook-honey to-storybook-sage',
+  relationship: 'from-storybook-coral to-storybook-blush',
+  health: 'from-storybook-sage to-storybook-honey',
+};
+
+export default function Try() {
+  const { t } = useTranslation('landing');
+  const navigate = useNavigate();
+  const [step, setStep] = useState<Step>('category');
+  const [category, setCategory] = useState<WishCategory | null>(null);
+  const [affirmation, setAffirmation] = useState('');
+  const [editing, setEditing] = useState(false);
+
+  const categories: { key: WishCategory; label: string; desc: string }[] = [
+    { key: 'career', label: t('try.cat.career.label'), desc: t('try.cat.career.desc') },
+    { key: 'wealth', label: t('try.cat.wealth.label'), desc: t('try.cat.wealth.desc') },
+    { key: 'relationship', label: t('try.cat.relationship.label'), desc: t('try.cat.relationship.desc') },
+    { key: 'health', label: t('try.cat.health.label'), desc: t('try.cat.health.desc') },
+  ];
+
+  const getSuggestions = (cat: WishCategory): string[] => {
+    const list = t(`try.suggestions.${cat}`, { returnObjects: true }) as unknown;
+    return Array.isArray(list) ? (list as string[]) : [];
+  };
+
+  const handlePickCategory = (c: WishCategory) => {
+    setCategory(c);
+    setStep('affirmation');
+  };
+
+  const handlePickAffirmation = (text: string) => {
+    setAffirmation(text);
+  };
+
+  const handleStartPractice = () => {
+    if (!affirmation.trim()) return;
+    setStep('practice');
+  };
+
+  const trialWish: Wish = {
+    id: 'trial-wish',
+    userId: 'trial',
+    title: category ? t(`try.cat.${category}.label`) : '',
+    description: '',
+    category: category || 'personal',
+    status: 'active',
+    priority: 'medium',
+    affirmation,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    tags: [],
+  };
+
+  const handleComplete = async (entries: string[], mood: Mood) => {
+    try {
+      localStorage.setItem(
+        TRY_STORAGE_KEY,
+        JSON.stringify({
+          completedAt: new Date().toISOString(),
+          category,
+          affirmation,
+          entries,
+          mood,
+        })
+      );
+    } catch {
+      // localStorage may be disabled
+    }
+    setStep('celebrate');
+  };
+
+  return (
+    <div className="min-h-screen bg-background paper-texture">
+      {/* Header */}
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-background/80 border-b border-border/50">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-gradient-to-br from-storybook-honey to-storybook-coral rounded-storybook flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-storybook font-bold text-foreground">{t('try.brand')}</span>
+          </Link>
+          <Link to="/auth">
+            <Button variant="ghost" size="sm" className="rounded-storybook">
+              {t('try.skipToSignup')}
+            </Button>
+          </Link>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8 max-w-2xl">
+        {/* STEP 1 — Category */}
+        {step === 'category' && (
+          <div className="space-y-6 animate-fade-in">
+            <div className="text-center space-y-3">
+              <div className="inline-flex items-center px-4 py-1.5 rounded-storybook bg-storybook-cream border border-storybook-honey/30">
+                <span className="text-xs font-medium text-storybook-bark">{t('try.noSignup')}</span>
+              </div>
+              <h1 className="font-storybook text-3xl md:text-4xl font-bold text-storybook-bark leading-tight">
+                {t('try.step1.title')}
+              </h1>
+              <p className="text-muted-foreground">{t('try.step1.subtitle')}</p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {categories.map(({ key, label, desc }) => {
+                const Icon = categoryIcons[key] || Star;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => handlePickCategory(key)}
+                    className="group text-left"
+                  >
+                    <Card className="p-5 rounded-storybook-lg border-2 border-transparent hover:border-storybook-honey/40 hover:shadow-storybook-hover transition-all duration-300 bg-card/80 backdrop-blur">
+                      <div
+                        className={cn(
+                          'w-12 h-12 rounded-storybook flex items-center justify-center mb-3 bg-gradient-to-br',
+                          categoryGradients[key]
+                        )}
+                      >
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="font-storybook font-semibold text-foreground mb-1">{label}</div>
+                      <div className="text-sm text-muted-foreground">{desc}</div>
+                    </Card>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* STEP 2 — Affirmation */}
+        {step === 'affirmation' && category && (
+          <div className="space-y-6 animate-fade-in">
+            <button
+              onClick={() => setStep('category')}
+              className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4 mr-1" /> {t('try.back')}
+            </button>
+
+            <div className="text-center space-y-2">
+              <h2 className="font-storybook text-2xl md:text-3xl font-bold text-storybook-bark">
+                {t('try.step2.title')}
+              </h2>
+              <p className="text-muted-foreground text-sm">{t('try.step2.subtitle')}</p>
+            </div>
+
+            {!editing ? (
+              <>
+                <div className="space-y-3">
+                  {getSuggestions(category).map((s, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handlePickAffirmation(s)}
+                      className={cn(
+                        'w-full text-left p-4 rounded-storybook border-2 transition-all duration-300',
+                        affirmation === s
+                          ? 'border-storybook-honey bg-storybook-honey/10 shadow-storybook'
+                          : 'border-border bg-card/60 hover:border-storybook-honey/40'
+                      )}
+                    >
+                      <p className="font-storybook text-foreground leading-relaxed">{s}</p>
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => {
+                    setEditing(true);
+                    if (!affirmation) setAffirmation('');
+                  }}
+                  className="inline-flex items-center text-sm text-storybook-coral hover:text-storybook-coral/80"
+                >
+                  <Pencil className="w-4 h-4 mr-1" /> {t('try.step2.customize')}
+                </button>
+              </>
+            ) : (
+              <div className="space-y-3">
+                <Textarea
+                  value={affirmation}
+                  onChange={(e) => setAffirmation(e.target.value)}
+                  placeholder={t('try.step2.placeholder')}
+                  className="min-h-[120px] rounded-storybook border-2 focus:border-storybook-honey font-storybook text-base leading-relaxed"
+                  autoFocus
+                />
+                <button
+                  onClick={() => setEditing(false)}
+                  className="text-sm text-muted-foreground hover:text-foreground"
+                >
+                  {t('try.step2.useSuggestions')}
+                </button>
+              </div>
+            )}
+
+            <Button
+              onClick={handleStartPractice}
+              disabled={!affirmation.trim()}
+              size="lg"
+              className="w-full rounded-storybook-lg bg-gradient-to-r from-storybook-honey to-storybook-coral hover:opacity-90 text-white font-storybook font-semibold py-6 text-base"
+            >
+              {t('try.step2.cta')} <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </div>
+        )}
+
+        {/* STEP 4 — Celebrate */}
+        {step === 'celebrate' && (
+          <div className="space-y-6 animate-fade-in text-center pt-8">
+            <div className="inline-flex w-24 h-24 rounded-full bg-gradient-to-br from-storybook-honey to-storybook-coral items-center justify-center mx-auto animate-scale-in">
+              <Sparkles className="w-12 h-12 text-white" />
+            </div>
+            <h2 className="font-storybook text-3xl md:text-4xl font-bold text-storybook-bark">
+              {t('try.step4.title')}
+            </h2>
+            <p className="text-muted-foreground max-w-md mx-auto leading-relaxed">
+              {t('try.step4.subtitle')}
+            </p>
+
+            <Card className="p-5 rounded-storybook-lg bg-storybook-cream/50 border-storybook-honey/20 text-left max-w-md mx-auto">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
+                {t('try.step4.yourAffirmation')}
+              </p>
+              <p className="font-storybook text-foreground leading-relaxed">{affirmation}</p>
+            </Card>
+
+            <div className="space-y-3 pt-4 max-w-md mx-auto">
+              <Button
+                onClick={() => navigate({ to: '/auth' })}
+                size="lg"
+                className="w-full rounded-storybook-lg bg-gradient-to-r from-storybook-honey to-storybook-coral hover:opacity-90 text-white font-storybook font-semibold py-6 text-base"
+              >
+                {t('try.step4.signupCta')} <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+              <button
+                onClick={() => {
+                  setStep('category');
+                  setCategory(null);
+                  setAffirmation('');
+                  setEditing(false);
+                }}
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                {t('try.step4.tryAgain')}
+              </button>
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* Immersive Practice (full-screen overlay) */}
+      {step === 'practice' && category && (
+        <ImmersiveFocusMode
+          isOpen
+          onClose={() => setStep('affirmation')}
+          onComplete={handleComplete}
+          wish={trialWish}
+          timeSlot="morning"
+          target={3}
+        />
+      )}
+    </div>
+  );
+}
