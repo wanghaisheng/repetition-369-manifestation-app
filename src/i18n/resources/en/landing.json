@@ -26,7 +26,8 @@
     "urgencyBadge": "⚡ Limited: Early Users Get Forever Free Access",
     "newUsersJoined": "In the last 24 hours, ",
     "newUsersJoinedSuffix": " new users joined",
-    "earlyBadgeReward": "🏆 Early users get exclusive badges"
+    "earlyBadgeReward": "🏆 Early users get exclusive badges",
+    "tryNoSignup": "Try without signup"
   },
   "features": {
     "title": "Why Choose Manifest369?",
@@ -151,5 +152,70 @@
   },
   "nav": {
     "moreInfo": "Learn More"
+  },
+  "try": {
+    "brand": "Manifest 369",
+    "noSignup": "✨ No signup · 60-second taste",
+    "skipToSignup": "Skip to sign up",
+    "back": "Back",
+    "step1": {
+      "title": "Where do you want the universe to meet you today?",
+      "subtitle": "Pick the area closest to your heart right now"
+    },
+    "step2": {
+      "title": "Pick an affirmation, or write your own",
+      "subtitle": "It will guide you through the next 3 entries",
+      "customize": "Write my own",
+      "useSuggestions": "← See suggestions",
+      "placeholder": "e.g. I deserve a life full of love and abundance…",
+      "cta": "Start 3 morning entries"
+    },
+    "step4": {
+      "title": "You just completed your first practice ✨",
+      "subtitle": "This is only the start. Sign up to save progress, unlock all 18 daily entries, and track your streak and mood.",
+      "yourAffirmation": "The affirmation you just wrote",
+      "signupCta": "Save my progress",
+      "tryAgain": "Try another area"
+    },
+    "cat": {
+      "career": {
+        "label": "Career",
+        "desc": "Work, creation, recognition"
+      },
+      "wealth": {
+        "label": "Abundance",
+        "desc": "Money, opportunity, safety"
+      },
+      "relationship": {
+        "label": "Love & Bonds",
+        "desc": "Partner, family, self-love"
+      },
+      "health": {
+        "label": "Body & Mind",
+        "desc": "Energy, vitality, calm"
+      }
+    },
+    "suggestions": {
+      "career": [
+        "I am attracting ideal opportunities to share my unique gifts.",
+        "My work is seen, appreciated, and richly rewarded.",
+        "Each day I grow into the person I am becoming."
+      ],
+      "wealth": [
+        "Money flows to me easily, lightly, and with grace.",
+        "I deserve a life of abundance, safety, and freedom.",
+        "The universe meets me with unexpected gifts."
+      ],
+      "relationship": [
+        "I am deeply loved, and I am learning to love myself deeply.",
+        "Warm, healthy, mutually nourishing relationships are near.",
+        "I let myself be seen, and I let love arrive easily."
+      ],
+      "health": [
+        "My body is full of energy and lighter every day.",
+        "I care for myself gently; my body is my home.",
+        "Calm and clarity are my natural state."
+      ]
+    }
   }
 }
