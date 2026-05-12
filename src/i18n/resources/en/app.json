@@ -615,5 +615,9 @@
     "streakDays": "days",
     "weeklyRate": "Weekly Rate",
     "timeSpent": "Time Spent"
+  },
+  "trialMigration": {
+    "title": "Trial progress saved",
+    "desc": "Pick up where you left off"
   }
 }

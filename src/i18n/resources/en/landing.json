@@ -175,7 +175,9 @@
       "subtitle": "This is only the start. Sign up to save progress, unlock all 18 daily entries, and track your streak and mood.",
       "yourAffirmation": "The affirmation you just wrote",
       "signupCta": "Save my progress",
-      "tryAgain": "Try another area"
+      "tryAgain": "Try another area",
+      "continueNext": "Continue {{slot}} session ({{count}}×)",
+      "saveAndContinue": "Sign up to save & keep going"
     },
     "cat": {
       "career": {
@@ -216,6 +218,11 @@
         "I care for myself gently; my body is my home.",
         "Calm and clarity are my natural state."
       ]
+    },
+    "slots": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening"
     }
   }
 }
