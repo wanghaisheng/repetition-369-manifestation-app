@@ -100,7 +100,7 @@ export default function Try() {
   const currentSlotConfig = SLOT_SEQUENCE[activeSlotIdx];
   const nextSlotConfig = SLOT_SEQUENCE[completedSlots.length];
 
-  const handleComplete = (entries: string[], mood: Mood) => {
+  const handleComplete = async (entries: string[], mood: Mood) => {
     const result: TrialSlotResult = {
       slot: currentSlotConfig.slot,
       target: currentSlotConfig.target,
