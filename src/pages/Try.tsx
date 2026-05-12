@@ -6,12 +6,17 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
-import { Wish, WishCategory, Mood } from '@/types';
+import { Wish, WishCategory, Mood, TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
+import { TRY_STORAGE_KEY, TrialSlotResult } from '@/utils/trialStorage';
 
 type Step = 'category' | 'affirmation' | 'practice' | 'celebrate';
 
-const TRY_STORAGE_KEY = 'try-369-state';
+const SLOT_SEQUENCE: { slot: TimeSlot; target: number }[] = [
+  { slot: 'morning', target: 3 },
+  { slot: 'afternoon', target: 6 },
+  { slot: 'evening', target: 9 },
+];
 
 const categoryIcons: Record<string, any> = {
   career: Briefcase,
@@ -34,6 +39,8 @@ export default function Try() {
   const [category, setCategory] = useState<WishCategory | null>(null);
   const [affirmation, setAffirmation] = useState('');
   const [editing, setEditing] = useState(false);
+  const [completedSlots, setCompletedSlots] = useState<TrialSlotResult[]>([]);
+  const [activeSlotIdx, setActiveSlotIdx] = useState(0);
 
   const categories: { key: WishCategory; label: string; desc: string }[] = [
     { key: 'career', label: t('try.cat.career.label'), desc: t('try.cat.career.desc') },
@@ -47,17 +54,32 @@ export default function Try() {
     return Array.isArray(list) ? (list as string[]) : [];
   };
 
+  const persist = (slots: TrialSlotResult[]) => {
+    try {
+      localStorage.setItem(
+        TRY_STORAGE_KEY,
+        JSON.stringify({
+          completedAt: new Date().toISOString(),
+          category,
+          affirmation,
+          slots,
+        })
+      );
+    } catch {
+      // localStorage may be disabled
+    }
+  };
+
   const handlePickCategory = (c: WishCategory) => {
     setCategory(c);
     setStep('affirmation');
   };
 
-  const handlePickAffirmation = (text: string) => {
-    setAffirmation(text);
-  };
+  const handlePickAffirmation = (text: string) => setAffirmation(text);
 
   const handleStartPractice = () => {
     if (!affirmation.trim()) return;
+    setActiveSlotIdx(0);
     setStep('practice');
   };
 
@@ -75,22 +97,31 @@ export default function Try() {
     tags: [],
   };
 
+  const currentSlotConfig = SLOT_SEQUENCE[activeSlotIdx];
+  const nextSlotConfig = SLOT_SEQUENCE[completedSlots.length];
+
   const handleComplete = async (entries: string[], mood: Mood) => {
-    try {
-      localStorage.setItem(
-        TRY_STORAGE_KEY,
-        JSON.stringify({
-          completedAt: new Date().toISOString(),
-          category,
-          affirmation,
-          entries,
-          mood,
-        })
-      );
-    } catch {
-      // localStorage may be disabled
-    }
+    const result: TrialSlotResult = {
+      slot: currentSlotConfig.slot,
+      target: currentSlotConfig.target,
+      entries,
+      mood,
+      completedAt: new Date().toISOString(),
+    };
+    const updated = [...completedSlots, result];
+    setCompletedSlots(updated);
+    persist(updated);
     setStep('celebrate');
+  };
+
+  const handleContinueNextSlot = () => {
+    if (!nextSlotConfig) return;
+    setActiveSlotIdx(SLOT_SEQUENCE.indexOf(nextSlotConfig));
+    setStep('practice');
+  };
+
+  const handleSignupResume = () => {
+    navigate({ to: '/auth', search: { redirect: '/app/practice', resume: 'trial' } as any });
   };
 
   return (
@@ -130,18 +161,9 @@ export default function Try() {
               {categories.map(({ key, label, desc }) => {
                 const Icon = categoryIcons[key] || Star;
                 return (
-                  <button
-                    key={key}
-                    onClick={() => handlePickCategory(key)}
-                    className="group text-left"
-                  >
+                  <button key={key} onClick={() => handlePickCategory(key)} className="group text-left">
                     <Card className="p-5 rounded-storybook-lg border-2 border-transparent hover:border-storybook-honey/40 hover:shadow-storybook-hover transition-all duration-300 bg-card/80 backdrop-blur">
-                      <div
-                        className={cn(
-                          'w-12 h-12 rounded-storybook flex items-center justify-center mb-3 bg-gradient-to-br',
-                          categoryGradients[key]
-                        )}
-                      >
+                      <div className={cn('w-12 h-12 rounded-storybook flex items-center justify-center mb-3 bg-gradient-to-br', categoryGradients[key])}>
                         <Icon className="w-6 h-6 text-white" />
                       </div>
                       <div className="font-storybook font-semibold text-foreground mb-1">{label}</div>
@@ -157,17 +179,12 @@ export default function Try() {
         {/* STEP 2 — Affirmation */}
         {step === 'affirmation' && category && (
           <div className="space-y-6 animate-fade-in">
-            <button
-              onClick={() => setStep('category')}
-              className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
+            <button onClick={() => setStep('category')} className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ArrowLeft className="w-4 h-4 mr-1" /> {t('try.back')}
             </button>
 
             <div className="text-center space-y-2">
-              <h2 className="font-storybook text-2xl md:text-3xl font-bold text-storybook-bark">
-                {t('try.step2.title')}
-              </h2>
+              <h2 className="font-storybook text-2xl md:text-3xl font-bold text-storybook-bark">{t('try.step2.title')}</h2>
               <p className="text-muted-foreground text-sm">{t('try.step2.subtitle')}</p>
             </div>
 
@@ -190,13 +207,7 @@ export default function Try() {
                   ))}
                 </div>
 
-                <button
-                  onClick={() => {
-                    setEditing(true);
-                    if (!affirmation) setAffirmation('');
-                  }}
-                  className="inline-flex items-center text-sm text-storybook-coral hover:text-storybook-coral/80"
-                >
+                <button onClick={() => { setEditing(true); if (!affirmation) setAffirmation(''); }} className="inline-flex items-center text-sm text-storybook-coral hover:text-storybook-coral/80">
                   <Pencil className="w-4 h-4 mr-1" /> {t('try.step2.customize')}
                 </button>
               </>
@@ -209,10 +220,7 @@ export default function Try() {
                   className="min-h-[120px] rounded-storybook border-2 focus:border-storybook-honey font-storybook text-base leading-relaxed"
                   autoFocus
                 />
-                <button
-                  onClick={() => setEditing(false)}
-                  className="text-sm text-muted-foreground hover:text-foreground"
-                >
+                <button onClick={() => setEditing(false)} className="text-sm text-muted-foreground hover:text-foreground">
                   {t('try.step2.useSuggestions')}
                 </button>
               </div>
@@ -242,6 +250,27 @@ export default function Try() {
               {t('try.step4.subtitle')}
             </p>
 
+            {/* Progress recap */}
+            <div className="flex items-center justify-center gap-2 max-w-md mx-auto">
+              {SLOT_SEQUENCE.map(({ slot, target }, i) => {
+                const done = i < completedSlots.length;
+                return (
+                  <div
+                    key={slot}
+                    className={cn(
+                      'flex-1 px-3 py-2 rounded-storybook text-xs font-storybook border-2 transition-all',
+                      done
+                        ? 'border-storybook-honey bg-storybook-honey/10 text-storybook-bark'
+                        : 'border-border bg-card/40 text-muted-foreground'
+                    )}
+                  >
+                    <div className="font-semibold">{t(`try.slots.${slot}`)}</div>
+                    <div className="opacity-70">{done ? `✓ ${target}` : `· ${target}`}</div>
+                  </div>
+                );
+              })}
+            </div>
+
             <Card className="p-5 rounded-storybook-lg bg-storybook-cream/50 border-storybook-honey/20 text-left max-w-md mx-auto">
               <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
                 {t('try.step4.yourAffirmation')}
@@ -250,19 +279,46 @@ export default function Try() {
             </Card>
 
             <div className="space-y-3 pt-4 max-w-md mx-auto">
-              <Button
-                onClick={() => navigate({ to: '/auth' })}
-                size="lg"
-                className="w-full rounded-storybook-lg bg-gradient-to-r from-storybook-honey to-storybook-coral hover:opacity-90 text-white font-storybook font-semibold py-6 text-base"
-              >
-                {t('try.step4.signupCta')} <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
+              {nextSlotConfig ? (
+                <>
+                  <Button
+                    onClick={handleContinueNextSlot}
+                    size="lg"
+                    variant="outline"
+                    className="w-full rounded-storybook-lg border-2 border-storybook-honey text-storybook-bark hover:bg-storybook-honey/10 font-storybook font-semibold py-6 text-base"
+                  >
+                    {t('try.step4.continueNext', {
+                      slot: t(`try.slots.${nextSlotConfig.slot}`),
+                      count: nextSlotConfig.target,
+                    })}
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                  <Button
+                    onClick={handleSignupResume}
+                    size="lg"
+                    className="w-full rounded-storybook-lg bg-gradient-to-r from-storybook-honey to-storybook-coral hover:opacity-90 text-white font-storybook font-semibold py-6 text-base"
+                  >
+                    {t('try.step4.saveAndContinue')} <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  onClick={handleSignupResume}
+                  size="lg"
+                  className="w-full rounded-storybook-lg bg-gradient-to-r from-storybook-honey to-storybook-coral hover:opacity-90 text-white font-storybook font-semibold py-6 text-base"
+                >
+                  {t('try.step4.signupCta')} <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              )}
               <button
                 onClick={() => {
                   setStep('category');
                   setCategory(null);
                   setAffirmation('');
                   setEditing(false);
+                  setCompletedSlots([]);
+                  setActiveSlotIdx(0);
+                  try { localStorage.removeItem(TRY_STORAGE_KEY); } catch { /* noop */ }
                 }}
                 className="text-sm text-muted-foreground hover:text-foreground"
               >
@@ -274,14 +330,14 @@ export default function Try() {
       </main>
 
       {/* Immersive Practice (full-screen overlay) */}
-      {step === 'practice' && category && (
+      {step === 'practice' && category && currentSlotConfig && (
         <ImmersiveFocusMode
           isOpen
-          onClose={() => setStep('affirmation')}
+          onClose={() => setStep(completedSlots.length > 0 ? 'celebrate' : 'affirmation')}
           onComplete={handleComplete}
           wish={trialWish}
-          timeSlot="morning"
-          target={3}
+          timeSlot={currentSlotConfig.slot}
+          target={currentSlotConfig.target}
         />
       )}
     </div>

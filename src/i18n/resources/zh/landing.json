@@ -175,7 +175,9 @@
       "subtitle": "这只是开始。注册后可以保存进度、解锁全天 18 次书写、追踪连续天数与心情曲线。",
       "yourAffirmation": "你刚才反复写下的肯定语",
       "signupCta": "保存进度，继续我的旅程",
-      "tryAgain": "再试一次别的领域"
+      "tryAgain": "再试一次别的领域",
+      "continueNext": "继续 {{slot}} 时段（{{count}} 次）",
+      "saveAndContinue": "注册保存进度并继续练习"
     },
     "cat": {
       "career": {
@@ -216,6 +218,11 @@
         "我温柔地照顾自己，身心是我最好的家。",
         "平静和清晰是我自然的状态。"
       ]
+    },
+    "slots": {
+      "morning": "晨间",
+      "afternoon": "午后",
+      "evening": "夜晚"
     }
   }
 }

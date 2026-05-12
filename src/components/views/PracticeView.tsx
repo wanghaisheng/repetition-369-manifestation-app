@@ -24,12 +24,14 @@ import { TimeSlotCard } from '@/components/practice/TimeSlotCard';
 import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
 import { QuickStatsBar } from '@/components/practice/QuickStatsBar';
 import { useTranslation } from 'react-i18next';
+import { useTrialMigration } from '@/hooks/useTrialMigration';
 
 export const PracticeView = () => {
   const { t } = useTranslation('app');
   const searchParams = useSearch({ strict: false }) as { wishId?: string };
-  const { wishes, loading: wishesLoading } = useWishes();
-  const { todayPractices, practiceHistory, recordPractice, loading: practiceLoading } = usePractice();
+  const { wishes, loading: wishesLoading, refetch: refetchWishes } = useWishes();
+  const { todayPractices, practiceHistory, recordPractice, loading: practiceLoading, refetch: refetchPractice } = usePractice();
+  useTrialMigration(() => { refetchWishes(); refetchPractice(); });
   const { user } = useAuth();
   const userId = user?.id || 'default';
   
