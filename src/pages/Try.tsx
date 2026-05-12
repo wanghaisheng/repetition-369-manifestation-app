@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { Sparkles, ArrowRight, ArrowLeft, Heart, Briefcase, Coins, Activity, Star, Pencil } from 'lucide-react';
@@ -9,6 +9,7 @@ import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
 import { Wish, WishCategory, Mood, TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
 import { TRY_STORAGE_KEY, TrialSlotResult } from '@/utils/trialStorage';
+import { trialAnalytics } from '@/utils/trialAnalytics';
 
 type Step = 'category' | 'affirmation' | 'practice' | 'celebrate';
 
@@ -70,16 +71,39 @@ export default function Try() {
     }
   };
 
+  // Funnel: page view (once on mount)
+  useEffect(() => {
+    trialAnalytics.view();
+  }, []);
+
+  const suggestionSet = useMemo(
+    () => (category ? new Set(getSuggestions(category)) : new Set<string>()),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [category]
+  );
+
   const handlePickCategory = (c: WishCategory) => {
     setCategory(c);
+    trialAnalytics.selectCategory(c);
     setStep('affirmation');
   };
 
-  const handlePickAffirmation = (text: string) => setAffirmation(text);
+  const handlePickAffirmation = (text: string) => {
+    setAffirmation(text);
+    trialAnalytics.selectAffirmation('suggestion', text.length);
+  };
 
   const handleStartPractice = () => {
     if (!affirmation.trim()) return;
+    if (editing) {
+      // user wrote a custom one before starting
+      trialAnalytics.selectAffirmation(
+        suggestionSet.has(affirmation) ? 'suggestion' : 'custom',
+        affirmation.length
+      );
+    }
     setActiveSlotIdx(0);
+    trialAnalytics.startPractice(SLOT_SEQUENCE[0].slot, SLOT_SEQUENCE[0].target, 0);
     setStep('practice');
   };
 
@@ -111,16 +135,25 @@ export default function Try() {
     const updated = [...completedSlots, result];
     setCompletedSlots(updated);
     persist(updated);
+    trialAnalytics.completeSlot(result.slot, entries.length, result.target, mood);
     setStep('celebrate');
   };
 
   const handleContinueNextSlot = () => {
     if (!nextSlotConfig) return;
+    trialAnalytics.continueNext(currentSlotConfig.slot, nextSlotConfig.slot);
     setActiveSlotIdx(SLOT_SEQUENCE.indexOf(nextSlotConfig));
+    trialAnalytics.startPractice(
+      nextSlotConfig.slot,
+      nextSlotConfig.target,
+      SLOT_SEQUENCE.indexOf(nextSlotConfig)
+    );
     setStep('practice');
   };
 
   const handleSignupResume = () => {
+    const totalEntries = completedSlots.reduce((sum, s) => sum + s.entries.length, 0);
+    trialAnalytics.signupClick(completedSlots.length, totalEntries);
     navigate({ to: '/auth', search: { redirect: '/app/practice', resume: 'trial' } as any });
   };
 
@@ -312,6 +345,7 @@ export default function Try() {
               )}
               <button
                 onClick={() => {
+                  trialAnalytics.tryAgain(completedSlots.length);
                   setStep('category');
                   setCategory(null);
                   setAffirmation('');
