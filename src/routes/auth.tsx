@@ -13,6 +13,7 @@ export const Route = createRoute({
   },
   validateSearch: (search: Record<string, unknown>) => ({
     redirect: (search.redirect as string) || '/app',
+    resume: (search.resume as string) || undefined,
   }),
   component: lazyRouteComponent(() => import('@/pages/Auth')),
 });
