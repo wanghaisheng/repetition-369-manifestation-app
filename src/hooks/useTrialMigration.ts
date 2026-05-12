@@ -69,9 +69,7 @@ export const useTrialMigration = (onMigrated?: () => void) => {
 
         onMigrated?.();
 
-        if (search.resume === 'trial') {
-          navigate({ to: '/app/$tab', params: { tab: 'practice' } as any, search: { wishId: wish.id } as any, replace: true });
-        }
+        navigate({ to: '/app/$tab', params: { tab: 'practice' } as any, search: { wishId: wish.id } as any, replace: true });
       } catch (err) {
         logger.error('Trial migration failed', err);
         clearTrialState();
