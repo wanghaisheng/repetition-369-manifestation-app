@@ -345,6 +345,7 @@ export default function Try() {
               )}
               <button
                 onClick={() => {
+                  trialAnalytics.tryAgain(completedSlots.length);
                   setStep('category');
                   setCategory(null);
                   setAffirmation('');

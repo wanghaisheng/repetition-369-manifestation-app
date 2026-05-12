@@ -7,6 +7,7 @@ import { readTrialState, clearTrialState } from '@/utils/trialStorage';
 import { logger } from '@/utils/logger';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
+import { trialAnalytics } from '@/utils/trialAnalytics';
 
 /**
  * After login, migrate any anonymous trial data into the real account:
