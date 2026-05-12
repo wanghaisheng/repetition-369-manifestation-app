@@ -63,6 +63,9 @@ export const useTrialMigration = (onMigrated?: () => void) => {
 
         clearTrialState();
 
+        const totalEntries = trial.slots.reduce((sum, s) => sum + s.entries.length, 0);
+        trialAnalytics.migrated(trial.slots.length, totalEntries);
+
         toast({
           title: t('trialMigration.title', '体验进度已保存'),
           description: t('trialMigration.desc', '继续完成今日剩余时段吧'),
@@ -73,6 +76,7 @@ export const useTrialMigration = (onMigrated?: () => void) => {
         navigate({ to: '/app/$tab', params: { tab: 'practice' } as any, search: { wishId: wish.id } as any, replace: true });
       } catch (err) {
         logger.error('Trial migration failed', err);
+        trialAnalytics.migrationFailed(err instanceof Error ? err.message : 'unknown');
         clearTrialState();
       }
     })();
