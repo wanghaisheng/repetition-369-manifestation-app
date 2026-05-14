@@ -24,6 +24,16 @@ export type Result<T> =
 export const ok = <T>(value: T): Result<T> => ({ ok: true, value });
 export const err = <T = never>(error: StorageError): Result<T> => ({ ok: false, error });
 
+/** 类型守卫：失败分支（解决项目 strict:false 下判别联合无法窄化的问题） */
+export function isErr<T>(r: Result<T>): r is { ok: false; error: StorageError } {
+  return r.ok === false;
+}
+
+/** 类型守卫：成功分支 */
+export function isOk<T>(r: Result<T>): r is { ok: true; value: T } {
+  return r.ok === true;
+}
+
 /** 把 unknown 异常归一化为 StorageError */
 export function toStorageError(e: unknown): StorageError {
   if (!e) return { message: 'Unknown error' };
