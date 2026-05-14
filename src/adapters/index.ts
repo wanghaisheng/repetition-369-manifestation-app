@@ -7,19 +7,21 @@ import type { StorageAdapter } from './types';
 import { supabaseAdapter } from './supabase';
 import { d1Adapter } from './d1';
 
-export type { StorageAdapter, DataAdapter, AuthAdapter } from './types';
 export type {
+  StorageAdapter,
+  DataAdapter,
+  AuthAdapter,
   QueryFilter,
   QueryOptions,
-  QueryResult,
-  SingleResult,
-  MutationResult,
+  Result,
   AuthUser,
   AuthSession,
   SignUpParams,
   SignInParams,
   StorageError,
 } from './types';
+
+export { ok, err, toStorageError } from './types';
 
 function resolveAdapter(): StorageAdapter {
   const provider = import.meta.env.VITE_STORAGE_PROVIDER || 'supabase';
