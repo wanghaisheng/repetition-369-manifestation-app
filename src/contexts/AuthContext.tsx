@@ -3,6 +3,8 @@ import React, { createContext, useContext, useEffect, useState, ReactNode, useCa
 import { Session } from '@supabase/supabase-js';
 import { storage, isErr } from '@/adapters';
 import type { AuthUser } from '@/adapters';
+import { ProfileRowSchema } from '@/schemas';
+import { validate } from '@/schemas/validate';
 import { User, AuthState, SignUpData, SignInData } from '@/types/auth';
 import { logger } from '@/utils/logger';
 
@@ -60,27 +62,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       logger.auth('Loading user profile for:', userId);
 
-      const profileResult = await storage.data.queryOne<{
-        id: string;
-        email: string | null;
-        full_name: string | null;
-        avatar_url: string | null;
-        created_at: string;
-      }>('profiles', {
+      const profileResult = await storage.data.queryOne<unknown>('profiles', {
         filters: [{ column: 'id', operator: 'eq', value: userId }],
       });
 
       if (isErr(profileResult)) {
         logger.error('Profile fetch error', profileResult.error);
       } else if (profileResult.value) {
-        const profile = profileResult.value;
-        return {
-          id: profile.id,
-          email: profile.email || userEmail,
-          fullName: profile.full_name || undefined,
-          avatarUrl: profile.avatar_url || undefined,
-          createdAt: profile.created_at,
-        };
+        const parsed = validate(ProfileRowSchema, profileResult.value, 'profiles.loadUserProfile');
+        if (!isErr(parsed)) {
+          const profile = parsed.value;
+          return {
+            id: profile.id,
+            email: profile.email || userEmail,
+            fullName: profile.full_name || undefined,
+            avatarUrl: profile.avatar_url || undefined,
+            createdAt: profile.created_at,
+          };
+        }
       }
 
       return { id: userId, email: userEmail, createdAt: new Date().toISOString() };
