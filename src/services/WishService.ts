@@ -1,6 +1,7 @@
-
 import { storage } from '@/adapters';
+import { isErr } from '@/adapters';
 import { Wish, WishCategory, WishStatus } from '@/types';
+import { logger } from '@/utils/logger';
 
 interface WishRow {
   id: string;
@@ -32,73 +33,70 @@ function rowToWish(row: WishRow): Wish {
 
 export class WishService {
   static async getWishes(_userId?: string): Promise<Wish[]> {
-    try {
-      const { data, error } = await storage.data.query<WishRow>('wishes', {
-        filters: [{ column: 'is_active', operator: 'eq', value: true }],
-        order: [{ column: 'created_at', ascending: false }],
-      });
+    const result = await storage.data.query<WishRow>('wishes', {
+      filters: [{ column: 'is_active', operator: 'eq', value: true }],
+      order: [{ column: 'created_at', ascending: false }],
+    });
 
-      if (error) throw new Error(error.message);
-      return data?.map(rowToWish) || [];
-    } catch (error) {
-      console.error('Error fetching wishes:', error);
+    if (isErr(result)) {
+      logger.error('WishService.getWishes failed', result.error);
       return [];
     }
+    return result.value.map(rowToWish);
   }
 
   static async createWish(wishData: Omit<Wish, 'id' | 'createdAt' | 'updatedAt'>): Promise<Wish> {
-    try {
-      const { data: authUser } = await storage.auth.getUser();
-      if (!authUser) throw new Error('User not authenticated');
-
-      const { data, error } = await storage.data.insert<WishRow>('wishes', {
-        user_id: authUser.id,
-        title: wishData.title,
-        affirmation: wishData.affirmation,
-        category: wishData.category,
-        color: '#667eea',
-        is_active: true,
-      });
-
-      if (error || !data) throw new Error(error?.message || 'Insert failed');
-      return rowToWish(data);
-    } catch (error) {
-      console.error('Error creating wish:', error);
-      throw error;
+    const userResult = await storage.auth.getUser();
+    if (isErr(userResult)) {
+      throw new Error(userResult.error.message);
     }
+    if (!userResult.value) {
+      throw new Error('User not authenticated');
+    }
+
+    const insertResult = await storage.data.insert<WishRow>('wishes', {
+      user_id: userResult.value.id,
+      title: wishData.title,
+      affirmation: wishData.affirmation,
+      category: wishData.category,
+      color: '#667eea',
+      is_active: true,
+    });
+
+    if (isErr(insertResult)) {
+      logger.error('WishService.createWish failed', insertResult.error);
+      throw new Error(insertResult.error.message);
+    }
+    return rowToWish(insertResult.value);
   }
 
   static async updateWish(wishId: string, updates: Partial<Wish>): Promise<Wish> {
-    try {
-      const { data, error } = await storage.data.update<WishRow>(
-        'wishes',
-        {
-          title: updates.title,
-          affirmation: updates.affirmation,
-          category: updates.category,
-          is_active: updates.status === 'active',
-          updated_at: new Date().toISOString(),
-        },
-        [{ column: 'id', operator: 'eq', value: wishId }],
-      );
+    const result = await storage.data.update<WishRow>(
+      'wishes',
+      {
+        title: updates.title,
+        affirmation: updates.affirmation,
+        category: updates.category,
+        is_active: updates.status === 'active',
+        updated_at: new Date().toISOString(),
+      },
+      [{ column: 'id', operator: 'eq', value: wishId }],
+    );
 
-      if (error || !data) throw new Error(error?.message || 'Update failed');
-      return rowToWish(data);
-    } catch (error) {
-      console.error('Error updating wish:', error);
-      throw error;
+    if (isErr(result)) {
+      logger.error('WishService.updateWish failed', result.error);
+      throw new Error(result.error.message);
     }
+    return rowToWish(result.value);
   }
 
   static async deleteWish(wishId: string): Promise<void> {
-    try {
-      const { error } = await storage.data.delete('wishes', [
-        { column: 'id', operator: 'eq', value: wishId },
-      ]);
-      if (error) throw new Error(error.message);
-    } catch (error) {
-      console.error('Error deleting wish:', error);
-      throw error;
+    const result = await storage.data.delete('wishes', [
+      { column: 'id', operator: 'eq', value: wishId },
+    ]);
+    if (isErr(result)) {
+      logger.error('WishService.deleteWish failed', result.error);
+      throw new Error(result.error.message);
     }
   }
 }

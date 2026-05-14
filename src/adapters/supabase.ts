@@ -1,24 +1,25 @@
 /**
- * Supabase StorageAdapter 实现
+ * Supabase StorageAdapter 实现 (Result Pattern)
  */
 import { supabase } from '@/integrations/supabase/client';
-import type {
-  StorageAdapter,
-  DataAdapter,
-  AuthAdapter,
-  QueryOptions,
-  QueryFilter,
-  QueryResult,
-  SingleResult,
-  MutationResult,
-  AuthUser,
-  AuthSession,
-  SignUpParams,
-  SignInParams,
-  AuthStateChangeCallback,
+import {
+  ok,
+  err,
+  toStorageError,
+  type StorageAdapter,
+  type DataAdapter,
+  type AuthAdapter,
+  type QueryOptions,
+  type QueryFilter,
+  type Result,
+  type AuthUser,
+  type AuthSession,
+  type SignUpParams,
+  type SignInParams,
+  type AuthStateChangeCallback,
 } from './types';
 
-// ============ Helper ============
+// ============ Helpers ============
 
 function applyFilters(query: any, filters?: QueryFilter[]) {
   if (!filters?.length) return query;
@@ -39,15 +40,10 @@ function applyFilters(query: any, filters?: QueryFilter[]) {
   return query;
 }
 
-function toStorageError(error: any) {
-  if (!error) return null;
-  return { message: error.message || String(error), code: error.code, details: error.details };
-}
-
 // ============ Data Adapter ============
 
 const supabaseData: DataAdapter = {
-  async query<T>(table: string, options?: QueryOptions): Promise<QueryResult<T>> {
+  async query<T>(table: string, options?: QueryOptions): Promise<Result<T[]>> {
     try {
       let q = (supabase.from as any)(table).select(options?.select || '*');
       q = applyFilters(q, options?.filters);
@@ -60,51 +56,58 @@ const supabaseData: DataAdapter = {
       if (options?.offset) q = q.range(options.offset, options.offset + (options.limit || 100) - 1);
 
       const { data, error } = await q;
-      return { data: (data as T[] | null), error: toStorageError(error) };
+      if (error) return err(toStorageError(error));
+      return ok((data as T[]) ?? []);
     } catch (e) {
-      return { data: null, error: toStorageError(e) };
+      return err(toStorageError(e));
     }
   },
 
-  async queryOne<T>(table: string, options?: QueryOptions): Promise<SingleResult<T>> {
+  async queryOne<T>(table: string, options?: QueryOptions): Promise<Result<T | null>> {
     try {
       let q = (supabase.from as any)(table).select(options?.select || '*');
       q = applyFilters(q, options?.filters);
       const { data, error } = await q.maybeSingle();
-      return { data: data as T | null, error: toStorageError(error) };
+      if (error) return err(toStorageError(error));
+      return ok((data as T | null) ?? null);
     } catch (e) {
-      return { data: null, error: toStorageError(e) };
+      return err(toStorageError(e));
     }
   },
 
-  async insert<T>(table: string, data: Record<string, unknown>): Promise<SingleResult<T>> {
+  async insert<T>(table: string, data: Record<string, unknown>): Promise<Result<T>> {
     try {
       const { data: result, error } = await (supabase.from as any)(table).insert(data).select().single();
-      return { data: result as T | null, error: toStorageError(error) };
+      if (error) return err(toStorageError(error));
+      if (!result) return err({ message: 'Insert returned no row' });
+      return ok(result as T);
     } catch (e) {
-      return { data: null, error: toStorageError(e) };
+      return err(toStorageError(e));
     }
   },
 
-  async update<T>(table: string, data: Record<string, unknown>, filters: QueryFilter[]): Promise<SingleResult<T>> {
+  async update<T>(table: string, data: Record<string, unknown>, filters: QueryFilter[]): Promise<Result<T>> {
     try {
       let q = (supabase.from as any)(table).update(data);
       q = applyFilters(q, filters);
       const { data: result, error } = await q.select().single();
-      return { data: result as T | null, error: toStorageError(error) };
+      if (error) return err(toStorageError(error));
+      if (!result) return err({ message: 'Update returned no row' });
+      return ok(result as T);
     } catch (e) {
-      return { data: null, error: toStorageError(e) };
+      return err(toStorageError(e));
     }
   },
 
-  async delete(table: string, filters: QueryFilter[]): Promise<MutationResult> {
+  async delete(table: string, filters: QueryFilter[]): Promise<Result<void>> {
     try {
       let q = (supabase.from as any)(table).delete();
       q = applyFilters(q, filters);
       const { error } = await q;
-      return { data: null, error: toStorageError(error) };
+      if (error) return err(toStorageError(error));
+      return ok(undefined);
     } catch (e) {
-      return { data: null, error: toStorageError(e) };
+      return err(toStorageError(e));
     }
   },
 };
@@ -121,36 +124,37 @@ function mapSupabaseUser(u: any): AuthUser {
   };
 }
 
+function mapSupabaseSession(session: any): AuthSession {
+  return {
+    accessToken: session.access_token,
+    refreshToken: session.refresh_token,
+    expiresAt: session.expires_at,
+    user: mapSupabaseUser(session.user),
+  };
+}
+
 const supabaseAuth: AuthAdapter = {
-  async getUser() {
+  async getUser(): Promise<Result<AuthUser | null>> {
     try {
       const { data: { user }, error } = await supabase.auth.getUser();
-      if (error || !user) return { data: null, error: toStorageError(error) };
-      return { data: mapSupabaseUser(user), error: null };
+      if (error) return err(toStorageError(error));
+      return ok(user ? mapSupabaseUser(user) : null);
     } catch (e) {
-      return { data: null, error: toStorageError(e) };
+      return err(toStorageError(e));
     }
   },
 
-  async getSession() {
+  async getSession(): Promise<Result<AuthSession | null>> {
     try {
       const { data: { session }, error } = await supabase.auth.getSession();
-      if (error || !session) return { data: null, error: toStorageError(error) };
-      return {
-        data: {
-          accessToken: session.access_token,
-          refreshToken: session.refresh_token,
-          expiresAt: session.expires_at,
-          user: mapSupabaseUser(session.user),
-        },
-        error: null,
-      };
+      if (error) return err(toStorageError(error));
+      return ok(session ? mapSupabaseSession(session) : null);
     } catch (e) {
-      return { data: null, error: toStorageError(e) };
+      return err(toStorageError(e));
     }
   },
 
-  async signUp(params: SignUpParams) {
+  async signUp(params: SignUpParams): Promise<Result<void>> {
     try {
       const { error } = await supabase.auth.signUp({
         email: params.email,
@@ -160,44 +164,39 @@ const supabaseAuth: AuthAdapter = {
           data: { full_name: params.fullName },
         },
       });
-      return { data: null, error: toStorageError(error) };
+      if (error) return err(toStorageError(error));
+      return ok(undefined);
     } catch (e) {
-      return { data: null, error: toStorageError(e) };
+      return err(toStorageError(e));
     }
   },
 
-  async signIn(params: SignInParams) {
+  async signIn(params: SignInParams): Promise<Result<void>> {
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email: params.email,
         password: params.password,
       });
-      return { data: null, error: toStorageError(error) };
+      if (error) return err(toStorageError(error));
+      return ok(undefined);
     } catch (e) {
-      return { data: null, error: toStorageError(e) };
+      return err(toStorageError(e));
     }
   },
 
-  async signOut() {
+  async signOut(): Promise<Result<void>> {
     try {
       const { error } = await supabase.auth.signOut();
-      return { data: null, error: toStorageError(error) };
+      if (error) return err(toStorageError(error));
+      return ok(undefined);
     } catch (e) {
-      return { data: null, error: toStorageError(e) };
+      return err(toStorageError(e));
     }
   },
 
   onAuthStateChange(callback: AuthStateChangeCallback) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      const mappedSession: AuthSession | null = session
-        ? {
-            accessToken: session.access_token,
-            refreshToken: session.refresh_token,
-            expiresAt: session.expires_at,
-            user: mapSupabaseUser(session.user),
-          }
-        : null;
-      callback(event, mappedSession);
+      callback(event, session ? mapSupabaseSession(session) : null);
     });
     return () => subscription.unsubscribe();
   },

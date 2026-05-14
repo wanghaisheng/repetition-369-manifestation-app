@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { Session } from '@supabase/supabase-js';
-import { storage } from '@/adapters';
+import { storage, isErr } from '@/adapters';
 import type { AuthUser } from '@/adapters';
 import { User, AuthState, SignUpData, SignInData } from '@/types/auth';
 import { logger } from '@/utils/logger';
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       logger.auth('Loading user profile for:', userId);
 
-      const { data: profile, error } = await storage.data.queryOne<{
+      const profileResult = await storage.data.queryOne<{
         id: string;
         email: string | null;
         full_name: string | null;
@@ -70,11 +70,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         filters: [{ column: 'id', operator: 'eq', value: userId }],
       });
 
-      if (error) {
-        console.error('Profile fetch error:', error);
-      }
-
-      if (profile) {
+      if (isErr(profileResult)) {
+        logger.error('Profile fetch error', profileResult.error);
+      } else if (profileResult.value) {
+        const profile = profileResult.value;
         return {
           id: profile.id,
           email: profile.email || userEmail,
@@ -132,11 +131,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const unsubscribe = storage.auth.onAuthStateChange(handleAuthStateChange);
 
       // Check existing session
-      const { data: sess, error } = await storage.auth.getSession();
-      if (error) throw new Error(error.message);
+      const sessionResult = await storage.auth.getSession();
+      if (isErr(sessionResult)) throw new Error(sessionResult.error.message);
 
-      console.log('Initial session check completed', { hasSession: !!sess });
-      handleAuthStateChange('INITIAL_SESSION', sess);
+      console.log('Initial session check completed', { hasSession: !!sessionResult.value });
+      handleAuthStateChange('INITIAL_SESSION', sessionResult.value);
 
       return unsubscribe;
     } catch (error: any) {
@@ -206,17 +205,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       console.log('Attempting sign up for:', data.email);
       const redirectUrl = `${window.location.origin}/`;
 
-      const { error } = await storage.auth.signUp({
+      const result = await storage.auth.signUp({
         email: data.email,
         password: data.password,
         fullName: data.fullName,
         redirectUrl,
       });
 
-      if (error) console.error('Sign up error:', error);
-      else console.log('Sign up successful');
-
-      return { error };
+      if (isErr(result)) {
+        console.error('Sign up error:', result.error);
+        return { error: result.error };
+      }
+      console.log('Sign up successful');
+      return { error: null };
     } catch (error) {
       console.error('Sign up exception:', error);
       return { error };
@@ -226,15 +227,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const signIn = async (data: SignInData) => {
     try {
       console.log('Attempting sign in for:', data.email);
-      const { error } = await storage.auth.signIn({
+      const result = await storage.auth.signIn({
         email: data.email,
         password: data.password,
       });
 
-      if (error) console.error('Sign in error:', error);
-      else console.log('Sign in successful');
-
-      return { error };
+      if (isErr(result)) {
+        console.error('Sign in error:', result.error);
+        return { error: result.error };
+      }
+      console.log('Sign in successful');
+      return { error: null };
     } catch (error) {
       console.error('Sign in exception:', error);
       return { error };
@@ -256,7 +259,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     try {
       console.log('Updating profile for user:', user.id);
-      const { error } = await storage.data.update(
+      const result = await storage.data.update(
         'profiles',
         {
           full_name: data.fullName,
@@ -266,10 +269,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         [{ column: 'id', operator: 'eq', value: user.id }],
       );
 
-      if (error) console.error('Profile update error:', error);
-      else console.log('Profile updated successfully');
-
-      return { error };
+      if (isErr(result)) {
+        console.error('Profile update error:', result.error);
+        return { error: result.error };
+      }
+      console.log('Profile updated successfully');
+      return { error: null };
     } catch (error) {
       console.error('Profile update exception:', error);
       return { error };
