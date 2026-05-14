@@ -1,4 +1,4 @@
-import { storage } from '@/adapters';
+import { storage, isErr } from '@/adapters';
 import { PracticeSession } from '@/types';
 import { logger } from '@/utils/logger';
 
@@ -46,7 +46,7 @@ export class PracticeService {
       order: [{ column: 'created_at', ascending: false }],
     });
 
-    if (!result.ok) {
+    if (isErr(result)) {
       logger.error('PracticeService.getTodayPractices failed', result.error);
       return [];
     }
@@ -59,7 +59,7 @@ export class PracticeService {
       limit,
     });
 
-    if (!result.ok) {
+    if (isErr(result)) {
       logger.error('PracticeService.getPracticeHistory failed', result.error);
       return [];
     }
@@ -68,7 +68,7 @@ export class PracticeService {
 
   static async recordPractice(sessionData: Omit<PracticeSession, 'id'>): Promise<PracticeSession> {
     const userResult = await storage.auth.getUser();
-    if (!userResult.ok) {
+    if (isErr(userResult)) {
       throw new Error(userResult.error.message);
     }
     if (!userResult.value) {
@@ -87,7 +87,7 @@ export class PracticeService {
       mood: sessionData.mood,
     });
 
-    if (!insertResult.ok) {
+    if (isErr(insertResult)) {
       logger.error('PracticeService.recordPractice failed', insertResult.error);
       throw new Error(insertResult.error.message);
     }
@@ -109,7 +109,7 @@ export class PracticeService {
       ],
     });
 
-    if (!result.ok) {
+    if (isErr(result)) {
       logger.error('PracticeService.isTodayCompleted failed', result.error);
       return false;
     }

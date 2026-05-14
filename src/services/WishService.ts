@@ -1,4 +1,5 @@
 import { storage } from '@/adapters';
+import { isErr } from '@/adapters';
 import { Wish, WishCategory, WishStatus } from '@/types';
 import { logger } from '@/utils/logger';
 
@@ -37,7 +38,7 @@ export class WishService {
       order: [{ column: 'created_at', ascending: false }],
     });
 
-    if (!result.ok) {
+    if (isErr(result)) {
       logger.error('WishService.getWishes failed', result.error);
       return [];
     }
@@ -46,7 +47,7 @@ export class WishService {
 
   static async createWish(wishData: Omit<Wish, 'id' | 'createdAt' | 'updatedAt'>): Promise<Wish> {
     const userResult = await storage.auth.getUser();
-    if (!userResult.ok) {
+    if (isErr(userResult)) {
       throw new Error(userResult.error.message);
     }
     if (!userResult.value) {
@@ -62,7 +63,7 @@ export class WishService {
       is_active: true,
     });
 
-    if (!insertResult.ok) {
+    if (isErr(insertResult)) {
       logger.error('WishService.createWish failed', insertResult.error);
       throw new Error(insertResult.error.message);
     }
@@ -82,7 +83,7 @@ export class WishService {
       [{ column: 'id', operator: 'eq', value: wishId }],
     );
 
-    if (!result.ok) {
+    if (isErr(result)) {
       logger.error('WishService.updateWish failed', result.error);
       throw new Error(result.error.message);
     }
@@ -93,7 +94,7 @@ export class WishService {
     const result = await storage.data.delete('wishes', [
       { column: 'id', operator: 'eq', value: wishId },
     ]);
-    if (!result.ok) {
+    if (isErr(result)) {
       logger.error('WishService.deleteWish failed', result.error);
       throw new Error(result.error.message);
     }

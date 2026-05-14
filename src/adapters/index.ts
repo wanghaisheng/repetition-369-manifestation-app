@@ -21,7 +21,7 @@ export type {
   StorageError,
 } from './types';
 
-export { ok, err, toStorageError } from './types';
+export { ok, err, isOk, isErr, toStorageError } from './types';
 
 function resolveAdapter(): StorageAdapter {
   const provider = import.meta.env.VITE_STORAGE_PROVIDER || 'supabase';
