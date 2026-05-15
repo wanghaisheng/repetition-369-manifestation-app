@@ -172,6 +172,8 @@ export default function Try() {
       entries,
       currentEntry,
     });
+  };
+
 
   const handleContinueNextSlot = () => {
     if (!nextSlotConfig) return;
