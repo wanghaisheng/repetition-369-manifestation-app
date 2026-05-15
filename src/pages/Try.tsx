@@ -184,6 +184,7 @@ export default function Try() {
   const handleContinueNextSlot = () => {
     if (!nextSlotConfig) return;
     trialAnalytics.continueNext(currentSlotConfig.slot, nextSlotConfig.slot);
+    setResumeDraft(null);
     setActiveSlotIdx(SLOT_SEQUENCE.indexOf(nextSlotConfig));
     trialAnalytics.startPractice(
       nextSlotConfig.slot,
