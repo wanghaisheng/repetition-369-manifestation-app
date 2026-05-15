@@ -83,6 +83,18 @@ export default function Try() {
     trialAnalytics.view();
   }, []);
 
+  // Restore in-progress draft (close/refresh resume)
+  useEffect(() => {
+    const draft = readTrialDraft();
+    if (!draft) return;
+    setCategory(draft.category);
+    setAffirmation(draft.affirmation);
+    setCompletedSlots(draft.completedSlots || []);
+    setActiveSlotIdx(draft.activeSlotIdx ?? 0);
+    setStep('practice');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const suggestionSet = useMemo(
     () => (category ? new Set(getSuggestions(category)) : new Set<string>()),
     // eslint-disable-next-line react-hooks/exhaustive-deps
