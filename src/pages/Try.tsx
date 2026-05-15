@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { Sparkles, ArrowRight, ArrowLeft, Heart, Briefcase, Coins, Activity, Star, Pencil } from 'lucide-react';
+import { Sparkles, ArrowRight, ArrowLeft, Heart, Briefcase, Coins, Activity, Star, Pencil, LayoutGrid } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
 import { Wish, WishCategory, Mood, TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
@@ -311,14 +312,47 @@ export default function Try() {
               <p className="font-storybook text-foreground leading-relaxed">{affirmation}</p>
             </Card>
 
-            <div className="space-y-3 pt-4 max-w-md mx-auto">
+            {/* Daily progress + next slot */}
+            {(() => {
+              const totalTarget = SLOT_SEQUENCE.reduce((s, x) => s + x.target, 0);
+              const totalDone = completedSlots.reduce((s, x) => s + x.entries.length, 0);
+              const pct = Math.min(100, Math.round((totalDone / totalTarget) * 100));
+              const remaining = SLOT_SEQUENCE.length - completedSlots.length;
+              return (
+                <div className="max-w-md mx-auto space-y-3 text-left">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground font-storybook">
+                    <span>{t('try.step4.totalProgress', { done: totalDone, total: totalTarget })}</span>
+                    <span>
+                      {nextSlotConfig
+                        ? t('try.step4.slotsRemaining', { count: remaining })
+                        : t('try.step4.allDone')}
+                    </span>
+                  </div>
+                  <Progress value={pct} className="h-2 bg-storybook-cream" />
+                  {nextSlotConfig && (
+                    <Card className="p-4 rounded-storybook-lg border-2 border-storybook-honey/40 bg-gradient-to-br from-storybook-honey/10 to-storybook-coral/10">
+                      <p className="text-xs uppercase tracking-wide text-storybook-bark/70 mb-1 font-storybook">
+                        {t('try.step4.nextSlotLabel')}
+                      </p>
+                      <p className="font-storybook font-semibold text-storybook-bark">
+                        {t('try.step4.nextSlotTarget', {
+                          slot: t(`try.slots.${nextSlotConfig.slot}`),
+                          count: nextSlotConfig.target,
+                        })}
+                      </p>
+                    </Card>
+                  )}
+                </div>
+              );
+            })()}
+
+            <div className="space-y-3 pt-2 max-w-md mx-auto">
               {nextSlotConfig ? (
                 <>
                   <Button
                     onClick={handleContinueNextSlot}
                     size="lg"
-                    variant="outline"
-                    className="w-full rounded-storybook-lg border-2 border-storybook-honey text-storybook-bark hover:bg-storybook-honey/10 font-storybook font-semibold py-6 text-base"
+                    className="w-full rounded-storybook-lg bg-gradient-to-r from-storybook-honey to-storybook-coral hover:opacity-90 text-white font-storybook font-semibold py-6 text-base shadow-storybook"
                   >
                     {t('try.step4.continueNext', {
                       slot: t(`try.slots.${nextSlotConfig.slot}`),
@@ -327,11 +361,20 @@ export default function Try() {
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                   <Button
-                    onClick={handleSignupResume}
+                    onClick={() => setStep('affirmation')}
                     size="lg"
-                    className="w-full rounded-storybook-lg bg-gradient-to-r from-storybook-honey to-storybook-coral hover:opacity-90 text-white font-storybook font-semibold py-6 text-base"
+                    variant="outline"
+                    className="w-full rounded-storybook-lg border-2 border-storybook-honey/60 text-storybook-bark hover:bg-storybook-honey/10 font-storybook font-semibold py-6 text-base"
                   >
-                    {t('try.step4.saveAndContinue')} <ArrowRight className="w-5 h-5 ml-2" />
+                    <LayoutGrid className="w-5 h-5 mr-2" />
+                    {t('try.step4.backToOverview')}
+                  </Button>
+                  <Button
+                    onClick={handleSignupResume}
+                    variant="ghost"
+                    className="w-full rounded-storybook text-storybook-bark hover:bg-storybook-honey/10 font-storybook"
+                  >
+                    {t('try.step4.saveAndContinue')} <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </>
               ) : (

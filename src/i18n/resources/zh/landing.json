@@ -177,7 +177,13 @@
       "signupCta": "保存进度，继续我的旅程",
       "tryAgain": "再试一次别的领域",
       "continueNext": "继续 {{slot}} 时段（{{count}} 次）",
-      "saveAndContinue": "注册保存进度并继续练习"
+      "saveAndContinue": "注册保存进度并继续练习",
+      "backToOverview": "返回练习概览",
+      "nextSlotLabel": "下一时段",
+      "nextSlotTarget": "{{slot}} · 目标 {{count}} 次",
+      "totalProgress": "全天进度 {{done}} / {{total}} 次",
+      "slotsRemaining": "还剩 {{count}} 个时段",
+      "allDone": "今日 369 全部完成 🎉"
     },
     "cat": {
       "career": {

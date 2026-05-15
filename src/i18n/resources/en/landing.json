@@ -177,7 +177,13 @@
       "signupCta": "Save my progress",
       "tryAgain": "Try another area",
       "continueNext": "Continue {{slot}} session ({{count}}×)",
-      "saveAndContinue": "Sign up to save & keep going"
+      "saveAndContinue": "Sign up to save & keep going",
+      "backToOverview": "Back to practice overview",
+      "nextSlotLabel": "Next session",
+      "nextSlotTarget": "{{slot}} · target {{count}}×",
+      "totalProgress": "Daily progress {{done}} / {{total}}",
+      "slotsRemaining": "{{count}} session(s) left",
+      "allDone": "All 369 done for today 🎉"
     },
     "cat": {
       "career": {
