@@ -456,6 +456,17 @@ export default function Try() {
           wish={trialWish}
           timeSlot={currentSlotConfig.slot}
           target={currentSlotConfig.target}
+          initialEntries={
+            resumeDraft && resumeDraft.slot === currentSlotConfig.slot
+              ? resumeDraft.entries
+              : undefined
+          }
+          initialDraft={
+            resumeDraft && resumeDraft.slot === currentSlotConfig.slot
+              ? resumeDraft.currentEntry
+              : undefined
+          }
+          onProgress={handlePracticeProgress}
         />
       )}
     </div>
