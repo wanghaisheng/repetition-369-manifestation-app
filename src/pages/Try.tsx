@@ -92,6 +92,11 @@ export default function Try() {
     setAffirmation(draft.affirmation);
     setCompletedSlots(draft.completedSlots || []);
     setActiveSlotIdx(draft.activeSlotIdx ?? 0);
+    setResumeDraft({
+      slot: draft.currentSlot,
+      entries: draft.entries || [],
+      currentEntry: draft.currentEntry || '',
+    });
     setStep('practice');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
