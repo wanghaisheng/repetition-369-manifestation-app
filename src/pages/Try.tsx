@@ -9,7 +9,13 @@ import { Progress } from '@/components/ui/progress';
 import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
 import { Wish, WishCategory, Mood, TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
-import { TRY_STORAGE_KEY, TrialSlotResult } from '@/utils/trialStorage';
+import {
+  TRY_STORAGE_KEY,
+  TrialSlotResult,
+  readTrialDraft,
+  writeTrialDraft,
+  clearTrialDraft,
+} from '@/utils/trialStorage';
 import { trialAnalytics } from '@/utils/trialAnalytics';
 
 type Step = 'category' | 'affirmation' | 'practice' | 'celebrate';
@@ -42,6 +48,7 @@ export default function Try() {
   const [affirmation, setAffirmation] = useState('');
   const [editing, setEditing] = useState(false);
   const [completedSlots, setCompletedSlots] = useState<TrialSlotResult[]>([]);
+  const [resumeDraft, setResumeDraft] = useState<{ slot: string; entries: string[]; currentEntry: string } | null>(null);
   const [activeSlotIdx, setActiveSlotIdx] = useState(0);
 
   const categories: { key: WishCategory; label: string; desc: string }[] = [
@@ -75,6 +82,23 @@ export default function Try() {
   // Funnel: page view (once on mount)
   useEffect(() => {
     trialAnalytics.view();
+  }, []);
+
+  // Restore in-progress draft (close/refresh resume)
+  useEffect(() => {
+    const draft = readTrialDraft();
+    if (!draft) return;
+    setCategory(draft.category);
+    setAffirmation(draft.affirmation);
+    setCompletedSlots(draft.completedSlots || []);
+    setActiveSlotIdx(draft.activeSlotIdx ?? 0);
+    setResumeDraft({
+      slot: draft.currentSlot,
+      entries: draft.entries || [],
+      currentEntry: draft.currentEntry || '',
+    });
+    setStep('practice');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const suggestionSet = useMemo(
@@ -137,12 +161,30 @@ export default function Try() {
     setCompletedSlots(updated);
     persist(updated);
     trialAnalytics.completeSlot(result.slot, entries.length, result.target, mood);
+    clearTrialDraft();
     setStep('celebrate');
   };
+
+  // Persist mid-practice draft (entries + currentEntry) for refresh/close resume
+  const handlePracticeProgress = (entries: string[], currentEntry: string) => {
+    if (!category || !affirmation || !currentSlotConfig) return;
+    writeTrialDraft({
+      category,
+      affirmation,
+      completedSlots,
+      activeSlotIdx,
+      currentSlot: currentSlotConfig.slot,
+      target: currentSlotConfig.target,
+      entries,
+      currentEntry,
+    });
+  };
+
 
   const handleContinueNextSlot = () => {
     if (!nextSlotConfig) return;
     trialAnalytics.continueNext(currentSlotConfig.slot, nextSlotConfig.slot);
+    setResumeDraft(null);
     setActiveSlotIdx(SLOT_SEQUENCE.indexOf(nextSlotConfig));
     trialAnalytics.startPractice(
       nextSlotConfig.slot,
@@ -395,6 +437,8 @@ export default function Try() {
                   setEditing(false);
                   setCompletedSlots([]);
                   setActiveSlotIdx(0);
+                  setResumeDraft(null);
+                  clearTrialDraft();
                   try { localStorage.removeItem(TRY_STORAGE_KEY); } catch { /* noop */ }
                 }}
                 className="text-sm text-muted-foreground hover:text-foreground"
@@ -415,6 +459,17 @@ export default function Try() {
           wish={trialWish}
           timeSlot={currentSlotConfig.slot}
           target={currentSlotConfig.target}
+          initialEntries={
+            resumeDraft && resumeDraft.slot === currentSlotConfig.slot
+              ? resumeDraft.entries
+              : undefined
+          }
+          initialDraft={
+            resumeDraft && resumeDraft.slot === currentSlotConfig.slot
+              ? resumeDraft.currentEntry
+              : undefined
+          }
+          onProgress={handlePracticeProgress}
         />
       )}
     </div>

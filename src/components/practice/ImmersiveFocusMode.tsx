@@ -15,6 +15,9 @@ interface ImmersiveFocusModeProps {
   wish: Wish;
   timeSlot: TimeSlot;
   target: number;
+  initialEntries?: string[];
+  initialDraft?: string;
+  onProgress?: (entries: string[], currentEntry: string) => void;
 }
 
 const slotGradients = {
@@ -29,15 +32,22 @@ export const ImmersiveFocusMode = ({
   onComplete,
   wish,
   timeSlot,
-  target
+  target,
+  initialEntries,
+  initialDraft,
+  onProgress,
 }: ImmersiveFocusModeProps) => {
   const { t } = useTranslation('app');
-  const [currentEntry, setCurrentEntry] = useState('');
-  const [entries, setEntries] = useState<string[]>([]);
+  const [currentEntry, setCurrentEntry] = useState(initialDraft ?? '');
+  const [entries, setEntries] = useState<string[]>(initialEntries ?? []);
   const [isCompleting, setIsCompleting] = useState(false);
-  const [showBreathingGuide, setShowBreathingGuide] = useState(true);
+  const [showBreathingGuide, setShowBreathingGuide] = useState(
+    !(initialEntries?.length || initialDraft)
+  );
   const [breathPhase, setBreathPhase] = useState<'inhale' | 'hold' | 'exhale'>('inhale');
-  const [showCelebration, setShowCelebration] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(
+    (initialEntries?.length ?? 0) >= target
+  );
 
   const progress = (entries.length / target) * 100;
   const isLastEntry = entries.length === target - 1;
@@ -56,9 +66,21 @@ export const ImmersiveFocusMode = ({
 
   useEffect(() => {
     if (isOpen) {
-      setEntries([]); setCurrentEntry(''); setShowCelebration(false); setShowBreathingGuide(true);
+      setEntries(initialEntries ?? []);
+      setCurrentEntry(initialDraft ?? '');
+      setShowCelebration((initialEntries?.length ?? 0) >= target);
+      setShowBreathingGuide(!(initialEntries?.length || initialDraft));
     }
-  }, [isOpen]);
+    // Re-init only when opening or when slot/target identity changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, timeSlot, target]);
+
+  // Notify parent of draft changes for persistence
+  useEffect(() => {
+    if (!isOpen || !onProgress) return;
+    onProgress(entries, currentEntry);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entries, currentEntry, isOpen]);
 
   const handleAddEntry = useCallback(() => {
     if (!currentEntry.trim() || entries.length >= target) return;
