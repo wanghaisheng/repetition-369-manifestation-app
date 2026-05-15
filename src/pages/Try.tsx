@@ -155,8 +155,23 @@ export default function Try() {
     setCompletedSlots(updated);
     persist(updated);
     trialAnalytics.completeSlot(result.slot, entries.length, result.target, mood);
+    clearTrialDraft();
     setStep('celebrate');
   };
+
+  // Persist mid-practice draft (entries + currentEntry) for refresh/close resume
+  const handlePracticeProgress = (entries: string[], currentEntry: string) => {
+    if (!category || !affirmation || !currentSlotConfig) return;
+    writeTrialDraft({
+      category,
+      affirmation,
+      completedSlots,
+      activeSlotIdx,
+      currentSlot: currentSlotConfig.slot,
+      target: currentSlotConfig.target,
+      entries,
+      currentEntry,
+    });
 
   const handleContinueNextSlot = () => {
     if (!nextSlotConfig) return;
