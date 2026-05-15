@@ -9,7 +9,13 @@ import { Progress } from '@/components/ui/progress';
 import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
 import { Wish, WishCategory, Mood, TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
-import { TRY_STORAGE_KEY, TrialSlotResult } from '@/utils/trialStorage';
+import {
+  TRY_STORAGE_KEY,
+  TrialSlotResult,
+  readTrialDraft,
+  writeTrialDraft,
+  clearTrialDraft,
+} from '@/utils/trialStorage';
 import { trialAnalytics } from '@/utils/trialAnalytics';
 
 type Step = 'category' | 'affirmation' | 'practice' | 'celebrate';
