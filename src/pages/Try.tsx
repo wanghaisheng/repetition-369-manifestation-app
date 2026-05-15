@@ -436,6 +436,8 @@ export default function Try() {
                   setEditing(false);
                   setCompletedSlots([]);
                   setActiveSlotIdx(0);
+                  setResumeDraft(null);
+                  clearTrialDraft();
                   try { localStorage.removeItem(TRY_STORAGE_KEY); } catch { /* noop */ }
                 }}
                 className="text-sm text-muted-foreground hover:text-foreground"
