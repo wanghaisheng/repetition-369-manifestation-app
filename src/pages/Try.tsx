@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { Sparkles, ArrowRight, ArrowLeft, Heart, Briefcase, Coins, Activity, Star, Pencil } from 'lucide-react';
+import { Sparkles, ArrowRight, ArrowLeft, Heart, Briefcase, Coins, Activity, Star, Pencil, LayoutGrid } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
 import { Wish, WishCategory, Mood, TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
