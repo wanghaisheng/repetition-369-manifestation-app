@@ -48,6 +48,7 @@ export default function Try() {
   const [affirmation, setAffirmation] = useState('');
   const [editing, setEditing] = useState(false);
   const [completedSlots, setCompletedSlots] = useState<TrialSlotResult[]>([]);
+  const [resumeDraft, setResumeDraft] = useState<{ slot: string; entries: string[]; currentEntry: string } | null>(null);
   const [activeSlotIdx, setActiveSlotIdx] = useState(0);
 
   const categories: { key: WishCategory; label: string; desc: string }[] = [
