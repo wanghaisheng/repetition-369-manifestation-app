@@ -79,6 +79,12 @@
     "currentSlot": "当前时段",
     "slotRemaining": "还差 {{count}} 次完成本时段",
     "slotDone": "本时段已完成",
+    "switchSlot": "选择时段",
+    "switchSlotTitle": "切换练习时段",
+    "switchConfirmTitle": "切换到其他时段？",
+    "switchConfirmDesc": "当前书写的内容尚未提交，切换后将会丢失。是否继续？",
+    "switchCancel": "取消",
+    "switchConfirm": "继续切换",
     "affirmations": "肯定句",
     "pendingBanner": {
       "title": "未完成的369时段",
