@@ -1,12 +1,36 @@
 import { useState, useEffect, useCallback } from 'react';
-import { X, CheckCircle, Sparkles, Heart, ChevronRight, Wind } from 'lucide-react';
+import { X, CheckCircle, Sparkles, Heart, ChevronRight, Wind, Sun, Sunset, Moon, Repeat } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Wish, Mood, TimeSlot } from '@/types';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { logger } from '@/utils/logger';
+
+export interface FocusSlotOption {
+  slot: TimeSlot;
+  target: number;
+  completed: number;
+}
 
 interface ImmersiveFocusModeProps {
   isOpen: boolean;
@@ -19,6 +43,8 @@ interface ImmersiveFocusModeProps {
   initialEntries?: string[];
   initialDraft?: string;
   onProgress?: (entries: string[], currentEntry: string) => void;
+  slotOptions?: FocusSlotOption[];
+  onSwitchSlot?: (slot: TimeSlot) => void;
 }
 
 const slotGradients = {
