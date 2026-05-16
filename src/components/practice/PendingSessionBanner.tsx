@@ -16,6 +16,7 @@ interface PendingSessionBannerProps {
   remainingSlots: number;
   breakdown: SlotBreakdown[];
   onContinue: () => void;
+  onSelectSlot: (slot: TimeSlot) => void;
 }
 
 const slotGradient: Record<TimeSlot, string> = {
