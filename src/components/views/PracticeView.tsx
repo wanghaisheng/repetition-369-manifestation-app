@@ -261,9 +261,12 @@ export const PracticeView = () => {
         {pendingInfo && (
           <PendingSessionBanner
             nextSlot={pendingInfo.slot}
-            completed={pendingInfo.completed}
-            target={pendingInfo.target}
             remainingSlots={pendingInfo.remainingSlots}
+            breakdown={slots.map(({ slot, target }) => ({
+              slot,
+              target,
+              completed: todayProgress[slot],
+            }))}
             onContinue={handleContinuePending}
           />
         )}
