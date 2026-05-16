@@ -64,6 +64,8 @@ export const ImmersiveFocusMode = ({
   initialEntries,
   initialDraft,
   onProgress,
+  slotOptions,
+  onSwitchSlot,
 }: ImmersiveFocusModeProps) => {
   const { t } = useTranslation('app');
   const [currentEntry, setCurrentEntry] = useState(initialDraft ?? '');
@@ -76,6 +78,28 @@ export const ImmersiveFocusMode = ({
   const [showCelebration, setShowCelebration] = useState(
     (initialEntries?.length ?? 0) >= target
   );
+  const [pendingSwitch, setPendingSwitch] = useState<TimeSlot | null>(null);
+
+  const slotIcon: Record<TimeSlot, typeof Sun> = {
+    morning: Sun,
+    afternoon: Sunset,
+    evening: Moon,
+  };
+
+  const requestSwitchSlot = (slot: TimeSlot) => {
+    if (slot === timeSlot || !onSwitchSlot) return;
+    const hasUnsaved = entries.length > 0 || currentEntry.trim().length > 0;
+    if (hasUnsaved) {
+      setPendingSwitch(slot);
+    } else {
+      onSwitchSlot(slot);
+    }
+  };
+
+  const confirmSwitch = () => {
+    if (pendingSwitch && onSwitchSlot) onSwitchSlot(pendingSwitch);
+    setPendingSwitch(null);
+  };
 
   const progress = (entries.length / target) * 100;
   const isLastEntry = entries.length === target - 1;
