@@ -79,6 +79,12 @@
     "currentSlot": "Current",
     "slotRemaining": "{{count}} more to finish this session",
     "slotDone": "Session complete",
+    "switchSlot": "Switch slot",
+    "switchSlotTitle": "Switch practice slot",
+    "switchConfirmTitle": "Switch to another slot?",
+    "switchConfirmDesc": "Your unsaved writing in the current slot will be lost. Continue?",
+    "switchCancel": "Cancel",
+    "switchConfirm": "Switch",
     "affirmations": "affirmations",
     "pendingBanner": {
       "title": "Unfinished 369 Sessions",
