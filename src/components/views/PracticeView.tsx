@@ -329,6 +329,15 @@ export const PracticeView = () => {
           timeSlot={focusMode.slot}
           target={focusMode.target || 3}
           alreadyCompleted={focusMode.slot ? todayProgress[focusMode.slot] : 0}
+          slotOptions={slots.map(({ slot, target }) => ({
+            slot,
+            target,
+            completed: todayProgress[slot],
+          }))}
+          onSwitchSlot={(slot) => {
+            const tg = slots.find(s => s.slot === slot)?.target ?? 3;
+            setFocusMode({ isOpen: true, slot, target: tg });
+          }}
         />
       )}
 

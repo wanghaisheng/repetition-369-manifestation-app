@@ -1,12 +1,36 @@
 import { useState, useEffect, useCallback } from 'react';
-import { X, CheckCircle, Sparkles, Heart, ChevronRight, Wind } from 'lucide-react';
+import { X, CheckCircle, Sparkles, Heart, ChevronRight, Wind, Sun, Sunset, Moon, Repeat } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Wish, Mood, TimeSlot } from '@/types';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { logger } from '@/utils/logger';
+
+export interface FocusSlotOption {
+  slot: TimeSlot;
+  target: number;
+  completed: number;
+}
 
 interface ImmersiveFocusModeProps {
   isOpen: boolean;
@@ -19,6 +43,8 @@ interface ImmersiveFocusModeProps {
   initialEntries?: string[];
   initialDraft?: string;
   onProgress?: (entries: string[], currentEntry: string) => void;
+  slotOptions?: FocusSlotOption[];
+  onSwitchSlot?: (slot: TimeSlot) => void;
 }
 
 const slotGradients = {
@@ -38,6 +64,8 @@ export const ImmersiveFocusMode = ({
   initialEntries,
   initialDraft,
   onProgress,
+  slotOptions,
+  onSwitchSlot,
 }: ImmersiveFocusModeProps) => {
   const { t } = useTranslation('app');
   const [currentEntry, setCurrentEntry] = useState(initialDraft ?? '');
@@ -50,6 +78,28 @@ export const ImmersiveFocusMode = ({
   const [showCelebration, setShowCelebration] = useState(
     (initialEntries?.length ?? 0) >= target
   );
+  const [pendingSwitch, setPendingSwitch] = useState<TimeSlot | null>(null);
+
+  const slotIcon: Record<TimeSlot, typeof Sun> = {
+    morning: Sun,
+    afternoon: Sunset,
+    evening: Moon,
+  };
+
+  const requestSwitchSlot = (slot: TimeSlot) => {
+    if (slot === timeSlot || !onSwitchSlot) return;
+    const hasUnsaved = entries.length > 0 || currentEntry.trim().length > 0;
+    if (hasUnsaved) {
+      setPendingSwitch(slot);
+    } else {
+      onSwitchSlot(slot);
+    }
+  };
+
+  const confirmSwitch = () => {
+    if (pendingSwitch && onSwitchSlot) onSwitchSlot(pendingSwitch);
+    setPendingSwitch(null);
+  };
 
   const progress = (entries.length / target) * 100;
   const isLastEntry = entries.length === target - 1;
@@ -147,10 +197,62 @@ export const ImmersiveFocusMode = ({
             </p>
           </div>
         </div>
-        <Button variant="ghost" size="icon" onClick={onClose} className="rounded-storybook flex-shrink-0">
-          <X className="w-5 h-5" />
-        </Button>
+        <div className="flex items-center gap-1 flex-shrink-0">
+          {slotOptions && slotOptions.length > 0 && onSwitchSlot && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="rounded-storybook gap-1.5">
+                  <Repeat className="w-4 h-4" />
+                  <span className="hidden sm:inline">{t('practice.switchSlot', { defaultValue: '选择时段' })}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>{t('practice.switchSlotTitle', { defaultValue: '切换练习时段' })}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {slotOptions.map(({ slot, target: tg, completed: cp }) => {
+                  const Icon = slotIcon[slot];
+                  const done = cp >= tg;
+                  const isCurrent = slot === timeSlot;
+                  return (
+                    <DropdownMenuItem
+                      key={slot}
+                      onSelect={(e) => { e.preventDefault(); requestSwitchSlot(slot); }}
+                      disabled={isCurrent}
+                      className="gap-2 cursor-pointer"
+                    >
+                      <Icon className="w-4 h-4 text-muted-foreground" />
+                      <span className="flex-1">{t(`practice.${slot}Title` as const)}</span>
+                      <span className={cn('text-xs font-medium', done ? 'text-storybook-sage' : 'text-muted-foreground')}>
+                        {cp}/{tg}
+                      </span>
+                    </DropdownMenuItem>
+                  );
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+          <Button variant="ghost" size="icon" onClick={onClose} className="rounded-storybook">
+            <X className="w-5 h-5" />
+          </Button>
+        </div>
       </div>
+
+      <AlertDialog open={pendingSwitch !== null} onOpenChange={(open) => !open && setPendingSwitch(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('practice.switchConfirmTitle', { defaultValue: '切换到其他时段？' })}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('practice.switchConfirmDesc', { defaultValue: '当前书写的内容尚未提交，切换后将会丢失。是否继续？' })}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t('practice.switchCancel', { defaultValue: '取消' })}</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmSwitch}>
+              {t('practice.switchConfirm', { defaultValue: '继续切换' })}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <div className="px-4 py-2"><Progress value={progress} className="h-1.5" /></div>
 
