@@ -77,6 +77,8 @@
     "afternoonDesc": "在繁忙中保持内心的专注",
     "eveningDesc": "带着感恩的心迎接夜晚",
     "currentSlot": "当前时段",
+    "slotRemaining": "还差 {{count}} 次完成本时段",
+    "slotDone": "本时段已完成",
     "affirmations": "肯定句",
     "pendingBanner": {
       "title": "未完成的369时段",
