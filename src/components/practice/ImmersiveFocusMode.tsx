@@ -126,16 +126,28 @@ export const ImmersiveFocusMode = ({
       <div className="absolute bottom-20 right-10 w-80 h-80 bg-storybook-coral/5 rounded-blob blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       
       <div className="relative flex items-center justify-between p-4 border-b border-border/50">
-        <div className="flex items-center gap-3">
-          <div className={cn("w-10 h-10 rounded-storybook flex items-center justify-center", `bg-gradient-to-br ${slotGradients[timeSlot]}`)}>
+        <div className="flex items-center gap-3 min-w-0">
+          <div className={cn("w-10 h-10 rounded-storybook flex items-center justify-center flex-shrink-0", `bg-gradient-to-br ${slotGradients[timeSlot]}`)}>
             <Heart className="w-5 h-5 text-white" />
           </div>
-          <div>
-            <h2 className="font-storybook font-semibold text-foreground">{t('practice.focusMode')}</h2>
-            <p className="text-xs text-muted-foreground">{entries.length}/{target} {t('practice.affirmationsWritten')}</p>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <h2 className="font-storybook font-semibold text-foreground truncate">{t(slotTitleKey)}</h2>
+              <span className={cn(
+                "text-xs font-semibold px-2 py-0.5 rounded-full text-white bg-gradient-to-r",
+                slotGradients[timeSlot]
+              )}>
+                {slotTotal}/{target}
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {slotRemaining > 0
+                ? t('practice.slotRemaining', { defaultValue: '还差 {{count}} 次完成本时段', count: slotRemaining })
+                : t('practice.slotDone', { defaultValue: '本时段已完成' })}
+            </p>
           </div>
         </div>
-        <Button variant="ghost" size="icon" onClick={onClose} className="rounded-storybook">
+        <Button variant="ghost" size="icon" onClick={onClose} className="rounded-storybook flex-shrink-0">
           <X className="w-5 h-5" />
         </Button>
       </div>
