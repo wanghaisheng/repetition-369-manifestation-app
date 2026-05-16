@@ -15,6 +15,7 @@ interface ImmersiveFocusModeProps {
   wish: Wish;
   timeSlot: TimeSlot;
   target: number;
+  alreadyCompleted?: number;
   initialEntries?: string[];
   initialDraft?: string;
   onProgress?: (entries: string[], currentEntry: string) => void;
