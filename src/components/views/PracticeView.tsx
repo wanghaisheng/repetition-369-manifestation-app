@@ -279,6 +279,7 @@ export const PracticeView = () => {
               completed: todayProgress[slot],
             }))}
             onContinue={handleContinuePending}
+            onSelectSlot={handleSelectPendingSlot}
           />
         )}
 
