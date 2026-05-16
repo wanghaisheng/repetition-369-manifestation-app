@@ -169,6 +169,17 @@ export const PracticeView = () => {
     setFocusMode({ isOpen: true, slot: pendingInfo.slot, target: pendingInfo.target });
   };
 
+  const handleSelectPendingSlot = (slot: TimeSlot) => {
+    const target = slots.find(s => s.slot === slot)?.target ?? 3;
+    let wishId = selectedWishId;
+    if (!wishId && wishes.length > 0) {
+      wishId = wishes[0].id;
+      setSelectedWishId(wishId);
+    }
+    if (!wishId) return;
+    setFocusMode({ isOpen: true, slot, target });
+  };
+
   const handleCompletePractice = async (entries: string[], mood: Mood) => {
     if (!selectedWish || !focusMode.slot || !user) return;
 
@@ -268,6 +279,7 @@ export const PracticeView = () => {
               completed: todayProgress[slot],
             }))}
             onContinue={handleContinuePending}
+            onSelectSlot={handleSelectPendingSlot}
           />
         )}
 

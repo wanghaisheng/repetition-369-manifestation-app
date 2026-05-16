@@ -16,6 +16,7 @@ interface PendingSessionBannerProps {
   remainingSlots: number;
   breakdown: SlotBreakdown[];
   onContinue: () => void;
+  onSelectSlot: (slot: TimeSlot) => void;
 }
 
 const slotGradient: Record<TimeSlot, string> = {
@@ -35,6 +36,7 @@ export const PendingSessionBanner = ({
   remainingSlots,
   breakdown,
   onContinue,
+  onSelectSlot,
 }: PendingSessionBannerProps) => {
   const { t } = useTranslation('app');
 
@@ -87,12 +89,17 @@ export const PendingSessionBanner = ({
             const done = completed >= target;
             const isNext = slot === nextSlot;
             return (
-              <div
+              <button
                 key={slot}
+                type="button"
+                onClick={() => !done && onSelectSlot(slot)}
+                disabled={done}
+                aria-label={`${slotNames[slot]} ${completed}/${target}`}
                 className={cn(
-                  'rounded-storybook px-2.5 py-2 bg-background/60 backdrop-blur-sm border transition-colors',
-                  isNext ? 'border-storybook-honey/60' : 'border-transparent',
-                  done && 'opacity-70'
+                  'text-left rounded-storybook px-2.5 py-2 bg-background/60 backdrop-blur-sm border transition-all',
+                  'min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-storybook-honey/60',
+                  isNext && !done ? 'border-storybook-honey/60' : 'border-transparent',
+                  done ? 'opacity-70 cursor-default' : 'hover:bg-background/80 hover:shadow-storybook active:scale-[0.98] cursor-pointer'
                 )}
               >
                 <div className="flex items-center gap-1.5 mb-1">
@@ -103,7 +110,7 @@ export const PendingSessionBanner = ({
                 <div className={cn('text-sm font-storybook font-semibold', done ? 'text-storybook-sage' : 'text-foreground')}>
                   {completed}/{target}
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>
