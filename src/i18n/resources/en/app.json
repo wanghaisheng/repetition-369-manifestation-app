@@ -77,6 +77,8 @@
     "afternoonDesc": "Stay focused through the day",
     "eveningDesc": "End the day with gratitude",
     "currentSlot": "Current",
+    "slotRemaining": "{{count}} more to finish this session",
+    "slotDone": "Session complete",
     "affirmations": "affirmations",
     "pendingBanner": {
       "title": "Unfinished 369 Sessions",
