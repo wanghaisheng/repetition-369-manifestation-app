@@ -36,6 +36,7 @@ export const PendingSessionBanner = ({
   remainingSlots,
   breakdown,
   onContinue,
+  onSelectSlot,
 }: PendingSessionBannerProps) => {
   const { t } = useTranslation('app');
 
