@@ -257,6 +257,17 @@ export const PracticeView = () => {
           weeklyTarget={stats.weeklyTarget}
         />
 
+        {/* Pending Session Banner */}
+        {pendingInfo && (
+          <PendingSessionBanner
+            nextSlot={pendingInfo.slot}
+            completed={pendingInfo.completed}
+            target={pendingInfo.target}
+            remainingSlots={pendingInfo.remainingSlots}
+            onContinue={handleContinuePending}
+          />
+        )}
+
         {/* Wish Selector */}
         <WishSelector
           wishes={wishes}
