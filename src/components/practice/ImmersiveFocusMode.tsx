@@ -34,6 +34,7 @@ export const ImmersiveFocusMode = ({
   wish,
   timeSlot,
   target,
+  alreadyCompleted = 0,
   initialEntries,
   initialDraft,
   onProgress,
@@ -52,6 +53,9 @@ export const ImmersiveFocusMode = ({
 
   const progress = (entries.length / target) * 100;
   const isLastEntry = entries.length === target - 1;
+  const slotTotal = Math.min(alreadyCompleted + entries.length, target);
+  const slotRemaining = Math.max(target - slotTotal, 0);
+  const slotTitleKey = `practice.${timeSlot}Title` as const;
 
   useEffect(() => {
     if (!showBreathingGuide || !isOpen) return;
