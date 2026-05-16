@@ -328,6 +328,7 @@ export const PracticeView = () => {
           wish={selectedWish}
           timeSlot={focusMode.slot}
           target={focusMode.target || 3}
+          alreadyCompleted={focusMode.slot ? todayProgress[focusMode.slot] : 0}
         />
       )}
 
