@@ -78,6 +78,11 @@
     "eveningDesc": "End the day with gratitude",
     "currentSlot": "Current",
     "affirmations": "affirmations",
+    "pendingBanner": {
+      "title": "Unfinished 369 Sessions",
+      "desc": "Next: {{slot}} · {{remaining}}/{{target}} left ({{slots}} session(s) pending)",
+      "continue": "Continue"
+    },
     "progress": "Progress",
     "completedLabel": "Completed",
     "locked": "Locked",

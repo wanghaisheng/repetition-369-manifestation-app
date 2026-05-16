@@ -23,6 +23,7 @@ import { PracticeHero } from '@/components/practice/PracticeHero';
 import { TimeSlotCard } from '@/components/practice/TimeSlotCard';
 import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
 import { QuickStatsBar } from '@/components/practice/QuickStatsBar';
+import { PendingSessionBanner } from '@/components/practice/PendingSessionBanner';
 import { useTranslation } from 'react-i18next';
 import { useTrialMigration } from '@/hooks/useTrialMigration';
 
@@ -139,9 +140,33 @@ export const PracticeView = () => {
 
   const selectedWish = wishes.find(wish => wish.id === selectedWishId);
 
+  // Next pending slot today (in order morning -> afternoon -> evening)
+  const pendingInfo = useMemo(() => {
+    const next = slots.find(({ slot, target }) => todayProgress[slot] < target);
+    if (!next) return null;
+    const remainingSlots = slots.filter(({ slot, target }) => todayProgress[slot] < target).length;
+    return {
+      slot: next.slot,
+      target: next.target,
+      completed: todayProgress[next.slot],
+      remainingSlots,
+    };
+  }, [todayProgress]);
+
   const handleStartPractice = (slot: TimeSlot, target: number) => {
     if (!selectedWishId) return;
     setFocusMode({ isOpen: true, slot, target });
+  };
+
+  const handleContinuePending = () => {
+    if (!pendingInfo) return;
+    let wishId = selectedWishId;
+    if (!wishId && wishes.length > 0) {
+      wishId = wishes[0].id;
+      setSelectedWishId(wishId);
+    }
+    if (!wishId) return;
+    setFocusMode({ isOpen: true, slot: pendingInfo.slot, target: pendingInfo.target });
   };
 
   const handleCompletePractice = async (entries: string[], mood: Mood) => {
@@ -231,6 +256,17 @@ export const PracticeView = () => {
           weeklyCompleted={stats.weeklyCompleted}
           weeklyTarget={stats.weeklyTarget}
         />
+
+        {/* Pending Session Banner */}
+        {pendingInfo && (
+          <PendingSessionBanner
+            nextSlot={pendingInfo.slot}
+            completed={pendingInfo.completed}
+            target={pendingInfo.target}
+            remainingSlots={pendingInfo.remainingSlots}
+            onContinue={handleContinuePending}
+          />
+        )}
 
         {/* Wish Selector */}
         <WishSelector

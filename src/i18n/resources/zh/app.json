@@ -78,6 +78,11 @@
     "eveningDesc": "带着感恩的心迎接夜晚",
     "currentSlot": "当前时段",
     "affirmations": "肯定句",
+    "pendingBanner": {
+      "title": "未完成的369时段",
+      "desc": "下一时段：{{slot}} · 还差 {{remaining}}/{{target}} 次（共 {{slots}} 个时段待完成）",
+      "continue": "一键继续"
+    },
     "progress": "进度",
     "completedLabel": "已完成",
     "locked": "未到时间",
