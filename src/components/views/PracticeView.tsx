@@ -30,6 +30,7 @@ import { useToast } from '@/hooks/use-toast';
 
 export const PracticeView = () => {
   const { t } = useTranslation('app');
+  const { toast } = useToast();
   const searchParams = useSearch({ strict: false }) as { wishId?: string };
   const { wishes, loading: wishesLoading, refetch: refetchWishes } = useWishes();
   const { todayPractices, practiceHistory, recordPractice, loading: practiceLoading, refetch: refetchPractice } = usePractice();
