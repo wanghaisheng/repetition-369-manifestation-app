@@ -87,6 +87,7 @@
     "switchConfirmDesc": "当前书写的内容尚未提交，切换后将会丢失。是否继续？",
     "switchCancel": "取消",
     "switchConfirm": "继续切换",
+    "switchDiscard": "清空并继续",
     "affirmations": "肯定句",
     "pendingBanner": {
       "title": "未完成的369时段",
