@@ -26,6 +26,7 @@ import { QuickStatsBar } from '@/components/practice/QuickStatsBar';
 import { PendingSessionBanner } from '@/components/practice/PendingSessionBanner';
 import { useTranslation } from 'react-i18next';
 import { useTrialMigration } from '@/hooks/useTrialMigration';
+import { useToast } from '@/hooks/use-toast';
 
 export const PracticeView = () => {
   const { t } = useTranslation('app');
