@@ -87,6 +87,7 @@
     "switchConfirmDesc": "Your unsaved writing in the current slot will be lost. Continue?",
     "switchCancel": "Cancel",
     "switchConfirm": "Switch",
+    "switchDiscard": "Discard & switch",
     "affirmations": "affirmations",
     "pendingBanner": {
       "title": "Unfinished 369 Sessions",
