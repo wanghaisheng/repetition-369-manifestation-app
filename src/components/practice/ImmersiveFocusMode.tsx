@@ -227,7 +227,7 @@ export const ImmersiveFocusMode = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-background">
+    <div className="fixed inset-0 z-50 bg-background" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       <div className={cn("absolute inset-0 bg-gradient-to-br opacity-10", slotGradients[timeSlot])} />
       <div className="absolute top-20 left-10 w-64 h-64 bg-storybook-honey/5 rounded-blob blur-3xl animate-pulse" />
       <div className="absolute bottom-20 right-10 w-80 h-80 bg-storybook-coral/5 rounded-blob blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
