@@ -27,6 +27,7 @@ import { PendingSessionBanner } from '@/components/practice/PendingSessionBanner
 import { useTranslation } from 'react-i18next';
 import { useTrialMigration } from '@/hooks/useTrialMigration';
 import { useToast } from '@/hooks/use-toast';
+import { readSlotDraft, writeSlotDraft, clearSlotDraft } from '@/utils/slotDraftStorage';
 
 export const PracticeView = () => {
   const { t } = useTranslation('app');
@@ -202,6 +203,9 @@ export const PracticeView = () => {
       await updateStreak();
       await checkAchievements();
 
+      // Clear the saved draft for the just-completed slot
+      clearSlotDraft(user.id, selectedWish.id, focusMode.slot);
+
       // Auto-advance to the next incomplete slot (in morning → afternoon → evening order)
       const justCompleted = focusMode.slot;
       const nextSlot = slots.find(
@@ -341,26 +345,35 @@ export const PracticeView = () => {
       </div>
 
       {/* Immersive Focus Mode */}
-      {focusMode.isOpen && selectedWish && focusMode.slot && (
-        <ImmersiveFocusMode
-          isOpen={focusMode.isOpen}
-          onClose={() => setFocusMode({ isOpen: false })}
-          onComplete={handleCompletePractice}
-          wish={selectedWish}
-          timeSlot={focusMode.slot}
-          target={focusMode.target || 3}
-          alreadyCompleted={focusMode.slot ? todayProgress[focusMode.slot] : 0}
-          slotOptions={slots.map(({ slot, target }) => ({
-            slot,
-            target,
-            completed: todayProgress[slot],
-          }))}
-          onSwitchSlot={(slot) => {
-            const tg = slots.find(s => s.slot === slot)?.target ?? 3;
-            setFocusMode({ isOpen: true, slot, target: tg });
-          }}
-        />
-      )}
+      {focusMode.isOpen && selectedWish && focusMode.slot && (() => {
+        const savedDraft = readSlotDraft(userId, selectedWish.id, focusMode.slot);
+        return (
+          <ImmersiveFocusMode
+            isOpen={focusMode.isOpen}
+            onClose={() => setFocusMode({ isOpen: false })}
+            onComplete={handleCompletePractice}
+            wish={selectedWish}
+            timeSlot={focusMode.slot}
+            target={focusMode.target || 3}
+            alreadyCompleted={focusMode.slot ? todayProgress[focusMode.slot] : 0}
+            initialEntries={savedDraft?.entries}
+            initialDraft={savedDraft?.currentEntry}
+            onProgress={(entries, currentEntry) => {
+              if (!focusMode.slot) return;
+              writeSlotDraft(userId, selectedWish.id, focusMode.slot, { entries, currentEntry });
+            }}
+            slotOptions={slots.map(({ slot, target }) => ({
+              slot,
+              target,
+              completed: todayProgress[slot],
+            }))}
+            onSwitchSlot={(slot) => {
+              const tg = slots.find(s => s.slot === slot)?.target ?? 3;
+              setFocusMode({ isOpen: true, slot, target: tg });
+            }}
+          />
+        );
+      })()}
 
       {/* Advanced Practice Modal */}
       <AdvancedPracticeModal
