@@ -27,6 +27,7 @@ import { PendingSessionBanner } from '@/components/practice/PendingSessionBanner
 import { useTranslation } from 'react-i18next';
 import { useTrialMigration } from '@/hooks/useTrialMigration';
 import { useToast } from '@/hooks/use-toast';
+import { readSlotDraft, writeSlotDraft, clearSlotDraft } from '@/utils/slotDraftStorage';
 
 export const PracticeView = () => {
   const { t } = useTranslation('app');
