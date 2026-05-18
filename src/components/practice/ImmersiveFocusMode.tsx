@@ -86,9 +86,13 @@ export const ImmersiveFocusMode = ({
     evening: Moon,
   };
 
+  const slotOrder: TimeSlot[] = ['morning', 'afternoon', 'evening'];
+
   const requestSwitchSlot = (slot: TimeSlot) => {
     if (slot === timeSlot || !onSwitchSlot) return;
-    const hasUnsaved = entries.length > 0 || currentEntry.trim().length > 0;
+    const trimmed = currentEntry.trim();
+    const isJustAutoDraft = trimmed.length > 0 && trimmed === (wish.affirmation ?? '').trim();
+    const hasUnsaved = entries.length > 0 || (trimmed.length > 0 && !isJustAutoDraft);
     if (hasUnsaved) {
       setPendingSwitch(slot);
     } else {
@@ -96,10 +100,54 @@ export const ImmersiveFocusMode = ({
     }
   };
 
+  const switchByOffset = (offset: number) => {
+    if (!slotOptions || slotOptions.length === 0 || !onSwitchSlot) return;
+    const available = slotOrder.filter(s => slotOptions.some(o => o.slot === s));
+    const idx = available.indexOf(timeSlot);
+    if (idx === -1) return;
+    const next = available[(idx + offset + available.length) % available.length];
+    requestSwitchSlot(next);
+  };
+
   const confirmSwitch = () => {
     if (pendingSwitch && onSwitchSlot) onSwitchSlot(pendingSwitch);
     setPendingSwitch(null);
   };
+
+  // Keyboard shortcuts: Alt+1/2/3 jump to slot; Alt+ArrowLeft/Right cycle prev/next
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (!e.altKey || e.ctrlKey || e.metaKey) return;
+      const map: Record<string, TimeSlot> = { '1': 'morning', '2': 'afternoon', '3': 'evening' };
+      if (map[e.key]) { e.preventDefault(); requestSwitchSlot(map[e.key]); return; }
+      if (e.key === 'ArrowRight') { e.preventDefault(); switchByOffset(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); switchByOffset(-1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, timeSlot, entries, currentEntry, slotOptions]);
+
+  // Touch swipe: horizontal swipe on the focus mode body switches slot
+  const touchRef = useRef<{ x: number; y: number; t: number } | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    const tgt = e.target as HTMLElement;
+    if (tgt.closest('textarea, input, [role="dialog"], [data-no-swipe]')) return;
+    const t0 = e.touches[0];
+    touchRef.current = { x: t0.clientX, y: t0.clientY, t: Date.now() };
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchRef.current;
+    touchRef.current = null;
+    if (!start) return;
+    const end = e.changedTouches[0];
+    const dx = end.clientX - start.x;
+    const dy = end.clientY - start.y;
+    if (Math.abs(dx) < 60 || Math.abs(dy) > 50 || Date.now() - start.t > 600) return;
+    switchByOffset(dx < 0 ? 1 : -1);
+  };
+
 
   const progress = (entries.length / target) * 100;
   const isLastEntry = entries.length === target - 1;
