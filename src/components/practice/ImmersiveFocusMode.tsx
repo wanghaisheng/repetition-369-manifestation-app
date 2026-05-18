@@ -264,7 +264,12 @@ export const ImmersiveFocusMode = ({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>{t('practice.switchSlotTitle', { defaultValue: '切换练习时段' })}</DropdownMenuLabel>
+                <DropdownMenuLabel className="flex items-center justify-between gap-2">
+                  <span>{t('practice.switchSlotTitle', { defaultValue: '切换练习时段' })}</span>
+                  <span className="text-[10px] font-normal text-muted-foreground hidden sm:inline">
+                    {t('practice.switchShortcutHint', { defaultValue: 'Alt+1/2/3 · ← →' })}
+                  </span>
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {slotOptions.map(({ slot, target: tg, completed: cp }) => {
                   const Icon = slotIcon[slot];
