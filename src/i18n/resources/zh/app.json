@@ -79,6 +79,7 @@
     "currentSlot": "当前时段",
     "slotRemaining": "还差 {{count}} 次完成本时段",
     "slotDone": "本时段已完成",
+    "autoAdvance": "继续 {{slot}} 练习",
     "switchSlot": "选择时段",
     "switchSlotTitle": "切换练习时段",
     "switchConfirmTitle": "切换到其他时段？",

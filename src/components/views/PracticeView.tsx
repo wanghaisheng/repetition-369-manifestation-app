@@ -26,9 +26,11 @@ import { QuickStatsBar } from '@/components/practice/QuickStatsBar';
 import { PendingSessionBanner } from '@/components/practice/PendingSessionBanner';
 import { useTranslation } from 'react-i18next';
 import { useTrialMigration } from '@/hooks/useTrialMigration';
+import { useToast } from '@/hooks/use-toast';
 
 export const PracticeView = () => {
   const { t } = useTranslation('app');
+  const { toast } = useToast();
   const searchParams = useSearch({ strict: false }) as { wishId?: string };
   const { wishes, loading: wishesLoading, refetch: refetchWishes } = useWishes();
   const { todayPractices, practiceHistory, recordPractice, loading: practiceLoading, refetch: refetchPractice } = usePractice();
@@ -200,19 +202,38 @@ export const PracticeView = () => {
       await updateStreak();
       await checkAchievements();
 
+      // Auto-advance to the next incomplete slot (in morning → afternoon → evening order)
+      const justCompleted = focusMode.slot;
+      const nextSlot = slots.find(
+        ({ slot, target }) => slot !== justCompleted && todayProgress[slot] < target
+      );
+
+      if (nextSlot) {
+        toast({
+          title: t('practice.slotDone', { defaultValue: '本时段已完成' }),
+          description: t('practice.autoAdvance', {
+            defaultValue: '继续 {{slot}} 练习',
+            slot: t(`practice.${nextSlot.slot}Title` as const),
+          }),
+        });
+        setFocusMode({ isOpen: true, slot: nextSlot.slot, target: nextSlot.target });
+        return;
+      }
+
       setFocusMode({ isOpen: false });
-    
-      // Create share content
+
+      // All slots done today — celebrate with share modal
       const { SocialService } = await import('@/services/SocialService');
       const content = SocialService.createProgressShare(
         stats.totalCompleted,
         wishes.filter(w => w.status === 'achieved').length
       );
-      
+
       setTimeout(() => {
         setShareContent(content);
         setShareModalOpen(true);
       }, 2000);
+
     } catch (error) {
       logger.error('Error recording practice', error);
     }
