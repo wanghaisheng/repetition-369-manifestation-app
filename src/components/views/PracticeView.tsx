@@ -203,6 +203,9 @@ export const PracticeView = () => {
       await updateStreak();
       await checkAchievements();
 
+      // Clear the saved draft for the just-completed slot
+      clearSlotDraft(user.id, selectedWish.id, focusMode.slot);
+
       // Auto-advance to the next incomplete slot (in morning → afternoon → evening order)
       const justCompleted = focusMode.slot;
       const nextSlot = slots.find(
