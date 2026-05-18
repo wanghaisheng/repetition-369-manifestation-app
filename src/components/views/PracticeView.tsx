@@ -342,26 +342,35 @@ export const PracticeView = () => {
       </div>
 
       {/* Immersive Focus Mode */}
-      {focusMode.isOpen && selectedWish && focusMode.slot && (
-        <ImmersiveFocusMode
-          isOpen={focusMode.isOpen}
-          onClose={() => setFocusMode({ isOpen: false })}
-          onComplete={handleCompletePractice}
-          wish={selectedWish}
-          timeSlot={focusMode.slot}
-          target={focusMode.target || 3}
-          alreadyCompleted={focusMode.slot ? todayProgress[focusMode.slot] : 0}
-          slotOptions={slots.map(({ slot, target }) => ({
-            slot,
-            target,
-            completed: todayProgress[slot],
-          }))}
-          onSwitchSlot={(slot) => {
-            const tg = slots.find(s => s.slot === slot)?.target ?? 3;
-            setFocusMode({ isOpen: true, slot, target: tg });
-          }}
-        />
-      )}
+      {focusMode.isOpen && selectedWish && focusMode.slot && (() => {
+        const savedDraft = readSlotDraft(userId, selectedWish.id, focusMode.slot);
+        return (
+          <ImmersiveFocusMode
+            isOpen={focusMode.isOpen}
+            onClose={() => setFocusMode({ isOpen: false })}
+            onComplete={handleCompletePractice}
+            wish={selectedWish}
+            timeSlot={focusMode.slot}
+            target={focusMode.target || 3}
+            alreadyCompleted={focusMode.slot ? todayProgress[focusMode.slot] : 0}
+            initialEntries={savedDraft?.entries}
+            initialDraft={savedDraft?.currentEntry}
+            onProgress={(entries, currentEntry) => {
+              if (!focusMode.slot) return;
+              writeSlotDraft(userId, selectedWish.id, focusMode.slot, { entries, currentEntry });
+            }}
+            slotOptions={slots.map(({ slot, target }) => ({
+              slot,
+              target,
+              completed: todayProgress[slot],
+            }))}
+            onSwitchSlot={(slot) => {
+              const tg = slots.find(s => s.slot === slot)?.target ?? 3;
+              setFocusMode({ isOpen: true, slot, target: tg });
+            }}
+          />
+        );
+      })()}
 
       {/* Advanced Practice Modal */}
       <AdvancedPracticeModal
