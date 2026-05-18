@@ -79,6 +79,7 @@
     "currentSlot": "Current",
     "slotRemaining": "{{count}} more to finish this session",
     "slotDone": "Session complete",
+    "autoAdvance": "Continuing {{slot}} practice",
     "switchSlot": "Switch slot",
     "switchSlotTitle": "Switch practice slot",
     "switchConfirmTitle": "Switch to another slot?",
