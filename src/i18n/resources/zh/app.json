@@ -82,6 +82,7 @@
     "autoAdvance": "继续 {{slot}} 练习",
     "switchSlot": "选择时段",
     "switchSlotTitle": "切换练习时段",
+    "switchShortcutHint": "Alt+1/2/3 或 ← → · 左右滑动",
     "switchConfirmTitle": "切换到其他时段？",
     "switchConfirmDesc": "当前书写的内容尚未提交，切换后将会丢失。是否继续？",
     "switchCancel": "取消",

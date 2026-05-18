@@ -82,6 +82,7 @@
     "autoAdvance": "Continuing {{slot}} practice",
     "switchSlot": "Switch slot",
     "switchSlotTitle": "Switch practice slot",
+    "switchShortcutHint": "Alt+1/2/3 or ← → · swipe",
     "switchConfirmTitle": "Switch to another slot?",
     "switchConfirmDesc": "Your unsaved writing in the current slot will be lost. Continue?",
     "switchCancel": "Cancel",

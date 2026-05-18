@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { X, CheckCircle, Sparkles, Heart, ChevronRight, Wind, Sun, Sunset, Moon, Repeat } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -86,9 +86,13 @@ export const ImmersiveFocusMode = ({
     evening: Moon,
   };
 
+  const slotOrder: TimeSlot[] = ['morning', 'afternoon', 'evening'];
+
   const requestSwitchSlot = (slot: TimeSlot) => {
     if (slot === timeSlot || !onSwitchSlot) return;
-    const hasUnsaved = entries.length > 0 || currentEntry.trim().length > 0;
+    const trimmed = currentEntry.trim();
+    const isJustAutoDraft = trimmed.length > 0 && trimmed === (wish.affirmation ?? '').trim();
+    const hasUnsaved = entries.length > 0 || (trimmed.length > 0 && !isJustAutoDraft);
     if (hasUnsaved) {
       setPendingSwitch(slot);
     } else {
@@ -96,10 +100,54 @@ export const ImmersiveFocusMode = ({
     }
   };
 
+  const switchByOffset = (offset: number) => {
+    if (!slotOptions || slotOptions.length === 0 || !onSwitchSlot) return;
+    const available = slotOrder.filter(s => slotOptions.some(o => o.slot === s));
+    const idx = available.indexOf(timeSlot);
+    if (idx === -1) return;
+    const next = available[(idx + offset + available.length) % available.length];
+    requestSwitchSlot(next);
+  };
+
   const confirmSwitch = () => {
     if (pendingSwitch && onSwitchSlot) onSwitchSlot(pendingSwitch);
     setPendingSwitch(null);
   };
+
+  // Keyboard shortcuts: Alt+1/2/3 jump to slot; Alt+ArrowLeft/Right cycle prev/next
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (!e.altKey || e.ctrlKey || e.metaKey) return;
+      const map: Record<string, TimeSlot> = { '1': 'morning', '2': 'afternoon', '3': 'evening' };
+      if (map[e.key]) { e.preventDefault(); requestSwitchSlot(map[e.key]); return; }
+      if (e.key === 'ArrowRight') { e.preventDefault(); switchByOffset(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); switchByOffset(-1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, timeSlot, entries, currentEntry, slotOptions]);
+
+  // Touch swipe: horizontal swipe on the focus mode body switches slot
+  const touchRef = useRef<{ x: number; y: number; t: number } | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    const tgt = e.target as HTMLElement;
+    if (tgt.closest('textarea, input, [role="dialog"], [data-no-swipe]')) return;
+    const t0 = e.touches[0];
+    touchRef.current = { x: t0.clientX, y: t0.clientY, t: Date.now() };
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchRef.current;
+    touchRef.current = null;
+    if (!start) return;
+    const end = e.changedTouches[0];
+    const dx = end.clientX - start.x;
+    const dy = end.clientY - start.y;
+    if (Math.abs(dx) < 60 || Math.abs(dy) > 50 || Date.now() - start.t > 600) return;
+    switchByOffset(dx < 0 ? 1 : -1);
+  };
+
 
   const progress = (entries.length / target) * 100;
   const isLastEntry = entries.length === target - 1;
@@ -179,7 +227,7 @@ export const ImmersiveFocusMode = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-background">
+    <div className="fixed inset-0 z-50 bg-background" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       <div className={cn("absolute inset-0 bg-gradient-to-br opacity-10", slotGradients[timeSlot])} />
       <div className="absolute top-20 left-10 w-64 h-64 bg-storybook-honey/5 rounded-blob blur-3xl animate-pulse" />
       <div className="absolute bottom-20 right-10 w-80 h-80 bg-storybook-coral/5 rounded-blob blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
@@ -216,7 +264,12 @@ export const ImmersiveFocusMode = ({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>{t('practice.switchSlotTitle', { defaultValue: '切换练习时段' })}</DropdownMenuLabel>
+                <DropdownMenuLabel className="flex items-center justify-between gap-2">
+                  <span>{t('practice.switchSlotTitle', { defaultValue: '切换练习时段' })}</span>
+                  <span className="text-[10px] font-normal text-muted-foreground hidden sm:inline">
+                    {t('practice.switchShortcutHint', { defaultValue: 'Alt+1/2/3 · ← →' })}
+                  </span>
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {slotOptions.map(({ slot, target: tg, completed: cp }) => {
                   const Icon = slotIcon[slot];
