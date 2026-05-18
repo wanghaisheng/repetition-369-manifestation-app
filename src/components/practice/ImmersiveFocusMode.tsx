@@ -309,8 +309,11 @@ export const ImmersiveFocusMode = ({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t('practice.switchCancel', { defaultValue: '取消' })}</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmSwitch}>
-              {t('practice.switchConfirm', { defaultValue: '继续切换' })}
+            <AlertDialogAction
+              onClick={confirmSwitch}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {t('practice.switchDiscard', { defaultValue: '清空并继续' })}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
