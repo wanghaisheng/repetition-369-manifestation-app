@@ -121,14 +121,23 @@ export const ImmersiveFocusMode = ({
 
   useEffect(() => {
     if (isOpen) {
-      setEntries(initialEntries ?? []);
-      setCurrentEntry(initialDraft ?? '');
-      setShowCelebration((initialEntries?.length ?? 0) >= target);
-      setShowBreathingGuide(!(initialEntries?.length || initialDraft));
+      const startEntries = initialEntries ?? [];
+      setEntries(startEntries);
+      // Auto-fill draft from the wish affirmation when there's no saved draft
+      // and the slot isn't already complete, so users can edit instead of typing from scratch.
+      const autoDraft =
+        initialDraft && initialDraft.length > 0
+          ? initialDraft
+          : startEntries.length < target
+            ? wish.affirmation ?? ''
+            : '';
+      setCurrentEntry(autoDraft);
+      setShowCelebration(startEntries.length >= target);
+      setShowBreathingGuide(!(startEntries.length || initialDraft));
     }
     // Re-init only when opening or when slot/target identity changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, timeSlot, target]);
+  }, [isOpen, timeSlot, target, wish.id]);
 
   // Notify parent of draft changes for persistence
   useEffect(() => {
