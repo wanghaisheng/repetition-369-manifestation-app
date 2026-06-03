@@ -282,13 +282,13 @@ export const ImmersiveFocusMode = ({
                       onSelect={(e) => { e.preventDefault(); requestSwitchSlot(slot); }}
                       disabled={isCurrent}
                       className={cn(
-                        "gap-2 cursor-pointer py-2.5",
+                        "gap-2.5 cursor-pointer py-3 px-3",
                         done && "bg-storybook-sage/8 focus:bg-storybook-sage/15",
                         isCurrent && "bg-storybook-honey/8 focus:bg-storybook-honey/15 ring-1 ring-storybook-honey/40"
                       )}
                     >
                       <div className={cn(
-                        "w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0",
+                        "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
                         done
                           ? "bg-storybook-sage text-white"
                           : `bg-gradient-to-br ${slotGradients[slot]} text-white`
@@ -296,21 +296,35 @@ export const ImmersiveFocusMode = ({
                         {done ? <CheckCircle className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <span className={cn(
-                            "text-sm",
-                            done ? "text-storybook-sage font-medium" : "text-foreground"
-                          )}>
-                            {t(`practice.${slot}Title` as const)}
-                          </span>
-                          {isCurrent && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-storybook-honey/20 text-storybook-honey font-medium shrink-0">
-                              {t('practice.currentSlot')}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1.5">
+                            <span className={cn(
+                              "text-sm font-medium",
+                              done ? "text-storybook-sage" : "text-foreground"
+                            )}>
+                              {t(`practice.${slot}Title` as const)}
                             </span>
-                          )}
+                            {isCurrent && (
+                              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-storybook-honey/20 text-storybook-honey font-medium shrink-0">
+                                {t('practice.currentSlot')}
+                              </span>
+                            )}
+                          </div>
+                          <span className={cn(
+                            "text-xs font-semibold tabular-nums shrink-0",
+                            done ? "text-storybook-sage" : "text-muted-foreground"
+                          )}>
+                            {done ? (
+                              <span className="inline-flex items-center gap-1">
+                                {cp}/{tg} <CheckCircle className="w-3 h-3" />
+                              </span>
+                            ) : (
+                              `${cp}/${tg}`
+                            )}
+                          </span>
                         </div>
-                        <div className="flex items-center gap-1.5 mt-0.5">
-                          <div className="w-16 h-1.5 rounded-full bg-muted overflow-hidden">
+                        <div className="flex items-center gap-2 mt-1">
+                          <div className="w-20 h-1.5 rounded-full bg-muted overflow-hidden flex-shrink-0">
                             <div
                               className={cn(
                                 "h-full rounded-full transition-all",
@@ -319,17 +333,11 @@ export const ImmersiveFocusMode = ({
                               style={{ width: `${progress * 100}%` }}
                             />
                           </div>
-                          <span className={cn(
-                            'text-[10px] font-medium',
-                            done ? 'text-storybook-sage' : 'text-muted-foreground'
-                          )}>
-                            {cp}/{tg}
+                          <span className="text-[11px] text-muted-foreground truncate">
+                            {t(`practice.${slot}Desc` as const)}
                           </span>
                         </div>
                       </div>
-                      {done && (
-                        <CheckCircle className="w-4 h-4 text-storybook-sage shrink-0" />
-                      )}
                     </DropdownMenuItem>
                   );
                 })}
