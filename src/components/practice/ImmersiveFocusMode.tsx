@@ -79,6 +79,8 @@ export const ImmersiveFocusMode = ({
     (initialEntries?.length ?? 0) >= target
   );
   const [pendingSwitch, setPendingSwitch] = useState<TimeSlot | null>(null);
+  const [celebrateSlot, setCelebrateSlot] = useState<TimeSlot | null>(null);
+  const [reflectionText, setReflectionText] = useState('');
 
   const slotIcon: Record<TimeSlot, typeof Sun> = {
     morning: Sun,
@@ -88,8 +90,28 @@ export const ImmersiveFocusMode = ({
 
   const slotOrder: TimeSlot[] = ['morning', 'afternoon', 'evening'];
 
+  const reflectionKey = (slot: TimeSlot) =>
+    `slot-reflection:${wish.id}:${slot}:${new Date().toISOString().slice(0, 10)}`;
+
+  const findNextIncompleteSlot = (from: TimeSlot): TimeSlot | null => {
+    if (!slotOptions) return null;
+    const idx = slotOrder.indexOf(from);
+    for (let i = 1; i <= slotOrder.length; i++) {
+      const s = slotOrder[(idx + i) % slotOrder.length];
+      const opt = slotOptions.find(o => o.slot === s);
+      if (opt && opt.completed < opt.target) return s;
+    }
+    return null;
+  };
+
   const requestSwitchSlot = (slot: TimeSlot) => {
     if (slot === timeSlot || !onSwitchSlot) return;
+    const opt = slotOptions?.find(o => o.slot === slot);
+    if (opt && opt.completed >= opt.target) {
+      try { setReflectionText(localStorage.getItem(reflectionKey(slot)) ?? ''); } catch { /* ignore */ }
+      setCelebrateSlot(slot);
+      return;
+    }
     const trimmed = currentEntry.trim();
     const isJustAutoDraft = trimmed.length > 0 && trimmed === (wish.affirmation ?? '').trim();
     const hasUnsaved = entries.length > 0 || (trimmed.length > 0 && !isJustAutoDraft);
@@ -112,6 +134,32 @@ export const ImmersiveFocusMode = ({
   const confirmSwitch = () => {
     if (pendingSwitch && onSwitchSlot) onSwitchSlot(pendingSwitch);
     setPendingSwitch(null);
+  };
+
+  const saveReflection = (slot: TimeSlot) => {
+    try {
+      const v = reflectionText.trim();
+      if (v) localStorage.setItem(reflectionKey(slot), v);
+      else localStorage.removeItem(reflectionKey(slot));
+    } catch { /* ignore */ }
+  };
+
+  const handleCelebrateNextRound = () => {
+    if (!celebrateSlot || !onSwitchSlot) { setCelebrateSlot(null); return; }
+    saveReflection(celebrateSlot);
+    const next = findNextIncompleteSlot(celebrateSlot);
+    setCelebrateSlot(null);
+    if (!next || next === timeSlot) return;
+    const trimmed = currentEntry.trim();
+    const isJustAutoDraft = trimmed.length > 0 && trimmed === (wish.affirmation ?? '').trim();
+    const hasUnsaved = entries.length > 0 || (trimmed.length > 0 && !isJustAutoDraft);
+    if (hasUnsaved) setPendingSwitch(next);
+    else onSwitchSlot(next);
+  };
+
+  const handleCelebrateClose = () => {
+    if (celebrateSlot) saveReflection(celebrateSlot);
+    setCelebrateSlot(null);
   };
 
   // Keyboard shortcuts: Alt+1/2/3 jump to slot; Alt+ArrowLeft/Right cycle prev/next
