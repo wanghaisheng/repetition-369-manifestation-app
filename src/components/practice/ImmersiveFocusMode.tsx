@@ -275,18 +275,61 @@ export const ImmersiveFocusMode = ({
                   const Icon = slotIcon[slot];
                   const done = cp >= tg;
                   const isCurrent = slot === timeSlot;
+                  const progress = Math.min(cp / tg, 1);
                   return (
                     <DropdownMenuItem
                       key={slot}
                       onSelect={(e) => { e.preventDefault(); requestSwitchSlot(slot); }}
                       disabled={isCurrent}
-                      className="gap-2 cursor-pointer"
+                      className={cn(
+                        "gap-2 cursor-pointer py-2.5",
+                        done && "bg-storybook-sage/8 focus:bg-storybook-sage/15",
+                        isCurrent && "bg-storybook-honey/8 focus:bg-storybook-honey/15 ring-1 ring-storybook-honey/40"
+                      )}
                     >
-                      <Icon className="w-4 h-4 text-muted-foreground" />
-                      <span className="flex-1">{t(`practice.${slot}Title` as const)}</span>
-                      <span className={cn('text-xs font-medium', done ? 'text-storybook-sage' : 'text-muted-foreground')}>
-                        {cp}/{tg}
-                      </span>
+                      <div className={cn(
+                        "w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0",
+                        done
+                          ? "bg-storybook-sage text-white"
+                          : `bg-gradient-to-br ${slotGradients[slot]} text-white`
+                      )}>
+                        {done ? <CheckCircle className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className={cn(
+                            "text-sm",
+                            done ? "text-storybook-sage font-medium" : "text-foreground"
+                          )}>
+                            {t(`practice.${slot}Title` as const)}
+                          </span>
+                          {isCurrent && (
+                            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-storybook-honey/20 text-storybook-honey font-medium shrink-0">
+                              {t('practice.currentSlot')}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <div className="w-16 h-1.5 rounded-full bg-muted overflow-hidden">
+                            <div
+                              className={cn(
+                                "h-full rounded-full transition-all",
+                                done ? "bg-storybook-sage" : "bg-storybook-honey"
+                              )}
+                              style={{ width: `${progress * 100}%` }}
+                            />
+                          </div>
+                          <span className={cn(
+                            'text-[10px] font-medium',
+                            done ? 'text-storybook-sage' : 'text-muted-foreground'
+                          )}>
+                            {cp}/{tg}
+                          </span>
+                        </div>
+                      </div>
+                      {done && (
+                        <CheckCircle className="w-4 h-4 text-storybook-sage shrink-0" />
+                      )}
                     </DropdownMenuItem>
                   );
                 })}
