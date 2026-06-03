@@ -88,6 +88,13 @@
     "switchCancel": "取消",
     "switchConfirm": "继续切换",
     "switchDiscard": "清空并继续",
+    "celebrateTitle": "太棒了，本时段已圆满 ✨",
+    "celebrateDesc": "{{slot}} 的练习已经完成，要为自己留下一句感受吗？",
+    "reflectionLabel": "记录一句感受（可选）",
+    "reflectionPlaceholder": "此刻的心情、新的觉察、或一句感恩…",
+    "celebrateStay": "留在当前时段",
+    "celebrateNextRound": "开始下一轮：{{slot}}",
+    "celebrateAllDone": "今日所有时段已完成",
     "affirmations": "肯定句",
     "pendingBanner": {
       "title": "未完成的369时段",

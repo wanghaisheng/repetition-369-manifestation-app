@@ -79,6 +79,8 @@ export const ImmersiveFocusMode = ({
     (initialEntries?.length ?? 0) >= target
   );
   const [pendingSwitch, setPendingSwitch] = useState<TimeSlot | null>(null);
+  const [celebrateSlot, setCelebrateSlot] = useState<TimeSlot | null>(null);
+  const [reflectionText, setReflectionText] = useState('');
 
   const slotIcon: Record<TimeSlot, typeof Sun> = {
     morning: Sun,
@@ -88,8 +90,28 @@ export const ImmersiveFocusMode = ({
 
   const slotOrder: TimeSlot[] = ['morning', 'afternoon', 'evening'];
 
+  const reflectionKey = (slot: TimeSlot) =>
+    `slot-reflection:${wish.id}:${slot}:${new Date().toISOString().slice(0, 10)}`;
+
+  const findNextIncompleteSlot = (from: TimeSlot): TimeSlot | null => {
+    if (!slotOptions) return null;
+    const idx = slotOrder.indexOf(from);
+    for (let i = 1; i <= slotOrder.length; i++) {
+      const s = slotOrder[(idx + i) % slotOrder.length];
+      const opt = slotOptions.find(o => o.slot === s);
+      if (opt && opt.completed < opt.target) return s;
+    }
+    return null;
+  };
+
   const requestSwitchSlot = (slot: TimeSlot) => {
     if (slot === timeSlot || !onSwitchSlot) return;
+    const opt = slotOptions?.find(o => o.slot === slot);
+    if (opt && opt.completed >= opt.target) {
+      try { setReflectionText(localStorage.getItem(reflectionKey(slot)) ?? ''); } catch { /* ignore */ }
+      setCelebrateSlot(slot);
+      return;
+    }
     const trimmed = currentEntry.trim();
     const isJustAutoDraft = trimmed.length > 0 && trimmed === (wish.affirmation ?? '').trim();
     const hasUnsaved = entries.length > 0 || (trimmed.length > 0 && !isJustAutoDraft);
@@ -112,6 +134,32 @@ export const ImmersiveFocusMode = ({
   const confirmSwitch = () => {
     if (pendingSwitch && onSwitchSlot) onSwitchSlot(pendingSwitch);
     setPendingSwitch(null);
+  };
+
+  const saveReflection = (slot: TimeSlot) => {
+    try {
+      const v = reflectionText.trim();
+      if (v) localStorage.setItem(reflectionKey(slot), v);
+      else localStorage.removeItem(reflectionKey(slot));
+    } catch { /* ignore */ }
+  };
+
+  const handleCelebrateNextRound = () => {
+    if (!celebrateSlot || !onSwitchSlot) { setCelebrateSlot(null); return; }
+    saveReflection(celebrateSlot);
+    const next = findNextIncompleteSlot(celebrateSlot);
+    setCelebrateSlot(null);
+    if (!next || next === timeSlot) return;
+    const trimmed = currentEntry.trim();
+    const isJustAutoDraft = trimmed.length > 0 && trimmed === (wish.affirmation ?? '').trim();
+    const hasUnsaved = entries.length > 0 || (trimmed.length > 0 && !isJustAutoDraft);
+    if (hasUnsaved) setPendingSwitch(next);
+    else onSwitchSlot(next);
+  };
+
+  const handleCelebrateClose = () => {
+    if (celebrateSlot) saveReflection(celebrateSlot);
+    setCelebrateSlot(null);
   };
 
   // Keyboard shortcuts: Alt+1/2/3 jump to slot; Alt+ArrowLeft/Right cycle prev/next
@@ -365,6 +413,69 @@ export const ImmersiveFocusMode = ({
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {t('practice.switchDiscard', { defaultValue: '清空并继续' })}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={celebrateSlot !== null} onOpenChange={(open) => { if (!open) handleCelebrateClose(); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="flex items-center gap-3">
+              <div className={cn(
+                "w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0",
+                celebrateSlot && `bg-gradient-to-br ${slotGradients[celebrateSlot]}`
+              )}>
+                <Sparkles className="w-5 h-5 text-white" />
+              </div>
+              <div className="text-left">
+                <AlertDialogTitle>
+                  {t('practice.celebrateTitle', { defaultValue: '太棒了，本时段已圆满 ✨' })}
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  {celebrateSlot &&
+                    t('practice.celebrateDesc', {
+                      defaultValue: '{{slot}} 的练习已经完成，要为自己留下一句感受吗？',
+                      slot: t(`practice.${celebrateSlot}Title` as const),
+                    })}
+                </AlertDialogDescription>
+              </div>
+            </div>
+          </AlertDialogHeader>
+          <div className="space-y-2">
+            <label className="text-xs font-medium text-muted-foreground">
+              {t('practice.reflectionLabel', { defaultValue: '记录一句感受（可选）' })}
+            </label>
+            <Textarea
+              value={reflectionText}
+              onChange={(e) => setReflectionText(e.target.value)}
+              placeholder={t('practice.reflectionPlaceholder', { defaultValue: '此刻的心情、新的觉察、或一句感恩…' })}
+              maxLength={140}
+              className="min-h-[80px] resize-none rounded-storybook border-2 focus:border-storybook-honey"
+            />
+            <div className="text-[11px] text-muted-foreground text-right tabular-nums">
+              {reflectionText.length}/140
+            </div>
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleCelebrateClose}>
+              {t('practice.celebrateStay', { defaultValue: '留在当前时段' })}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleCelebrateNextRound}
+              disabled={!celebrateSlot || !findNextIncompleteSlot(celebrateSlot)}
+              className={cn(
+                "gap-1.5",
+                celebrateSlot && `bg-gradient-to-r ${slotGradients[celebrateSlot]} hover:opacity-90`
+              )}
+            >
+              <Sparkles className="w-4 h-4" />
+              {celebrateSlot && findNextIncompleteSlot(celebrateSlot)
+                ? t('practice.celebrateNextRound', {
+                    defaultValue: '开始下一轮：{{slot}}',
+                    slot: t(`practice.${findNextIncompleteSlot(celebrateSlot)!}Title` as const),
+                  })
+                : t('practice.celebrateAllDone', { defaultValue: '今日所有时段已完成' })}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
