@@ -418,6 +418,29 @@ export const ImmersiveFocusMode = ({
         </AlertDialogContent>
       </AlertDialog>
 
+      {(() => {
+        const nextSlot = celebrateSlot ? findNextIncompleteSlot(celebrateSlot) : null;
+        const isAllDone = celebrateSlot !== null && !nextSlot;
+        const category = (wish.category ?? 'other') as string;
+        const slotKey = isAllDone ? 'allDone' : (celebrateSlot ?? 'morning');
+        const opt = celebrateSlot ? slotOptions?.find(o => o.slot === celebrateSlot) : undefined;
+        const tVars = {
+          slot: celebrateSlot ? t(`practice.${celebrateSlot}Title` as const) : '',
+          completed: opt?.completed ?? 0,
+          target: opt?.target ?? 0,
+          category: t(`wishes.categories.${category}` as const, { defaultValue: category }),
+        };
+        const titleKeys = [
+          `practice.celebrate.${slotKey}.${category}.title`,
+          `practice.celebrate.${slotKey}.default.title`,
+          'practice.celebrateTitle',
+        ];
+        const descKeys = [
+          `practice.celebrate.${slotKey}.${category}.desc`,
+          `practice.celebrate.${slotKey}.default.desc`,
+          'practice.celebrateDesc',
+        ];
+        return (
       <AlertDialog open={celebrateSlot !== null} onOpenChange={(open) => { if (!open) handleCelebrateClose(); }}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -430,14 +453,10 @@ export const ImmersiveFocusMode = ({
               </div>
               <div className="text-left">
                 <AlertDialogTitle>
-                  {t('practice.celebrateTitle', { defaultValue: '太棒了，本时段已圆满 ✨' })}
+                  {t(titleKeys, tVars)}
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                  {celebrateSlot &&
-                    t('practice.celebrateDesc', {
-                      defaultValue: '{{slot}} 的练习已经完成，要为自己留下一句感受吗？',
-                      slot: t(`practice.${celebrateSlot}Title` as const),
-                    })}
+                  {t(descKeys, tVars)}
                 </AlertDialogDescription>
               </div>
             </div>
@@ -463,23 +482,25 @@ export const ImmersiveFocusMode = ({
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleCelebrateNextRound}
-              disabled={!celebrateSlot || !findNextIncompleteSlot(celebrateSlot)}
+              disabled={!celebrateSlot || !nextSlot}
               className={cn(
                 "gap-1.5",
                 celebrateSlot && `bg-gradient-to-r ${slotGradients[celebrateSlot]} hover:opacity-90`
               )}
             >
               <Sparkles className="w-4 h-4" />
-              {celebrateSlot && findNextIncompleteSlot(celebrateSlot)
+              {nextSlot
                 ? t('practice.celebrateNextRound', {
                     defaultValue: '开始下一轮：{{slot}}',
-                    slot: t(`practice.${findNextIncompleteSlot(celebrateSlot)!}Title` as const),
+                    slot: t(`practice.${nextSlot}Title` as const),
                   })
                 : t('practice.celebrateAllDone', { defaultValue: '今日所有时段已完成' })}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+        );
+      })()}
 
       <div className="px-4 py-2"><Progress value={progress} className="h-1.5" /></div>
 
