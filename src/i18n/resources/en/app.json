@@ -90,6 +90,44 @@
     "switchDiscard": "Discard & switch",
     "celebrateTitle": "Wonderful — this session is complete ✨",
     "celebrateDesc": "You finished {{slot}}. Want to capture a quick reflection?",
+    "celebrate": {
+      "morning": {
+        "default": { "title": "Morning light is lit ✨", "desc": "{{slot}} {{completed}}/{{target}} done — carry this clarity into your day." },
+        "career": { "title": "You've planted today's seeds 🌱", "desc": "Morning focus is powerful — note one small action you'll take today." },
+        "health": { "title": "Your body is gently waking 🌤", "desc": "Notice how you feel right now and let self-care set today's tone." },
+        "relationship": { "title": "Your heart is open to connect 💗", "desc": "Think of someone to thank or greet today — let the warmth flow." },
+        "wealth": { "title": "Abundance frequency: on ✨", "desc": "Name one small gift you're open to receiving today." },
+        "personal": { "title": "A new day, a new you 🌅", "desc": "Write one line about who you want to be today." },
+        "other": { "title": "Intention set, clear sail 🌅", "desc": "Bring this clarity into every small task ahead." }
+      },
+      "afternoon": {
+        "default": { "title": "Midday focus complete 🌤", "desc": "{{slot}} {{completed}}/{{target}} done — give yourself a gentle pause." },
+        "career": { "title": "Professional fire still burning 🔥", "desc": "Look back at this morning and record one moment that made you proud." },
+        "health": { "title": "Mind and body recalibrated 🌿", "desc": "Stand up, sip some water — let your body share this awareness." },
+        "relationship": { "title": "You're tending to what matters 💞", "desc": "Note one thing you'd love to say to someone important." },
+        "wealth": { "title": "Abundance is on its way 💫", "desc": "Catch one small piece of luck from today and anchor it in words." },
+        "personal": { "title": "Steady steps toward your best self 🌟", "desc": "Write down one afternoon moment that felt worth it." },
+        "other": { "title": "Still focused this afternoon ☀️", "desc": "Take a breath and record how you feel right now." }
+      },
+      "evening": {
+        "default": { "title": "Evening arrives with gratitude 🌙", "desc": "{{slot}} {{completed}}/{{target}} done — let today close gently." },
+        "career": { "title": "Today's effort deserves to be seen 🏆", "desc": "Name the most fulfilling thing today — fuel for tomorrow." },
+        "health": { "title": "Thank your body for today 🌛", "desc": "Write one line of gratitude to your body and prepare for rest." },
+        "relationship": { "title": "Love and connection nourished 💝", "desc": "Capture a warm relational moment from today." },
+        "wealth": { "title": "You saw today's abundance ✨", "desc": "Recall three small gifts you received — however tiny." },
+        "personal": { "title": "One step closer to your true self 🌠", "desc": "Note the moment today you appreciated about yourself." },
+        "other": { "title": "Today's practice is complete 🌙", "desc": "Say a kind goodbye to today in one sentence." }
+      },
+      "allDone": {
+        "default": { "title": "Today's 369 fully complete 🎉", "desc": "All three sessions done. Give yourself a big hug — see you tomorrow." },
+        "career": { "title": "Career frequency: maxed out 🚀", "desc": "Capture today's key breakthrough as tomorrow's starting line." },
+        "health": { "title": "Body and mind well cared for 🌿", "desc": "Sleep a little earlier tonight — your body comes first." },
+        "relationship": { "title": "Your heart's field is full 💗", "desc": "Send one message tonight and let love keep flowing." },
+        "wealth": { "title": "Abundance is firmly anchored 💎", "desc": "Write three things that felt 'enough' today — make it your norm." },
+        "personal": { "title": "You're becoming who you want to be 🌟", "desc": "Write one sincere line of affirmation for today's you." },
+        "other": { "title": "Today's practice is fully done ✨", "desc": "Breathe in. Feel the completion." }
+      }
+    },
     "reflectionLabel": "One-line reflection (optional)",
     "reflectionPlaceholder": "A feeling, an insight, or a word of gratitude…",
     "celebrateStay": "Stay here",
