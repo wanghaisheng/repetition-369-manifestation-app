@@ -12,14 +12,14 @@ Every inventory id must map to exactly one asset. Unmatched ids = build failure.
 Single source of truth for: anchor names, constraint vocab, adaptive policies, safe-area handling, scale modes. Every backend (HTML / React / RN / Cocos / Godot / Unity / Flutter) must read its mapping table from this module — do not redefine per-backend.
 
 ## imagegen-style-library
-Per-domain prompt fragments that lock visual consistency:
-- `game-style` (Supercell / Clash / RoK)
-- `app-style` (HIG / Material)
-- `web-style` (Linear / Vercel)
+Per-domain prompt fragments that lock visual consistency. Each fragment is rooted in a world-view from Skill 00 (`art-concept.md`):
+- `game-style` (Supercell / Clash / RoK / cozy farm / xianxia / cyberpunk)
+- `app-style` (HIG / Material / Linear / Notion)
+- `web-style` (Linear / Vercel / Stripe)
 - `dashboard-style` (TradingView / Notion / Grafana)
 - `ppt-style` (Apple / Stripe / McKinsey)
 
-Skill 01 must compose from this library, not invent style language ad hoc.
+Skill 02 must compose from this library, not invent style language ad hoc. Skill 01 selects the fragment in `imagegen-spec.md`.
 
 ## provenance-tracker
 Every generated artifact records:
