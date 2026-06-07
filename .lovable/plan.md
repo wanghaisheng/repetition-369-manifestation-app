@@ -1,123 +1,64 @@
 
+# Phase 01 · High-Fidelity Mockup 生成计划
 
-# 绘本温暖世界 — 设计系统实施
+基于 Phase 00 已确定的设计语言（Midnight Indigo + Cormorant/Karla + Single Column + Dark Only + Gold-only accent），本阶段产出 5 个视图的高保真静态图，并为每个视图提供 3 个可对比版本，供你择一进入 Phase 02。
 
-## 两个产出物
+## 范围
 
-### 产出物 1: 设计哲学文档 + 视觉画布
-- `/mnt/documents/storybook-warmth-philosophy.md` — 设计运动宣言
-- `/mnt/documents/storybook-warmth-canvas.png` — 视觉表达画布（使用 Lora + NothingYouCouldDo 字体）
+5 个 App 内部视图：Home / Wishes / Practice / Progress / Community
 
-### 产出物 2: 代码级设计系统改造
+## 每视图产出 3 个可对比版本
 
-将当前 iOS/科技蓝冷调 → 绘本温暖世界暖调。
+三版本沿同一设计语言（色板/字体/版式锁定），仅在**构图与节奏**上拉开差异：
 
-## 色彩体系变更
+| 版本 | 代号 | 设计取向 |
+|------|------|---------|
+| A | **Observatory** | 极简留白 · 大段 Cormorant 斜体 · 单一 Indigo 光晕 · 类天文台仪表 |
+| B | **Manuscript** | 编辑式排版 · Gold 金线分隔 · 序号/编号文本 · 类古籍手稿 |
+| C | **Aurora** | 沉浸式渐变 · 顶部弧形极光带 · 卡片浮于深空 · 类深夜冥想 App |
 
-```text
-当前 (冷色 iOS 风)              →  目标 (绘本暖色)
-──────────────────────────────────────────────────────
---primary: 221 83% 53% (蓝)     →  32 85% 55% (蜂蜜橙)
---accent: 262 83% 58% (紫)      →  350 65% 65% (珊瑚粉)
---secondary: 210 40% 96%        →  40 60% 95% (奶油黄)
---muted: 210 40% 96%            →  45 30% 94% (暖灰)
---background: 0 0% 100%         →  40 40% 99% (微暖白)
---foreground: 222 84% 5%        →  25 30% 15% (暖深棕)
+三版本共享同一 design-system.md tokens，只是把 token 用在不同的视觉重音上 —— 方便 Phase 02 抽取资产时只需切换"构图分支"。
+
+## 生成方法
+
+- 使用 imagegen `premium` 档（含可读字符的 UI 类 mockup 必须用 premium）
+- 单图尺寸：1024 × 1920（移动端 9:16，对齐"一屏"原则）
+- 每图都喂入 Phase 00 `imagegen-prompt.md` 中的 base prompt + 视图专属内容 + 版本专属构图指令
+- 共 5 视图 × 3 版本 = **15 张图**，并行生成
+
+## 产出物
+
+```
+/mnt/documents/redesign/v1/mockups/
+├── home/
+│   ├── home-A-observatory.png
+│   ├── home-B-manuscript.png
+│   └── home-C-aurora.png
+├── wishes/
+│   ├── wishes-A-observatory.png
+│   ├── wishes-B-manuscript.png
+│   └── wishes-C-aurora.png
+├── practice/         (×3)
+├── progress/         (×3)
+├── community/        (×3)
+└── COMPARISON.md     ← 对比清单：缩略图九宫格 + 每版本设计意图 + 推荐使用场景 + 我的初步推荐
 ```
 
-新增绘本专属语义色:
-```css
---storybook-honey: 38 80% 58%;      /* 蜂蜜金 - 主角色 */
---storybook-coral: 12 70% 72%;      /* 珊瑚粉 - 温馨强调 */
---storybook-sage: 135 25% 58%;      /* 苔藓绿 - 成长/自然 */
---storybook-cream: 42 50% 96%;      /* 奶油白 - 背景 */
---storybook-bark: 25 35% 30%;       /* 树皮棕 - 文字 */
---storybook-blush: 350 50% 90%;     /* 腮红 - 柔和高光 */
-```
+`COMPARISON.md` 会给你：
+- 每行一个视图，三列并排的 markdown 图表
+- 每个版本一句话设计语句（"为什么是它"）
+- 每个版本一句话权衡（"代价是什么"）
+- 我的推荐组合（可全部同版本，也可跨版本混搭）
 
-## 圆角与形态
+## 不做的事
 
-```text
-当前: --radius: 0.75rem (标准圆角)
-目标: --radius: 1rem (更圆润，绘本有机感)
-新增: --radius-organic: 1.5rem (卡片/按钮的绘本圆角)
-```
+- 不写任何 React/CSS 代码
+- 不进入 Phase 02 资产提取
+- 不修改现有组件
+- 不生成 Landing / Auth / Settings 的 mockup（超出本轮范围）
 
-Tailwind 新增:
-```ts
-borderRadius: {
-  'storybook': '1.25rem',
-  'storybook-lg': '1.75rem',
-  'blob': '40% 60% 55% 45% / 60% 40% 65% 35%', // 有机不规则形
-}
-```
+## 决策点（你看到 COMPARISON.md 之后）
 
-## 字体
-
-替换 SF Pro 系统字体为更有温度的组合:
-```ts
-fontFamily: {
-  'storybook': ['Lora', 'Georgia', 'serif'],           // 标题 - 温暖衬线
-  'handwritten': ['NothingYouCouldDo', 'cursive'],      // 点缀 - 手写体
-  'body': ['"Noto Sans SC"', 'system-ui', 'sans-serif'], // 正文
-}
-```
-
-通过 Google Fonts 在 `index.html` 中 preload Lora 和 NothingYouCouldDo。
-
-## 纹理与视觉效果
-
-在 `index.css` 新增:
-```css
-/* 纸张纹理叠加 */
-.paper-texture {
-  background-image: url("data:image/svg+xml,..."); /* 轻微噪点纹理 */
-  background-blend-mode: overlay;
-}
-
-/* 水彩边缘效果 */
-.watercolor-edge {
-  border-image: ... ; /* 不规则边缘 */
-}
-
-/* 手绘阴影（柔和扩散） */
---shadow-storybook: 0 4px 20px -4px hsl(var(--storybook-bark) / 0.08);
---shadow-storybook-hover: 0 8px 30px -6px hsl(var(--storybook-bark) / 0.12);
-```
-
-## 动画调整
-
-保留现有动画，新增绘本风:
-```ts
-keyframes: {
-  'float-gentle': { /* 轻柔漂浮，如绘本中的云朵 */ },
-  'sprout': { /* 种子发芽生长动画 */ },
-  'page-turn': { /* 翻页效果 */ },
-}
-```
-
-## 文件变更
-
-| 操作 | 文件 | 说明 |
-|------|------|------|
-| **生成** | `/mnt/documents/storybook-warmth-philosophy.md` | 设计哲学宣言 |
-| **生成** | `/mnt/documents/storybook-warmth-canvas.png` | 视觉画布 |
-| **修改** | `src/index.css` | CSS 变量全量替换为暖色系 + 新增纹理/效果类 + 清理 500 行冗余硬编码样式 |
-| **修改** | `tailwind.config.ts` | 新增 storybook 色彩/圆角/字体/动画 token，清理旧 iOS 硬编码色 |
-| **修改** | `index.html` | 预加载 Lora + NothingYouCouldDo Google Fonts |
-| **更新** | `docs/DESIGN_SYSTEM.md` | 用绘本温暖世界体系替换旧内容 |
-
-### CSS 清理（同步进行）
-
-当前 `index.css` 有大量硬编码颜色（`#007aff`, `#f2f2f7`, `#666` 等）和冗余空类（`.seo-head`, `.structured-data` 等）。将:
-- 删除 ~300 行冗余/空类（L220-560 的硬编码 iOS 样式和空占位）
-- 将有用样式改为使用 CSS 变量而非硬编码 hex
-
-## 执行顺序
-
-1. 生成设计哲学 .md + 视觉画布 .png（含 QA）
-2. 修改 `src/index.css` — 替换 CSS 变量 + 清理冗余 + 新增纹理类
-3. 修改 `tailwind.config.ts` — 新增 storybook token
-4. 修改 `index.html` — 字体预加载
-5. 更新 `docs/DESIGN_SYSTEM.md`
-
+1. 五个视图分别选哪个版本？（可同款也可混搭）
+2. 是否需要某版本的微调重生成？
+3. 确认后进入 Phase 02（资产提取 + visual_inventory 对账）
