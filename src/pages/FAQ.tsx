@@ -1,5 +1,6 @@
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,22 +17,21 @@ import {
 } from 'lucide-react';
 
 const FAQ = () => {
-  const { t } = useTranslation(['common', 'faq']);
-
+  const { t, i18n } = useTranslation('faq');
   const basicFaqItems = [
-    { question: t('faq:basic.q1.question'), answer: t('faq:basic.q1.answer') },
-    { question: t('faq:basic.q2.question'), answer: t('faq:basic.q2.answer') },
-    { question: t('faq:basic.q3.question'), answer: t('faq:basic.q3.answer') },
-    { question: t('faq:basic.q4.question'), answer: t('faq:basic.q4.answer') },
-    { question: t('faq:basic.q5.question'), answer: t('faq:basic.q5.answer') },
-    { question: t('faq:basic.q6.question'), answer: t('faq:basic.q6.answer') },
+    { question: m.faq_basic_q1_question(), answer: m.faq_basic_q1_answer() },
+    { question: m.faq_basic_q2_question(), answer: m.faq_basic_q2_answer() },
+    { question: m.faq_basic_q3_question(), answer: m.faq_basic_q3_answer() },
+    { question: m.faq_basic_q4_question(), answer: m.faq_basic_q4_answer() },
+    { question: m.faq_basic_q5_question(), answer: m.faq_basic_q5_answer() },
+    { question: m.faq_basic_q6_question(), answer: m.faq_basic_q6_answer() },
   ];
 
   const clarificationFaqItems = [
-    { question: t('faq:clarifications.q1.question'), answer: t('faq:clarifications.q1.answer') },
-    { question: t('faq:clarifications.q2.question'), answer: t('faq:clarifications.q2.answer') },
-    { question: t('faq:clarifications.q3.question'), answer: t('faq:clarifications.q3.answer') },
-    { question: t('faq:clarifications.q4.question'), answer: t('faq:clarifications.q4.answer') },
+    { question: m.faq_clarifications_q1_question(), answer: m.faq_clarifications_q1_answer() },
+    { question: m.faq_clarifications_q2_question(), answer: m.faq_clarifications_q2_answer() },
+    { question: m.faq_clarifications_q3_question(), answer: m.faq_clarifications_q3_answer() },
+    { question: m.faq_clarifications_q4_question(), answer: m.faq_clarifications_q4_answer() },
   ];
 
   return (
@@ -44,19 +44,19 @@ const FAQ = () => {
               <Link to="/">
                 <Button variant="ghost" size="sm">
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  {t('common:buttons.back', 'Back')}
+                  {m.common_buttons_back()}
                 </Button>
               </Link>
               <div className="flex items-center space-x-2">
                 <Sparkles className="w-8 h-8 text-storybook-honey" />
-                <span className="text-2xl font-storybook font-bold text-foreground">{t('common:appName', '显化369')}</span>
+                <span className="text-2xl font-storybook font-bold text-foreground">{m.common_appName()}</span>
               </div>
             </div>
             
             <div className="flex items-center space-x-4">
               <LanguageSwitcher />
               <Link to="/auth">
-                <Button className="rounded-storybook">{t('common:buttons.getStarted', 'Get Started')}</Button>
+                <Button className="rounded-storybook">{m.common_buttons_getStarted()}</Button>
               </Link>
             </div>
           </div>
@@ -69,10 +69,10 @@ const FAQ = () => {
               <HelpCircle className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-5xl md:text-6xl font-storybook font-bold text-foreground mb-6 leading-tight">
-              {t('faq:hero.h1', t('faq:hero.title'))}
+              {t('faq:hero.h1', m.faq_hero_title())}
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              {t('faq:hero.subtitle')}
+              {m.faq_hero_subtitle()}
             </p>
           </div>
         </section>
@@ -81,8 +81,8 @@ const FAQ = () => {
         <section className="py-20 px-4 bg-card">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-storybook font-bold text-foreground mb-4">{t('faq:basic.title')}</h2>
-              <p className="text-lg text-muted-foreground">{t('faq:basic.subtitle')}</p>
+              <h2 className="text-3xl font-storybook font-bold text-foreground mb-4">{m.faq_basic_title()}</h2>
+              <p className="text-lg text-muted-foreground">{m.faq_basic_subtitle()}</p>
             </div>
             
             <Accordion type="single" collapsible className="space-y-4">
@@ -112,8 +112,8 @@ const FAQ = () => {
         <section className="py-20 px-4 bg-storybook-cream/30">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-storybook font-bold text-foreground mb-4">{t('faq:clarifications.title')}</h2>
-              <p className="text-lg text-muted-foreground">{t('faq:clarifications.subtitle')}</p>
+              <h2 className="text-3xl font-storybook font-bold text-foreground mb-4">{m.faq_clarifications_title()}</h2>
+              <p className="text-lg text-muted-foreground">{m.faq_clarifications_subtitle()}</p>
             </div>
             
             <Accordion type="single" collapsible className="space-y-4">
@@ -143,13 +143,13 @@ const FAQ = () => {
         <section className="py-20 px-4">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-storybook font-bold text-foreground mb-4">{t('faq:support.title')}</h2>
-              <p className="text-xl text-muted-foreground">{t('faq:support.subtitle')}</p>
+              <h2 className="text-4xl font-storybook font-bold text-foreground mb-4">{m.faq_support_title()}</h2>
+              <p className="text-xl text-muted-foreground">{m.faq_support_subtitle()}</p>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
-                { icon: MessageCircle, title: t('faq:support.liveChat'), desc: t('faq:support.liveChat'), href: 'mailto:support@heymanifestation.com' },
+                { icon: MessageCircle, title: m.faq_support_liveChat(), desc: m.faq_support_liveChat(), href: 'mailto:support@heymanifestation.com' },
                 { icon: Mail, title: 'Email Support', desc: 'Get answers within 24 hours', href: 'mailto:support@heymanifestation.com' },
                 { icon: ExternalLink, title: 'Community', desc: 'Connect with other users', href: 'https://github.com/wanghaisheng/369-manifestation-app/discussions' },
               ].map((item, index) => (
@@ -188,9 +188,9 @@ const FAQ = () => {
         {/* CTA Section */}
         <section className="py-20 px-4 bg-gradient-to-r from-storybook-honey to-storybook-coral text-white">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-4xl font-storybook font-bold mb-4">{t('faq:cta.title')}</h2>
-            <p className="text-xl mb-6">{t('faq:cta.subtitle')}</p>
-            <p className="text-lg mb-8 opacity-90">{t('faq:cta.description')}</p>
+            <h2 className="text-4xl font-storybook font-bold mb-4">{m.faq_cta_title()}</h2>
+            <p className="text-xl mb-6">{m.faq_cta_subtitle()}</p>
+            <p className="text-lg mb-8 opacity-90">{m.faq_cta_description()}</p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/auth">

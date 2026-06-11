@@ -1,5 +1,6 @@
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -7,10 +8,10 @@ import { Star, Quote, CheckCircle, Users, Award, Shield } from 'lucide-react';
 import { useSiteStats } from '@/hooks/useSiteStats';
 
 export const SocialProofSection = () => {
-  const { t, i18n } = useTranslation(['landing']);
+  const { t, i18n } = useTranslation('landing');
   const { getStatByKey } = useSiteStats();
 
-  const testimonials = t('testimonials.list', { returnObjects: true }) as Array<{
+  const testimonials = m.landing_testimonials_list({ returnObjects: true }) as Array<{
     name: string;
     role: string;
     content: string;
@@ -55,10 +56,10 @@ export const SocialProofSection = () => {
             {i18n.language === 'zh' ? '用户成果' : 'Proven Results'}
           </Badge>
           <h2 className="text-4xl md:text-5xl font-storybook font-bold text-foreground mb-6">
-            {t('testimonials.title')}
+            {m.landing_testimonials_title()}
           </h2>
           <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto">
-            {t('testimonials.subtitle')}
+            {m.landing_testimonials_subtitle()}
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">

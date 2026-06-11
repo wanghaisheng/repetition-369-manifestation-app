@@ -1,6 +1,6 @@
 
+import { m } from '@/paraglide/messages';
 import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { StreakMilestone } from '@/services/StreakService';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,6 @@ interface MilestoneNotificationProps {
 }
 
 export const MilestoneNotification = ({ milestones, onClose }: MilestoneNotificationProps) => {
-  const { t } = useTranslation('app');
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -54,21 +53,21 @@ export const MilestoneNotification = ({ milestones, onClose }: MilestoneNotifica
               <Flame className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-xl font-storybook font-bold text-foreground mb-1">
-              🔥 {t('milestone.title')}
+              🔥 {m.app_milestone_title()}
             </h3>
-            <p className="text-sm text-muted-foreground">{t('milestone.subtitle')}</p>
+            <p className="text-sm text-muted-foreground">{m.app_milestone_subtitle()}</p>
           </div>
 
           <div className="mb-6">
             <div className="text-4xl font-storybook font-bold text-storybook-coral mb-2">{currentMilestone.days}</div>
             <div className="text-lg font-storybook font-semibold text-foreground mb-1">{currentMilestone.reward.title}</div>
-            <div className="text-sm text-muted-foreground">{t('milestone.consecutiveDays', { days: currentMilestone.days })}</div>
+            <div className="text-sm text-muted-foreground">{m.app_milestone_consecutiveDays({ days: currentMilestone.days })}</div>
           </div>
 
           <div className="mb-4 p-3 bg-storybook-honey/10 rounded-storybook">
             <div className="flex items-center justify-center space-x-2 text-storybook-honey font-semibold text-lg">
               <Star className="w-5 h-5" />
-              <span>+{currentMilestone.reward.points} {t('milestone.pointsReward')}</span>
+              <span>+{currentMilestone.reward.points} {m.app_milestone_pointsReward()}</span>
             </div>
           </div>
 
@@ -82,7 +81,7 @@ export const MilestoneNotification = ({ milestones, onClose }: MilestoneNotifica
 
           <Button onClick={handleNext}
             className="w-full bg-gradient-to-r from-storybook-coral to-storybook-honey text-white hover:opacity-90 rounded-storybook py-3">
-            {currentIndex < milestones.length - 1 ? t('milestone.next') : t('milestone.awesome')}
+            {currentIndex < milestones.length - 1 ? m.app_milestone_next() : m.app_milestone_awesome()}
           </Button>
         </div>
       </Card>

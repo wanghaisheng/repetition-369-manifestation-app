@@ -1,3 +1,4 @@
+import { getLocale, setLocale } from '@/paraglide/runtime';
 import React, { useEffect, Suspense, lazy } from 'react';
 import { createRootRoute, Outlet, useLocation } from '@tanstack/react-router';
 import { Toaster } from '@/components/ui/sonner';
@@ -5,7 +6,6 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { useTranslation } from 'react-i18next';
 import { logger } from '@/utils/logger';
 import { WebAppStructuredData, OrganizationStructuredData } from '@/components/seo/StructuredData';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -47,18 +47,17 @@ const initializePerformanceOptimizations = () => {
 };
 
 /**
- * LanguageSync - syncs URL path language to i18n (replaces LanguageRouter)
+ * LanguageSync - syncs URL path language to Paraglide runtime
  */
 const LanguageSync = () => {
   const location = useLocation();
-  const { i18n } = useTranslation();
-  
+
   useEffect(() => {
     const pathLang = getLanguageFromPath(location.pathname);
-    if (i18n.language !== pathLang) {
-      i18n.changeLanguage(pathLang);
+    if (getLocale() !== pathLang) {
+      setLocale(pathLang as 'zh' | 'en');
     }
-  }, [location.pathname, i18n]);
+  }, [location.pathname]);
 
   return null;
 };

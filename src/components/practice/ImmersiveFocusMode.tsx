@@ -1,3 +1,5 @@
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { X, CheckCircle, Sparkles, Heart, ChevronRight, Wind, Sun, Sunset, Moon, Repeat } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -22,7 +24,6 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Wish, Mood, TimeSlot } from '@/types';
-import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { logger } from '@/utils/logger';
 
@@ -67,7 +68,7 @@ export const ImmersiveFocusMode = ({
   slotOptions,
   onSwitchSlot,
 }: ImmersiveFocusModeProps) => {
-  const { t } = useTranslation('app');
+  const { t, i18n } = useTranslation('app');
   const [currentEntry, setCurrentEntry] = useState(initialDraft ?? '');
   const [entries, setEntries] = useState<string[]>(initialEntries ?? []);
   const [isCompleting, setIsCompleting] = useState(false);
@@ -269,9 +270,9 @@ export const ImmersiveFocusMode = ({
   if (!isOpen) return null;
 
   const breathingTexts = {
-    inhale: t('practice.breatheIn'),
-    hold: t('practice.hold'),
-    exhale: t('practice.breatheOut')
+    inhale: m.app_practice_breatheIn(),
+    hold: m.app_practice_hold(),
+    exhale: m.app_practice_breatheOut()
   };
 
   return (
@@ -298,7 +299,7 @@ export const ImmersiveFocusMode = ({
             <p className="text-xs text-muted-foreground">
               {slotRemaining > 0
                 ? t('practice.slotRemaining', { defaultValue: '还差 {{count}} 次完成本时段', count: slotRemaining })
-                : t('practice.slotDone', { defaultValue: '本时段已完成' })}
+                : m.app_practice_slotDone({ defaultValue: '本时段已完成' })}
             </p>
           </div>
         </div>
@@ -308,14 +309,14 @@ export const ImmersiveFocusMode = ({
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="rounded-storybook gap-1.5">
                   <Repeat className="w-4 h-4" />
-                  <span className="hidden sm:inline">{t('practice.switchSlot', { defaultValue: '选择时段' })}</span>
+                  <span className="hidden sm:inline">{m.app_practice_switchSlot({ defaultValue: '选择时段' })}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel className="flex items-center justify-between gap-2">
-                  <span>{t('practice.switchSlotTitle', { defaultValue: '切换练习时段' })}</span>
+                  <span>{m.app_practice_switchSlotTitle({ defaultValue: '切换练习时段' })}</span>
                   <span className="text-[10px] font-normal text-muted-foreground hidden sm:inline">
-                    {t('practice.switchShortcutHint', { defaultValue: 'Alt+1/2/3 · ← →' })}
+                    {m.app_practice_switchShortcutHint({ defaultValue: 'Alt+1/2/3 · ← →' })}
                   </span>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -354,7 +355,7 @@ export const ImmersiveFocusMode = ({
                             </span>
                             {isCurrent && (
                               <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-storybook-honey/20 text-storybook-honey font-medium shrink-0">
-                                {t('practice.currentSlot')}
+                                {m.app_practice_currentSlot()}
                               </span>
                             )}
                           </div>
@@ -401,18 +402,18 @@ export const ImmersiveFocusMode = ({
       <AlertDialog open={pendingSwitch !== null} onOpenChange={(open) => !open && setPendingSwitch(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{t('practice.switchConfirmTitle', { defaultValue: '切换到其他时段？' })}</AlertDialogTitle>
+            <AlertDialogTitle>{m.app_practice_switchConfirmTitle({ defaultValue: '切换到其他时段？' })}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t('practice.switchConfirmDesc', { defaultValue: '当前书写的内容尚未提交，切换后将会丢失。是否继续？' })}
+              {m.app_practice_switchConfirmDesc({ defaultValue: '当前书写的内容尚未提交，切换后将会丢失。是否继续？' })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>{t('practice.switchCancel', { defaultValue: '取消' })}</AlertDialogCancel>
+            <AlertDialogCancel>{m.app_practice_switchCancel({ defaultValue: '取消' })}</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmSwitch}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {t('practice.switchDiscard', { defaultValue: '清空并继续' })}
+              {m.app_practice_switchDiscard({ defaultValue: '清空并继续' })}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -463,12 +464,12 @@ export const ImmersiveFocusMode = ({
           </AlertDialogHeader>
           <div className="space-y-2">
             <label className="text-xs font-medium text-muted-foreground">
-              {t('practice.reflectionLabel', { defaultValue: '记录一句感受（可选）' })}
+              {m.app_practice_reflectionLabel({ defaultValue: '记录一句感受（可选）' })}
             </label>
             <Textarea
               value={reflectionText}
               onChange={(e) => setReflectionText(e.target.value)}
-              placeholder={t('practice.reflectionPlaceholder', { defaultValue: '此刻的心情、新的觉察、或一句感恩…' })}
+              placeholder={m.app_practice_reflectionPlaceholder({ defaultValue: '此刻的心情、新的觉察、或一句感恩…' })}
               maxLength={140}
               className="min-h-[80px] resize-none rounded-storybook border-2 focus:border-storybook-honey"
             />
@@ -478,7 +479,7 @@ export const ImmersiveFocusMode = ({
           </div>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={handleCelebrateClose}>
-              {t('practice.celebrateStay', { defaultValue: '留在当前时段' })}
+              {m.app_practice_celebrateStay({ defaultValue: '留在当前时段' })}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleCelebrateNextRound}
@@ -494,7 +495,7 @@ export const ImmersiveFocusMode = ({
                     defaultValue: '开始下一轮：{{slot}}',
                     slot: t(`practice.${nextSlot}Title` as const),
                   })
-                : t('practice.celebrateAllDone', { defaultValue: '今日所有时段已完成' })}
+                : m.app_practice_celebrateAllDone({ defaultValue: '今日所有时段已完成' })}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -519,10 +520,10 @@ export const ImmersiveFocusMode = ({
               </div>
               <div className="space-y-2">
                 <p className="text-2xl font-storybook font-light text-foreground animate-fade-in">{breathingTexts[breathPhase]}</p>
-                <p className="text-sm text-muted-foreground">{t('practice.prepareYourMind')}</p>
+                <p className="text-sm text-muted-foreground">{m.app_practice_prepareYourMind()}</p>
               </div>
               <Button variant="ghost" onClick={() => setShowBreathingGuide(false)} className="text-muted-foreground">
-                {t('practice.skipBreathing')}
+                {m.app_practice_skipBreathing()}
               </Button>
             </div>
           </div>
@@ -537,21 +538,21 @@ export const ImmersiveFocusMode = ({
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium text-foreground">
-                {t('practice.writeAffirmation')} #{entries.length + 1}
+                {m.app_practice_writeAffirmation()} #{entries.length + 1}
               </label>
               {isLastEntry && (
-                <span className="text-xs text-storybook-honey animate-pulse">{t('practice.lastOne')}</span>
+                <span className="text-xs text-storybook-honey animate-pulse">{m.app_practice_lastOne()}</span>
               )}
             </div>
             <Textarea value={currentEntry} onChange={(e) => setCurrentEntry(e.target.value)} onKeyDown={handleKeyDown}
-              placeholder={t('practice.writingPlaceholder')}
+              placeholder={m.app_practice_writingPlaceholder()}
               className="min-h-[120px] text-base leading-relaxed resize-none border-2 focus:border-storybook-honey rounded-storybook"
               disabled={entries.length >= target} autoFocus={!showBreathingGuide} />
             <div className="flex items-center justify-between">
-              <span className="text-xs text-muted-foreground">{currentEntry.length} {t('practice.characters')}</span>
+              <span className="text-xs text-muted-foreground">{currentEntry.length} {m.app_practice_characters()}</span>
               <Button onClick={handleAddEntry} disabled={!currentEntry.trim() || entries.length >= target}
                 className={cn("rounded-storybook", `bg-gradient-to-r ${slotGradients[timeSlot]} hover:opacity-90`)}>
-                <CheckCircle className="w-4 h-4 mr-2" />{t('practice.confirmEntry')}<ChevronRight className="w-4 h-4 ml-1" />
+                <CheckCircle className="w-4 h-4 mr-2" />{m.app_practice_confirmEntry()}<ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </div>
           </div>
@@ -559,7 +560,7 @@ export const ImmersiveFocusMode = ({
 
         {entries.length > 0 && !showCelebration && (
           <div className="space-y-3">
-            <h4 className="text-sm font-medium text-muted-foreground">{t('practice.writtenEntries')}</h4>
+            <h4 className="text-sm font-medium text-muted-foreground">{m.app_practice_writtenEntries()}</h4>
             <div className="space-y-2 max-h-40 overflow-y-auto">
               {entries.map((entry, index) => (
                 <div key={index} className="flex items-start gap-3 p-3 bg-storybook-sage/10 rounded-storybook animate-fade-in">
@@ -581,17 +582,17 @@ export const ImmersiveFocusMode = ({
                 <Sparkles className="w-12 h-12 text-white" />
               </div>
               <div className="space-y-2">
-                <h2 className="text-2xl font-storybook font-bold text-foreground">{t('practice.congratulations')}</h2>
-                <p className="text-muted-foreground">{t('practice.completedSession')}</p>
+                <h2 className="text-2xl font-storybook font-bold text-foreground">{m.app_practice_congratulations()}</h2>
+                <p className="text-muted-foreground">{m.app_practice_completedSession()}</p>
               </div>
               <div className="flex items-center justify-center gap-4 text-sm">
                 <div className="px-4 py-2 bg-storybook-honey/10 rounded-full">
-                  <span className="text-storybook-honey font-medium">+{target * 10} {t('practice.points')}</span>
+                  <span className="text-storybook-honey font-medium">+{target * 10} {m.app_practice_points()}</span>
                 </div>
               </div>
               <Button onClick={handleComplete} disabled={isCompleting} size="lg"
                 className={cn("rounded-storybook-lg px-8", `bg-gradient-to-r ${slotGradients[timeSlot]} hover:opacity-90`)}>
-                {isCompleting ? t('practice.saving') : t('practice.finishSession')}
+                {isCompleting ? m.app_practice_saving() : m.app_practice_finishSession()}
               </Button>
             </div>
           </div>

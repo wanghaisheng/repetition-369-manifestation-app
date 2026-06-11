@@ -1,3 +1,5 @@
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import { useState, useMemo, useEffect } from 'react';
 import { useSearch } from '@tanstack/react-router';
 import { Star, BarChart3 } from 'lucide-react';
@@ -24,13 +26,12 @@ import { TimeSlotCard } from '@/components/practice/TimeSlotCard';
 import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
 import { QuickStatsBar } from '@/components/practice/QuickStatsBar';
 import { PendingSessionBanner } from '@/components/practice/PendingSessionBanner';
-import { useTranslation } from 'react-i18next';
 import { useTrialMigration } from '@/hooks/useTrialMigration';
 import { useToast } from '@/hooks/use-toast';
 import { readSlotDraft, writeSlotDraft, clearSlotDraft } from '@/utils/slotDraftStorage';
 
 export const PracticeView = () => {
-  const { t } = useTranslation('app');
+  const { t, i18n } = useTranslation('app');
   const { toast } = useToast();
   const searchParams = useSearch({ strict: false }) as { wishId?: string };
   const { wishes, loading: wishesLoading, refetch: refetchWishes } = useWishes();
@@ -214,7 +215,7 @@ export const PracticeView = () => {
 
       if (nextSlot) {
         toast({
-          title: t('practice.slotDone', { defaultValue: '本时段已完成' }),
+          title: m.app_practice_slotDone({ defaultValue: '本时段已完成' }),
           description: t('practice.autoAdvance', {
             defaultValue: '继续 {{slot}} 练习',
             slot: t(`practice.${nextSlot.slot}Title` as const),
@@ -263,7 +264,7 @@ export const PracticeView = () => {
             className="rounded-xl"
           >
             <Star className="w-4 h-4 mr-1.5" />
-            {t('practice.advancedMode', '高级')}
+            {m.app_practice_advancedMode()}
           </Button>
           <Button
             variant="outline"
@@ -272,7 +273,7 @@ export const PracticeView = () => {
             className="rounded-xl"
           >
             <BarChart3 className="w-4 h-4 mr-1.5" />
-            {t('practice.analytics', '分析')}
+            {m.app_practice_analytics()}
           </Button>
         </div>
 
@@ -319,7 +320,7 @@ export const PracticeView = () => {
         {selectedWishId && (
           <div className="space-y-3">
             <h3 className="text-sm font-medium text-muted-foreground px-1">
-              {t('practice.todaySessions', '今日修行时段')}
+              {m.app_practice_todaySessions()}
             </h3>
             
             {slots.map(({ slot, target }) => {

@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { Target, Award, Activity, Flame } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import { useTranslation } from 'react-i18next';
 
 interface StatsCarouselProps {
   totalWishes: number;
@@ -15,13 +15,11 @@ export const StatsCarousel = ({
   totalSessions,
   longestStreak
 }: StatsCarouselProps) => {
-  const { t } = useTranslation('app');
-
   const stats = [
     {
       icon: Target,
       value: totalWishes,
-      label: t('progress.totalWishes', '总愿望'),
+      label: m.app_progress_totalWishes(),
       gradient: 'from-storybook-honey/20 to-storybook-coral/20',
       iconColor: 'text-storybook-honey',
       iconBg: 'bg-storybook-honey/10'
@@ -29,7 +27,7 @@ export const StatsCarousel = ({
     {
       icon: Award,
       value: achievedWishes,
-      label: t('progress.achieved', '已实现'),
+      label: m.app_progress_achieved(),
       gradient: 'from-storybook-sage/20 to-storybook-sage/10',
       iconColor: 'text-storybook-sage',
       iconBg: 'bg-storybook-sage/10'
@@ -37,7 +35,7 @@ export const StatsCarousel = ({
     {
       icon: Activity,
       value: totalSessions,
-      label: t('progress.totalPractices', '总练习'),
+      label: m.app_progress_totalPractices(),
       gradient: 'from-storybook-coral/20 to-storybook-honey/20',
       iconColor: 'text-storybook-coral',
       iconBg: 'bg-storybook-coral/10'
@@ -45,7 +43,7 @@ export const StatsCarousel = ({
     {
       icon: Flame,
       value: longestStreak,
-      label: t('progress.longestStreak', '最长连续'),
+      label: m.app_progress_longestStreak(),
       gradient: 'from-storybook-honey/20 to-storybook-blush/30',
       iconColor: 'text-storybook-honey',
       iconBg: 'bg-storybook-honey/10'

@@ -1,6 +1,7 @@
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import { Sparkles, Clock } from 'lucide-react';
 import { Wish } from '@/types';
-import { useTranslation } from 'react-i18next';
 
 interface Practice {
   id: string;
@@ -23,7 +24,6 @@ const timeSlotColors = {
 
 export const RecentActivity = ({ practices, wishes }: RecentActivityProps) => {
   const { t, i18n } = useTranslation('app');
-
   if (practices.length === 0) return null;
 
   const dateLocale = i18n.language === 'zh' ? 'zh-CN' : 'en-US';
@@ -32,7 +32,7 @@ export const RecentActivity = ({ practices, wishes }: RecentActivityProps) => {
     <div className="bg-card rounded-2xl p-5 shadow-sm border border-border/50">
       <div className="flex items-center gap-2 mb-4">
         <Clock className="w-4 h-4 text-muted-foreground" />
-        <h2 className="font-semibold text-foreground">{t('home.todayActivity')}</h2>
+        <h2 className="font-semibold text-foreground">{m.app_home_todayActivity()}</h2>
       </div>
       
       <div className="space-y-3">
@@ -50,14 +50,14 @@ export const RecentActivity = ({ practices, wishes }: RecentActivityProps) => {
               
               <div className="flex-1 min-w-0">
                 <div className="font-medium text-foreground text-sm truncate">
-                  {wish?.title || t('home.unknownWish')}
+                  {wish?.title || m.app_home_unknownWish()}
                 </div>
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className={`text-xs px-1.5 py-0.5 rounded-md ${timeSlotColors[practice.timeSlot]}`}>
                     {t(`timeSlots.${practice.timeSlot}`)}
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    {practice.completedCount} {t('home.times')}
+                    {practice.completedCount} {m.app_home_times()}
                   </span>
                 </div>
               </div>

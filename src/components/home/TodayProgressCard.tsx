@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { Target } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
-import { useTranslation } from 'react-i18next';
 
 interface TodayProgressCardProps {
   todayProgress: number;
@@ -15,8 +15,6 @@ export const TodayProgressCard = ({
   todayPracticesCount,
   consecutiveDays,
 }: TodayProgressCardProps) => {
-  const { t } = useTranslation('app');
-
   return (
     <div className="bg-card rounded-2xl p-5 shadow-sm border border-border/50 mb-4">
       {/* Header */}
@@ -25,7 +23,7 @@ export const TodayProgressCard = ({
           <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
             <Target className="w-4.5 h-4.5 text-primary" />
           </div>
-          <span className="font-semibold text-foreground">{t('home.todayProgress')}</span>
+          <span className="font-semibold text-foreground">{m.app_home_todayProgress()}</span>
         </div>
         <span className="text-2xl font-bold text-foreground">
           {Math.round(todayProgress)}%
@@ -37,9 +35,9 @@ export const TodayProgressCard = ({
       
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <StatItem value={activeWishesCount} label={t('home.activeWishes')} color="text-primary" />
-        <StatItem value={todayPracticesCount} label={t('home.todayPractices')} color="text-amber-500" />
-        <StatItem value={consecutiveDays} label={t('home.consecutiveDays')} color="text-emerald-500" />
+        <StatItem value={activeWishesCount} label={m.app_home_activeWishes()} color="text-primary" />
+        <StatItem value={todayPracticesCount} label={m.app_home_todayPractices()} color="text-amber-500" />
+        <StatItem value={consecutiveDays} label={m.app_home_consecutiveDays()} color="text-emerald-500" />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
+import { useTranslation } from '@/i18n/compat';
 import React from 'react';
 import { Link } from '@tanstack/react-router';
-import { useTranslation } from 'react-i18next';
 import { 
   Target, 
   BookOpen, 
@@ -102,6 +102,7 @@ const getRelatedLinks = (
   maxLinks: number = 12, 
   includeAllClusters: boolean = false
 ): ClusterLink[] => {
+  const { t, i18n } = useTranslation('common');
   const relevantClusters = PAGE_CLUSTER_MAP[currentPage] || ['tutorial', 'practice'];
   
   // 过滤掉当前页面
@@ -212,8 +213,7 @@ export const EnhancedInternalLinks: React.FC<EnhancedInternalLinksProps> = ({
   layout = 'grid',
   showClusterLabels = false
 }) => {
-  const { t, i18n } = useTranslation(['common', 'marketing']);
-  
+  const { t, i18n } = useTranslation('common');
   const relevantLinks = getRelatedLinks(currentPage, maxLinks, true);
 
   if (relevantLinks.length === 0) {
@@ -317,7 +317,8 @@ export const EnhancedInternalLinks: React.FC<EnhancedInternalLinksProps> = ({
 
 // 首页专用内链组件 - 展示所有5个集群
 export const HomePageLinks: React.FC = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation('common');
+  
   
   const clusterConfig: { cluster: ClusterType; icon: React.ElementType }[] = [
     { cluster: 'tutorial', icon: BookOpen },

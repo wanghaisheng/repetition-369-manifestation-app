@@ -1,7 +1,7 @@
+import { m } from '@/paraglide/messages';
 import { Sparkles, Flame, Target } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { CircularProgress } from '@/components/gamification/CircularProgress';
-import { useTranslation } from 'react-i18next';
 
 interface PracticeHeroProps {
   totalCompleted: number;
@@ -18,7 +18,6 @@ export const PracticeHero = ({
   totalPoints,
   level
 }: PracticeHeroProps) => {
-  const { t } = useTranslation('app');
   const progress = totalTarget > 0 ? (totalCompleted / totalTarget) * 100 : 0;
 
   return (
@@ -31,7 +30,7 @@ export const PracticeHero = ({
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-white/90" />
             <h3 className="text-lg font-storybook font-semibold text-white/95">
-              {t('practice.todayJourney')}
+              {m.app_practice_todayJourney()}
             </h3>
           </div>
           
@@ -44,7 +43,7 @@ export const PracticeHero = ({
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-1.5 px-2.5 py-1 bg-white/15 rounded-full backdrop-blur-sm">
                 <Flame className="w-3.5 h-3.5 text-storybook-cream" />
-                <span className="text-white/90">{currentStreak} {t('practice.dayStreak')}</span>
+                <span className="text-white/90">{currentStreak} {m.app_practice_dayStreak()}</span>
               </div>
               <div className="flex items-center gap-1.5 px-2.5 py-1 bg-white/15 rounded-full backdrop-blur-sm">
                 <Target className="w-3.5 h-3.5 text-storybook-cream" />
@@ -65,7 +64,7 @@ export const PracticeHero = ({
           >
             <div className="text-center">
               <div className="text-2xl font-storybook font-bold text-white">{Math.round(progress)}%</div>
-              <div className="text-xs text-white/70">{t('practice.completed')}</div>
+              <div className="text-xs text-white/70">{m.app_practice_completed()}</div>
             </div>
           </CircularProgress>
         </div>

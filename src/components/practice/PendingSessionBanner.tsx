@@ -1,7 +1,8 @@
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import { Play, Sparkles, Sun, Sunset, Moon, CheckCircle2 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useTranslation } from 'react-i18next';
 import { TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
 
@@ -38,12 +39,11 @@ export const PendingSessionBanner = ({
   onContinue,
   onSelectSlot,
 }: PendingSessionBannerProps) => {
-  const { t } = useTranslation('app');
-
+  const { t, i18n } = useTranslation('app');
   const slotNames: Record<TimeSlot, string> = {
-    morning: t('practice.morningTitle'),
-    afternoon: t('practice.afternoonTitle'),
-    evening: t('practice.eveningTitle'),
+    morning: m.app_practice_morningTitle(),
+    afternoon: m.app_practice_afternoonTitle(),
+    evening: m.app_practice_eveningTitle(),
   };
 
   return (
@@ -60,7 +60,7 @@ export const PendingSessionBanner = ({
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="font-storybook font-semibold text-foreground text-sm">
-              {t('practice.pendingBanner.title', '未完成的369时段')}
+              {m.app_practice_pendingBanner_title()}
             </h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               {t('practice.pendingBanner.subtitle', {
@@ -79,7 +79,7 @@ export const PendingSessionBanner = ({
             )}
           >
             <Play className="w-4 h-4 mr-1.5" />
-            {t('practice.pendingBanner.continue', '一键继续')}
+            {m.app_practice_pendingBanner_continue()}
           </Button>
         </div>
 

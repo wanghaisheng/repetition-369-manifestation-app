@@ -1,7 +1,7 @@
+import { m } from '@/paraglide/messages';
 import { Sparkles, Star } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { useTranslation } from 'react-i18next';
 
 interface WishCompletionCardProps {
   completionRate: number;
@@ -16,8 +16,6 @@ export const WishCompletionCard = ({
   activeWishes,
   totalWishes
 }: WishCompletionCardProps) => {
-  const { t } = useTranslation('app');
-
   return (
     <Card className="border-0 shadow-lg bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 overflow-hidden">
       <div className="p-4">
@@ -27,7 +25,7 @@ export const WishCompletionCard = ({
               <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400" />
             </div>
             <h3 className="font-semibold text-foreground">
-              {t('progress.wishCompletion', '愿望实现率')}
+              {m.app_progress_wishCompletion()}
             </h3>
           </div>
           <span className="text-xs text-muted-foreground">
@@ -38,7 +36,7 @@ export const WishCompletionCard = ({
         <div className="space-y-3">
           <div className="flex justify-between items-center">
             <span className="text-xs text-muted-foreground">
-              {t('progress.completionRate', '完成率')}
+              {m.app_progress_completionRate()}
             </span>
             <span className="text-xs font-medium text-amber-600 dark:text-amber-400">
               {Math.round(completionRate)}%
@@ -52,12 +50,12 @@ export const WishCompletionCard = ({
                 <Star className="w-3 h-3 text-storybook-sage fill-storybook-sage" />
                 <span className="text-base font-bold text-storybook-sage">{achievedWishes}</span>
               </div>
-              <div className="text-xs text-muted-foreground">{t('progress.achieved', '已实现')}</div>
+              <div className="text-xs text-muted-foreground">{m.app_progress_achieved()}</div>
             </div>
             <div className="w-px bg-amber-200/50 dark:bg-amber-800/50" />
             <div className="flex-1 text-center">
               <div className="text-base font-bold text-primary">{activeWishes}</div>
-              <div className="text-xs text-muted-foreground">{t('progress.inProgress', '进行中')}</div>
+              <div className="text-xs text-muted-foreground">{m.app_progress_inProgress()}</div>
             </div>
           </div>
         </div>

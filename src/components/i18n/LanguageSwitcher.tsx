@@ -1,6 +1,6 @@
 
+import { useTranslation } from '@/i18n/compat';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Globe } from 'lucide-react';
@@ -19,7 +19,7 @@ const languages = [
 ];
 
 export const LanguageSwitcher = () => {
-  const { i18n } = useTranslation();
+  const { i18n } = useTranslation('common');
   const location = useLocation();
   const navigate = useNavigate();
 

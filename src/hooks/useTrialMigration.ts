@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import { useEffect, useRef } from 'react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,7 +7,6 @@ import { PracticeService } from '@/services/PracticeService';
 import { readTrialState, clearTrialState } from '@/utils/trialStorage';
 import { logger } from '@/utils/logger';
 import { useToast } from '@/hooks/use-toast';
-import { useTranslation } from 'react-i18next';
 import { trialAnalytics } from '@/utils/trialAnalytics';
 
 /**
@@ -22,7 +22,6 @@ export const useTrialMigration = (onMigrated?: () => void) => {
   const navigate = useNavigate();
   const search = useSearch({ strict: false }) as { resume?: string };
   const { toast } = useToast();
-  const { t } = useTranslation('app');
   const hasRun = useRef(false);
 
   useEffect(() => {
@@ -67,8 +66,8 @@ export const useTrialMigration = (onMigrated?: () => void) => {
         trialAnalytics.migrated(trial.slots.length, totalEntries);
 
         toast({
-          title: t('trialMigration.title', '体验进度已保存'),
-          description: t('trialMigration.desc', '继续完成今日剩余时段吧'),
+          title: m.app_trialMigration_title(),
+          description: m.app_trialMigration_desc(),
         });
 
         onMigrated?.();

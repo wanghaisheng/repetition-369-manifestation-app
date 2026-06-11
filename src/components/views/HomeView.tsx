@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { useWishes } from '@/hooks/useWishes';
@@ -11,14 +12,12 @@ import { TodayProgressCard } from '@/components/home/TodayProgressCard';
 import { QuickStatsRow } from '@/components/home/QuickStatsRow';
 import { QuickActions } from '@/components/home/QuickActions';
 import { RecentActivity } from '@/components/home/RecentActivity';
-import { useTranslation } from 'react-i18next';
 
 export const HomeView = () => {
   const { wishes, loading: wishesLoading, error: wishesError, createWish, refetch } = useWishes();
   const { todayPractices, loading: practiceLoading, error: practiceError } = usePractice();
   const { progress, loading: progressLoading, error: progressError, getTodayStats, getWeeklyStats } = useProgress();
   const { toast } = useToast();
-  const { t } = useTranslation('app');
   const [isAddWishModalOpen, setIsAddWishModalOpen] = useState(false);
 
   const activeWishes = wishes.filter(wish => wish.status === 'active');
@@ -36,15 +35,15 @@ export const HomeView = () => {
     try {
       await createWish(wishData);
       toast({
-        title: t('home.wishCreateSuccess'),
-        description: t('home.wishCreateSuccessDesc'),
+        title: m.app_home_wishCreateSuccess(),
+        description: m.app_home_wishCreateSuccessDesc(),
       });
       setIsAddWishModalOpen(false);
       refetch();
     } catch (error) {
       toast({
-        title: t('home.wishCreateFailed'),
-        description: t('home.wishCreateFailedDesc'),
+        title: m.app_home_wishCreateFailed(),
+        description: m.app_home_wishCreateFailedDesc(),
         variant: "destructive",
       });
     }
@@ -61,7 +60,7 @@ export const HomeView = () => {
       {/* Error Alert */}
       {hasErrors && (
         <Card className="p-4 bg-destructive/10 border-destructive/20 mb-4">
-          <p className="text-destructive text-sm">{t('home.dataLoadError')}</p>
+          <p className="text-destructive text-sm">{m.app_home_dataLoadError()}</p>
         </Card>
       )}
 

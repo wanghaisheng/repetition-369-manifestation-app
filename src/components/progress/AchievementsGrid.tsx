@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { Trophy, Calendar, Award, Activity, TrendingUp, Star, Lock } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import { useTranslation } from 'react-i18next';
 import { Achievement } from '@/services/AchievementService';
 
 interface AchievementsGridProps {
@@ -12,20 +12,18 @@ interface AchievementsGridProps {
 }
 
 export const AchievementsGrid = ({ achievements, consecutiveDays, achievedWishes, totalSessions, longestStreak }: AchievementsGridProps) => {
-  const { t } = useTranslation('app');
-
   const badges = [
-    { id: 'streak-7', icon: Calendar, name: t('progress.badges.streak7'), unlocked: consecutiveDays >= 7,
+    { id: 'streak-7', icon: Calendar, name: m.app_progress_badges_streak7(), unlocked: consecutiveDays >= 7,
       gradient: 'from-storybook-sage to-storybook-sage/80' },
-    { id: 'first-wish', icon: Award, name: t('progress.badges.firstWish'), unlocked: achievedWishes > 0,
+    { id: 'first-wish', icon: Award, name: m.app_progress_badges_firstWish(), unlocked: achievedWishes > 0,
       gradient: 'from-storybook-honey to-storybook-coral' },
-    { id: 'practice-100', icon: Activity, name: t('progress.badges.practice100'), unlocked: totalSessions >= 100,
+    { id: 'practice-100', icon: Activity, name: m.app_progress_badges_practice100(), unlocked: totalSessions >= 100,
       gradient: 'from-storybook-honey to-storybook-honey/80' },
-    { id: 'streak-30', icon: TrendingUp, name: t('progress.badges.streak30'), unlocked: longestStreak >= 30,
+    { id: 'streak-30', icon: TrendingUp, name: m.app_progress_badges_streak30(), unlocked: longestStreak >= 30,
       gradient: 'from-storybook-coral to-storybook-honey' },
-    { id: 'week-warrior', icon: Trophy, name: t('progress.badges.weekWarrior'), unlocked: consecutiveDays >= 7 && totalSessions >= 21,
+    { id: 'week-warrior', icon: Trophy, name: m.app_progress_badges_weekWarrior(), unlocked: consecutiveDays >= 7 && totalSessions >= 21,
       gradient: 'from-storybook-coral to-storybook-coral/80' },
-    { id: 'perfect-week', icon: Star, name: t('progress.badges.perfectWeek'),
+    { id: 'perfect-week', icon: Star, name: m.app_progress_badges_perfectWeek(),
       unlocked: achievements.some(a => a.id === 'perfect-week' && a.unlocked),
       gradient: 'from-storybook-sage to-storybook-honey' },
   ];
@@ -40,7 +38,7 @@ export const AchievementsGrid = ({ achievements, consecutiveDays, achievedWishes
             <div className="p-2 bg-storybook-honey/10 rounded-storybook">
               <Trophy className="w-4 h-4 text-storybook-honey" />
             </div>
-            <h3 className="font-storybook font-semibold text-foreground">{t('progress.achievements')}</h3>
+            <h3 className="font-storybook font-semibold text-foreground">{m.app_progress_achievements()}</h3>
           </div>
           <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-full">{unlockedCount}/{badges.length}</span>
         </div>

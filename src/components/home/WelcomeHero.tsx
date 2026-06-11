@@ -1,14 +1,12 @@
+import { m } from '@/paraglide/messages';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useTranslation } from 'react-i18next';
 
 interface WelcomeHeroProps {
   onCreateWish: () => void;
 }
 
 export const WelcomeHero = ({ onCreateWish }: WelcomeHeroProps) => {
-  const { t } = useTranslation('app');
-
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[hsl(var(--manifest-glow)/0.15)] via-background to-[hsl(var(--manifest-aura)/0.1)] p-6 mb-6">
       {/* Decorative elements */}
@@ -23,10 +21,10 @@ export const WelcomeHero = ({ onCreateWish }: WelcomeHeroProps) => {
         
         {/* Content */}
         <h1 className="text-2xl font-bold text-foreground mb-2">
-          {t('home.welcomeTitle')}
+          {m.app_home_welcomeTitle()}
         </h1>
         <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-xs">
-          {t('home.welcomeDesc')}
+          {m.app_home_welcomeDesc()}
         </p>
         
         {/* CTA */}
@@ -34,7 +32,7 @@ export const WelcomeHero = ({ onCreateWish }: WelcomeHeroProps) => {
           onClick={onCreateWish}
           className="group bg-foreground hover:bg-foreground/90 text-background rounded-xl px-5 py-2.5 h-auto font-medium shadow-lg shadow-foreground/10"
         >
-          {t('home.createFirstWishBtn')}
+          {m.app_home_createFirstWishBtn()}
           <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-0.5" />
         </Button>
       </div>

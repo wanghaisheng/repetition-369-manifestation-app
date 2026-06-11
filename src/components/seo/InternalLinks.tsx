@@ -1,9 +1,10 @@
 
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Target, TrendingUp, Users, Heart } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 interface RelatedPage {
   titleKey: string;
@@ -19,8 +20,7 @@ interface InternalLinksProps {
 }
 
 export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps) => {
-  const { t } = useTranslation('app');
-  
+  const { t, i18n } = useTranslation('app');
   const allPages: Record<string, RelatedPage[]> = {
     '/': [
       {
@@ -156,7 +156,7 @@ export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps)
   return (
     <Card className="mt-6">
       <CardHeader>
-        <CardTitle className="text-lg">{t('internalLinks.relatedPages')}</CardTitle>
+        <CardTitle className="text-lg">{m.app_internalLinks_relatedPages()}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid gap-3">
@@ -186,9 +186,8 @@ export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps)
 
 // Related links for page footer
 export const RelatedLinks = ({ exclude = [] }: { exclude?: string[] }) => {
+  const { t } = useTranslation('common');
   const location = useLocation();
-  const { t } = useTranslation('app');
-  
   const quickLinks = [
     { titleKey: 'nav.home', href: '/', descriptionKey: 'internalLinks.backToHome' },
     { titleKey: 'internalLinks.wishManagement', href: '/wishes', descriptionKey: 'internalLinks.wishManagementDesc' },
@@ -199,7 +198,7 @@ export const RelatedLinks = ({ exclude = [] }: { exclude?: string[] }) => {
 
   return (
     <div className="mt-8 pt-6 border-t border-border">
-      <h3 className="text-lg font-semibold mb-4">{t('internalLinks.quickNav')}</h3>
+      <h3 className="text-lg font-semibold mb-4">{m.app_internalLinks_quickNav()}</h3>
       <div className="grid grid-cols-2 gap-4">
         {quickLinks.map((link) => (
           <Link

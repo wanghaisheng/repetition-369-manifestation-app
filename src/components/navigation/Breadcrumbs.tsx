@@ -1,28 +1,26 @@
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Link, useLocation } from '@tanstack/react-router';
-import { useTranslation } from 'react-i18next';
 import { ChevronRight, Home } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
 export const Breadcrumbs = () => {
   const location = useLocation();
-  const { t } = useTranslation('common');
-
   const routeNames: Record<string, string> = {
-    '': t('nav.home'),
-    'wishes': t('nav.wishes'),
-    'practice': t('nav.practice'),
-    'progress': t('nav.progress'),
-    'community': t('nav.community'),
-    'auth': t('nav.auth'),
-    'about': t('nav.about'),
-    'faq': t('nav.faq')
+    '': m.common_nav_home(),
+    'wishes': m.common_nav_wishes(),
+    'practice': m.common_nav_practice(),
+    'progress': m.common_nav_progress(),
+    'community': m.common_nav_community(),
+    'auth': m.common_nav_auth(),
+    'about': m.common_nav_about(),
+    'faq': m.common_nav_faq()
   };
 
   const paths = location.pathname.split('/').filter(Boolean);
   
   const breadcrumbs = [
-    { name: t('nav.home'), href: '/' }
+    { name: m.common_nav_home(), href: '/' }
   ];
 
   let currentPath = '';

@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { Zap, Plus, Target, ChevronRight } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
-import { useTranslation } from 'react-i18next';
 
 interface QuickActionsProps {
   hasActiveWishes: boolean;
@@ -9,26 +9,24 @@ interface QuickActionsProps {
 
 export const QuickActions = ({ hasActiveWishes, onCreateWish }: QuickActionsProps) => {
   const navigate = useNavigate();
-  const { t } = useTranslation('app');
-  
   return (
     <div className="bg-card rounded-2xl p-5 shadow-sm border border-border/50 mb-4">
-      <h2 className="font-semibold text-foreground mb-4">{t('home.quickStart')}</h2>
+      <h2 className="font-semibold text-foreground mb-4">{m.app_home_quickStart()}</h2>
       
       <div className="space-y-2.5">
         {hasActiveWishes ? (
           <ActionButton
             icon={Zap}
-            label={t('home.startPractice')}
-            sublabel={t('home.continuePractice')}
+            label={m.app_home_startPractice()}
+            sublabel={m.app_home_continuePractice()}
             onClick={() => navigate({ to: '/app/practice' })}
             variant="primary"
           />
         ) : (
           <ActionButton
             icon={Plus}
-            label={t('home.createFirstWish')}
-            sublabel={t('home.startJourney')}
+            label={m.app_home_createFirstWish()}
+            sublabel={m.app_home_startJourney()}
             onClick={onCreateWish}
             variant="primary"
           />
@@ -36,8 +34,8 @@ export const QuickActions = ({ hasActiveWishes, onCreateWish }: QuickActionsProp
         
         <ActionButton
           icon={Target}
-          label={t('home.manageWishes')}
-          sublabel={t('home.viewEditWishes')}
+          label={m.app_home_manageWishes()}
+          sublabel={m.app_home_viewEditWishes()}
           onClick={() => navigate({ to: '/app/wishes' })}
           variant="secondary"
         />

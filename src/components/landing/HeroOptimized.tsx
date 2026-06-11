@@ -1,12 +1,12 @@
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Sparkles, PlayCircle, Users, TrendingUp } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
 export const HeroOptimized = () => {
-  const { t } = useTranslation(['landing', 'common']);
-
+  const { t, i18n } = useTranslation('landing');
   return (
     <section className="relative py-24 px-4 overflow-hidden paper-texture">
       {/* Soft watercolor background blobs */}
@@ -27,7 +27,7 @@ export const HeroOptimized = () => {
                 <div className="w-8 h-8 bg-gradient-to-br from-storybook-sage to-storybook-honey rounded-full border-2 border-background" />
               </div>
               <span className="text-storybook-bark font-storybook font-medium">
-                {t('hero.trustBadge')}
+                {m.landing_hero_trustBadge()}
               </span>
             </div>
           </div>
@@ -37,7 +37,7 @@ export const HeroOptimized = () => {
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-storybook-honey rounded-full animate-pulse" />
               <span className="text-storybook-bark font-storybook font-semibold text-sm">
-                {t('hero.earlyUserBadge')}
+                {m.landing_hero_earlyUserBadge()}
               </span>
             </div>
           </div>
@@ -45,26 +45,26 @@ export const HeroOptimized = () => {
 
         {/* Main headline — warm serif */}
         <h1 className="font-storybook text-5xl md:text-6xl lg:text-7xl font-bold text-storybook-bark mb-6 leading-tight tracking-tight">
-          {t('hero.h1', t('hero.title'))}
+          {t('hero.h1', m.landing_hero_title())}
         </h1>
 
         {/* Subheadline */}
         <p className="font-storybook text-xl md:text-2xl text-storybook-bark/70 mb-6 max-w-3xl mx-auto font-medium">
-          {t('hero.subtitle')}
+          {m.landing_hero_subtitle()}
         </p>
 
         {/* Value proposition */}
         <p className="text-lg text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed">
-          {t('hero.description')}
+          {m.landing_hero_description()}
         </p>
 
         {/* Social Proof Stats — storybook cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8 max-w-4xl mx-auto">
           {[
-            { value: '5,247+', label: t('hero.monthlyUsers'), note: t('hero.monthlyUsersGrowth'), color: 'text-storybook-honey' },
-            { value: '89%', label: t('hero.successRate'), note: t('hero.successRateNote'), color: 'text-storybook-sage' },
-            { value: '4.9/5', label: t('hero.userRating'), note: t('hero.userRatingNote'), color: 'text-storybook-coral' },
-            { value: '18', label: t('hero.averageDays'), note: t('hero.averageDaysNote'), color: 'text-storybook-honey' },
+            { value: '5,247+', label: m.landing_hero_monthlyUsers(), note: m.landing_hero_monthlyUsersGrowth(), color: 'text-storybook-honey' },
+            { value: '89%', label: m.landing_hero_successRate(), note: m.landing_hero_successRateNote(), color: 'text-storybook-sage' },
+            { value: '4.9/5', label: m.landing_hero_userRating(), note: m.landing_hero_userRatingNote(), color: 'text-storybook-coral' },
+            { value: '18', label: m.landing_hero_averageDays(), note: m.landing_hero_averageDaysNote(), color: 'text-storybook-honey' },
           ].map((stat, i) => (
             <div
               key={i}
@@ -83,7 +83,7 @@ export const HeroOptimized = () => {
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-storybook-sage rounded-full animate-pulse" />
               <span className="text-storybook-bark/80 text-sm font-medium">
-                {t('hero.realtimeActivity')}
+                {m.landing_hero_realtimeActivity()}
               </span>
             </div>
           </div>
@@ -97,9 +97,9 @@ export const HeroOptimized = () => {
               className="bg-gradient-to-r from-storybook-honey to-storybook-coral hover:from-storybook-honey/90 hover:to-storybook-coral/90 text-white px-8 py-6 text-lg font-storybook font-semibold shadow-storybook-hover rounded-storybook-lg transition-all duration-300 transform group-hover:scale-105"
             >
               <Sparkles className="w-5 h-5 mr-2" />
-              {t('hero.cta')}
+              {m.landing_hero_cta()}
               <span className="ml-2 text-xs bg-white/20 px-2 py-1 rounded-full">
-                {t('hero.free')}
+                {m.landing_hero_free()}
               </span>
             </Button>
           </Link>
@@ -110,7 +110,7 @@ export const HeroOptimized = () => {
               className="px-8 py-6 text-lg font-storybook font-semibold border-2 border-storybook-honey/40 text-storybook-bark hover:bg-storybook-cream rounded-storybook-lg"
             >
               <PlayCircle className="w-5 h-5 mr-2" />
-              {t('hero.tryNoSignup')}
+              {m.landing_hero_tryNoSignup()}
             </Button>
           </Link>
         </div>
@@ -121,7 +121,7 @@ export const HeroOptimized = () => {
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-storybook-coral rounded-full animate-pulse" />
               <span className="text-storybook-bark/80 font-medium">
-                {t('hero.urgencyBadge')}
+                {m.landing_hero_urgencyBadge()}
               </span>
             </div>
           </div>
@@ -130,14 +130,14 @@ export const HeroOptimized = () => {
             <div className="flex items-center">
               <Users className="w-4 h-4 mr-2" />
               <span>
-                {t('hero.newUsersJoined')}
+                {m.landing_hero_newUsersJoined()}
                 <span className="font-semibold text-storybook-honey animate-pulse">+127</span>
-                {t('hero.newUsersJoinedSuffix')}
+                {m.landing_hero_newUsersJoinedSuffix()}
               </span>
             </div>
             <div className="flex items-center">
               <TrendingUp className="w-4 h-4 mr-2" />
-              <span>{t('hero.earlyBadgeReward')}</span>
+              <span>{m.landing_hero_earlyBadgeReward()}</span>
             </div>
           </div>
         </div>

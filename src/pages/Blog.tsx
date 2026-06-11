@@ -1,5 +1,6 @@
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -36,18 +37,18 @@ interface BlogPost {
 }
 
 const Blog = () => {
-  const { t, i18n } = useTranslation(['app', 'common']);
+  const { t, i18n } = useTranslation('app');
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
   const categories = [
-    { key: 'all', label: t('app:blog.categories.all') },
-    { key: 'founder-story', label: t('app:blog.categories.founder_story') },
-    { key: 'build-in-public', label: t('app:blog.categories.build_in_public') },
-    { key: 'manifestation', label: t('app:blog.categories.manifestation') },
-    { key: 'technical', label: t('app:blog.categories.technical') },
+    { key: 'all', label: m.app_blog_categories_all() },
+    { key: 'founder-story', label: m.app_blog_categories_founder_story() },
+    { key: 'build-in-public', label: m.app_blog_categories_build_in_public() },
+    { key: 'manifestation', label: m.app_blog_categories_manifestation() },
+    { key: 'technical', label: m.app_blog_categories_technical() },
   ];
 
   useEffect(() => {
@@ -131,7 +132,7 @@ const Blog = () => {
             {i18n.language === 'zh' ? '369显化法博客：成功案例与实践技巧' : '369 Manifestation Blog: Success Stories & Practice Tips'}
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            {t('app:blog.subtitle')}
+            {m.app_blog_subtitle()}
           </p>
         </section>
 
@@ -142,7 +143,7 @@ const Blog = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <input
                 type="text"
-                placeholder={t('app:blog.list.search')}
+                placeholder={m.app_blog_list_search()}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
@@ -183,7 +184,7 @@ const Blog = () => {
             {featuredPosts.length > 0 && (
               <section className="mb-12">
                 <h2 className="text-3xl font-bold text-foreground mb-6">
-                  {t('app:blog.list.featuredArticles')}
+                  {m.app_blog_list_featuredArticles()}
                 </h2>
                 <div className="grid md:grid-cols-2 gap-8">
                   {featuredPosts.map((post) => (
@@ -238,7 +239,7 @@ const Blog = () => {
             {/* Regular Posts */}
             <section>
               <h2 className="text-3xl font-bold text-foreground mb-6">
-                {t('app:blog.list.latestArticles')}
+                {m.app_blog_list_latestArticles()}
               </h2>
               {regularPosts.length > 0 ? (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -281,10 +282,10 @@ const Blog = () => {
                 <div className="text-center py-12">
                   <BookOpen className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-foreground mb-2">
-                    {t('app:blog.list.noArticles')}
+                    {m.app_blog_list_noArticles()}
                   </h3>
                   <p className="text-muted-foreground">
-                    {t('app:blog.list.noArticlesSearch')}
+                    {m.app_blog_list_noArticlesSearch()}
                   </p>
                 </div>
               )}
@@ -300,15 +301,15 @@ const Blog = () => {
         {/* Newsletter CTA */}
         <section className="mt-16 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl p-8 text-center">
           <h2 className="text-3xl font-bold text-foreground mb-4">
-            {t('app:blog.newsletter.title')}
+            {m.app_blog_newsletter_title()}
           </h2>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            {t('app:blog.newsletter.description')}
+            {m.app_blog_newsletter_description()}
           </p>
           <Link to="/newsletter">
             <Button size="lg" className="px-8 py-4 text-lg">
               <Tag className="w-5 h-5 mr-2" />
-              {t('app:blog.newsletter.subscribe')}
+              {m.app_blog_newsletter_subscribe()}
             </Button>
           </Link>
         </section>

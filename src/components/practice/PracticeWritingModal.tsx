@@ -1,6 +1,6 @@
 
+import { m } from '@/paraglide/messages';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -26,7 +26,6 @@ export const PracticeWritingModal = ({
   onSubmit,
   onCancel
 }: PracticeWritingModalProps) => {
-  const { t } = useTranslation('app');
   const [currentText, setCurrentText] = useState('');
   const [currentMood, setCurrentMood] = useState<Mood>('neutral');
 
@@ -42,7 +41,7 @@ export const PracticeWritingModal = ({
   return (
     <Card className="mb-6 p-6 bg-white border-0 shadow-ios rounded-ios">
       <div className="mb-4">
-        <h4 className="font-semibold text-gray-800 mb-2">{t('practiceWritingModal.currentAffirmation')}</h4>
+        <h4 className="font-semibold text-gray-800 mb-2">{m.app_practiceWritingModal_currentAffirmation()}</h4>
         <div className="bg-gray-50 p-4 rounded-ios">
           <p className="text-gray-700 leading-relaxed">{currentAffirmation}</p>
         </div>
@@ -50,28 +49,28 @@ export const PracticeWritingModal = ({
 
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          {t('practiceWritingModal.writingArea')} ({currentProgress.completed + 1} / {currentProgress.target})
+          {m.app_practiceWritingModal_writingArea()} ({currentProgress.completed + 1} / {currentProgress.target})
         </label>
         <Textarea
           value={currentText}
           onChange={(e) => setCurrentText(e.target.value)}
-          placeholder={t('practiceWritingModal.placeholder')}
+          placeholder={m.app_practiceWritingModal_placeholder()}
           className="rounded-ios border-ios-gray-medium min-h-[120px] text-lg leading-relaxed"
           autoFocus
         />
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">{t('practiceWritingModal.moodStatus')}</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">{m.app_practiceWritingModal_moodStatus()}</label>
         <select
           value={currentMood}
           onChange={(e) => setCurrentMood(e.target.value as Mood)}
           className="w-full p-3 border border-gray-200 rounded-ios focus:ring-2 focus:ring-ios-blue focus:border-transparent"
         >
-          <option value="excellent">{t('writingInterface.moods.excellent')}</option>
-          <option value="good">{t('writingInterface.moods.good')}</option>
-          <option value="neutral">{t('writingInterface.moods.neutral')}</option>
-          <option value="poor">{t('writingInterface.moods.poor')}</option>
+          <option value="excellent">{m.app_writingInterface_moods_excellent()}</option>
+          <option value="good">{m.app_writingInterface_moods_good()}</option>
+          <option value="neutral">{m.app_writingInterface_moods_neutral()}</option>
+          <option value="poor">{m.app_writingInterface_moods_poor()}</option>
         </select>
       </div>
 
@@ -81,14 +80,14 @@ export const PracticeWritingModal = ({
           disabled={!currentText.trim()}
           className={`flex-1 bg-gradient-to-r ${periodColor} hover:opacity-90 rounded-ios py-3 disabled:opacity-50`}
         >
-          {t('practiceWritingModal.completeWriting')}
+          {m.app_practiceWritingModal_completeWriting()}
         </Button>
         <Button
           onClick={onCancel}
           variant="outline"
           className="px-6 rounded-ios border-gray-300"
         >
-          {t('practiceWritingModal.cancel')}
+          {m.app_practiceWritingModal_cancel()}
         </Button>
       </div>
     </Card>

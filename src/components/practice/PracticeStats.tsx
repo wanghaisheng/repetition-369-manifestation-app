@@ -1,6 +1,6 @@
 
+import { m } from '@/paraglide/messages';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Calendar, Flame, Trophy, Clock } from 'lucide-react';
@@ -18,12 +18,11 @@ interface PracticeStatsProps {
 }
 
 export const PracticeStats = ({ todayStats, weeklyStats }: PracticeStatsProps) => {
-  const { t } = useTranslation('app');
   const todayProgress = (todayStats.totalCompleted / todayStats.totalTarget) * 100;
   
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
-    return mins > 0 ? t('practiceStats.minutes', { count: mins }) : t('practiceStats.seconds', { count: seconds });
+    return mins > 0 ? m.app_practiceStats_minutes({ count: mins }) : m.app_practiceStats_seconds({ count: seconds });
   };
 
   const cards = [
@@ -32,24 +31,24 @@ export const PracticeStats = ({ todayStats, weeklyStats }: PracticeStatsProps) =
       gradient: 'from-storybook-honey/20 to-storybook-coral/20',
       iconBg: 'bg-storybook-honey',
       labelColor: 'text-storybook-honey',
-      label: t('practiceStats.todayProgress'),
+      label: m.app_practiceStats_todayProgress(),
       value: `${todayStats.totalCompleted}/${todayStats.totalTarget}`,
-      extra: <><Progress value={todayProgress} className="h-2 mb-2 mt-2" /><p className="text-xs text-storybook-honey">{Math.round(todayProgress)}% {t('practiceStats.complete')}</p></>
+      extra: <><Progress value={todayProgress} className="h-2 mb-2 mt-2" /><p className="text-xs text-storybook-honey">{Math.round(todayProgress)}% {m.app_practiceStats_complete()}</p></>
     },
     {
       icon: Flame,
       gradient: 'from-storybook-coral/20 to-storybook-honey/20',
       iconBg: 'bg-storybook-coral',
       labelColor: 'text-storybook-coral',
-      label: t('practiceStats.streak'),
-      value: t('practiceStats.streakDays', { count: weeklyStats.streak }),
+      label: m.app_practiceStats_streak(),
+      value: m.app_practiceStats_streakDays({ count: weeklyStats.streak }),
     },
     {
       icon: Trophy,
       gradient: 'from-storybook-sage/20 to-storybook-sage/10',
       iconBg: 'bg-storybook-sage',
       labelColor: 'text-storybook-sage',
-      label: t('practiceStats.weeklyRate'),
+      label: m.app_practiceStats_weeklyRate(),
       value: `${Math.round(weeklyStats.completionRate)}%`,
     },
     {
@@ -57,7 +56,7 @@ export const PracticeStats = ({ todayStats, weeklyStats }: PracticeStatsProps) =
       gradient: 'from-storybook-blush/30 to-storybook-coral/10',
       iconBg: 'bg-storybook-coral',
       labelColor: 'text-storybook-coral',
-      label: t('practiceStats.timeSpent'),
+      label: m.app_practiceStats_timeSpent(),
       value: formatTime(todayStats.timeSpent),
     },
   ];

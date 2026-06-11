@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { TrendingUp, Award } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 interface QuickStatsRowProps {
   weeklyPractices: number;
@@ -8,21 +8,19 @@ interface QuickStatsRowProps {
 }
 
 export const QuickStatsRow = ({ weeklyPractices, totalPractices }: QuickStatsRowProps) => {
-  const { t } = useTranslation('app');
-
   return (
     <div className="grid grid-cols-2 gap-3 mb-4">
       <StatCard
         icon={TrendingUp}
         value={weeklyPractices}
-        label={t('home.weeklyPractices')}
+        label={m.app_home_weeklyPractices()}
         iconBg="bg-emerald-500/10"
         iconColor="text-emerald-500"
       />
       <StatCard
         icon={Award}
         value={totalPractices}
-        label={t('home.totalPractices')}
+        label={m.app_home_totalPractices()}
         iconBg="bg-amber-500/10"
         iconColor="text-amber-500"
       />

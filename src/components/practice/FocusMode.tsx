@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,6 @@ import { usePoints } from '@/hooks/usePoints';
 import { useStreak } from '@/hooks/useStreak';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation } from 'react-i18next';
 import { logger } from '@/utils/logger';
 
 interface FocusModeProps {
@@ -31,8 +31,6 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
   const [showCelebration, setShowCelebration] = useState(false);
   const [pointsEarned, setPointsEarned] = useState(0);
   const [streakUpdated, setStreakUpdated] = useState(false);
-  const { t } = useTranslation('app');
-  
   const { user } = useAuth();
   const { addPoints } = usePoints(user?.id || 'default');
   const { updateStreak } = useStreak(user?.id || 'default');
@@ -57,7 +55,7 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
       setIsCompleting(true);
       try {
         await onComplete(entries, 'good');
-        const basePoints = await addPoints('completeWriting', entries.length, t('focusMode.completedPractice', { title: period.title }));
+        const basePoints = await addPoints('completeWriting', entries.length, m.app_focusMode_completedPractice({ title: period.title }));
         let totalPoints = basePoints;
         const wasStreakUpdated = await updateStreak();
         if (wasStreakUpdated) setStreakUpdated(true);
@@ -87,13 +85,13 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
 
         <div className="space-y-6">
           <div className="p-4 bg-gradient-to-r from-storybook-honey/5 to-storybook-coral/5 rounded-storybook">
-            <h3 className="font-medium text-foreground mb-1">{t('focusMode.yourWish')}</h3>
+            <h3 className="font-medium text-foreground mb-1">{m.app_focusMode_yourWish()}</h3>
             <p className="text-muted-foreground">{wish.affirmation}</p>
           </div>
 
           <div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium text-muted-foreground">{t('focusMode.progressLabel')}: {entries.length}/{period.target}</span>
+              <span className="text-sm font-medium text-muted-foreground">{m.app_focusMode_progressLabel()}: {entries.length}/{period.target}</span>
               <span className="text-sm text-muted-foreground">{Math.round(progress)}%</span>
             </div>
             <Progress value={progress} className="h-2" />
@@ -101,21 +99,21 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
 
           <div>
             <label className="block text-sm font-medium text-muted-foreground mb-2">
-              {t('focusMode.writeEntry', { count: entries.length + 1 })}
+              {m.app_focusMode_writeEntry({ count: entries.length + 1 })}
             </label>
             <Textarea value={currentEntry} onChange={(e) => setCurrentEntry(e.target.value)}
-              placeholder={t('focusMode.writePlaceholder')}
+              placeholder={m.app_focusMode_writePlaceholder()}
               className="min-h-24 rounded-storybook border-border focus:ring-2 focus:ring-storybook-honey focus:border-transparent"
               disabled={entries.length >= period.target} />
             <Button onClick={handleAddEntry} disabled={!currentEntry.trim() || entries.length >= period.target}
               className="mt-3 bg-gradient-to-r from-storybook-honey to-storybook-coral text-white rounded-storybook">
-              {t('focusMode.addEntry', { count: entries.length + 1 })}
+              {m.app_focusMode_addEntry({ count: entries.length + 1 })}
             </Button>
           </div>
 
           {entries.length > 0 && (
             <div className="max-h-40 overflow-y-auto space-y-2">
-              <h4 className="text-sm font-medium text-muted-foreground">{t('focusMode.completedEntries')}</h4>
+              <h4 className="text-sm font-medium text-muted-foreground">{m.app_focusMode_completedEntries()}</h4>
               {entries.map((entry, index) => (
                 <div key={index} className="flex items-start space-x-2 p-2 bg-storybook-sage/10 rounded-storybook">
                   <CheckCircle className="w-4 h-4 text-storybook-sage mt-0.5 flex-shrink-0" />
@@ -128,17 +126,17 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
           {showCelebration && (
             <div className="text-center p-4 bg-gradient-to-r from-storybook-honey/10 to-storybook-coral/10 rounded-storybook">
               <Sparkles className="w-8 h-8 text-storybook-honey mx-auto mb-2" />
-              <p className="text-lg font-storybook font-semibold text-foreground mb-1">{t('focusMode.congratulations')}</p>
-              <p className="text-sm text-muted-foreground mb-3">{t('focusMode.completedSession', { target: period.target })}</p>
+              <p className="text-lg font-storybook font-semibold text-foreground mb-1">{m.app_focusMode_congratulations()}</p>
+              <p className="text-sm text-muted-foreground mb-3">{m.app_focusMode_completedSession({ target: period.target })}</p>
               <div className="flex items-center justify-center space-x-4 text-sm">
                 <div className="flex items-center space-x-1 text-storybook-honey">
                   <Star className="w-4 h-4" />
-                  <span>{t('focusMode.pointsEarned', { points: period.target * 10 })}</span>
+                  <span>{m.app_focusMode_pointsEarned({ points: period.target * 10 })}</span>
                 </div>
                 {streakUpdated && (
                   <div className="flex items-center space-x-1 text-storybook-coral">
                     <Flame className="w-4 h-4" />
-                    <span>{t('focusMode.streakUpdated')}</span>
+                    <span>{m.app_focusMode_streakUpdated()}</span>
                   </div>
                 )}
               </div>
@@ -148,7 +146,7 @@ export const FocusMode = ({ isOpen, onClose, onComplete, wish, period }: FocusMo
           {entries.length === period.target && (
             <Button onClick={handleComplete} disabled={isCompleting}
               className="w-full bg-gradient-to-r from-storybook-sage to-storybook-honey text-white rounded-storybook">
-              {isCompleting ? t('focusMode.savingProgress') : t('focusMode.completePractice')}
+              {isCompleting ? m.app_focusMode_savingProgress() : m.app_focusMode_completePractice()}
             </Button>
           )}
         </div>

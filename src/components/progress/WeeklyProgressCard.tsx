@@ -1,7 +1,7 @@
+import { m } from '@/paraglide/messages';
 import { Calendar, TrendingUp } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { useTranslation } from 'react-i18next';
 
 interface WeeklyProgressCardProps {
   todayProgress: number;
@@ -22,8 +22,6 @@ export const WeeklyProgressCard = ({
   weeklyCompleted,
   weeklyTarget
 }: WeeklyProgressCardProps) => {
-  const { t } = useTranslation('app');
-
   return (
     <Card className="border-0 shadow-lg bg-card overflow-hidden">
       {/* Today Section */}
@@ -34,7 +32,7 @@ export const WeeklyProgressCard = ({
               <Calendar className="w-4 h-4 text-primary" />
             </div>
             <h3 className="font-semibold text-foreground">
-              {t('progress.todayProgress', '今日进度')}
+              {m.app_progress_todayProgress()}
             </h3>
           </div>
           <span className="text-sm font-medium text-primary">
@@ -47,15 +45,15 @@ export const WeeklyProgressCard = ({
         <div className="grid grid-cols-3 gap-3">
           <div className="text-center p-2 bg-primary/5 rounded-xl">
             <div className="text-lg font-bold text-primary">{todayCompletedCount}</div>
-            <div className="text-xs text-muted-foreground">{t('progress.completed', '已完成')}</div>
+            <div className="text-xs text-muted-foreground">{m.app_progress_completed()}</div>
           </div>
           <div className="text-center p-2 bg-muted/50 rounded-xl">
             <div className="text-lg font-bold text-muted-foreground">{todayTargetCount}</div>
-            <div className="text-xs text-muted-foreground">{t('progress.target', '目标')}</div>
+            <div className="text-xs text-muted-foreground">{m.app_progress_target()}</div>
           </div>
           <div className="text-center p-2 bg-amber-500/10 rounded-xl">
             <div className="text-lg font-bold text-amber-600">{sessionsCount}</div>
-            <div className="text-xs text-muted-foreground">{t('progress.sessions', '场次')}</div>
+            <div className="text-xs text-muted-foreground">{m.app_progress_sessions()}</div>
           </div>
         </div>
       </div>
@@ -68,7 +66,7 @@ export const WeeklyProgressCard = ({
               <TrendingUp className="w-4 h-4 text-emerald-500" />
             </div>
             <h3 className="font-semibold text-foreground">
-              {t('progress.weeklyStats', '本周统计')}
+              {m.app_progress_weeklyStats()}
             </h3>
           </div>
           <span className="text-xs text-muted-foreground">
@@ -79,7 +77,7 @@ export const WeeklyProgressCard = ({
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <span className="text-xs text-muted-foreground">
-              {t('progress.weekProgress', '周进度')}
+              {m.app_progress_weekProgress()}
             </span>
             <span className="text-xs font-medium text-emerald-500">
               {Math.round(weeklyProgress)}%

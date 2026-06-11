@@ -1,3 +1,5 @@
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { 
   Menu, 
@@ -17,7 +19,6 @@ import {
   SheetTrigger,
   SheetClose,
 } from '@/components/ui/sheet';
-import { useTranslation } from 'react-i18next';
 
 interface DrawerMenuProps {
   activeTab: string;
@@ -25,8 +26,7 @@ interface DrawerMenuProps {
 }
 
 export const DrawerMenu = ({ activeTab, onTabChange }: DrawerMenuProps) => {
-  const { t } = useTranslation('app');
-
+  const { t, i18n } = useTranslation('app');
   const appPages = [
     { id: 'home', icon: Home, labelKey: 'nav.home' },
     { id: 'wishes', icon: Heart, labelKey: 'nav.wishes' },
@@ -49,7 +49,7 @@ export const DrawerMenu = ({ activeTab, onTabChange }: DrawerMenuProps) => {
       </SheetTrigger>
       <SheetContent side="left" className="w-64 p-0">
         <SheetHeader className="p-4 border-b">
-          <SheetTitle className="text-left">{t('nav.brandName')}</SheetTitle>
+          <SheetTitle className="text-left">{m.app_nav_brandName()}</SheetTitle>
         </SheetHeader>
         
         <div className="p-3">

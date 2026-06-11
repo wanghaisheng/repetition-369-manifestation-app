@@ -1,5 +1,6 @@
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import { useNavigate } from '@tanstack/react-router';
-import { useTranslation } from 'react-i18next';
 import { Target, Briefcase, Heart, Smile, User, DollarSign, Play, Pause, PlayCircle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -25,17 +26,16 @@ const categoryConfig: Record<WishCategory, {
 };
 
 export const WishCard = ({ wish, onToggleStatus }: WishCardProps) => {
-  const navigate = useNavigate();
   const { t, i18n } = useTranslation('app');
-  
+  const navigate = useNavigate();
   const config = categoryConfig[wish.category] || categoryConfig.other;
   const CategoryIcon = config.icon;
   const dateLocale = i18n.language === 'zh' ? 'zh-CN' : 'en-US';
 
   const categoryNames: Record<WishCategory, string> = {
-    career: t('wishes.categories.career'), health: t('wishes.categories.health'),
-    relationship: t('wishes.categories.relationship'), wealth: t('wishes.categories.wealth'),
-    personal: t('wishes.categories.personal'), other: t('wishes.categories.other')
+    career: m.app_wishes_categories_career(), health: m.app_wishes_categories_health(),
+    relationship: m.app_wishes_categories_relationship(), wealth: m.app_wishes_categories_wealth(),
+    personal: m.app_wishes_categories_personal(), other: m.app_wishes_categories_other()
   };
 
   const handleStartPractice = () => { navigate({ to: `/app/practice?wishId=${wish.id}` } as any); };
@@ -59,14 +59,14 @@ export const WishCard = ({ wish, onToggleStatus }: WishCardProps) => {
             </div>
             <p className="text-muted-foreground leading-relaxed line-clamp-2 mb-4">{wish.affirmation}</p>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-muted-foreground">{t('wishes.createdAt')} {formattedDate}</span>
+              <span className="text-xs text-muted-foreground">{m.app_wishes_createdAt()} {formattedDate}</span>
               <div className="flex items-center gap-2">
                 <Button size="sm" onClick={handleStartPractice}
                   className={cn("rounded-storybook font-medium px-4 bg-gradient-to-r text-white shadow-storybook", config.gradient, "hover:opacity-90 transition-opacity")}>
-                  <PlayCircle className="w-4 h-4 mr-1.5" />{t('wishes.startPractice')}
+                  <PlayCircle className="w-4 h-4 mr-1.5" />{m.app_wishes_startPractice()}
                 </Button>
                 <Button variant="outline" size="sm" onClick={() => onToggleStatus(wish)} className="rounded-storybook border-border/50 hover:bg-muted/50">
-                  {wish.status === 'active' ? (<><Pause className="w-4 h-4 mr-1" />{t('wishes.pause')}</>) : (<><Play className="w-4 h-4 mr-1" />{t('wishes.activate')}</>)}
+                  {wish.status === 'active' ? (<><Pause className="w-4 h-4 mr-1" />{m.app_wishes_pause()}</>) : (<><Play className="w-4 h-4 mr-1" />{m.app_wishes_activate()}</>)}
                 </Button>
               </div>
             </div>

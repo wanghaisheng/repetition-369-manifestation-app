@@ -1,8 +1,8 @@
+import { m } from '@/paraglide/messages';
 import { Sun, Sunset, Moon, Play, CheckCircle, Lock, Clock } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { useTranslation } from 'react-i18next';
 import { TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
 
@@ -47,22 +47,21 @@ export const TimeSlotCard = ({
   isLocked,
   onStart
 }: TimeSlotCardProps) => {
-  const { t } = useTranslation('app');
   const config = slotConfig[slot];
   const Icon = config.icon;
   const isCompleted = completed >= target;
   const progressPercent = target > 0 ? Math.min((completed / target) * 100, 100) : 0;
 
   const slotNames = {
-    morning: t('practice.morningTitle'),
-    afternoon: t('practice.afternoonTitle'),
-    evening: t('practice.eveningTitle')
+    morning: m.app_practice_morningTitle(),
+    afternoon: m.app_practice_afternoonTitle(),
+    evening: m.app_practice_eveningTitle()
   };
 
   const slotDescriptions = {
-    morning: t('practice.morningDesc'),
-    afternoon: t('practice.afternoonDesc'),
-    evening: t('practice.eveningDesc')
+    morning: m.app_practice_morningDesc(),
+    afternoon: m.app_practice_afternoonDesc(),
+    evening: m.app_practice_eveningDesc()
   };
 
   return (
@@ -98,7 +97,7 @@ export const TimeSlotCard = ({
               <h3 className="font-storybook font-semibold text-foreground">{slotNames[slot]}</h3>
               {isActive && !isCompleted && (
                 <span className="text-xs font-medium px-2 py-0.5 bg-storybook-honey/20 text-storybook-honey rounded-full">
-                  {t('practice.currentSlot')}
+                  {m.app_practice_currentSlot()}
                 </span>
               )}
             </div>
@@ -109,12 +108,12 @@ export const TimeSlotCard = ({
               <Clock className="w-3 h-3" />
               <span>{config.time}</span>
               <span className="text-muted-foreground/50">·</span>
-              <span>{target}× {t('practice.affirmations')}</span>
+              <span>{target}× {m.app_practice_affirmations()}</span>
             </div>
             
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
-                <span className="text-xs text-muted-foreground">{t('practice.progress')}</span>
+                <span className="text-xs text-muted-foreground">{m.app_practice_progress()}</span>
                 <span className={cn("text-xs font-medium", config.accentColor)}>{completed}/{target}</span>
               </div>
               <Progress value={progressPercent} className="h-2" />
@@ -126,12 +125,12 @@ export const TimeSlotCard = ({
           {isCompleted ? (
             <div className="flex items-center gap-1.5 text-sm font-medium text-storybook-sage">
               <CheckCircle className="w-4 h-4" />
-              <span>{t('practice.completedLabel')}</span>
+              <span>{m.app_practice_completedLabel()}</span>
             </div>
           ) : isLocked ? (
             <Button variant="outline" size="sm" disabled className="rounded-storybook">
               <Lock className="w-4 h-4 mr-1.5" />
-              {t('practice.locked')}
+              {m.app_practice_locked()}
             </Button>
           ) : (
             <Button 
@@ -144,7 +143,7 @@ export const TimeSlotCard = ({
               )}
             >
               <Play className="w-4 h-4 mr-1.5" />
-              {t('practice.startNow')}
+              {m.app_practice_startNow()}
             </Button>
           )}
         </div>

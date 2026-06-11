@@ -1,6 +1,6 @@
 
+import { m } from '@/paraglide/messages';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { X, Briefcase, Heart, Smile, Target, Home as HomeIcon, Sparkles } from 'lucide-react';
 import { z } from 'zod';
 import { Card } from '@/components/ui/card';
@@ -18,7 +18,6 @@ interface AddWishModalProps {
 
 export const AddWishModal = ({ isOpen, onClose, onAdd }: AddWishModalProps) => {
   const { toast } = useToast();
-  const { t } = useTranslation('app');
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState<WishCategory | ''>('');
   const [customAffirmation, setCustomAffirmation] = useState('');
@@ -28,26 +27,26 @@ export const AddWishModal = ({ isOpen, onClose, onAdd }: AddWishModalProps) => {
   const [errors, setErrors] = useState<{ title?: string; category?: string; affirmation?: string }>({});
 
   const schema = z.object({
-    title: z.string().trim().min(2, t('addWishModal.validation.titleMin')).max(60, t('addWishModal.validation.titleMax')),
-    category: z.enum(['career','health','relationship','wealth','personal','other'], { errorMap: () => ({ message: t('addWishModal.validation.categoryRequired') }) }),
-    affirmation: z.string().trim().min(10, t('addWishModal.validation.affirmationMin')).max(200, t('addWishModal.validation.affirmationMax')),
+    title: z.string().trim().min(2, m.app_addWishModal_validation_titleMin()).max(60, m.app_addWishModal_validation_titleMax()),
+    category: z.enum(['career','health','relationship','wealth','personal','other'], { errorMap: () => ({ message: m.app_addWishModal_validation_categoryRequired() }) }),
+    affirmation: z.string().trim().min(10, m.app_addWishModal_validation_affirmationMin()).max(200, m.app_addWishModal_validation_affirmationMax()),
   });
 
 const categories = [
-  { id: 'career', icon: Briefcase, name: t('addWishModal.categories.career'), color: 'bg-ios-blue' },
-  { id: 'health', icon: Heart, name: t('addWishModal.categories.health'), color: 'bg-ios-green' },
-  { id: 'relationship', icon: Smile, name: t('addWishModal.categories.relationship'), color: 'bg-ios-pink' },
-  { id: 'wealth', icon: Target, name: t('addWishModal.categories.wealth'), color: 'bg-manifest-gold' },
-  { id: 'personal', icon: HomeIcon, name: t('addWishModal.categories.personal'), color: 'bg-ios-purple' }
+  { id: 'career', icon: Briefcase, name: m.app_addWishModal_categories_career(), color: 'bg-ios-blue' },
+  { id: 'health', icon: Heart, name: m.app_addWishModal_categories_health(), color: 'bg-ios-green' },
+  { id: 'relationship', icon: Smile, name: m.app_addWishModal_categories_relationship(), color: 'bg-ios-pink' },
+  { id: 'wealth', icon: Target, name: m.app_addWishModal_categories_wealth(), color: 'bg-manifest-gold' },
+  { id: 'personal', icon: HomeIcon, name: m.app_addWishModal_categories_personal(), color: 'bg-ios-purple' }
 ];
 
 const generateAffirmation = () => {
   const templates = {
-    career: t('addWishModal.categories.career') + ' - ' + t('addWishModal.generateAffirmation'),
-    health: t('addWishModal.categories.health') + ' - ' + t('addWishModal.generateAffirmation'),
-    relationship: t('addWishModal.categories.relationship') + ' - ' + t('addWishModal.generateAffirmation'),
-    wealth: t('addWishModal.categories.wealth') + ' - ' + t('addWishModal.generateAffirmation'),
-    personal: t('addWishModal.categories.personal') + ' - ' + t('addWishModal.generateAffirmation')
+    career: m.app_addWishModal_categories_career() + ' - ' + m.app_addWishModal_generateAffirmation(),
+    health: m.app_addWishModal_categories_health() + ' - ' + m.app_addWishModal_generateAffirmation(),
+    relationship: m.app_addWishModal_categories_relationship() + ' - ' + m.app_addWishModal_generateAffirmation(),
+    wealth: m.app_addWishModal_categories_wealth() + ' - ' + m.app_addWishModal_generateAffirmation(),
+    personal: m.app_addWishModal_categories_personal() + ' - ' + m.app_addWishModal_generateAffirmation()
   } as const;
 
   const baseTemplate = templates[(category as WishCategory) || 'personal'];
@@ -70,14 +69,14 @@ const handleSubmit = async () => {
       if (i.path[0]) newErrors[i.path[0] as string] = i.message;
     });
     setErrors(newErrors);
-    toast({ title: t('addWishModal.toast.completeInfo'), description: t('addWishModal.validation.checkInfo') });
+    toast({ title: m.app_addWishModal_toast_completeInfo(), description: m.app_addWishModal_validation_checkInfo() });
     return;
   }
 
   try {
     setSubmitting(true);
     await onAdd({ title: result.data.title, category: result.data.category as WishCategory, affirmation: result.data.affirmation });
-    toast({ title: t('addWishModal.toast.createSuccess'), description: t('addWishModal.toast.wishCreated') });
+    toast({ title: m.app_addWishModal_toast_createSuccess(), description: m.app_addWishModal_toast_wishCreated() });
 
     // Reset form
     setTitle('');
@@ -89,7 +88,7 @@ const handleSubmit = async () => {
     onClose();
   } catch (e) {
     // Error already handled by showing toast
-    toast({ title: t('addWishModal.toast.createFailed'), description: t('addWishModal.toast.tryAgain'), variant: 'destructive' });
+    toast({ title: m.app_addWishModal_toast_createFailed(), description: m.app_addWishModal_toast_tryAgain(), variant: 'destructive' });
   } finally {
     setSubmitting(false);
   }
@@ -105,7 +104,7 @@ const handleSubmit = async () => {
       <Card className="w-full max-w-md bg-white rounded-ios max-h-[80vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h2 className="text-xl font-semibold text-gray-800">{t('addWishModal.title')}</h2>
+          <h2 className="text-xl font-semibold text-gray-800">{m.app_addWishModal_title()}</h2>
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"
@@ -119,7 +118,7 @@ const handleSubmit = async () => {
             <div className="space-y-6">
 <div>
   <label className="block text-sm font-medium text-gray-700 mb-2">
-    {t('addWishModal.wishTitle')}
+    {m.app_addWishModal_wishTitle()}
   </label>
   <Input
     value={title}
@@ -127,7 +126,7 @@ const handleSubmit = async () => {
       setTitle(e.target.value);
       if (errors.title) setErrors((prev) => ({ ...prev, title: undefined }));
     }}
-    placeholder={t('addWishModal.wishTitlePlaceholder')}
+    placeholder={m.app_addWishModal_wishTitlePlaceholder()}
     className="rounded-ios border-ios-gray-medium"
   />
   {errors.title && (
@@ -137,7 +136,7 @@ const handleSubmit = async () => {
 
 <div>
   <label className="block text-sm font-medium text-gray-700 mb-3">
-    {t('addWishModal.selectCategory')}
+    {m.app_addWishModal_selectCategory()}
   </label>
   <div className="grid grid-cols-2 gap-3">
     {categories.map((cat) => {
@@ -174,8 +173,8 @@ const handleSubmit = async () => {
             <div className="space-y-6">
               <div className="text-center">
                 <Sparkles className="w-12 h-12 text-manifest-gold mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">{t('addWishModal.generateAffirmation')}</h3>
-                <p className="text-gray-600">{t('addWishModal.generateAffirmation')}</p>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">{m.app_addWishModal_generateAffirmation()}</h3>
+                <p className="text-gray-600">{m.app_addWishModal_generateAffirmation()}</p>
               </div>
 
               <div className="space-y-4">
@@ -184,19 +183,19 @@ const handleSubmit = async () => {
                   className="w-full bg-manifest-gold hover:bg-manifest-warm-gold text-white rounded-ios py-3 font-medium"
                 >
                   <Sparkles className="w-5 h-5 mr-2" />
-                  {t('addWishModal.aiGenerate')}
+                  {m.app_addWishModal_aiGenerate()}
                 </Button>
 
-                <div className="text-center text-gray-500">{t('addWishModal.or')}</div>
+                <div className="text-center text-gray-500">{m.app_addWishModal_or()}</div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    {t('addWishModal.customAffirmation')}
+                    {m.app_addWishModal_customAffirmation()}
                   </label>
                   <Textarea
                     value={customAffirmation}
                     onChange={(e) => setCustomAffirmation(e.target.value)}
-                    placeholder={t('addWishModal.customAffirmationPlaceholder')}
+                    placeholder={m.app_addWishModal_customAffirmationPlaceholder()}
                     className="rounded-ios border-ios-gray-medium min-h-[100px]"
                   />
                 </div>
@@ -207,12 +206,12 @@ const handleSubmit = async () => {
           {step === 3 && (
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">{t('addWishModal.confirmWish')}</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">{m.app_addWishModal_confirmWish()}</h3>
                 <div className="bg-gray-50 p-4 rounded-ios">
-                  <div className="text-sm text-gray-600 mb-1">{t('addWishModal.wishTitle')}</div>
+                  <div className="text-sm text-gray-600 mb-1">{m.app_addWishModal_wishTitle()}</div>
                   <div className="font-medium text-gray-800 mb-3">{title}</div>
                   
-                  <div className="text-sm text-gray-600 mb-1">{t('addWishModal.affirmation')}</div>
+                  <div className="text-sm text-gray-600 mb-1">{m.app_addWishModal_affirmation()}</div>
                   <div className="text-gray-800 leading-relaxed">
                     {customAffirmation || generatedAffirmation}
                   </div>
@@ -235,7 +234,7 @@ const handleSubmit = async () => {
                disabled={!canProceedStep1}
                className="w-full bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
              >
-               {t('addWishModal.nextStep')}
+               {m.app_addWishModal_nextStep()}
              </Button>
            )}
 
@@ -246,14 +245,14 @@ const handleSubmit = async () => {
                  disabled={!canProceedStep2}
                  className="flex-1 bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
                >
-                 {t('addWishModal.nextStep')}
+                 {m.app_addWishModal_nextStep()}
                </Button>
                <Button
                  onClick={() => setStep(1)}
                  variant="ghost"
                  className="flex-1 text-gray-700"
                >
-                 {t('addWishModal.previousStep')}
+                 {m.app_addWishModal_previousStep()}
                </Button>
              </div>
            )}
@@ -265,14 +264,14 @@ const handleSubmit = async () => {
                  disabled={submitting}
                  className="flex-1 bg-ios-blue hover:bg-ios-blue/90 text-white rounded-ios py-3 font-medium"
                >
-                 {submitting ? t('addWishModal.creating') : t('addWishModal.createWish')}
+                 {submitting ? m.app_addWishModal_creating() : m.app_addWishModal_createWish()}
                </Button>
                <Button
                  onClick={() => setStep(2)}
                  variant="outline"
                  className="flex-1 rounded-ios border-ios-blue text-ios-blue hover:bg-ios-blue hover:text-white font-medium py-3"
                >
-                 {t('addWishModal.modifyAffirmation')}
+                 {m.app_addWishModal_modifyAffirmation()}
                </Button>
              </div>
            )}

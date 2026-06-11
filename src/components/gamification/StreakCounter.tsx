@@ -1,6 +1,6 @@
 
+import { m } from '@/paraglide/messages';
 import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Flame, Award } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { useProgress } from '@/hooks/useProgress';
@@ -11,7 +11,6 @@ interface StreakCounterProps {
 }
 
 export const StreakCounter = ({ userId, variant = 'compact' }: StreakCounterProps) => {
-  const { t } = useTranslation('app');
   const { progress, loading } = useProgress(userId);
   const [animateStreak, setAnimateStreak] = useState(false);
 
@@ -43,7 +42,7 @@ export const StreakCounter = ({ userId, variant = 'compact' }: StreakCounterProp
         <span className={`font-semibold text-foreground ${animateStreak ? 'animate-bounce' : ''} transition-all duration-300`}>
           {progress.consecutiveDays}
         </span>
-        <span className="text-sm text-muted-foreground">{t('streak.dayStreak')}</span>
+        <span className="text-sm text-muted-foreground">{m.app_streak_dayStreak()}</span>
       </div>
     );
   }
@@ -54,31 +53,31 @@ export const StreakCounter = ({ userId, variant = 'compact' }: StreakCounterProp
         <div className={`w-16 h-16 bg-gradient-to-br ${streakInfo.bgColor} rounded-full flex items-center justify-center mx-auto mb-3`}>
           <Flame className="w-8 h-8 text-white" />
         </div>
-        <h3 className="text-lg font-storybook font-semibold text-foreground mb-1">{t('streak.record')}</h3>
+        <h3 className="text-lg font-storybook font-semibold text-foreground mb-1">{m.app_streak_record()}</h3>
       </div>
       <div className="space-y-4">
         <div className="text-center">
           <div className={`text-3xl font-storybook font-bold ${streakInfo.color} mb-1 ${animateStreak ? 'animate-bounce' : ''} transition-all duration-300`}>
             {progress.consecutiveDays}
           </div>
-          <div className="text-sm text-muted-foreground">{t('streak.consecutiveDays')}</div>
+          <div className="text-sm text-muted-foreground">{m.app_streak_consecutiveDays()}</div>
         </div>
         <div className="flex items-center justify-between p-3 bg-card rounded-storybook">
           <div className="flex items-center space-x-2">
             <Award className="w-4 h-4 text-storybook-honey" />
-            <span className="text-sm font-medium text-muted-foreground">{t('streak.longestRecord')}</span>
+            <span className="text-sm font-medium text-muted-foreground">{m.app_streak_longestRecord()}</span>
           </div>
-          <span className="font-semibold text-storybook-honey">{progress.longestStreak} {t('streak.days')}</span>
+          <span className="font-semibold text-storybook-honey">{progress.longestStreak} {m.app_streak_days()}</span>
         </div>
         {progress.consecutiveDays < 30 && (
           <div className="text-center">
-            <div className="text-xs text-muted-foreground mb-2">{t('streak.nextMilestone')}</div>
+            <div className="text-xs text-muted-foreground mb-2">{m.app_streak_nextMilestone()}</div>
             <div className="w-full bg-muted rounded-full h-2">
               <div className={`h-2 rounded-full bg-gradient-to-r ${streakInfo.bgColor} transition-all duration-300`}
                 style={{ width: `${(progress.consecutiveDays % 7) / 7 * 100}%` }} />
             </div>
             <div className="text-xs text-muted-foreground mt-1">
-              {t('streak.daysUntilNext', { days: 7 - (progress.consecutiveDays % 7) })}
+              {m.app_streak_daysUntilNext({ days: 7 - (progress.consecutiveDays % 7) })}
             </div>
           </div>
         )}

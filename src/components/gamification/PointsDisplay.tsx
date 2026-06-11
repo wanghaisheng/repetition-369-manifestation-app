@@ -1,6 +1,6 @@
 
+import { m } from '@/paraglide/messages';
 import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Star, TrendingUp, Calendar } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { PointsService, UserPoints } from '@/services/PointsService';
@@ -13,7 +13,6 @@ interface PointsDisplayProps {
 }
 
 export const PointsDisplay = ({ userId, variant = 'compact', showAnimation = true }: PointsDisplayProps) => {
-  const { t } = useTranslation('app');
   const [userPoints, setUserPoints] = useState<UserPoints | null>(null);
   const [loading, setLoading] = useState(true);
   const [animatePoints, setAnimatePoints] = useState(false);
@@ -53,7 +52,7 @@ export const PointsDisplay = ({ userId, variant = 'compact', showAnimation = tru
         <span className={`font-semibold text-foreground ${animatePoints ? 'animate-pulse scale-110' : ''} transition-all duration-300`}>
           {userPoints.totalPoints.toLocaleString()}
         </span>
-        <span className="text-sm text-muted-foreground">{t('points.label')}</span>
+        <span className="text-sm text-muted-foreground">{m.app_points_label()}</span>
       </div>
     );
   }
@@ -64,26 +63,26 @@ export const PointsDisplay = ({ userId, variant = 'compact', showAnimation = tru
         <div className="w-16 h-16 bg-gradient-to-br from-storybook-honey to-storybook-coral rounded-full flex items-center justify-center mx-auto mb-3">
           <Star className="w-8 h-8 text-white" />
         </div>
-        <h3 className="text-lg font-storybook font-semibold text-foreground mb-1">{t('points.myPoints')}</h3>
+        <h3 className="text-lg font-storybook font-semibold text-foreground mb-1">{m.app_points_myPoints()}</h3>
       </div>
       <div className="space-y-4">
         <div className="text-center">
           <div className={`text-3xl font-storybook font-bold text-storybook-honey mb-1 ${animatePoints ? 'animate-bounce' : ''} transition-all duration-300`}>
             {userPoints.totalPoints.toLocaleString()}
           </div>
-          <div className="text-sm text-muted-foreground">{t('points.total')}</div>
+          <div className="text-sm text-muted-foreground">{m.app_points_total()}</div>
         </div>
         <div className="flex items-center justify-between p-3 bg-card rounded-storybook">
           <div className="flex items-center space-x-2">
             <Calendar className="w-4 h-4 text-storybook-honey" />
-            <span className="text-sm font-medium text-muted-foreground">{t('points.todayEarned')}</span>
+            <span className="text-sm font-medium text-muted-foreground">{m.app_points_todayEarned()}</span>
           </div>
           <span className="font-semibold text-storybook-honey">+{userPoints.todayPoints}</span>
         </div>
         {userPoints.pointsHistory.length > 0 && (
           <div className="flex items-center justify-center space-x-2 text-storybook-sage">
             <TrendingUp className="w-4 h-4" />
-            <span className="text-sm">{t('points.growing')}</span>
+            <span className="text-sm">{m.app_points_growing()}</span>
           </div>
         )}
       </div>

@@ -1,11 +1,12 @@
 
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Bell, Clock, Target, Zap, Award } from 'lucide-react';
 import { toast } from 'sonner';
-import { useTranslation } from 'react-i18next';
 import { logger } from '@/utils/logger';
 
 interface ReminderSettings {
@@ -22,7 +23,7 @@ interface NotificationPermission {
 }
 
 export const ReminderSystem = () => {
-  const { t } = useTranslation('app');
+  const { t, i18n } = useTranslation('app');
   const [settings, setSettings] = useState<ReminderSettings>({
     practiceReminders: false,
     streakProtection: false,
@@ -52,7 +53,7 @@ export const ReminderSystem = () => {
 
   const requestNotificationPermission = async () => {
     if (!permission.supported) {
-      toast.error(t('reminders.notSupported'));
+      toast.error(m.app_reminders_notSupported());
       return;
     }
 
@@ -63,21 +64,21 @@ export const ReminderSystem = () => {
       setPermission(prev => ({ ...prev, granted }));
       
       if (granted) {
-        toast.success(t('reminders.permissionGranted'));
+        toast.success(m.app_reminders_permissionGranted());
         showTestNotification();
       } else {
-        toast.error(t('reminders.permissionDenied'));
+        toast.error(m.app_reminders_permissionDenied());
       }
     } catch (error) {
       logger.error('Failed to request notification permission', error);
-      toast.error(t('reminders.permissionFailed'));
+      toast.error(m.app_reminders_permissionFailed());
     }
   };
 
   const showTestNotification = () => {
     if (permission.granted) {
-      new Notification(t('reminders.testNotificationTitle'), {
-        body: t('reminders.testNotificationBody'),
+      new Notification(m.app_reminders_testNotificationTitle(), {
+        body: m.app_reminders_testNotificationBody(),
         icon: '/favicon.ico',
         tag: 'test-notification'
       });
@@ -97,7 +98,7 @@ export const ReminderSystem = () => {
   const scheduleReminders = () => {
     if (!permission.granted) return;
     logger.log('Setting reminder times', settings.customTimes);
-    toast.success(t('reminders.remindersSaved'));
+    toast.success(m.app_reminders_remindersSaved());
   };
 
   const reminderTypes = [
@@ -138,32 +139,32 @@ export const ReminderSystem = () => {
         <CardHeader>
           <CardTitle className="flex items-center">
             <Bell className="w-5 h-5 mr-2" />
-            {t('reminders.notificationPermission')}
+            {m.app_reminders_notificationPermission()}
           </CardTitle>
         </CardHeader>
         <CardContent>
           {!permission.supported ? (
             <div className="text-center py-4">
-              <p className="text-muted-foreground mb-4">{t('reminders.notSupportedBrowser')}</p>
+              <p className="text-muted-foreground mb-4">{m.app_reminders_notSupportedBrowser()}</p>
             </div>
           ) : permission.granted ? (
             <div className="flex items-center justify-between">
               <div className="flex items-center text-success">
                 <div className="w-2 h-2 bg-success rounded-full mr-2"></div>
-                {t('reminders.permissionEnabled')}
+                {m.app_reminders_permissionEnabled()}
               </div>
               <Button onClick={showTestNotification} variant="outline" size="sm">
-                {t('reminders.testNotification')}
+                {m.app_reminders_testNotification()}
               </Button>
             </div>
           ) : (
             <div className="space-y-4">
               <div className="flex items-center text-warning">
                 <div className="w-2 h-2 bg-warning rounded-full mr-2"></div>
-                {t('reminders.needPermission')}
+                {m.app_reminders_needPermission()}
               </div>
               <Button onClick={requestNotificationPermission} className="w-full">
-                {t('reminders.enablePermission')}
+                {m.app_reminders_enablePermission()}
               </Button>
             </div>
           )}
@@ -173,7 +174,7 @@ export const ReminderSystem = () => {
       {/* Reminder settings */}
       <Card>
         <CardHeader>
-          <CardTitle>{t('reminders.reminderSettings')}</CardTitle>
+          <CardTitle>{m.app_reminders_reminderSettings()}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           {reminderTypes.map((type) => (
@@ -201,7 +202,7 @@ export const ReminderSystem = () => {
           <CardHeader>
             <CardTitle className="flex items-center">
               <Clock className="w-5 h-5 mr-2" />
-              {t('reminders.reminderTime')}
+              {m.app_reminders_reminderTime()}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -223,7 +224,7 @@ export const ReminderSystem = () => {
                 ))}
               </div>
               <Button onClick={scheduleReminders} className="w-full" variant="outline">
-                {t('reminders.saveReminderTime')}
+                {m.app_reminders_saveReminderTime()}
               </Button>
             </div>
           </CardContent>
@@ -235,7 +236,6 @@ export const ReminderSystem = () => {
 
 // Smart reminder suggestions component
 export const SmartReminderSuggestions = () => {
-  const { t } = useTranslation('app');
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
@@ -245,30 +245,30 @@ export const SmartReminderSuggestions = () => {
       const suggestions = [];
 
       if (hour < 10) {
-        suggestions.push(t('reminders.morningSuggestion'));
+        suggestions.push(m.app_reminders_morningSuggestion());
       }
       
       if (hour > 17) {
-        suggestions.push(t('reminders.eveningSuggestion'));
+        suggestions.push(m.app_reminders_eveningSuggestion());
       }
 
       const practiceHistory = JSON.parse(localStorage.getItem('practice-history') || '[]');
       if (practiceHistory.length > 0) {
-        suggestions.push(t('reminders.historySuggestion'));
+        suggestions.push(m.app_reminders_historySuggestion());
       }
 
       setSuggestions(suggestions);
     };
 
     generateSuggestions();
-  }, [t]);
+  }, []);
 
   if (suggestions.length === 0) return null;
 
   return (
     <Card className="mt-4">
       <CardHeader>
-        <CardTitle className="text-base">{t('reminders.smartSuggestions')}</CardTitle>
+        <CardTitle className="text-base">{m.app_reminders_smartSuggestions()}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">

@@ -1,9 +1,9 @@
 
+import { m } from '@/paraglide/messages';
 import { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { useTranslation } from 'react-i18next';
 
 interface PracticeTimerProps {
   targetCount: number;
@@ -20,7 +20,6 @@ export const PracticeTimer = ({
   onTick, 
   timePerRep = 30 
 }: PracticeTimerProps) => {
-  const { t } = useTranslation('app');
   const [isRunning, setIsRunning] = useState(false);
   const [currentTime, setCurrentTime] = useState(timePerRep);
   const [currentRep, setCurrentRep] = useState(1);
@@ -76,8 +75,8 @@ export const PracticeTimer = ({
           <div className="w-16 h-16 bg-storybook-sage rounded-full flex items-center justify-center mx-auto mb-4">
             <Clock className="w-8 h-8 text-white" />
           </div>
-          <h3 className="text-lg font-storybook font-semibold text-storybook-sage mb-2">{t('practiceTimer.completed')}</h3>
-          <p className="text-sm text-muted-foreground">{t('practiceTimer.completedDesc', { count: targetCount })}</p>
+          <h3 className="text-lg font-storybook font-semibold text-storybook-sage mb-2">{m.app_practiceTimer_completed()}</h3>
+          <p className="text-sm text-muted-foreground">{m.app_practiceTimer_completedDesc({ count: targetCount })}</p>
         </div>
       </Card>
     );
@@ -86,9 +85,9 @@ export const PracticeTimer = ({
   return (
     <Card className="p-6 bg-card border-0 shadow-storybook rounded-storybook-lg">
       <div className="text-center mb-6">
-        <h3 className="text-lg font-storybook font-semibold text-foreground mb-2">{t('practiceTimer.title')}</h3>
+        <h3 className="text-lg font-storybook font-semibold text-foreground mb-2">{m.app_practiceTimer_title()}</h3>
         <p className="text-sm text-muted-foreground">
-          {t('practiceTimer.repProgress', { current: currentRep, total: remainingReps, seconds: timePerRep })}
+          {m.app_practiceTimer_repProgress({ current: currentRep, total: remainingReps, seconds: timePerRep })}
         </p>
       </div>
 
@@ -104,14 +103,14 @@ export const PracticeTimer = ({
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
             <div className="text-2xl font-bold text-foreground">{formatTime(currentTime)}</div>
-            <div className="text-xs text-muted-foreground mt-1">{t('practiceTimer.remaining')}</div>
+            <div className="text-xs text-muted-foreground mt-1">{m.app_practiceTimer_remaining()}</div>
           </div>
         </div>
       </div>
 
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm text-muted-foreground">{t('practiceTimer.totalProgress')}</span>
+          <span className="text-sm text-muted-foreground">{m.app_practiceTimer_totalProgress()}</span>
           <span className="text-sm font-medium text-foreground">{currentCount + currentRep - 1} / {targetCount}</span>
         </div>
         <div className="w-full bg-muted rounded-full h-2">
@@ -124,23 +123,23 @@ export const PracticeTimer = ({
         {!isRunning ? (
           <Button onClick={handleStart} className="bg-storybook-honey hover:bg-storybook-honey/90 text-white rounded-storybook px-8 py-3">
             <Play className="w-4 h-4 mr-2" />
-            {t('practiceTimer.start')}
+            {m.app_practiceTimer_start()}
           </Button>
         ) : (
           <Button onClick={handlePause} variant="outline" className="border-storybook-honey text-storybook-honey hover:bg-storybook-honey/10 rounded-storybook px-8 py-3">
             <Pause className="w-4 h-4 mr-2" />
-            {t('practiceTimer.pause')}
+            {m.app_practiceTimer_pause()}
           </Button>
         )}
         <Button onClick={handleReset} variant="outline" className="border-border text-muted-foreground hover:bg-muted rounded-storybook px-6 py-3">
           <RotateCcw className="w-4 h-4 mr-2" />
-          {t('practiceTimer.reset')}
+          {m.app_practiceTimer_reset()}
         </Button>
       </div>
 
       <div className="mt-4 p-3 bg-storybook-cream/50 rounded-storybook">
         <p className="text-xs text-muted-foreground text-center">
-          💡 {t('practiceTimer.tip')}
+          💡 {m.app_practiceTimer_tip()}
         </p>
       </div>
     </Card>

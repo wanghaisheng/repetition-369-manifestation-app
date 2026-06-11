@@ -1,5 +1,6 @@
+import { useTranslation } from '@/i18n/compat';
+import { m } from '@/paraglide/messages';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -25,7 +26,7 @@ import {
 } from 'lucide-react';
 
 const About = () => {
-  const { t, i18n } = useTranslation(['common', 'about']);
+  const { t, i18n } = useTranslation('common');
   const isZh = i18n.language === 'zh';
 
   const socialLinks = [
@@ -58,19 +59,19 @@ const About = () => {
             <Link to="/">
               <Button variant="ghost" size="sm">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                {t('common:buttons.back')}
+                {m.common_buttons_back()}
               </Button>
             </Link>
             <div className="flex items-center space-x-2">
               <Sparkles className="w-8 h-8 text-primary" />
-              <span className="text-2xl font-bold text-foreground">{t('common:appName')}</span>
+              <span className="text-2xl font-bold text-foreground">{m.common_appName()}</span>
             </div>
           </div>
           
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
             <Link to="/auth">
-              <Button>{t('common:buttons.getStarted')}</Button>
+              <Button>{m.common_buttons_getStarted()}</Button>
             </Link>
           </div>
         </div>
@@ -80,20 +81,20 @@ const About = () => {
       <section className="py-20 px-4 bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto text-center max-w-4xl">
           <Badge variant="outline" className="mb-6 px-4 py-2">
-            {t('about:brand.anchor')}
+            {m.about_brand_anchor()}
           </Badge>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
-            {t('about:hero.h1')}
+            {m.about_hero_h1()}
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            {t('about:hero.subtitle')}
+            {m.about_hero_subtitle()}
           </p>
           
           {/* Key Metrics */}
           <div className="flex justify-center items-center flex-wrap gap-8 text-sm">
             <div className="text-center">
               <div className="text-3xl font-bold text-primary">33-45</div>
-              <div className="text-muted-foreground">{t('about:metrics.practiceDay')}</div>
+              <div className="text-muted-foreground">{m.about_metrics_practiceDay()}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary">3-6-9</div>
@@ -101,11 +102,11 @@ const About = () => {
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary">2</div>
-              <div className="text-muted-foreground">{t('about:metrics.languages')}</div>
+              <div className="text-muted-foreground">{m.about_metrics_languages()}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary">5+</div>
-              <div className="text-muted-foreground">{t('about:metrics.features')}</div>
+              <div className="text-muted-foreground">{m.about_metrics_features()}</div>
             </div>
           </div>
         </div>
@@ -118,25 +119,25 @@ const About = () => {
             <div className="lg:col-span-3 space-y-8">
               <div>
                 <Badge className="mb-4">{isZh ? '创始人故事' : 'Founder Story'}</Badge>
-                <h2 className="text-3xl font-bold text-foreground mb-4">{t('about:story.title')}</h2>
-                <p className="text-lg text-primary font-medium mb-6">{t('about:story.intro')}</p>
+                <h2 className="text-3xl font-bold text-foreground mb-4">{m.about_story_title()}</h2>
+                <p className="text-lg text-primary font-medium mb-6">{m.about_story_intro()}</p>
               </div>
               
               <div className="space-y-6 text-muted-foreground leading-relaxed">
-                <p>{t('about:story.personal')}</p>
-                <p>{t('about:story.turning')}</p>
-                <p>{t('about:story.problem')}</p>
-                <p>{t('about:story.solution')}</p>
-                <p>{t('about:story.discovery')}</p>
-                <p>{t('about:story.creation')}</p>
+                <p>{m.about_story_personal()}</p>
+                <p>{m.about_story_turning()}</p>
+                <p>{m.about_story_problem()}</p>
+                <p>{m.about_story_solution()}</p>
+                <p>{m.about_story_discovery()}</p>
+                <p>{m.about_story_creation()}</p>
               </div>
 
               <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg">
                 <p className="text-foreground font-medium">
-                  {t('about:brand.anchor')}
+                  {m.about_brand_anchor()}
                 </p>
                 <p className="text-muted-foreground mt-2">
-                  {t('about:brand.tagline')}
+                  {m.about_brand_tagline()}
                 </p>
               </div>
             </div>
@@ -185,15 +186,15 @@ const About = () => {
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <Badge variant="outline" className="mb-4">{isZh ? '科学基础' : 'Scientific Foundation'}</Badge>
-            <h2 className="text-3xl font-bold text-foreground mb-4">{t('about:method.title')}</h2>
-            <p className="text-muted-foreground">{t('about:method.origin')}</p>
+            <h2 className="text-3xl font-bold text-foreground mb-4">{m.about_method_title()}</h2>
+            <p className="text-muted-foreground">{m.about_method_origin()}</p>
           </div>
           
           <Card className="mb-8">
             <CardContent className="p-8">
-              <p className="text-muted-foreground mb-6">{t('about:method.science')}</p>
+              <p className="text-muted-foreground mb-6">{m.about_method_science()}</p>
               <div className="grid md:grid-cols-2 gap-4">
-                {(t('about:method.principles', { returnObjects: true }) as string[]).map((principle, index) => (
+                {(m.about_method_principles({ returnObjects: true }) as string[]).map((principle, index) => (
                   <div key={index} className="flex items-start gap-3 p-4 bg-muted/50 rounded-lg">
                     <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                     <span className="text-foreground text-sm">{principle}</span>
@@ -210,7 +211,7 @@ const About = () => {
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <Badge variant="secondary" className="mb-4">{isZh ? '透明声明' : 'Transparency'}</Badge>
-            <h2 className="text-3xl font-bold text-foreground mb-4">{t('about:clarification.title')}</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-4">{m.about_clarification_title()}</h2>
           </div>
           
           <div className="grid md:grid-cols-2 gap-6">
@@ -230,7 +231,7 @@ const About = () => {
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">{t('about:credentials.title')}</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-4">{m.about_credentials_title()}</h2>
           </div>
           
           <div className="grid md:grid-cols-5 gap-6">
@@ -251,9 +252,9 @@ const About = () => {
       {/* Mission */}
       <section className="py-20 px-4 bg-card">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold text-foreground mb-6">{t('about:mission.title')}</h2>
-          <p className="text-lg text-muted-foreground mb-6 leading-relaxed">{t('about:mission.description')}</p>
-          <p className="text-lg text-muted-foreground leading-relaxed">{t('about:mission.goal')}</p>
+          <h2 className="text-3xl font-bold text-foreground mb-6">{m.about_mission_title()}</h2>
+          <p className="text-lg text-muted-foreground mb-6 leading-relaxed">{m.about_mission_description()}</p>
+          <p className="text-lg text-muted-foreground leading-relaxed">{m.about_mission_goal()}</p>
         </div>
       </section>
 
@@ -264,8 +265,8 @@ const About = () => {
             <CardContent className="p-8 flex items-start gap-6">
               <Rocket className="w-10 h-10 text-primary flex-shrink-0" />
               <div>
-                <h3 className="text-xl font-bold text-foreground mb-2">{t('about:future.title')}</h3>
-                <p className="text-muted-foreground">{t('about:future.description')}</p>
+                <h3 className="text-xl font-bold text-foreground mb-2">{m.about_future_title()}</h3>
+                <p className="text-muted-foreground">{m.about_future_description()}</p>
               </div>
             </CardContent>
           </Card>
@@ -282,14 +283,14 @@ const About = () => {
       {/* CTA Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-4xl font-bold mb-4">{t('about:cta.title')}</h2>
-          <p className="text-xl mb-4 opacity-90">{t('about:cta.subtitle')}</p>
-          <p className="text-lg mb-8 opacity-80 max-w-2xl mx-auto">{t('about:cta.description')}</p>
+          <h2 className="text-4xl font-bold mb-4">{m.about_cta_title()}</h2>
+          <p className="text-xl mb-4 opacity-90">{m.about_cta_subtitle()}</p>
+          <p className="text-lg mb-8 opacity-80 max-w-2xl mx-auto">{m.about_cta_description()}</p>
           
           <Link to="/auth">
             <Button size="lg" variant="secondary" className="px-8 py-6 text-lg">
               <Sparkles className="w-5 h-5 mr-2" />
-              {t('common:buttons.getStarted')}
+              {m.common_buttons_getStarted()}
             </Button>
           </Link>
         </div>
@@ -298,7 +299,7 @@ const About = () => {
       {/* Footer Brand Anchor */}
       <section className="py-8 px-4 bg-muted/50 text-center">
         <p className="text-sm text-muted-foreground">
-          {t('about:brand.anchor')} — {t('about:brand.tagline')}
+          {m.about_brand_anchor()} — {m.about_brand_tagline()}
         </p>
       </section>
     </div>
