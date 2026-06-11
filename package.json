@@ -8,7 +8,8 @@
     "build": "vite build && node scripts/prerender.mjs",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "i18n:build": "node scripts/i18n-to-paraglide.mjs && paraglide-js compile --project ./project.inlang --outdir ./src/paraglide"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",
