@@ -29,8 +29,15 @@ function flatten(obj, prefix = '', out = {}) {
     if (v && typeof v === 'object' && !Array.isArray(v)) {
       flatten(v, key, out);
     } else if (Array.isArray(v)) {
-      // serialize arrays as JSON-encoded strings; usage in app should be re-considered case-by-case
-      out[key] = JSON.stringify(v);
+      // Expand arrays as numbered keys: foo.bar.0, foo.bar.1, ...
+      v.forEach((item, i) => {
+        const idxKey = `${key}.${i}`;
+        if (item && typeof item === 'object' && !Array.isArray(item)) {
+          flatten(item, idxKey, out);
+        } else {
+          out[idxKey] = item;
+        }
+      });
     } else {
       out[key] = v;
     }

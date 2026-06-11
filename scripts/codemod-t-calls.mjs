@@ -19,9 +19,9 @@ import { execSync } from 'node:child_process';
 const ROOT = process.cwd();
 const KEY_MAP = JSON.parse(fs.readFileSync(path.join(ROOT, 'scripts/key-map.json'), 'utf8'));
 
-// Map old `ns:dotted.key` → new flat key
+// Map old `ns:dotted.key` → new flat key. Falls back to 'common' ns
+// (matches i18next defaultNS fallback behavior).
 function resolveKey(ns, rawKey) {
-  // explicit namespace: "common:foo.bar"
   let actualNs = ns;
   let dotted = rawKey;
   if (rawKey.includes(':')) {
@@ -29,8 +29,11 @@ function resolveKey(ns, rawKey) {
     actualNs = n;
     dotted = rest.join(':');
   }
-  const lookup = `${actualNs}:${dotted}`;
-  return KEY_MAP[lookup] || null;
+  return (
+    KEY_MAP[`${actualNs}:${dotted}`] ||
+    KEY_MAP[`common:${dotted}`] ||
+    null
+  );
 }
 
 function listFiles() {
