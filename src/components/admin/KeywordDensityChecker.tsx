@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -27,8 +26,6 @@ export const KeywordDensityChecker: React.FC<KeywordDensityCheckerProps> = ({
   keywords,
   targetDensity = { min: 2, max: 4 }
 }) => {
-  const { t } = useTranslation(['app', 'common']);
-
   const report: KeywordDensityReport = useMemo(() => {
     const keywordArray = parseKeywords(keywords);
     if (keywordArray.length === 0 || !content) {

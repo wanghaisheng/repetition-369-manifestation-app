@@ -1,15 +1,13 @@
 import { Sparkles, Plus, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { useTranslation } from 'react-i18next';
+import { m } from '@/paraglide/messages';
 
 interface WishesEmptyStateProps {
   onAddWish: () => void;
 }
 
 export const WishesEmptyState = ({ onAddWish }: WishesEmptyStateProps) => {
-  const { t } = useTranslation('app');
-
   return (
     <Card className="relative overflow-hidden bg-gradient-to-br from-card via-card to-muted/30 border-0 shadow-storybook rounded-storybook-lg">
       <div className="absolute inset-0 overflow-hidden">
@@ -27,12 +25,12 @@ export const WishesEmptyState = ({ onAddWish }: WishesEmptyStateProps) => {
           </div>
         </div>
 
-        <h3 className="text-xl font-storybook font-bold text-foreground mb-3">{t('wishes.emptyState.title')}</h3>
-        <p className="text-muted-foreground mb-8 max-w-sm mx-auto leading-relaxed">{t('wishes.emptyState.description')}</p>
+        <h3 className="text-xl font-storybook font-bold text-foreground mb-3">{m.app_wishes_emptyState_title()}</h3>
+        <p className="text-muted-foreground mb-8 max-w-sm mx-auto leading-relaxed">{m.app_wishes_emptyState_description()}</p>
 
         <Button onClick={onAddWish} size="lg"
           className="bg-gradient-to-r from-storybook-honey to-storybook-coral hover:opacity-90 text-white rounded-storybook-lg px-8 py-6 shadow-storybook-hover font-storybook font-semibold text-base">
-          <Plus className="w-5 h-5 mr-2" />{t('wishes.emptyState.cta')}
+          <Plus className="w-5 h-5 mr-2" />{m.app_wishes_emptyState_cta()}
         </Button>
       </div>
     </Card>

@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { CheckCircle2, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -22,15 +22,14 @@ export const WritingInterface = ({
   onSubmit,
   onCancel
 }: WritingInterfaceProps) => {
-  const { t } = useTranslation('app');
   const [currentText, setCurrentText] = useState('');
   const [selectedMood, setSelectedMood] = useState<Mood>('good');
 
   const moodOptions = [
-    { value: 'excellent' as Mood, label: t('writingInterface.moods.excellent'), emoji: '😊', color: 'text-storybook-sage' },
-    { value: 'good' as Mood, label: t('writingInterface.moods.good'), emoji: '🙂', color: 'text-storybook-honey' },
-    { value: 'neutral' as Mood, label: t('writingInterface.moods.neutral'), emoji: '😐', color: 'text-muted-foreground' },
-    { value: 'poor' as Mood, label: t('writingInterface.moods.poor'), emoji: '😔', color: 'text-storybook-coral' },
+    { value: 'excellent' as Mood, label: m.app_writingInterface_moods_excellent(), emoji: '😊', color: 'text-storybook-sage' },
+    { value: 'good' as Mood, label: m.app_writingInterface_moods_good(), emoji: '🙂', color: 'text-storybook-honey' },
+    { value: 'neutral' as Mood, label: m.app_writingInterface_moods_neutral(), emoji: '😐', color: 'text-muted-foreground' },
+    { value: 'poor' as Mood, label: m.app_writingInterface_moods_poor(), emoji: '😔', color: 'text-storybook-coral' },
   ];
 
   const handleSubmit = () => {
@@ -46,41 +45,41 @@ export const WritingInterface = ({
         <div className="w-12 h-12 bg-storybook-honey/20 rounded-full flex items-center justify-center mx-auto mb-3">
           <Heart className="w-6 h-6 text-storybook-honey" />
         </div>
-        <h3 className="text-lg font-storybook font-semibold text-foreground mb-1">{t('writingInterface.focusWriting')}</h3>
+        <h3 className="text-lg font-storybook font-semibold text-foreground mb-1">{m.app_writingInterface_focusWriting()}</h3>
         <p className="text-sm text-muted-foreground">
-          {t('writingInterface.round')} {currentCount + 1} / {targetCount}
+          {m.app_writingInterface_round()} {currentCount + 1} / {targetCount}
         </p>
       </div>
 
       <div className="mb-6">
         <label className="block text-sm font-medium text-muted-foreground mb-3">
-          {t('writingInterface.currentAffirmation')}
+          {m.app_writingInterface_currentAffirmation()}
         </label>
         <div className="bg-gradient-to-r from-storybook-honey/10 to-storybook-coral/10 p-4 rounded-storybook border border-storybook-honey/20">
           <p className="text-foreground leading-relaxed text-center font-medium">{affirmation}</p>
         </div>
-        <p className="text-xs text-muted-foreground mt-2 text-center">{t('writingInterface.tip')}</p>
+        <p className="text-xs text-muted-foreground mt-2 text-center">{m.app_writingInterface_tip()}</p>
       </div>
 
       <div className="mb-6">
-        <label className="block text-sm font-medium text-muted-foreground mb-3">{t('writingInterface.writingArea')}</label>
+        <label className="block text-sm font-medium text-muted-foreground mb-3">{m.app_writingInterface_writingArea()}</label>
         <Textarea value={currentText} onChange={(e) => setCurrentText(e.target.value)}
-          placeholder={t('writingInterface.placeholder')}
+          placeholder={m.app_writingInterface_placeholder()}
           className="rounded-storybook border-border min-h-[120px] text-base leading-relaxed resize-none"
           autoFocus />
         <div className="flex justify-between items-center mt-2">
-          <span className="text-xs text-muted-foreground">{currentText.length} {t('writingInterface.characters')}</span>
+          <span className="text-xs text-muted-foreground">{currentText.length} {m.app_writingInterface_characters()}</span>
           {currentText.toLowerCase().includes(affirmation.toLowerCase()) && (
             <div className="flex items-center text-storybook-sage text-xs">
               <CheckCircle2 className="w-3 h-3 mr-1" />
-              {t('writingInterface.containsAffirmation')}
+              {m.app_writingInterface_containsAffirmation()}
             </div>
           )}
         </div>
       </div>
 
       <div className="mb-6">
-        <label className="block text-sm font-medium text-muted-foreground mb-3">{t('writingInterface.currentMood')}</label>
+        <label className="block text-sm font-medium text-muted-foreground mb-3">{m.app_writingInterface_currentMood()}</label>
         <div className="grid grid-cols-2 gap-3">
           {moodOptions.map((mood) => (
             <button key={mood.value} onClick={() => setSelectedMood(mood.value)}
@@ -104,15 +103,15 @@ export const WritingInterface = ({
         <Button onClick={handleSubmit} disabled={!currentText.trim()}
           className="flex-1 bg-gradient-to-r from-storybook-honey to-storybook-coral text-white hover:opacity-90 rounded-storybook py-3 disabled:opacity-50">
           <CheckCircle2 className="w-4 h-4 mr-2" />
-          {t('writingInterface.completeWriting')}
+          {m.app_writingInterface_completeWriting()}
         </Button>
         <Button onClick={onCancel} variant="outline" className="px-6 rounded-storybook border-border text-muted-foreground hover:bg-muted">
-          {t('writingInterface.cancel')}
+          {m.app_writingInterface_cancel()}
         </Button>
       </div>
 
       <div className="mt-4 p-3 bg-storybook-cream/50 rounded-storybook">
-        <p className="text-xs text-muted-foreground text-center">{t('writingInterface.bottomTip')}</p>
+        <p className="text-xs text-muted-foreground text-center">{m.app_writingInterface_bottomTip()}</p>
       </div>
     </Card>
   );

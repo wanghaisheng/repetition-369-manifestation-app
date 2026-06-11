@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Share2, Copy, MessageCircle, Twitter, Facebook } from 'lucide-react';
@@ -16,7 +16,6 @@ interface ShareModalProps {
 
 export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
   const { toast } = useToast();
-  const { t } = useTranslation('app');
   const [isSharing, setIsSharing] = useState(false);
 
   const handleShare = async (platform: 'wechat' | 'weibo' | 'twitter' | 'facebook' | 'copy') => {
@@ -26,8 +25,8 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
       
       if (success) {
         toast({
-          title: t('shareModal.toast.shareSuccess'),
-          description: platform === 'copy' ? t('shareModal.toast.contentCopied') : t('shareModal.toast.shareWindowOpened')
+          title: m.app_shareModal_toast_shareSuccess(),
+          description: platform === 'copy' ? m.app_shareModal_toast_contentCopied() : m.app_shareModal_toast_shareWindowOpened()
         });
         
         if (platform !== 'copy') {
@@ -35,16 +34,16 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
         }
       } else {
         toast({
-          title: t('shareModal.toast.shareFailed'),
-          description: t('shareModal.toast.tryAgain'),
+          title: m.app_shareModal_toast_shareFailed(),
+          description: m.app_shareModal_toast_tryAgain(),
           variant: 'destructive'
         });
       }
     } catch (error) {
       logger.error('Share error', error);
       toast({
-        title: t('shareModal.toast.shareFailed'),
-        description: t('shareModal.toast.tryAgain'),
+        title: m.app_shareModal_toast_shareFailed(),
+        description: m.app_shareModal_toast_tryAgain(),
         variant: 'destructive'
       });
     } finally {
@@ -58,8 +57,8 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
       const success = await SocialService.nativeShare(content);
       if (success) {
         toast({
-          title: t('shareModal.toast.shareSuccess'),
-          description: t('shareModal.toast.shareComplete')
+          title: m.app_shareModal_toast_shareSuccess(),
+          description: m.app_shareModal_toast_shareComplete()
         });
         onClose();
       } else {
@@ -87,13 +86,13 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <Share2 className="w-5 h-5" />
-            <span>{t('shareModal.title')}</span>
+            <span>{m.app_shareModal_title()}</span>
           </DialogTitle>
         </DialogHeader>
 
         {/* Preview */}
         <div className="bg-gray-50 rounded-lg p-4 mb-4">
-          <div className="text-sm text-gray-600 mb-2">{t('shareModal.preview')}</div>
+          <div className="text-sm text-gray-600 mb-2">{m.app_shareModal_preview()}</div>
           <div className="text-sm text-gray-800 whitespace-pre-line">
             {formatPreviewText(content)}
           </div>
@@ -110,7 +109,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
               variant="outline"
             >
               <Share2 className="w-5 h-5" />
-              <span>{t('shareModal.systemShare')}</span>
+              <span>{m.app_shareModal_systemShare()}</span>
             </Button>
           )}
 
@@ -122,7 +121,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             variant="outline"
           >
             <MessageCircle className="w-5 h-5 text-green-600" />
-            <span>{t('shareModal.wechat')}</span>
+            <span>{m.app_shareModal_wechat()}</span>
           </Button>
 
           {/* Weibo */}
@@ -135,7 +134,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             <div className="w-5 h-5 bg-red-500 rounded text-white flex items-center justify-center text-xs font-bold">
               微
             </div>
-            <span>{t('shareModal.weibo')}</span>
+            <span>{m.app_shareModal_weibo()}</span>
           </Button>
 
           {/* Twitter */}
@@ -146,7 +145,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             variant="outline"
           >
             <Twitter className="w-5 h-5 text-blue-500" />
-            <span>{t('shareModal.twitter')}</span>
+            <span>{m.app_shareModal_twitter()}</span>
           </Button>
 
           {/* Facebook */}
@@ -157,7 +156,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             variant="outline"
           >
             <Facebook className="w-5 h-5 text-blue-600" />
-            <span>{t('shareModal.facebook')}</span>
+            <span>{m.app_shareModal_facebook()}</span>
           </Button>
 
           {/* Copy to Clipboard */}
@@ -168,7 +167,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             variant="outline"
           >
             <Copy className="w-5 h-5" />
-            <span>{t('shareModal.copyText')}</span>
+            <span>{m.app_shareModal_copyText()}</span>
           </Button>
 
           {/* Cancel */}
@@ -177,7 +176,7 @@ export const ShareModal = ({ isOpen, onClose, content }: ShareModalProps) => {
             variant="outline"
             className="w-full"
           >
-            {t('shareModal.cancel')}
+            {m.app_shareModal_cancel()}
           </Button>
         </div>
       </DialogContent>

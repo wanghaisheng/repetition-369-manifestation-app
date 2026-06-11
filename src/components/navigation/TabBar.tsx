@@ -1,6 +1,5 @@
 
 import { Home, Heart, Edit3, TrendingUp, Users } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 type Tab = 'home' | 'wishes' | 'practice' | 'progress' | 'community' | 'settings';
 
@@ -10,8 +9,6 @@ interface TabBarProps {
 }
 
 export const TabBar = ({ activeTab, onTabChange }: TabBarProps) => {
-  const { t } = useTranslation('app');
-
   const tabs = [
     { id: 'home' as Tab, icon: Home, labelKey: 'nav.home' },
     { id: 'wishes' as Tab, icon: Heart, labelKey: 'nav.wishes' },

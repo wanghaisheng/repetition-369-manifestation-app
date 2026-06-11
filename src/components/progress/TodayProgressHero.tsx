@@ -1,7 +1,7 @@
 import { Flame, Activity, Sparkles } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { CircularProgress } from '@/components/gamification/CircularProgress';
-import { useTranslation } from 'react-i18next';
+import { m } from '@/paraglide/messages';
 
 interface TodayProgressHeroProps {
   todayProgress: number;
@@ -18,8 +18,6 @@ export const TodayProgressHero = ({
   consecutiveDays,
   sessionsCount
 }: TodayProgressHeroProps) => {
-  const { t } = useTranslation('app');
-
   return (
     <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-[hsl(var(--manifest-glow))] via-[hsl(var(--manifest-aura))] to-[hsl(var(--manifest-lavender))] p-6 shadow-xl">
       {/* Decorative elements */}
@@ -31,7 +29,7 @@ export const TodayProgressHero = ({
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-white/90" />
             <h3 className="text-lg font-semibold text-white/95">
-              {t('progress.todayCompletion', '今日完成度')}
+              {m.app_progress_todayCompletion()}
             </h3>
           </div>
           
@@ -49,13 +47,13 @@ export const TodayProgressHero = ({
               <div className="p-1 bg-white/20 rounded-full">
                 <Flame className="w-3.5 h-3.5 text-amber-200" />
               </div>
-              <span>{consecutiveDays} {t('progress.days', '天')}</span>
+              <span>{consecutiveDays} {m.app_progress_days()}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="p-1 bg-white/20 rounded-full">
                 <Activity className="w-3.5 h-3.5 text-emerald-200" />
               </div>
-              <span>{sessionsCount} {t('progress.sessions', '场')}</span>
+              <span>{sessionsCount} {m.app_progress_sessions()}</span>
             </div>
           </div>
         </div>
@@ -71,7 +69,7 @@ export const TodayProgressHero = ({
           >
             <div className="text-center">
               <div className="text-xl font-bold text-white">{sessionsCount}</div>
-              <div className="text-xs text-white/70">{t('progress.sessions', '场')}</div>
+              <div className="text-xs text-white/70">{m.app_progress_sessions()}</div>
             </div>
           </CircularProgress>
         </div>

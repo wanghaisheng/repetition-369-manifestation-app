@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,6 +13,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { SkeletonLoader, CardSkeleton } from '@/components/performance/SkeletonLoader';
 import { logger } from '@/utils/logger';
 import { 
+import { m } from '@/paraglide/messages';
   Sparkles, 
   ArrowLeft,
   Heart,
@@ -42,7 +42,6 @@ interface UserStory {
 }
 
 const UserStories = () => {
-  const { t, i18n } = useTranslation(['userStories', 'common']);
   const [stories, setStories] = useState<UserStory[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -60,12 +59,12 @@ const UserStories = () => {
   });
 
   const categories = [
-    { key: 'all', label: t('categories.all') },
-    { key: 'career', label: t('categories.career') },
-    { key: 'health', label: t('categories.health') },
-    { key: 'relationship', label: t('categories.relationship') },
-    { key: 'finance', label: t('categories.finance') },
-    { key: 'personal', label: t('categories.personal') },
+    { key: 'all', label: m.userStories_categories_all() },
+    { key: 'career', label: m.userStories_categories_career() },
+    { key: 'health', label: m.userStories_categories_health() },
+    { key: 'relationship', label: m.userStories_categories_relationship() },
+    { key: 'finance', label: m.userStories_categories_finance() },
+    { key: 'personal', label: m.userStories_categories_personal() },
   ];
 
   useEffect(() => {
@@ -128,7 +127,7 @@ const UserStories = () => {
           category: submitForm.category,
           goal_achieved: submitForm.goal_achieved,
           days_to_success: parseInt(submitForm.days_to_success),
-          user_name: submitForm.anonymous ? t('form.anonymousUser') : submitForm.user_name,
+          user_name: submitForm.anonymous ? m.userStories_form_anonymousUser() : submitForm.user_name,
           user_location: submitForm.user_location,
           anonymous: submitForm.anonymous,
           rating: submitForm.rating,
@@ -137,7 +136,7 @@ const UserStories = () => {
 
       if (error) throw error;
 
-      toast.success(t('toast.submitSuccess'));
+      toast.success(m.userStories_toast_submitSuccess());
       setIsSubmitModalOpen(false);
       setSubmitForm({
         title: '',
@@ -152,7 +151,7 @@ const UserStories = () => {
       });
     } catch (error) {
       logger.error('Error submitting story:', error);
-      toast.error(t('toast.submitFailed'));
+      toast.error(m.userStories_toast_submitFailed());
     }
   };
 
@@ -167,19 +166,19 @@ const UserStories = () => {
             <Link to="/">
               <Button variant="ghost" size="sm">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                {t('common:buttons.back')}
+                {m.common_buttons_back()}
               </Button>
             </Link>
             <div className="flex items-center space-x-2">
               <Sparkles className="w-8 h-8 text-primary" />
-              <span className="text-2xl font-bold text-foreground">{t('common:appName')}</span>
+              <span className="text-2xl font-bold text-foreground">{m.common_appName()}</span>
             </div>
           </div>
           
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
             <Link to="/auth">
-              <Button>{t('common:buttons.getStarted')}</Button>
+              <Button>{m.common_buttons_getStarted()}</Button>
             </Link>
           </div>
         </div>
@@ -192,10 +191,10 @@ const UserStories = () => {
             <Heart className="w-10 h-10 text-primary-foreground" />
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-            {t('hero.h1')}
+            {m.userStories_hero_h1()}
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            {t('hero.subtitle')}
+            {m.userStories_hero_subtitle()}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -203,36 +202,36 @@ const UserStories = () => {
               <DialogTrigger asChild>
                 <Button size="lg" className="px-8 py-4 text-lg">
                   <Plus className="w-5 h-5 mr-2" />
-                  {t('form.shareStory')}
+                  {m.userStories_form_shareStory()}
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
                   <DialogTitle>
-                    {t('form.shareTitle')}
+                    {m.userStories_form_shareTitle()}
                   </DialogTitle>
                   <DialogDescription>
-                    {t('form.shareDescription')}
+                    {m.userStories_form_shareDescription()}
                   </DialogDescription>
                 </DialogHeader>
                 
                 <form onSubmit={handleSubmitStory} className="space-y-4">
                   <div>
                     <Label htmlFor="title">
-                      {t('form.storyTitle')}
+                      {m.userStories_form_storyTitle()}
                     </Label>
                     <Input
                       id="title"
                       value={submitForm.title}
                       onChange={(e) => setSubmitForm({...submitForm, title: e.target.value})}
-                      placeholder={t('form.storyTitlePlaceholder')}
+                      placeholder={m.userStories_form_storyTitlePlaceholder()}
                       required
                     />
                   </div>
                   
                   <div>
                     <Label htmlFor="category">
-                      {t('form.category')}
+                      {m.userStories_form_category()}
                     </Label>
                     <select
                       id="category"
@@ -250,20 +249,20 @@ const UserStories = () => {
                   
                   <div>
                     <Label htmlFor="goal_achieved">
-                      {t('form.goalAchieved')}
+                      {m.userStories_form_goalAchieved()}
                     </Label>
                     <Input
                       id="goal_achieved"
                       value={submitForm.goal_achieved}
                       onChange={(e) => setSubmitForm({...submitForm, goal_achieved: e.target.value})}
-                      placeholder={t('form.goalAchievedPlaceholder')}
+                      placeholder={m.userStories_form_goalAchievedPlaceholder()}
                       required
                     />
                   </div>
                   
                   <div>
                     <Label htmlFor="days_to_success">
-                      {t('form.daysToSuccess')}
+                      {m.userStories_form_daysToSuccess()}
                     </Label>
                     <Input
                       id="days_to_success"
@@ -278,13 +277,13 @@ const UserStories = () => {
                   
                   <div>
                     <Label htmlFor="content">
-                      {t('form.yourStory')}
+                      {m.userStories_form_yourStory()}
                     </Label>
                     <Textarea
                       id="content"
                       value={submitForm.content}
                       onChange={(e) => setSubmitForm({...submitForm, content: e.target.value})}
-                      placeholder={t('form.yourStoryPlaceholder')}
+                      placeholder={m.userStories_form_yourStoryPlaceholder()}
                       rows={6}
                       required
                     />
@@ -293,26 +292,26 @@ const UserStories = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="user_name">
-                        {t('form.name')}
+                        {m.userStories_form_name()}
                       </Label>
                       <Input
                         id="user_name"
                         value={submitForm.user_name}
                         onChange={(e) => setSubmitForm({...submitForm, user_name: e.target.value})}
-                        placeholder={t('form.namePlaceholder')}
+                        placeholder={m.userStories_form_namePlaceholder()}
                         disabled={submitForm.anonymous}
                       />
                     </div>
                     
                     <div>
                       <Label htmlFor="user_location">
-                        {t('form.location')}
+                        {m.userStories_form_location()}
                       </Label>
                       <Input
                         id="user_location"
                         value={submitForm.user_location}
                         onChange={(e) => setSubmitForm({...submitForm, user_location: e.target.value})}
-                        placeholder={t('form.locationPlaceholder')}
+                        placeholder={m.userStories_form_locationPlaceholder()}
                       />
                     </div>
                   </div>
@@ -326,16 +325,16 @@ const UserStories = () => {
                       className="rounded"
                     />
                     <Label htmlFor="anonymous">
-                      {t('form.anonymous')}
+                      {m.userStories_form_anonymous()}
                     </Label>
                   </div>
                   
                   <div className="flex justify-end space-x-2">
                     <Button type="button" variant="outline" onClick={() => setIsSubmitModalOpen(false)}>
-                      {t('form.cancel')}
+                      {m.userStories_form_cancel()}
                     </Button>
                     <Button type="submit">
-                      {t('form.submit')}
+                      {m.userStories_form_submit()}
                     </Button>
                   </div>
                 </form>
@@ -344,7 +343,7 @@ const UserStories = () => {
             
             <Link to="/blog">
               <Button variant="outline" size="lg" className="px-8 py-4 text-lg">
-                {t('cta.readMore')}
+                {m.userStories_cta_readMore()}
               </Button>
             </Link>
           </div>
@@ -383,7 +382,7 @@ const UserStories = () => {
               <section className="mb-12">
                 <h2 className="text-3xl font-bold text-foreground mb-6 text-center">
                   <Trophy className="inline w-8 h-8 text-yellow-500 mr-2" />
-                  {t('stories.featuredTitle')}
+                  {m.userStories_stories_featuredTitle()}
                 </h2>
                 <div className="grid md:grid-cols-3 gap-6">
                   {featuredStories.map((story) => (
@@ -391,7 +390,7 @@ const UserStories = () => {
                       <div className="absolute top-4 right-4">
                         <Badge className="bg-yellow-100 text-yellow-800">
                           <Star className="w-3 h-3 mr-1" />
-                          {t('stories.featured')}
+                          {m.userStories_stories_featured()}
                         </Badge>
                       </div>
                       
@@ -401,7 +400,7 @@ const UserStories = () => {
                             {categories.find(c => c.key === story.category)?.label}
                           </Badge>
                           <Badge variant="outline" className="text-xs">
-                            {story.days_to_success} {t('stories.days')}
+                            {story.days_to_success} {m.userStories_stories_days()}
                           </Badge>
                         </div>
                         <CardTitle className="text-lg">{story.title}</CardTitle>
@@ -444,7 +443,7 @@ const UserStories = () => {
             {/* Regular Stories */}
             <section>
               <h2 className="text-3xl font-bold text-foreground mb-6 text-center">
-                {t('stories.moreTitle')}
+                {m.userStories_stories_moreTitle()}
               </h2>
               {regularStories.length > 0 ? (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -456,7 +455,7 @@ const UserStories = () => {
                             {categories.find(c => c.key === story.category)?.label}
                           </Badge>
                           <Badge variant="outline" className="text-xs">
-                            {story.days_to_success} {t('stories.days')}
+                            {story.days_to_success} {m.userStories_stories_days()}
                           </Badge>
                         </div>
                         <CardTitle className="text-lg">{story.title}</CardTitle>
@@ -488,10 +487,10 @@ const UserStories = () => {
                 <div className="text-center py-12">
                   <Heart className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-foreground mb-2">
-                    {t('stories.noStories')}
+                    {m.userStories_stories_noStories()}
                   </h3>
                   <p className="text-muted-foreground">
-                    {t('stories.beFirst')}
+                    {m.userStories_stories_beFirst()}
                   </p>
                 </div>
               )}
@@ -507,10 +506,10 @@ const UserStories = () => {
         {/* CTA Section */}
         <section className="mt-16 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl p-8 text-center">
           <h2 className="text-3xl font-bold text-foreground mb-4">
-            {t('cta.title')}
+            {m.userStories_cta_title()}
           </h2>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            {t('cta.description')}
+            {m.userStories_cta_description()}
           </p>
           <Button 
             size="lg" 
@@ -518,7 +517,7 @@ const UserStories = () => {
             onClick={() => setIsSubmitModalOpen(true)}
           >
             <Plus className="w-5 h-5 mr-2" />
-            {t('cta.shareButton')}
+            {m.userStories_cta_shareButton()}
           </Button>
         </section>
       </div>

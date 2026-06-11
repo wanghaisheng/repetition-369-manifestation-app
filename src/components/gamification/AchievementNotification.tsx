@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 
 import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Achievement } from '@/services/AchievementService';
 import { AchievementBadge } from './AchievementBadge';
 import { Card } from '@/components/ui/card';
@@ -13,7 +13,6 @@ interface AchievementNotificationProps {
 }
 
 export const AchievementNotification = ({ achievement, onClose }: AchievementNotificationProps) => {
-  const { t } = useTranslation('app');
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -47,8 +46,8 @@ export const AchievementNotification = ({ achievement, onClose }: AchievementNot
             <div className="w-16 h-16 bg-gradient-to-br from-storybook-honey to-storybook-coral rounded-full flex items-center justify-center mx-auto mb-3 animate-bounce">
               <Trophy className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-xl font-storybook font-bold text-foreground mb-1">🎉 {t('achievement.unlocked')}</h3>
-            <p className="text-sm text-muted-foreground">{t('achievement.newAchievement')}</p>
+            <h3 className="text-xl font-storybook font-bold text-foreground mb-1">🎉 {m.app_achievement_unlocked()}</h3>
+            <p className="text-sm text-muted-foreground">{m.app_achievement_newAchievement()}</p>
           </div>
 
           <div className="mb-6">
@@ -58,11 +57,11 @@ export const AchievementNotification = ({ achievement, onClose }: AchievementNot
           {achievement.reward.points > 0 && (
             <div className="mb-4 p-3 bg-storybook-honey/10 rounded-storybook">
               <div className="text-storybook-honey font-semibold text-lg">
-                +{achievement.reward.points} {t('achievement.pointsReward')}
+                +{achievement.reward.points} {m.app_achievement_pointsReward()}
               </div>
               {achievement.reward.unlocks && achievement.reward.unlocks.length > 0 && (
                 <div className="text-sm text-muted-foreground mt-1">
-                  {t('achievement.unlockFeatures')}: {achievement.reward.unlocks.join(', ')}
+                  {m.app_achievement_unlockFeatures()}: {achievement.reward.unlocks.join(', ')}
                 </div>
               )}
             </div>
@@ -70,7 +69,7 @@ export const AchievementNotification = ({ achievement, onClose }: AchievementNot
 
           <Button onClick={handleClose}
             className="w-full bg-gradient-to-r from-storybook-honey to-storybook-coral text-white hover:opacity-90 rounded-storybook py-3">
-            {t('achievement.awesome')}
+            {m.app_achievement_awesome()}
           </Button>
         </div>
       </Card>

@@ -1,11 +1,11 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import founderPortrait from '@/assets/founder-portrait.jpg';
 import { 
+import { m } from '@/paraglide/messages';
   Star,
   Github,
   Twitter,
@@ -17,8 +17,6 @@ import {
 } from 'lucide-react';
 
 export const AboutFounderOptimized = () => {
-  const { t, i18n } = useTranslation(['landing']);
-
   const socialLinks = [
     {
       name: 'Twitter',
@@ -66,17 +64,17 @@ export const AboutFounderOptimized = () => {
             {i18n.language === 'zh' ? '创始人故事' : 'Founder Story'}
           </Badge>
           <h2 className="text-4xl md:text-5xl font-storybook font-bold text-foreground mb-6">
-            {t('about.title')}
+            {m.landing_about_title()}
           </h2>
           <h3 className="text-xl text-muted-foreground max-w-3xl mx-auto font-semibold">
-            {t('about.subtitle')}
+            {m.landing_about_subtitle()}
           </h3>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
             <p className="text-lg text-muted-foreground leading-relaxed">
-              {t('about.description')}
+              {m.landing_about_description()}
             </p>
 
             {/* Achievement Stats */}
@@ -104,7 +102,7 @@ export const AboutFounderOptimized = () => {
                 {i18n.language === 'zh' ? '专业背景' : 'Professional Background'}
               </h3>
               <div className="space-y-3">
-                {(t('about.credentials', { returnObjects: true }) as string[]).map((credential, index) => (
+                {(m.landing_about_credentials({ returnObjects: true }) as string[]).map((credential, index) => (
                   <div key={index} className="flex items-center text-muted-foreground">
                     <Star className="w-4 h-4 text-storybook-honey mr-3 flex-shrink-0" />
                     <span>{credential}</span>
@@ -116,7 +114,7 @@ export const AboutFounderOptimized = () => {
             {/* Social Links */}
             <div>
               <h3 className="text-lg font-storybook font-semibold text-foreground mb-4">
-                {t('about.socialTitle')}
+                {m.landing_about_socialTitle()}
               </h3>
               <div className="flex flex-wrap gap-4">
                 {socialLinks.map((link) => (

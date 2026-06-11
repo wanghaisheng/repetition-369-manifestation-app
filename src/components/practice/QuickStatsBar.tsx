@@ -1,6 +1,6 @@
 import { Target, Zap, TrendingUp } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import { useTranslation } from 'react-i18next';
+import { m } from '@/paraglide/messages';
 
 interface QuickStatsBarProps {
   todayCompleted: number;
@@ -15,8 +15,6 @@ export const QuickStatsBar = ({
   weeklyCompleted,
   weeklyTarget
 }: QuickStatsBarProps) => {
-  const { t } = useTranslation('app');
-  
   const todayPercent = todayTarget > 0 ? Math.round((todayCompleted / todayTarget) * 100) : 0;
   const weeklyPercent = weeklyTarget > 0 ? Math.round((weeklyCompleted / weeklyTarget) * 100) : 0;
 
@@ -24,7 +22,7 @@ export const QuickStatsBar = ({
     {
       icon: Target,
       value: `${todayCompleted}/${todayTarget}`,
-      label: t('practice.todayGoal', '今日'),
+      label: m.app_practice_todayGoal(),
       percent: todayPercent,
       color: 'text-primary',
       bgColor: 'bg-primary/10'
@@ -32,7 +30,7 @@ export const QuickStatsBar = ({
     {
       icon: TrendingUp,
       value: `${weeklyPercent}%`,
-      label: t('practice.weeklyGoal', '本周'),
+      label: m.app_practice_weeklyGoal(),
       percent: weeklyPercent,
       color: 'text-emerald-600 dark:text-emerald-400',
       bgColor: 'bg-emerald-500/10'

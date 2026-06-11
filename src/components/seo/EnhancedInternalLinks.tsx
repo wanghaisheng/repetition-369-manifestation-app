@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from '@tanstack/react-router';
-import { useTranslation } from 'react-i18next';
 import { 
   Target, 
   BookOpen, 
@@ -212,8 +211,6 @@ export const EnhancedInternalLinks: React.FC<EnhancedInternalLinksProps> = ({
   layout = 'grid',
   showClusterLabels = false
 }) => {
-  const { t, i18n } = useTranslation(['common', 'marketing']);
-  
   const relevantLinks = getRelatedLinks(currentPage, maxLinks, true);
 
   if (relevantLinks.length === 0) {

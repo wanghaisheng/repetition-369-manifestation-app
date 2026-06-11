@@ -1,8 +1,8 @@
 import { BarChart3 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import { useTranslation } from 'react-i18next';
 import { MonthlyStats } from '@/types';
 import { 
+import { m } from '@/paraglide/messages';
   ChartContainer, 
   ChartTooltip, 
   ChartTooltipContent,
@@ -15,15 +15,13 @@ interface MonthlyTrendChartProps {
 }
 
 export const MonthlyTrendChart = ({ monthlyStats }: MonthlyTrendChartProps) => {
-  const { t } = useTranslation('app');
-
   const chartConfig = {
     practices: {
-      label: t('chartLabels.practiceCount'),
+      label: m.app_chartLabels_practiceCount(),
       color: "hsl(var(--primary))"
     },
     completed: {
-      label: t('chartLabels.completedGoal'),
+      label: m.app_chartLabels_completedGoal(),
       color: "hsl(var(--manifest-gold))"
     }
   } satisfies ChartConfig;
@@ -47,7 +45,7 @@ export const MonthlyTrendChart = ({ monthlyStats }: MonthlyTrendChartProps) => {
               <BarChart3 className="w-4 h-4 text-indigo-500" />
             </div>
             <h3 className="font-semibold text-foreground">
-              {t('progress.monthlyTrend')}
+              {m.app_progress_monthlyTrend()}
             </h3>
           </div>
         </div>
@@ -84,7 +82,7 @@ export const MonthlyTrendChart = ({ monthlyStats }: MonthlyTrendChartProps) => {
           <div className="flex items-center gap-1.5">
             <div className="w-2.5 h-2.5 rounded-sm bg-primary" />
             <span className="text-xs text-muted-foreground">
-              {t('progress.practiceCount')}
+              {m.app_progress_practiceCount()}
             </span>
           </div>
         </div>

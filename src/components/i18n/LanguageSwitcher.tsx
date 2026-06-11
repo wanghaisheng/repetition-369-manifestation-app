@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Globe } from 'lucide-react';

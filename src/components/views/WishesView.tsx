@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { AddWishModal } from '@/components/modals/AddWishModal';
 import { useWishes } from '@/hooks/useWishes';
 import { Wish, WishCategory } from '@/types';
@@ -10,7 +9,6 @@ import { WishesList } from '@/components/wishes/WishesList';
 import { WishesEmptyState } from '@/components/wishes/WishesEmptyState';
 
 export const WishesView = () => {
-  const { t } = useTranslation('app');
   const [showAddModal, setShowAddModal] = useState(false);
   const { wishes, loading, createWish, updateWish } = useWishes();
 

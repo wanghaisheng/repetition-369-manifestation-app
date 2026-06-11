@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Bell, X, Clock, Target, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -8,7 +8,6 @@ import { useNotifications } from '@/hooks/useNotifications';
 import { NotificationService } from '@/services/NotificationService';
 
 export const NotificationCenter = () => {
-  const { t } = useTranslation('app');
   const [isOpen, setIsOpen] = useState(false);
   const [settings, setSettings] = useState({
     practiceReminders: true, streakProtection: true, achievements: true, dailySummary: true
@@ -55,7 +54,7 @@ export const NotificationCenter = () => {
         <div className="absolute right-0 top-full mt-2 w-80 bg-card rounded-storybook-lg shadow-storybook-hover border border-border z-50">
           <div className="p-4 border-b border-border">
             <div className="flex items-center justify-between">
-              <h3 className="font-storybook font-semibold text-foreground">{t('notifications.title')}</h3>
+              <h3 className="font-storybook font-semibold text-foreground">{m.app_notifications_title()}</h3>
               <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)}>
                 <X className="w-4 h-4" />
               </Button>
@@ -64,7 +63,7 @@ export const NotificationCenter = () => {
 
           <div className="max-h-96 overflow-y-auto">
             {!notifications || notifications.length === 0 ? (
-              <div className="p-4 text-center text-muted-foreground">{t('notifications.empty')}</div>
+              <div className="p-4 text-center text-muted-foreground">{m.app_notifications_empty()}</div>
             ) : (
               notifications.map(notification => (
                 <div key={notification.id}
@@ -84,13 +83,13 @@ export const NotificationCenter = () => {
           </div>
 
           <div className="p-4 border-t border-border bg-muted/30">
-            <h4 className="text-sm font-medium text-foreground mb-3">{t('notifications.settings')}</h4>
+            <h4 className="text-sm font-medium text-foreground mb-3">{m.app_notifications_settings()}</h4>
             <div className="space-y-3">
               {[
-                { key: 'practiceReminders' as const, label: t('notifications.practiceReminders') },
-                { key: 'streakProtection' as const, label: t('notifications.streakProtection') },
-                { key: 'achievements' as const, label: t('notifications.achievements') },
-                { key: 'dailySummary' as const, label: t('notifications.dailySummary') },
+                { key: 'practiceReminders' as const, label: m.app_notifications_practiceReminders() },
+                { key: 'streakProtection' as const, label: m.app_notifications_streakProtection() },
+                { key: 'achievements' as const, label: m.app_notifications_achievements() },
+                { key: 'dailySummary' as const, label: m.app_notifications_dailySummary() },
               ].map(item => (
                 <div key={item.key} className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">{item.label}</span>
@@ -100,7 +99,7 @@ export const NotificationCenter = () => {
             </div>
             {notifications && notifications.length > 0 && (
               <Button variant="outline" size="sm" onClick={clearAll} className="w-full mt-3 rounded-storybook">
-                {t('notifications.clearAll')}
+                {m.app_notifications_clearAll()}
               </Button>
             )}
           </div>

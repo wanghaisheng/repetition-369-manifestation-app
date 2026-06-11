@@ -1,5 +1,5 @@
+import { m } from '@/paraglide/messages';
 
-import { useTranslation } from 'react-i18next';
 import { CheckCircle2, Circle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { TimeSlot } from '@/types';
@@ -25,11 +25,9 @@ export const PracticeOverview = ({
   todayProgress,
   currentPeriod
 }: PracticeOverviewProps) => {
-  const { t } = useTranslation('app');
-
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-storybook font-semibold text-foreground">{t('practiceOverview.todayTitle')}</h3>
+      <h3 className="text-lg font-storybook font-semibold text-foreground">{m.app_practiceOverview_todayTitle()}</h3>
       {Object.entries(periods).map(([periodKey, period]) => {
         const Icon = period.icon;
         const progress = todayProgress[periodKey as keyof typeof todayProgress];
@@ -52,7 +50,7 @@ export const PracticeOverview = ({
                   <h4 className="font-medium text-foreground">{period.title}</h4>
                   {isCurrentPeriod && (
                     <span className="text-xs bg-storybook-honey text-white px-2 py-1 rounded-full">
-                      {t('practiceOverview.current')}
+                      {m.app_practiceOverview_current()}
                     </span>
                   )}
                 </div>

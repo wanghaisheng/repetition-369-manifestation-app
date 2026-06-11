@@ -1,5 +1,5 @@
+import { m } from '@/paraglide/messages';
 
-import { useTranslation } from 'react-i18next';
 import { Achievement } from '@/services/AchievementService';
 import { Card } from '@/components/ui/card';
 import { AchievementService } from '@/services/AchievementService';
@@ -11,7 +11,6 @@ interface AchievementBadgeProps {
 }
 
 export const AchievementBadge = ({ achievement, size = 'medium', showDetails = false }: AchievementBadgeProps) => {
-  const { t } = useTranslation('app');
   const rarityColor = AchievementService.getRarityColor(achievement.rarity);
   
   const sizeClasses = { small: 'w-12 h-12 text-lg', medium: 'w-16 h-16 text-2xl', large: 'w-24 h-24 text-4xl' };
@@ -34,7 +33,7 @@ export const AchievementBadge = ({ achievement, size = 'medium', showDetails = f
             )}
             {achievement.reward.points > 0 && (
               <div className={`text-storybook-honey font-semibold ${size === 'small' ? 'text-xs' : 'text-sm'}`}>
-                +{achievement.reward.points} {t('achievement.points')}
+                +{achievement.reward.points} {m.app_achievement_points()}
               </div>
             )}
           </>

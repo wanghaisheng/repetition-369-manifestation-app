@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { useTranslation } from 'react-i18next';
 import { Sparkles, ArrowRight, ArrowLeft, Heart, Briefcase, Coins, Activity, Star, Pencil, LayoutGrid } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,6 +9,7 @@ import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
 import { Wish, WishCategory, Mood, TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
 import {
+import { m } from '@/paraglide/messages';
   TRY_STORAGE_KEY,
   TrialSlotResult,
   readTrialDraft,
@@ -41,7 +41,6 @@ const categoryGradients: Record<string, string> = {
 };
 
 export default function Try() {
-  const { t } = useTranslation('landing');
   const navigate = useNavigate();
   const [step, setStep] = useState<Step>('category');
   const [category, setCategory] = useState<WishCategory | null>(null);
@@ -52,10 +51,10 @@ export default function Try() {
   const [activeSlotIdx, setActiveSlotIdx] = useState(0);
 
   const categories: { key: WishCategory; label: string; desc: string }[] = [
-    { key: 'career', label: t('try.cat.career.label'), desc: t('try.cat.career.desc') },
-    { key: 'wealth', label: t('try.cat.wealth.label'), desc: t('try.cat.wealth.desc') },
-    { key: 'relationship', label: t('try.cat.relationship.label'), desc: t('try.cat.relationship.desc') },
-    { key: 'health', label: t('try.cat.health.label'), desc: t('try.cat.health.desc') },
+    { key: 'career', label: m.landing_try_cat_career_label(), desc: m.landing_try_cat_career_desc() },
+    { key: 'wealth', label: m.landing_try_cat_wealth_label(), desc: m.landing_try_cat_wealth_desc() },
+    { key: 'relationship', label: m.landing_try_cat_relationship_label(), desc: m.landing_try_cat_relationship_desc() },
+    { key: 'health', label: m.landing_try_cat_health_label(), desc: m.landing_try_cat_health_desc() },
   ];
 
   const getSuggestions = (cat: WishCategory): string[] => {
@@ -209,11 +208,11 @@ export default function Try() {
             <div className="w-8 h-8 bg-gradient-to-br from-storybook-honey to-storybook-coral rounded-storybook flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <span className="font-storybook font-bold text-foreground">{t('try.brand')}</span>
+            <span className="font-storybook font-bold text-foreground">{m.landing_try_brand()}</span>
           </Link>
           <Link to="/auth">
             <Button variant="ghost" size="sm" className="rounded-storybook">
-              {t('try.skipToSignup')}
+              {m.landing_try_skipToSignup()}
             </Button>
           </Link>
         </div>
@@ -225,12 +224,12 @@ export default function Try() {
           <div className="space-y-6 animate-fade-in">
             <div className="text-center space-y-3">
               <div className="inline-flex items-center px-4 py-1.5 rounded-storybook bg-storybook-cream border border-storybook-honey/30">
-                <span className="text-xs font-medium text-storybook-bark">{t('try.noSignup')}</span>
+                <span className="text-xs font-medium text-storybook-bark">{m.landing_try_noSignup()}</span>
               </div>
               <h1 className="font-storybook text-3xl md:text-4xl font-bold text-storybook-bark leading-tight">
-                {t('try.step1.title')}
+                {m.landing_try_step1_title()}
               </h1>
-              <p className="text-muted-foreground">{t('try.step1.subtitle')}</p>
+              <p className="text-muted-foreground">{m.landing_try_step1_subtitle()}</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -256,12 +255,12 @@ export default function Try() {
         {step === 'affirmation' && category && (
           <div className="space-y-6 animate-fade-in">
             <button onClick={() => setStep('category')} className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors">
-              <ArrowLeft className="w-4 h-4 mr-1" /> {t('try.back')}
+              <ArrowLeft className="w-4 h-4 mr-1" /> {m.landing_try_back()}
             </button>
 
             <div className="text-center space-y-2">
-              <h2 className="font-storybook text-2xl md:text-3xl font-bold text-storybook-bark">{t('try.step2.title')}</h2>
-              <p className="text-muted-foreground text-sm">{t('try.step2.subtitle')}</p>
+              <h2 className="font-storybook text-2xl md:text-3xl font-bold text-storybook-bark">{m.landing_try_step2_title()}</h2>
+              <p className="text-muted-foreground text-sm">{m.landing_try_step2_subtitle()}</p>
             </div>
 
             {!editing ? (
@@ -284,7 +283,7 @@ export default function Try() {
                 </div>
 
                 <button onClick={() => { setEditing(true); if (!affirmation) setAffirmation(''); }} className="inline-flex items-center text-sm text-storybook-coral hover:text-storybook-coral/80">
-                  <Pencil className="w-4 h-4 mr-1" /> {t('try.step2.customize')}
+                  <Pencil className="w-4 h-4 mr-1" /> {m.landing_try_step2_customize()}
                 </button>
               </>
             ) : (
@@ -292,12 +291,12 @@ export default function Try() {
                 <Textarea
                   value={affirmation}
                   onChange={(e) => setAffirmation(e.target.value)}
-                  placeholder={t('try.step2.placeholder')}
+                  placeholder={m.landing_try_step2_placeholder()}
                   className="min-h-[120px] rounded-storybook border-2 focus:border-storybook-honey font-storybook text-base leading-relaxed"
                   autoFocus
                 />
                 <button onClick={() => setEditing(false)} className="text-sm text-muted-foreground hover:text-foreground">
-                  {t('try.step2.useSuggestions')}
+                  {m.landing_try_step2_useSuggestions()}
                 </button>
               </div>
             )}
@@ -308,7 +307,7 @@ export default function Try() {
               size="lg"
               className="w-full rounded-storybook-lg bg-gradient-to-r from-storybook-honey to-storybook-coral hover:opacity-90 text-white font-storybook font-semibold py-6 text-base"
             >
-              {t('try.step2.cta')} <ArrowRight className="w-5 h-5 ml-2" />
+              {m.landing_try_step2_cta()} <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </div>
         )}
@@ -320,10 +319,10 @@ export default function Try() {
               <Sparkles className="w-12 h-12 text-white" />
             </div>
             <h2 className="font-storybook text-3xl md:text-4xl font-bold text-storybook-bark">
-              {t('try.step4.title')}
+              {m.landing_try_step4_title()}
             </h2>
             <p className="text-muted-foreground max-w-md mx-auto leading-relaxed">
-              {t('try.step4.subtitle')}
+              {m.landing_try_step4_subtitle()}
             </p>
 
             {/* Progress recap */}
@@ -349,7 +348,7 @@ export default function Try() {
 
             <Card className="p-5 rounded-storybook-lg bg-storybook-cream/50 border-storybook-honey/20 text-left max-w-md mx-auto">
               <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
-                {t('try.step4.yourAffirmation')}
+                {m.landing_try_step4_yourAffirmation()}
               </p>
               <p className="font-storybook text-foreground leading-relaxed">{affirmation}</p>
             </Card>
@@ -363,18 +362,18 @@ export default function Try() {
               return (
                 <div className="max-w-md mx-auto space-y-3 text-left">
                   <div className="flex items-center justify-between text-xs text-muted-foreground font-storybook">
-                    <span>{t('try.step4.totalProgress', { done: totalDone, total: totalTarget })}</span>
+                    <span>{m.landing_try_step4_totalProgress({ done: totalDone, total: totalTarget })}</span>
                     <span>
                       {nextSlotConfig
-                        ? t('try.step4.slotsRemaining', { count: remaining })
-                        : t('try.step4.allDone')}
+                        ? m.landing_try_step4_slotsRemaining({ count: remaining })
+                        : m.landing_try_step4_allDone()}
                     </span>
                   </div>
                   <Progress value={pct} className="h-2 bg-storybook-cream" />
                   {nextSlotConfig && (
                     <Card className="p-4 rounded-storybook-lg border-2 border-storybook-honey/40 bg-gradient-to-br from-storybook-honey/10 to-storybook-coral/10">
                       <p className="text-xs uppercase tracking-wide text-storybook-bark/70 mb-1 font-storybook">
-                        {t('try.step4.nextSlotLabel')}
+                        {m.landing_try_step4_nextSlotLabel()}
                       </p>
                       <p className="font-storybook font-semibold text-storybook-bark">
                         {t('try.step4.nextSlotTarget', {
@@ -409,14 +408,14 @@ export default function Try() {
                     className="w-full rounded-storybook-lg border-2 border-storybook-honey/60 text-storybook-bark hover:bg-storybook-honey/10 font-storybook font-semibold py-6 text-base"
                   >
                     <LayoutGrid className="w-5 h-5 mr-2" />
-                    {t('try.step4.backToOverview')}
+                    {m.landing_try_step4_backToOverview()}
                   </Button>
                   <Button
                     onClick={handleSignupResume}
                     variant="ghost"
                     className="w-full rounded-storybook text-storybook-bark hover:bg-storybook-honey/10 font-storybook"
                   >
-                    {t('try.step4.saveAndContinue')} <ArrowRight className="w-4 h-4 ml-2" />
+                    {m.landing_try_step4_saveAndContinue()} <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </>
               ) : (
@@ -425,7 +424,7 @@ export default function Try() {
                   size="lg"
                   className="w-full rounded-storybook-lg bg-gradient-to-r from-storybook-honey to-storybook-coral hover:opacity-90 text-white font-storybook font-semibold py-6 text-base"
                 >
-                  {t('try.step4.signupCta')} <ArrowRight className="w-5 h-5 ml-2" />
+                  {m.landing_try_step4_signupCta()} <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               )}
               <button
@@ -443,7 +442,7 @@ export default function Try() {
                 }}
                 className="text-sm text-muted-foreground hover:text-foreground"
               >
-                {t('try.step4.tryAgain')}
+                {m.landing_try_step4_tryAgain()}
               </button>
             </div>
           </div>

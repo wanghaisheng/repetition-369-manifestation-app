@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from '@tanstack/react-router';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +7,7 @@ import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { supabase } from '@/integrations/supabase/client';
 import { SkeletonLoader } from '@/components/performance/SkeletonLoader';
 import { 
+import { m } from '@/paraglide/messages';
   Sparkles, 
   ArrowLeft,
   Calendar,
@@ -56,7 +56,6 @@ interface RelatedPost {
 
 const BlogPostPage = () => {
   const { slug } = useParams({ from: '/blog/$slug' });
-  const { t, i18n } = useTranslation(['common']);
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [relatedPosts, setRelatedPosts] = useState<RelatedPost[]>([]);
@@ -158,12 +157,12 @@ const BlogPostPage = () => {
               <Link to="/blog">
                 <Button variant="ghost" size="sm">
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  {t('buttons.back')}
+                  {m.common_buttons_back()}
                 </Button>
               </Link>
               <div className="flex items-center space-x-2">
                 <Sparkles className="w-8 h-8 text-storybook-honey" />
-                <span className="text-2xl font-storybook font-bold text-foreground">{t('appName')}</span>
+                <span className="text-2xl font-storybook font-bold text-foreground">{m.common_appName()}</span>
               </div>
             </div>
             <LanguageSwitcher />
@@ -184,15 +183,15 @@ const BlogPostPage = () => {
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-storybook font-bold text-foreground mb-4">
-            {t('app:blogPost.articleNotFound')}
+            {m.app_blogPost_articleNotFound()}
           </h1>
           <p className="text-muted-foreground mb-6">
-            {t('app:blogPost.checkUrl')}
+            {m.app_blogPost_checkUrl()}
           </p>
           <Link to="/blog">
             <Button className="rounded-storybook">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              {t('app:blogPost.backToBlog')}
+              {m.app_blogPost_backToBlog()}
             </Button>
           </Link>
         </div>
@@ -208,18 +207,18 @@ const BlogPostPage = () => {
             <Link to="/blog">
               <Button variant="ghost" size="sm">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                {t('buttons.back')}
+                {m.common_buttons_back()}
               </Button>
             </Link>
             <div className="flex items-center space-x-2">
               <Sparkles className="w-8 h-8 text-storybook-honey" />
-              <span className="text-2xl font-storybook font-bold text-foreground">{t('appName')}</span>
+              <span className="text-2xl font-storybook font-bold text-foreground">{m.common_appName()}</span>
             </div>
           </div>
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
             <Link to="/auth">
-              <Button className="rounded-storybook">{t('buttons.getStarted')}</Button>
+              <Button className="rounded-storybook">{m.common_buttons_getStarted()}</Button>
             </Link>
           </div>
         </div>

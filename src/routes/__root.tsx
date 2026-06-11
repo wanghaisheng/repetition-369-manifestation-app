@@ -5,7 +5,6 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { useTranslation } from 'react-i18next';
 import { logger } from '@/utils/logger';
 import { WebAppStructuredData, OrganizationStructuredData } from '@/components/seo/StructuredData';
 import { ErrorBoundary } from '@/components/ErrorBoundary';

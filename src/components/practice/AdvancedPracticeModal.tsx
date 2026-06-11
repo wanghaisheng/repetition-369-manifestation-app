@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -7,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { Clock, Star, Target, ArrowRight, Play, Pause, SkipForward } from 'lucide-react';
 import { PracticeModeService, PracticeMode, ActiveSession, PracticePhase } from '@/services/PracticeModeService';
 import { useToast } from '@/hooks/use-toast';
+import { m } from '@/paraglide/messages';
 
 interface AdvancedPracticeModalProps {
   isOpen: boolean;
@@ -16,7 +16,6 @@ interface AdvancedPracticeModalProps {
 
 export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedPracticeModalProps) => {
   const { toast } = useToast();
-  const { t } = useTranslation('app');
   const [selectedMode, setSelectedMode] = useState<PracticeMode | null>(null);
   const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -36,8 +35,8 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
     if (session) {
       setActiveSession(session);
       toast({
-        title: t('advancedPractice.practiceStarted'),
-        description: `${selectedMode.name} ${t('advancedPractice.practiceStarted')}`
+        title: m.app_advancedPractice_practiceStarted(),
+        description: `${selectedMode.name} ${m.app_advancedPractice_practiceStarted()}`
       });
     }
   };
@@ -54,8 +53,8 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
       const nextPhase = PracticeModeService.getCurrentPhase(updatedSession);
       if (nextPhase) {
         toast({
-          title: t('advancedPractice.phaseComplete'),
-          description: `${t('advancedPractice.startPractice')} ${nextPhase.name}`
+          title: m.app_advancedPractice_phaseComplete(),
+          description: `${m.app_advancedPractice_startPractice()} ${nextPhase.name}`
         });
       }
     }
@@ -78,8 +77,8 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
     const completedSession = PracticeModeService.completeSession(activeSession, results);
     
     toast({
-      title: t('advancedPractice.practiceComplete'),
-      description: `${t('advancedPractice.congratulations')} ${activeSession.mode.name}`
+      title: m.app_advancedPractice_practiceComplete(),
+      description: `${m.app_advancedPractice_congratulations()} ${activeSession.mode.name}`
     });
 
     onComplete?.(results);
@@ -126,7 +125,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {activeSession ? t('advancedPractice.inProgress') : t('advancedPractice.selectMode')}
+            {activeSession ? m.app_advancedPractice_inProgress() : m.app_advancedPractice_selectMode()}
           </DialogTitle>
         </DialogHeader>
 
@@ -135,7 +134,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
           <div className="space-y-4">
             {!selectedMode ? (
               <>
-                <p className="text-muted-foreground mb-4">{t('advancedPractice.selectModeDesc')}</p>
+                <p className="text-muted-foreground mb-4">{m.app_advancedPractice_selectModeDesc()}</p>
                 <div className="grid gap-4">
                   {modes.map((mode) => (
                     <Card 
@@ -156,11 +155,11 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
                           <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                             <div className="flex items-center space-x-1">
                               <Clock className="w-4 h-4" />
-                              <span>{mode.duration}{t('advancedPractice.duration')}</span>
+                              <span>{mode.duration}{m.app_advancedPractice_duration()}</span>
                             </div>
                             <div className="flex items-center space-x-1">
                               <Target className="w-4 h-4" />
-                              <span>{mode.phases.length}{t('advancedPractice.stages')}</span>
+                              <span>{mode.phases.length}{m.app_advancedPractice_stages()}</span>
                             </div>
                           </div>
                         </div>
@@ -174,14 +173,14 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <Button variant="outline" onClick={() => setSelectedMode(null)}>
-                    ← {t('advancedPractice.back')}
+                    ← {m.app_advancedPractice_back()}
                   </Button>
                   <span className="text-2xl">{selectedMode.icon}</span>
                   <h3 className="text-xl font-semibold text-foreground">{selectedMode.name}</h3>
                 </div>
 
                 <div className="bg-muted rounded-lg p-4">
-                  <h4 className="font-medium text-foreground mb-2">{t('advancedPractice.benefits')}</h4>
+                  <h4 className="font-medium text-foreground mb-2">{m.app_advancedPractice_benefits()}</h4>
                   <ul className="space-y-1">
                     {selectedMode.benefits.map((benefit, index) => (
                       <li key={index} className="text-sm text-muted-foreground flex items-center space-x-2">
@@ -193,7 +192,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
                 </div>
 
                 <div className="bg-primary/5 rounded-lg p-4">
-                  <h4 className="font-medium text-foreground mb-2">{t('advancedPractice.phases')}</h4>
+                  <h4 className="font-medium text-foreground mb-2">{m.app_advancedPractice_phases()}</h4>
                   <div className="space-y-2">
                     {selectedMode.phases.map((phase, index) => (
                       <div key={phase.id} className="flex items-center space-x-3 text-sm">
@@ -202,7 +201,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
                         </div>
                         <div className="flex-1">
                           <span className="font-medium">{phase.name}</span>
-                          <span className="text-muted-foreground ml-2">({Math.round(phase.duration / 60)}{t('advancedPractice.duration')})</span>
+                          <span className="text-muted-foreground ml-2">({Math.round(phase.duration / 60)}{m.app_advancedPractice_duration()})</span>
                         </div>
                       </div>
                     ))}
@@ -211,7 +210,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
 
                 <Button onClick={handleStartSession} className="w-full">
                   <Play className="w-4 h-4 mr-2" />
-                  {t('advancedPractice.startPractice')}
+                  {m.app_advancedPractice_startPractice()}
                 </Button>
               </div>
             )}
@@ -225,7 +224,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
             <div className="space-y-3">
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium text-foreground">{t('advancedPractice.totalProgress')}</span>
+                  <span className="text-sm font-medium text-foreground">{m.app_advancedPractice_totalProgress()}</span>
                   <span className="text-sm text-muted-foreground">{Math.round(sessionProgress)}%</span>
                 </div>
                 <Progress value={sessionProgress} className="h-2" />
@@ -233,7 +232,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
               
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium text-foreground">{t('advancedPractice.currentPhase')}: {currentPhase.name}</span>
+                  <span className="text-sm font-medium text-foreground">{m.app_advancedPractice_currentPhase()}: {currentPhase.name}</span>
                   <span className="text-sm text-muted-foreground">{Math.round(phaseProgress)}%</span>
                 </div>
                 <Progress value={phaseProgress} className="h-2" />
@@ -248,7 +247,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
               {/* Guidance */}
               {currentPhase.guidance && (
                 <div className="bg-primary/5 rounded-lg p-4 mb-4">
-                  <h4 className="font-medium text-primary mb-2">{t('advancedPractice.practiceGuidance')}</h4>
+                  <h4 className="font-medium text-primary mb-2">{m.app_advancedPractice_practiceGuidance()}</h4>
                   <ul className="space-y-1">
                     {currentPhase.guidance.map((guide, index) => (
                       <li key={index} className="text-sm text-primary/80 flex items-start space-x-2">
@@ -265,14 +264,14 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
                 <div className="space-y-4">
                   {currentPhase.repetitions && (
                     <div className="text-sm text-muted-foreground">
-                      {t('advancedPractice.progress')}: {writingCount} / {currentPhase.repetitions}
+                      {m.app_advancedPractice_progress()}: {writingCount} / {currentPhase.repetitions}
                     </div>
                   )}
                   
                   <textarea
                     value={writingInput}
                     onChange={(e) => setWritingInput(e.target.value)}
-                    placeholder={t('advancedPractice.writePlaceholder')}
+                    placeholder={m.app_advancedPractice_writePlaceholder()}
                     className="w-full h-32 p-3 border border-border rounded-lg resize-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground"
                   />
                   
@@ -282,7 +281,7 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
                       disabled={!writingInput.trim()}
                       className="flex-1"
                     >
-                      {t('advancedPractice.submit')} ({writingCount + 1}/{currentPhase.repetitions || '∞'})
+                      {m.app_advancedPractice_submit()} ({writingCount + 1}/{currentPhase.repetitions || '∞'})
                     </Button>
                   </div>
                 </div>
@@ -292,12 +291,12 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
               {currentPhase.type !== 'writing' && (
                 <div className="text-center py-8">
                   <p className="text-muted-foreground mb-4">
-                    {t('advancedPractice.followGuidance')}{currentPhase.type === 'meditation' ? t('advancedPractice.meditation') : 
-                      currentPhase.type === 'breathing' ? t('advancedPractice.breathing') : t('advancedPractice.visualization')}
+                    {m.app_advancedPractice_followGuidance()}{currentPhase.type === 'meditation' ? m.app_advancedPractice_meditation() : 
+                      currentPhase.type === 'breathing' ? m.app_advancedPractice_breathing() : m.app_advancedPractice_visualization()}
                   </p>
                   <Button onClick={handlePhaseComplete}>
                     <SkipForward className="w-4 h-4 mr-2" />
-                    {t('advancedPractice.completePhase')}
+                    {m.app_advancedPractice_completePhase()}
                   </Button>
                 </div>
               )}
@@ -306,11 +305,11 @@ export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedP
             {/* Controls */}
             <div className="flex justify-between items-center">
               <Button variant="outline" onClick={handleReset}>
-                {t('advancedPractice.exitPractice')}
+                {m.app_advancedPractice_exitPractice()}
               </Button>
               
               <div className="text-sm text-muted-foreground">
-                {t('advancedPractice.phase')} {activeSession.currentPhase + 1} / {activeSession.mode.phases.length}
+                {m.app_advancedPractice_phase()} {activeSession.currentPhase + 1} / {activeSession.mode.phases.length}
               </div>
             </div>
           </div>

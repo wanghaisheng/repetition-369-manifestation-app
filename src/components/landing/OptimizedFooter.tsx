@@ -1,8 +1,8 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { 
+import { m } from '@/paraglide/messages';
   Sparkles,
   Github,
   Twitter,
@@ -16,8 +16,6 @@ import {
 import { Link } from '@tanstack/react-router';
 
 export const OptimizedFooter = () => {
-  const { t } = useTranslation(['landing', 'common']);
-
   const socialLinks = [
     { name: 'Twitter', url: 'https://x.com/edwin_uestc', icon: Twitter },
     { name: 'GitHub', url: 'https://github.com/wanghaisheng', icon: Github },
@@ -25,31 +23,31 @@ export const OptimizedFooter = () => {
   ];
 
   const supportLinks = [
-    { name: t('support.platforms.kofi'), url: 'https://ko-fi.com/tiktoka33697', icon: Coffee },
-    { name: t('support.platforms.patreon'), url: 'https://patreon.com/wanghaisheng', icon: Heart }
+    { name: m.landing_support_platforms_kofi(), url: 'https://ko-fi.com/tiktoka33697', icon: Coffee },
+    { name: m.landing_support_platforms_patreon(), url: 'https://patreon.com/wanghaisheng', icon: Heart }
   ];
 
   const footerLinks = {
     product: [
-      { name: t('common:footer.features'), href: '#features' },
-      { name: t('common:footer.pricing'), href: '#pricing' },
-      { name: t('common:footer.demo'), href: '#demo' }
+      { name: m.common_footer_features(), href: '#features' },
+      { name: m.common_footer_pricing(), href: '#pricing' },
+      { name: m.common_footer_demo(), href: '#demo' }
     ],
     company: [
-      { name: t('common:footer.about'), href: '/about' },
-      { name: t('common:footer.blog'), href: '/blog' },
-      { name: t('common:footer.stories'), href: '/user-stories' },
-      { name: t('common:footer.contact'), href: 'mailto:support@369.heymanifestation.com' }
+      { name: m.common_footer_about(), href: '/about' },
+      { name: m.common_footer_blog(), href: '/blog' },
+      { name: m.common_footer_stories(), href: '/user-stories' },
+      { name: m.common_footer_contact(), href: 'mailto:support@369.heymanifestation.com' }
     ],
     support: [
-      { name: t('common:footer.faq'), href: '/faq' },
-      { name: t('common:footer.help'), href: '#help' },
-      { name: t('common:footer.method369'), href: '/method369' },
-      { name: t('common:footer.userGuide'), href: '#guide' }
+      { name: m.common_footer_faq(), href: '/faq' },
+      { name: m.common_footer_help(), href: '#help' },
+      { name: m.common_footer_method369(), href: '/method369' },
+      { name: m.common_footer_userGuide(), href: '#guide' }
     ],
     legal: [
-      { name: t('common:footer.privacy'), href: '/privacy' },
-      { name: t('common:footer.terms'), href: '/terms' }
+      { name: m.common_footer_privacy(), href: '/privacy' },
+      { name: m.common_footer_terms(), href: '/terms' }
     ]
   };
 
@@ -63,10 +61,10 @@ export const OptimizedFooter = () => {
               <div className="w-8 h-8 bg-gradient-to-br from-storybook-honey to-storybook-coral rounded-storybook flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-storybook font-bold text-foreground">{t('common:appName')}</span>
+              <span className="text-xl font-storybook font-bold text-foreground">{m.common_appName()}</span>
             </div>
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              {t('hero.subtitle')}
+              {m.landing_hero_subtitle()}
             </p>
             
             <div className="flex space-x-3">
@@ -88,7 +86,7 @@ export const OptimizedFooter = () => {
 
           {/* Product Links */}
           <div>
-            <h3 className="font-storybook font-semibold text-foreground mb-4">{t('common:footer.product')}</h3>
+            <h3 className="font-storybook font-semibold text-foreground mb-4">{m.common_footer_product()}</h3>
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
@@ -102,7 +100,7 @@ export const OptimizedFooter = () => {
 
           {/* Company Links */}
           <div>
-            <h3 className="font-storybook font-semibold text-foreground mb-4">{t('common:footer.company')}</h3>
+            <h3 className="font-storybook font-semibold text-foreground mb-4">{m.common_footer_company()}</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
@@ -123,7 +121,7 @@ export const OptimizedFooter = () => {
 
           {/* Support */}
           <div>
-            <h3 className="font-storybook font-semibold text-foreground mb-4">{t('common:footer.support')}</h3>
+            <h3 className="font-storybook font-semibold text-foreground mb-4">{m.common_footer_support()}</h3>
             <ul className="space-y-3">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
@@ -143,7 +141,7 @@ export const OptimizedFooter = () => {
 
           {/* Donation Links */}
           <div>
-            <h3 className="font-storybook font-semibold text-foreground mb-4">{t('landing:support.title')}</h3>
+            <h3 className="font-storybook font-semibold text-foreground mb-4">{m.landing_support_title()}</h3>
             <div className="space-y-3 mb-6">
               {supportLinks.map((link) => (
                 <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -153,7 +151,7 @@ export const OptimizedFooter = () => {
               ))}
             </div>
 
-            <h4 className="font-medium text-foreground mb-3 text-sm">{t('common:footer.legal')}</h4>
+            <h4 className="font-medium text-foreground mb-3 text-sm">{m.common_footer_legal()}</h4>
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
@@ -171,7 +169,7 @@ export const OptimizedFooter = () => {
 
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-            <p>{t('common:footer.copyright')}</p>
+            <p>{m.common_footer_copyright()}</p>
             <div className="flex items-center space-x-1">
               <Shield className="w-4 h-4" />
               <span>SSL Secured</span>

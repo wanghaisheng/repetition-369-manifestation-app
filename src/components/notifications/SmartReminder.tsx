@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,7 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { Clock, TrendingUp, Target, Zap } from 'lucide-react';
 import { NotificationService } from '@/services/NotificationService';
 import { AnalyticsService } from '@/services/AnalyticsService';
-import { useTranslation } from 'react-i18next';
 import { logger } from '@/utils/logger';
 
 interface SmartReminderProps {
@@ -14,7 +14,6 @@ interface SmartReminderProps {
 }
 
 export const SmartReminder = ({ userId }: SmartReminderProps) => {
-  const { t } = useTranslation('app');
   const [recommendations, setRecommendations] = useState<{
     bestTimes: string[];
     riskLevel: 'low' | 'medium' | 'high';
@@ -53,15 +52,15 @@ export const SmartReminder = ({ userId }: SmartReminderProps) => {
 
       const suggestions = [];
       if (analytics.streakAnalysis.current === 0) {
-        suggestions.push(t('smartReminder.suggestions.startStreak'));
+        suggestions.push(m.app_smartReminder_suggestions_startStreak());
       } else if (analytics.streakAnalysis.current < 7) {
-        suggestions.push(t('smartReminder.suggestions.keepGoing'));
+        suggestions.push(m.app_smartReminder_suggestions_keepGoing());
       } else {
-        suggestions.push(t('smartReminder.suggestions.greatJob'));
+        suggestions.push(m.app_smartReminder_suggestions_greatJob());
       }
 
       if (analytics.productivityScore < 60) {
-        suggestions.push(t('smartReminder.suggestions.bestTime'));
+        suggestions.push(m.app_smartReminder_suggestions_bestTime());
       }
 
       setRecommendations({
@@ -95,9 +94,9 @@ export const SmartReminder = ({ userId }: SmartReminderProps) => {
 
   const getRiskText = (level: string) => {
     switch (level) {
-      case 'high': return t('smartReminder.riskHigh');
-      case 'medium': return t('smartReminder.riskMedium');
-      default: return t('smartReminder.riskLow');
+      case 'high': return m.app_smartReminder_riskHigh();
+      case 'medium': return m.app_smartReminder_riskMedium();
+      default: return m.app_smartReminder_riskLow();
     }
   };
 
@@ -118,7 +117,7 @@ export const SmartReminder = ({ userId }: SmartReminderProps) => {
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
           <Zap className="w-5 h-5 text-warning" />
-          <span>{t('smartReminder.title')}</span>
+          <span>{m.app_smartReminder_title()}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -126,7 +125,7 @@ export const SmartReminder = ({ userId }: SmartReminderProps) => {
         <div className="flex items-center justify-between p-3 bg-secondary/50 rounded-lg">
           <div className="flex items-center space-x-2">
             <Target className="w-4 h-4" />
-            <span className="text-sm text-muted-foreground">{t('smartReminder.riskAssessment')}</span>
+            <span className="text-sm text-muted-foreground">{m.app_smartReminder_riskAssessment()}</span>
           </div>
           <Badge variant={getRiskBadgeColor(recommendations.riskLevel)}>
             {getRiskText(recommendations.riskLevel)}
@@ -138,7 +137,7 @@ export const SmartReminder = ({ userId }: SmartReminderProps) => {
           <div>
             <div className="flex items-center space-x-2 mb-2">
               <Clock className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium">{t('smartReminder.recommendedTimes')}</span>
+              <span className="text-sm font-medium">{m.app_smartReminder_recommendedTimes()}</span>
             </div>
             <div className="space-y-1">
               {recommendations.bestTimes.map((time, index) => (
@@ -154,7 +153,7 @@ export const SmartReminder = ({ userId }: SmartReminderProps) => {
         <div>
           <div className="flex items-center space-x-2 mb-2">
             <TrendingUp className="w-4 h-4 text-success" />
-            <span className="text-sm font-medium">{t('smartReminder.personalizedSuggestions')}</span>
+            <span className="text-sm font-medium">{m.app_smartReminder_personalizedSuggestions()}</span>
           </div>
           <div className="space-y-1">
             {recommendations.suggestions.map((suggestion, index) => (
@@ -170,7 +169,7 @@ export const SmartReminder = ({ userId }: SmartReminderProps) => {
           onClick={setupSmartReminders}
           className="w-full"
         >
-          {t('smartReminder.applySettings')}
+          {m.app_smartReminder_applySettings()}
         </Button>
       </CardContent>
     </Card>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
+import { m } from '@/paraglide/messages';
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -49,7 +49,6 @@ interface BlogPost {
 }
 
 export const BlogManagement: React.FC = () => {
-  const { t, i18n } = useTranslation(['app', 'common']);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,12 +59,12 @@ export const BlogManagement: React.FC = () => {
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
 
   const categories = [
-    { key: 'all', label: t('app:blog.categories.all') },
-    { key: 'founder-story', label: t('app:blog.categories.founder_story') },
-    { key: 'build-in-public', label: t('app:blog.categories.build_in_public') },
-    { key: 'manifestation', label: t('app:blog.categories.manifestation') },
-    { key: 'technical', label: t('app:blog.categories.technical') },
-    { key: 'user-stories', label: t('app:blog.categories.user_stories') },
+    { key: 'all', label: m.app_blog_categories_all() },
+    { key: 'founder-story', label: m.app_blog_categories_founder_story() },
+    { key: 'build-in-public', label: m.app_blog_categories_build_in_public() },
+    { key: 'manifestation', label: m.app_blog_categories_manifestation() },
+    { key: 'technical', label: m.app_blog_categories_technical() },
+    { key: 'user-stories', label: m.app_blog_categories_user_stories() },
   ];
 
   useEffect(() => {
@@ -95,7 +94,7 @@ export const BlogManagement: React.FC = () => {
       setPosts(data || []);
     } catch (error) {
       logger.error('Error fetching blog posts', error);
-      toast.error(t('app:blog.editor.save_error'));
+      toast.error(m.app_blog_editor_save_error());
     } finally {
       setLoading(false);
     }
@@ -136,11 +135,11 @@ export const BlogManagement: React.FC = () => {
 
       if (error) throw error;
 
-      toast.success(t('app:blog.editor.deleted_success'));
+      toast.success(m.app_blog_editor_deleted_success());
       fetchPosts();
     } catch (error) {
       logger.error('Error deleting blog post', error);
-      toast.error(t('app:blog.editor.delete_error'));
+      toast.error(m.app_blog_editor_delete_error());
     } finally {
       setDeleteDialogOpen(false);
       setPostToDelete(null);
@@ -173,12 +172,12 @@ export const BlogManagement: React.FC = () => {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
             <FileText className="w-8 h-8 text-primary" />
-            {t('app:blog.management')}
+            {m.app_blog_management()}
           </h1>
           
           <Button onClick={handleCreateNew}>
             <Plus className="w-4 h-4 mr-2" />
-            {t('app:blog.editor.create')}
+            {m.app_blog_editor_create()}
           </Button>
         </div>
 
@@ -191,7 +190,7 @@ export const BlogManagement: React.FC = () => {
                 <Input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t('app:blog.list.search')}
+                  placeholder={m.app_blog_list_search()}
                   className="pl-10"
                 />
               </div>
@@ -219,7 +218,7 @@ export const BlogManagement: React.FC = () => {
             <div className="text-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
               <p className="text-muted-foreground mt-2">
-                {t('app:blog.list.loading')}
+                {m.app_blog_list_loading()}
               </p>
             </div>
           ) : posts.length === 0 ? (
@@ -227,14 +226,14 @@ export const BlogManagement: React.FC = () => {
               <CardContent className="text-center py-12">
                 <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-foreground mb-2">
-                  {t('app:blog.list.noArticles')}
+                  {m.app_blog_list_noArticles()}
                 </h3>
                 <p className="text-muted-foreground mb-4">
-                  {t('app:blog.list.noArticlesDesc')}
+                  {m.app_blog_list_noArticlesDesc()}
                 </p>
                 <Button onClick={handleCreateNew}>
                   <Plus className="w-4 h-4 mr-2" />
-                  {t('app:blog.editor.create')}
+                  {m.app_blog_editor_create()}
                 </Button>
               </CardContent>
             </Card>
@@ -249,18 +248,18 @@ export const BlogManagement: React.FC = () => {
                           {post.published ? (
                             <>
                               <Globe className="w-3 h-3 mr-1" />
-                              {t('app:blog.editor.published')}
+                              {m.app_blog_editor_published()}
                             </>
                           ) : (
                             <>
                               <Lock className="w-3 h-3 mr-1" />
-                              {t('app:blog.editor.draft')}
+                              {m.app_blog_editor_draft()}
                             </>
                           )}
                         </Badge>
                         {post.featured && (
                           <Badge variant="outline">
-                            {t('app:blog.list.featured')}
+                            {m.app_blog_list_featured()}
                           </Badge>
                         )}
                         <Badge variant="secondary">{post.category}</Badge>
@@ -285,7 +284,7 @@ export const BlogManagement: React.FC = () => {
                         </div>
                         <div className="flex items-center space-x-1">
                           <Eye className="w-4 h-4" />
-                          <span>{post.view_count} {t('app:blog.list.views')}</span>
+                          <span>{post.view_count} {m.app_blog_list_views()}</span>
                         </div>
                       </div>
                       
@@ -336,17 +335,17 @@ export const BlogManagement: React.FC = () => {
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{t('common:buttons.confirm')}</AlertDialogTitle>
+            <AlertDialogTitle>{m.common_buttons_confirm()}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t('app:blog.editor.delete_confirm')}
+              {m.app_blog_editor_delete_confirm()}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setPostToDelete(null)}>
-              {t('common:buttons.cancel')}
+              {m.common_buttons_cancel()}
             </AlertDialogCancel>
             <AlertDialogAction onClick={confirmDelete}>
-              {t('common:buttons.delete')}
+              {m.common_buttons_delete()}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
