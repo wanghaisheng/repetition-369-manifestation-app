@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,7 +15,6 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/utils/logger';
 import { 
-import { m } from '@/paraglide/messages';
   Save, 
   Eye, 
   Send,

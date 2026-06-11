@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import { useEffect, useRef } from 'react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useAuth } from '@/contexts/AuthContext';
@@ -7,7 +8,6 @@ import { readTrialState, clearTrialState } from '@/utils/trialStorage';
 import { logger } from '@/utils/logger';
 import { useToast } from '@/hooks/use-toast';
 import { trialAnalytics } from '@/utils/trialAnalytics';
-import { m } from '@/paraglide/messages';
 
 /**
  * After login, migrate any anonymous trial data into the real account:

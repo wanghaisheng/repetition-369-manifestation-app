@@ -1,8 +1,8 @@
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { 
-import { m } from '@/paraglide/messages';
   Sparkles,
   Github,
   Twitter,

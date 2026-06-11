@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Bell, X, Clock, Target, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';

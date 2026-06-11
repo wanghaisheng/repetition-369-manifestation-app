@@ -1,8 +1,8 @@
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { ChevronRight, Home } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { m } from '@/paraglide/messages';
 
 export const Breadcrumbs = () => {
   const location = useLocation();

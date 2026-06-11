@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { Zap, Plus, Target, ChevronRight } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
-import { m } from '@/paraglide/messages';
 
 interface QuickActionsProps {
   hasActiveWishes: boolean;

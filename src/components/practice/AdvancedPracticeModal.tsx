@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -6,7 +7,6 @@ import { Progress } from '@/components/ui/progress';
 import { Clock, Star, Target, ArrowRight, Play, Pause, SkipForward } from 'lucide-react';
 import { PracticeModeService, PracticeMode, ActiveSession, PracticePhase } from '@/services/PracticeModeService';
 import { useToast } from '@/hooks/use-toast';
-import { m } from '@/paraglide/messages';
 
 interface AdvancedPracticeModalProps {
   isOpen: boolean;

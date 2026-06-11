@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { Sparkles, Clock } from 'lucide-react';
 import { Wish } from '@/types';
-import { m } from '@/paraglide/messages';
 
 interface Practice {
   id: string;

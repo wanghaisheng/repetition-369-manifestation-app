@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,6 @@ import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import founderPortrait from '@/assets/founder-portrait.jpg';
 import { 
-import { m } from '@/paraglide/messages';
   Sparkles, 
   ArrowLeft,
   Brain,

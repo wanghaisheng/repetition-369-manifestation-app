@@ -1,7 +1,7 @@
+import { m } from '@/paraglide/messages';
 import { Trophy, Calendar, Award, Activity, TrendingUp, Star, Lock } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Achievement } from '@/services/AchievementService';
-import { m } from '@/paraglide/messages';
 
 interface AchievementsGridProps {
   achievements: Achievement[];

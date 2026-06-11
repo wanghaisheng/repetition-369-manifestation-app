@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import { Card } from '@/components/ui/card';
 import { Wish } from '@/types';
 

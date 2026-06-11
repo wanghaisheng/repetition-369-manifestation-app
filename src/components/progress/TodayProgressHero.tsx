@@ -1,7 +1,7 @@
+import { m } from '@/paraglide/messages';
 import { Flame, Activity, Sparkles } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { CircularProgress } from '@/components/gamification/CircularProgress';
-import { m } from '@/paraglide/messages';
 
 interface TodayProgressHeroProps {
   todayProgress: number;

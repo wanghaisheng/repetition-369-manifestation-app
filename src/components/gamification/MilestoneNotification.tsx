@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import { useState, useEffect } from 'react';
 import { StreakMilestone } from '@/services/StreakService';
 import { Card } from '@/components/ui/card';

@@ -1,7 +1,7 @@
+import { m } from '@/paraglide/messages';
 import { Sparkles, Plus, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { m } from '@/paraglide/messages';
 
 interface WishesEmptyStateProps {
   onAddWish: () => void;

@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';

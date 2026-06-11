@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';

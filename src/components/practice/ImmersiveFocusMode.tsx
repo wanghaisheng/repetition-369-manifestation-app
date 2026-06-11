@@ -1,10 +1,10 @@
+import { m } from '@/paraglide/messages';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { X, CheckCircle, Sparkles, Heart, ChevronRight, Wind, Sun, Sunset, Moon, Repeat } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
 import {
-import { m } from '@/paraglide/messages';
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,

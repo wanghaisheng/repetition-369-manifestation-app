@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import { CheckCircle2, Circle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { TimeSlot } from '@/types';

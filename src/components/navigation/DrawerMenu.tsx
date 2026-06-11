@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { 
-import { m } from '@/paraglide/messages';
   Menu, 
   Home, 
   Heart, 

@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
@@ -13,7 +14,6 @@ import { supabase } from '@/integrations/supabase/client';
 import { SkeletonLoader, CardSkeleton } from '@/components/performance/SkeletonLoader';
 import { logger } from '@/utils/logger';
 import { 
-import { m } from '@/paraglide/messages';
   Sparkles, 
   ArrowLeft,
   Heart,

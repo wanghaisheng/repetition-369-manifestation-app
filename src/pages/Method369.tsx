@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
@@ -6,7 +7,6 @@ import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { 
-import { m } from '@/paraglide/messages';
   Sparkles, 
   ArrowLeft,
   Clock,

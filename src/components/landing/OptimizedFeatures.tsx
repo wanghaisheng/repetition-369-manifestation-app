@@ -1,8 +1,8 @@
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Target, Bell, TrendingUp, Users, Zap, Shield, Heart, Smartphone } from 'lucide-react';
-import { m } from '@/paraglide/messages';
 
 export const OptimizedFeatures = () => {
   const features = m.landing_features_list({ returnObjects: true }) as Array<{

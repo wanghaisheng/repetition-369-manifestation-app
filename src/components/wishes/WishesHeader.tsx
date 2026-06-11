@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { m } from '@/paraglide/messages';
 
 interface WishesHeaderProps {
   onAddWish: () => void;

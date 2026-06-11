@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { m } from '@/paraglide/messages';
 
 interface WelcomeHeroProps {
   onCreateWish: () => void;

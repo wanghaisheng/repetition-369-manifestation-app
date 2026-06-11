@@ -1,9 +1,9 @@
+import { m } from '@/paraglide/messages';
 import { Play, Sparkles, Sun, Sunset, Moon, CheckCircle2 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
-import { m } from '@/paraglide/messages';
 
 interface SlotBreakdown {
   slot: TimeSlot;

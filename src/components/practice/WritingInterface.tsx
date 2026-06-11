@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import { useState } from 'react';
 import { CheckCircle2, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';

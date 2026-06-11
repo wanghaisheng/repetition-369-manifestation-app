@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import { useState, useEffect } from 'react';
 import { Star, TrendingUp, Calendar } from 'lucide-react';
 import { Card } from '@/components/ui/card';

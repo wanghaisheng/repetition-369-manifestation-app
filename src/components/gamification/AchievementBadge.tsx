@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import { Achievement } from '@/services/AchievementService';
 import { Card } from '@/components/ui/card';
 import { AchievementService } from '@/services/AchievementService';

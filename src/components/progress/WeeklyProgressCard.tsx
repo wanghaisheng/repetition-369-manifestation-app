@@ -1,7 +1,7 @@
+import { m } from '@/paraglide/messages';
 import { Calendar, TrendingUp } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { m } from '@/paraglide/messages';
 
 interface WeeklyProgressCardProps {
   todayProgress: number;

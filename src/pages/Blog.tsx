@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,6 @@ import { EnhancedInternalLinks } from '@/components/seo/EnhancedInternalLinks';
 import { supabase } from '@/integrations/supabase/client';
 import { SkeletonLoader, CardSkeleton } from '@/components/performance/SkeletonLoader';
 import { 
-import { m } from '@/paraglide/messages';
   Sparkles, 
   ArrowLeft,
   BookOpen,

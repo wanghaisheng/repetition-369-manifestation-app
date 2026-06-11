@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { Target } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
-import { m } from '@/paraglide/messages';
 
 interface TodayProgressCardProps {
   todayProgress: number;

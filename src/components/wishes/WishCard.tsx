@@ -1,10 +1,10 @@
+import { m } from '@/paraglide/messages';
 import { useNavigate } from '@tanstack/react-router';
 import { Target, Briefcase, Heart, Smile, User, DollarSign, Play, Pause, PlayCircle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Wish, WishCategory } from '@/types';
 import { cn } from '@/lib/utils';
-import { m } from '@/paraglide/messages';
 
 interface WishCardProps {
   wish: Wish;

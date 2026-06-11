@@ -1,7 +1,7 @@
+import { m } from '@/paraglide/messages';
 import { Sparkles, Flame, Target } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { CircularProgress } from '@/components/gamification/CircularProgress';
-import { m } from '@/paraglide/messages';
 
 interface PracticeHeroProps {
   totalCompleted: number;

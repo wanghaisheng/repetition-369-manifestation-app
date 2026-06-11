@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { TrendingUp, Award } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
-import { m } from '@/paraglide/messages';
 
 interface QuickStatsRowProps {
   weeklyPractices: number;

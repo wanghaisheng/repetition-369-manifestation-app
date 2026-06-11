@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import { useState } from 'react';
 import { X, Briefcase, Heart, Smile, Target, Home as HomeIcon, Sparkles } from 'lucide-react';
 import { z } from 'zod';

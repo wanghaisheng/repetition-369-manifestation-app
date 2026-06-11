@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

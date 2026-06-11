@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import { useState, useMemo, useEffect } from 'react';
 import { useSearch } from '@tanstack/react-router';
 import { Star, BarChart3 } from 'lucide-react';
@@ -27,7 +28,6 @@ import { PendingSessionBanner } from '@/components/practice/PendingSessionBanner
 import { useTrialMigration } from '@/hooks/useTrialMigration';
 import { useToast } from '@/hooks/use-toast';
 import { readSlotDraft, writeSlotDraft, clearSlotDraft } from '@/utils/slotDraftStorage';
-import { m } from '@/paraglide/messages';
 
 export const PracticeView = () => {
   const { toast } = useToast();

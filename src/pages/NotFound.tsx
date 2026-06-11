@@ -1,10 +1,10 @@
+import { m } from '@/paraglide/messages';
 import { useLocation, Link } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Home, BookOpen, HelpCircle, Sparkles } from "lucide-react";
 import { logger } from "@/utils/logger";
 import { DEFAULT_LANGUAGE } from "@/config/routes";
-import { m } from '@/paraglide/messages';
 
 const NotFound = () => {
   const location = useLocation();

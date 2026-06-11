@@ -1,9 +1,9 @@
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { Sparkles } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
-import { m } from '@/paraglide/messages';
 
 export const OptimizedHeader = () => {
   return (

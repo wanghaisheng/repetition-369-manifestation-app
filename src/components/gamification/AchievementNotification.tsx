@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import { useState, useEffect } from 'react';
 import { Achievement } from '@/services/AchievementService';
 import { AchievementBadge } from './AchievementBadge';

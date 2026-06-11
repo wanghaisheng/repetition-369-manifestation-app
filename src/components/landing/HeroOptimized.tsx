@@ -1,8 +1,8 @@
+import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Sparkles, PlayCircle, Users, TrendingUp } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
-import { m } from '@/paraglide/messages';
 
 export const HeroOptimized = () => {
   return (

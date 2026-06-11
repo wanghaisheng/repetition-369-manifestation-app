@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { Sparkles, ArrowRight, ArrowLeft, Heart, Briefcase, Coins, Activity, Star, Pencil, LayoutGrid } from 'lucide-react';
@@ -9,7 +10,6 @@ import { ImmersiveFocusMode } from '@/components/practice/ImmersiveFocusMode';
 import { Wish, WishCategory, Mood, TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
 import {
-import { m } from '@/paraglide/messages';
   TRY_STORAGE_KEY,
   TrialSlotResult,
   readTrialDraft,

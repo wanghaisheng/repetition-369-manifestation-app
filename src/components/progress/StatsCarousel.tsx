@@ -1,6 +1,6 @@
+import { m } from '@/paraglide/messages';
 import { Target, Award, Activity, Flame } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import { m } from '@/paraglide/messages';
 
 interface StatsCarouselProps {
   totalWishes: number;

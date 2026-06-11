@@ -1,10 +1,10 @@
+import { m } from '@/paraglide/messages';
 import { Sun, Sunset, Moon, Play, CheckCircle, Lock, Clock } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { TimeSlot } from '@/types';
 import { cn } from '@/lib/utils';
-import { m } from '@/paraglide/messages';
 
 interface TimeSlotCardProps {
   slot: TimeSlot;

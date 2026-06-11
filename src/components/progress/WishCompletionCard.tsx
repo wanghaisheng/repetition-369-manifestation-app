@@ -1,7 +1,7 @@
+import { m } from '@/paraglide/messages';
 import { Sparkles, Star } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { m } from '@/paraglide/messages';
 
 interface WishCompletionCardProps {
   completionRate: number;

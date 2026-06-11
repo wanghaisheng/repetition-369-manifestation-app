@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,7 +7,6 @@ import { Sparkles, ArrowRight, Users, Gift, CheckCircle, Share2, Copy } from 'lu
 import { Link } from '@tanstack/react-router';
 import { toast } from 'sonner';
 import { SEO_CONFIG } from '@/config/seo';
-import { m } from '@/paraglide/messages';
 
 export const ConversionOptimizedCTA = () => {
   const [copied, setCopied] = useState(false);

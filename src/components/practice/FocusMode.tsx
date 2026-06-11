@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,6 @@ import { useStreak } from '@/hooks/useStreak';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useAuth } from '@/contexts/AuthContext';
 import { logger } from '@/utils/logger';
-import { m } from '@/paraglide/messages';
 
 interface FocusModeProps {
   isOpen: boolean;

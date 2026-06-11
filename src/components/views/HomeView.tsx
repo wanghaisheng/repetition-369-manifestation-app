@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { useWishes } from '@/hooks/useWishes';
@@ -11,7 +12,6 @@ import { TodayProgressCard } from '@/components/home/TodayProgressCard';
 import { QuickStatsRow } from '@/components/home/QuickStatsRow';
 import { QuickActions } from '@/components/home/QuickActions';
 import { RecentActivity } from '@/components/home/RecentActivity';
-import { m } from '@/paraglide/messages';
 
 export const HomeView = () => {
   const { wishes, loading: wishesLoading, error: wishesError, createWish, refetch } = useWishes();

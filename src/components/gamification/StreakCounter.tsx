@@ -1,5 +1,5 @@
-import { m } from '@/paraglide/messages';
 
+import { m } from '@/paraglide/messages';
 import { useState, useEffect } from 'react';
 import { Flame, Award } from 'lucide-react';
 import { Card } from '@/components/ui/card';
