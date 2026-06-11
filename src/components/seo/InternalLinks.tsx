@@ -186,6 +186,7 @@ export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps)
 
 // Related links for page footer
 export const RelatedLinks = ({ exclude = [] }: { exclude?: string[] }) => {
+  const { t } = useTranslation('common');
   const location = useLocation();
   const quickLinks = [
     { titleKey: 'nav.home', href: '/', descriptionKey: 'internalLinks.backToHome' },

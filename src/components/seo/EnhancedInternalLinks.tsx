@@ -213,6 +213,7 @@ export const EnhancedInternalLinks: React.FC<EnhancedInternalLinksProps> = ({
   layout = 'grid',
   showClusterLabels = false
 }) => {
+  const { t, i18n } = useTranslation('common');
   const relevantLinks = getRelatedLinks(currentPage, maxLinks, true);
 
   if (relevantLinks.length === 0) {
@@ -316,7 +317,8 @@ export const EnhancedInternalLinks: React.FC<EnhancedInternalLinksProps> = ({
 
 // 首页专用内链组件 - 展示所有5个集群
 export const HomePageLinks: React.FC = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation('common');
+  
   
   const clusterConfig: { cluster: ClusterType; icon: React.ElementType }[] = [
     { cluster: 'tutorial', icon: BookOpen },

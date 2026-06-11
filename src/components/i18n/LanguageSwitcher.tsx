@@ -19,8 +19,7 @@ const languages = [
 ];
 
 export const LanguageSwitcher = () => {
-  const { t, i18n } = useTranslation('common');
-  const { i18n } = useTranslation();
+  const { i18n } = useTranslation('common');
   const location = useLocation();
   const navigate = useNavigate();
 

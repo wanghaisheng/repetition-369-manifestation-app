@@ -54,22 +54,28 @@ function resolveMessageKey(defaultNs: string, rawKey: string): string | null {
 }
 
 type TFn = {
-  (key: string): string;
-  (key: string, defaultValue: string): string;
-  (key: string, options: Record<string, unknown>): string;
+  (key: string | string[]): string;
+  (key: string | string[], defaultValue: string): string;
+  (key: string | string[], options: Record<string, unknown>): string;
 };
 
 const t: TFnFactory = (defaultNs: string) =>
-  ((key: string, opts?: unknown) => {
+  ((key: string | string[], opts?: unknown) => {
     const isStringDefault = typeof opts === 'string';
     const vars = isStringDefault ? undefined : (opts as Record<string, unknown> | undefined);
-    const resolved = resolveMessageKey(defaultNs, key);
-    if (!resolved) return isStringDefault ? (opts as string) : key;
-    try {
-      return M[resolved](vars ?? {});
-    } catch {
-      return isStringDefault ? (opts as string) : key;
+    // i18next-style fallback: try each key in order
+    const keys = Array.isArray(key) ? key : [key];
+    for (const k of keys) {
+      const resolved = resolveMessageKey(defaultNs, k);
+      if (resolved) {
+        try {
+          return M[resolved](vars ?? {});
+        } catch {
+          /* try next */
+        }
+      }
     }
+    return isStringDefault ? (opts as string) : keys[0];
   }) as TFn;
 
 type TFnFactory = (ns: string) => TFn;
