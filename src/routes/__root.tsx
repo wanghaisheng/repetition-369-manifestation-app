@@ -1,4 +1,4 @@
-import { useTranslation } from '@/i18n/compat';
+import { getLocale, setLocale } from '@/paraglide/runtime';
 import React, { useEffect, Suspense, lazy } from 'react';
 import { createRootRoute, Outlet, useLocation } from '@tanstack/react-router';
 import { Toaster } from '@/components/ui/sonner';
@@ -34,7 +34,6 @@ const queryClient = new QueryClient({
 });
 
 const initializePerformanceOptimizations = () => {
-  const { t, i18n } = useTranslation('common');
   try {
     if (localStorage.getItem('performance-mode') === 'true') {
       document.body.classList.add('performance-mode');
@@ -48,18 +47,17 @@ const initializePerformanceOptimizations = () => {
 };
 
 /**
- * LanguageSync - syncs URL path language to i18n (replaces LanguageRouter)
+ * LanguageSync - syncs URL path language to Paraglide runtime
  */
 const LanguageSync = () => {
   const location = useLocation();
-  const { i18n } = useTranslation();
-  
+
   useEffect(() => {
     const pathLang = getLanguageFromPath(location.pathname);
-    if (i18n.language !== pathLang) {
-      i18n.changeLanguage(pathLang);
+    if (getLocale() !== pathLang) {
+      setLocale(pathLang as 'zh' | 'en');
     }
-  }, [location.pathname, i18n]);
+  }, [location.pathname]);
 
   return null;
 };
