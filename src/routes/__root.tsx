@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import React, { useEffect, Suspense, lazy } from 'react';
 import { createRootRoute, Outlet, useLocation } from '@tanstack/react-router';
 import { Toaster } from '@/components/ui/sonner';
@@ -33,6 +34,7 @@ const queryClient = new QueryClient({
 });
 
 const initializePerformanceOptimizations = () => {
+  const { t, i18n } = useTranslation('common');
   try {
     if (localStorage.getItem('performance-mode') === 'true') {
       document.body.classList.add('performance-mode');

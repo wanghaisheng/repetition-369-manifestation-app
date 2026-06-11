@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import { useLocation, Link } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
@@ -7,6 +8,7 @@ import { logger } from "@/utils/logger";
 import { DEFAULT_LANGUAGE } from "@/config/routes";
 
 const NotFound = () => {
+  const { t, i18n } = useTranslation('app');
   const location = useLocation();
   const isNonDefault = i18n.language !== DEFAULT_LANGUAGE;
   const langPrefix = isNonDefault ? `/${i18n.language}` : '';

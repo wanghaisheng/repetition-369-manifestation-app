@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
@@ -41,6 +42,7 @@ const categoryGradients: Record<string, string> = {
 };
 
 export default function Try() {
+  const { t, i18n } = useTranslation('landing');
   const navigate = useNavigate();
   const [step, setStep] = useState<Step>('category');
   const [category, setCategory] = useState<WishCategory | null>(null);

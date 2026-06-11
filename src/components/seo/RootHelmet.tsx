@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { Helmet } from 'react-helmet-async';
 import { useLocation, useMatches } from '@tanstack/react-router';
 import { DEFAULT_LANGUAGE } from '@/config/routes';
@@ -27,6 +28,7 @@ interface RouteSEOData {
  * Pages no longer need their own Helmet / SEO components.
  */
 export const RootHelmet = () => {
+  const { t, i18n } = useTranslation('common');
   const matches = useMatches();
   const location = useLocation();
   const currentLang = (i18n.language || DEFAULT_LANGUAGE) as 'zh' | 'en';

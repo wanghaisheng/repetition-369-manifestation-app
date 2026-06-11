@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import React from 'react';
 import { Link } from '@tanstack/react-router';
 import { 
@@ -101,6 +102,7 @@ const getRelatedLinks = (
   maxLinks: number = 12, 
   includeAllClusters: boolean = false
 ): ClusterLink[] => {
+  const { t, i18n } = useTranslation('common');
   const relevantClusters = PAGE_CLUSTER_MAP[currentPage] || ['tutorial', 'practice'];
   
   // 过滤掉当前页面

@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -49,6 +50,7 @@ interface BlogPost {
 }
 
 export const BlogManagement: React.FC = () => {
+  const { t, i18n } = useTranslation('app');
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');

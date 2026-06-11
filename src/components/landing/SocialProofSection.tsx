@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +8,7 @@ import { Star, Quote, CheckCircle, Users, Award, Shield } from 'lucide-react';
 import { useSiteStats } from '@/hooks/useSiteStats';
 
 export const SocialProofSection = () => {
+  const { t, i18n } = useTranslation('landing');
   const { getStatByKey } = useSiteStats();
 
   const testimonials = m.landing_testimonials_list({ returnObjects: true }) as Array<{

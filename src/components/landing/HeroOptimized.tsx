@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Button } from '@/components/ui/button';
@@ -5,6 +6,7 @@ import { Sparkles, PlayCircle, Users, TrendingUp } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
 export const HeroOptimized = () => {
+  const { t, i18n } = useTranslation('landing');
   return (
     <section className="relative py-24 px-4 overflow-hidden paper-texture">
       {/* Soft watercolor background blobs */}

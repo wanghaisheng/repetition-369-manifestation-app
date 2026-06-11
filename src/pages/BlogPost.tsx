@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from '@tanstack/react-router';
@@ -55,6 +56,7 @@ interface RelatedPost {
 }
 
 const BlogPostPage = () => {
+  const { t, i18n } = useTranslation('common');
   const { slug } = useParams({ from: '/blog/$slug' });
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);

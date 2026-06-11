@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -26,6 +27,7 @@ export const KeywordDensityChecker: React.FC<KeywordDensityCheckerProps> = ({
   keywords,
   targetDensity = { min: 2, max: 4 }
 }) => {
+  const { t, i18n } = useTranslation('common');
   const report: KeywordDensityReport = useMemo(() => {
     const keywordArray = parseKeywords(keywords);
     if (keywordArray.length === 0 || !content) {

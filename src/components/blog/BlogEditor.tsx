@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -56,6 +57,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
   onSave,
   onCancel
 }) => {
+  const { t, i18n } = useTranslation('app');
   const [post, setPost] = useState<BlogPost>({
     title: '',
     slug: '',

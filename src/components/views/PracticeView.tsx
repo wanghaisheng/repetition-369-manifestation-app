@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import { useState, useMemo, useEffect } from 'react';
 import { useSearch } from '@tanstack/react-router';
@@ -30,6 +31,7 @@ import { useToast } from '@/hooks/use-toast';
 import { readSlotDraft, writeSlotDraft, clearSlotDraft } from '@/utils/slotDraftStorage';
 
 export const PracticeView = () => {
+  const { t, i18n } = useTranslation('app');
   const { toast } = useToast();
   const searchParams = useSearch({ strict: false }) as { wishId?: string };
   const { wishes, loading: wishesLoading, refetch: refetchWishes } = useWishes();

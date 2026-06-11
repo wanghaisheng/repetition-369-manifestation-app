@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { 
@@ -25,6 +26,7 @@ interface DrawerMenuProps {
 }
 
 export const DrawerMenu = ({ activeTab, onTabChange }: DrawerMenuProps) => {
+  const { t, i18n } = useTranslation('app');
   const appPages = [
     { id: 'home', icon: Home, labelKey: 'nav.home' },
     { id: 'wishes', icon: Heart, labelKey: 'nav.wishes' },

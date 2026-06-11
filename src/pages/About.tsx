@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Link } from '@tanstack/react-router';
@@ -25,6 +26,7 @@ import {
 } from 'lucide-react';
 
 const About = () => {
+  const { t, i18n } = useTranslation('common');
   const isZh = i18n.language === 'zh';
 
   const socialLinks = [

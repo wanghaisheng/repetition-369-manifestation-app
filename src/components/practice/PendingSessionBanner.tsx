@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import { Play, Sparkles, Sun, Sunset, Moon, CheckCircle2 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -38,6 +39,7 @@ export const PendingSessionBanner = ({
   onContinue,
   onSelectSlot,
 }: PendingSessionBannerProps) => {
+  const { t, i18n } = useTranslation('app');
   const slotNames: Record<TimeSlot, string> = {
     morning: m.app_practice_morningTitle(),
     afternoon: m.app_practice_afternoonTitle(),

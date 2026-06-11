@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import { useNavigate } from '@tanstack/react-router';
 import { Target, Briefcase, Heart, Smile, User, DollarSign, Play, Pause, PlayCircle } from 'lucide-react';
@@ -25,6 +26,7 @@ const categoryConfig: Record<WishCategory, {
 };
 
 export const WishCard = ({ wish, onToggleStatus }: WishCardProps) => {
+  const { t, i18n } = useTranslation('app');
   const navigate = useNavigate();
   const config = categoryConfig[wish.category] || categoryConfig.other;
   const CategoryIcon = config.icon;

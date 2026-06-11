@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react';
 
 export const AboutFounderOptimized = () => {
+  const { t, i18n } = useTranslation('landing');
   const socialLinks = [
     {
       name: 'Twitter',

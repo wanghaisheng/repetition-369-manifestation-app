@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Link } from '@tanstack/react-router';
@@ -36,6 +37,7 @@ interface BlogPost {
 }
 
 const Blog = () => {
+  const { t, i18n } = useTranslation('app');
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');

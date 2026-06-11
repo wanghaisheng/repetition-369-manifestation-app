@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Link } from '@tanstack/react-router';
@@ -22,6 +23,7 @@ import {
 import { Helmet } from 'react-helmet-async';
 
 const Method369 = () => {
+  const { t, i18n } = useTranslation('method369');
   const howToStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'HowTo',

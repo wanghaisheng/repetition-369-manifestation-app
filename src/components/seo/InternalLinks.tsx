@@ -1,4 +1,5 @@
 
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Link, useLocation } from '@tanstack/react-router';
@@ -19,6 +20,7 @@ interface InternalLinksProps {
 }
 
 export const InternalLinks = ({ currentPage, maxLinks = 4 }: InternalLinksProps) => {
+  const { t, i18n } = useTranslation('app');
   const allPages: Record<string, RelatedPage[]> = {
     '/': [
       {

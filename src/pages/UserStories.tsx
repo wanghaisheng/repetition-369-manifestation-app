@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Link } from '@tanstack/react-router';
@@ -42,6 +43,7 @@ interface UserStory {
 }
 
 const UserStories = () => {
+  const { t, i18n } = useTranslation('userStories');
   const [stories, setStories] = useState<UserStory[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');

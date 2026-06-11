@@ -1,4 +1,5 @@
 
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,6 +15,7 @@ interface SmartReminderProps {
 }
 
 export const SmartReminder = ({ userId }: SmartReminderProps) => {
+  const { t, i18n } = useTranslation('app');
   const [recommendations, setRecommendations] = useState<{
     bestTimes: string[];
     riskLevel: 'low' | 'medium' | 'high';

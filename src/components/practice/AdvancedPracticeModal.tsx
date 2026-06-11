@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -15,6 +16,7 @@ interface AdvancedPracticeModalProps {
 }
 
 export const AdvancedPracticeModal = ({ isOpen, onClose, onComplete }: AdvancedPracticeModalProps) => {
+  const { t, i18n } = useTranslation('app');
   const { toast } = useToast();
   const [selectedMode, setSelectedMode] = useState<PracticeMode | null>(null);
   const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);

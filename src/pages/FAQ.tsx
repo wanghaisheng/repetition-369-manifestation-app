@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Link } from '@tanstack/react-router';
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react';
 
 const FAQ = () => {
+  const { t, i18n } = useTranslation('faq');
   const basicFaqItems = [
     { question: m.faq_basic_q1_question(), answer: m.faq_basic_q1_answer() },
     { question: m.faq_basic_q2_question(), answer: m.faq_basic_q2_answer() },

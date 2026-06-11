@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { X, CheckCircle, Sparkles, Heart, ChevronRight, Wind, Sun, Sunset, Moon, Repeat } from 'lucide-react';
@@ -67,6 +68,7 @@ export const ImmersiveFocusMode = ({
   slotOptions,
   onSwitchSlot,
 }: ImmersiveFocusModeProps) => {
+  const { t, i18n } = useTranslation('app');
   const [currentEntry, setCurrentEntry] = useState(initialDraft ?? '');
   const [entries, setEntries] = useState<string[]>(initialEntries ?? []);
   const [isCompleting, setIsCompleting] = useState(false);

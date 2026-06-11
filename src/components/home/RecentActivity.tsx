@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n/compat';
 import { m } from '@/paraglide/messages';
 import { Sparkles, Clock } from 'lucide-react';
 import { Wish } from '@/types';
@@ -22,6 +23,7 @@ const timeSlotColors = {
 };
 
 export const RecentActivity = ({ practices, wishes }: RecentActivityProps) => {
+  const { t, i18n } = useTranslation('app');
   if (practices.length === 0) return null;
 
   const dateLocale = i18n.language === 'zh' ? 'zh-CN' : 'en-US';
