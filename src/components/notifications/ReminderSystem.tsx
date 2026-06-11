@@ -261,7 +261,7 @@ export const SmartReminderSuggestions = () => {
     };
 
     generateSuggestions();
-  }, [t]);
+  }, []);
 
   if (suggestions.length === 0) return null;
 
