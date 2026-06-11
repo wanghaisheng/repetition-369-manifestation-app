@@ -2,7 +2,7 @@ import { createRoot, hydrateRoot } from "react-dom/client";
 import { RouterProvider } from "@tanstack/react-router";
 import { router } from "./router";
 import "./index.css";
-import "./i18n";
+
 
 const rootElement = document.getElementById("root")!;
 
