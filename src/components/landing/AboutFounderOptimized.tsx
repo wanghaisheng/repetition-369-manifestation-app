@@ -1,5 +1,6 @@
 import { useTranslation } from '@/i18n/compat';
 import { getLocale } from '@/paraglide/runtime';
+import { structured } from '@/i18n/structured';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
