@@ -1,0 +1,55 @@
+{
+  "$schema": "https://ai-product-compiler/schemas/color-system.v1.json",
+  "meta": {
+    "name": "Storybook Warmth",
+    "version": "1.0.0",
+    "colorSpace": "hsl",
+    "lightSource": { "direction": "top-left-45", "temperature": "warm" }
+  },
+  "core": {
+    "honey":   { "hsl": "32 85% 55%", "role": "primary",   "meaning": "阳光、蜂蜜、木质、行动" },
+    "coral":   { "hsl": "12 70% 72%", "role": "accent",    "meaning": "温柔、情绪、心跳" },
+    "sage":    { "hsl": "135 25% 58%", "role": "balance",  "meaning": "植物、呼吸、稳定" },
+    "cream":   { "hsl": "42 50% 96%", "role": "surface",   "meaning": "纸、留白" },
+    "bark":    { "hsl": "25 35% 30%", "role": "ink",       "meaning": "墨、木、文字" },
+    "blush":   { "hsl": "350 50% 90%", "role": "whisper",  "meaning": "耳语、注解" }
+  },
+  "semantic": {
+    "background":       "40 40% 99%",
+    "foreground":       "25 30% 15%",
+    "card":             "42 45% 98%",
+    "muted":            "45 30% 94%",
+    "muted-foreground": "25 15% 50%",
+    "border":           "35 25% 88%",
+    "primary":          "32 85% 55%",
+    "accent":           "350 65% 65%"
+  },
+  "status": {
+    "success": "135 50% 42%",
+    "warning": "38 90% 52%",
+    "info":    "200 55% 50%",
+    "destructive": "0 72% 55%"
+  },
+  "gradients": {
+    "hero":      "linear-gradient(135deg, hsl(42 50% 96%), hsl(40 40% 99%), hsl(350 50% 90%))",
+    "primary":   "linear-gradient(135deg, hsl(32 85% 55%), hsl(350 65% 65%))",
+    "sunlight":  "radial-gradient(circle at 20% 20%, hsl(32 85% 55% / 0.15), transparent 60%)"
+  },
+  "shadows": {
+    "elegant":   "0 10px 30px -10px hsl(25 35% 30% / 0.10)",
+    "storybook": "0 4px 20px -4px hsl(25 35% 30% / 0.08)",
+    "hover":     "0 8px 30px -6px hsl(25 35% 30% / 0.12)",
+    "glow":      "0 0 40px hsl(38 80% 58% / 0.15)"
+  },
+  "forbidden": {
+    "hues":      { "purple": "270-300", "electric-blue": "220-250 saturation>70%" },
+    "colors":    ["#ffffff", "#000000", "#4f46e5", "#a855f7", "#6366f1"],
+    "patterns":  ["glassmorphism", "neumorphism", "material-elevation", "cyberpunk-neon", "purple-blue-gradient"]
+  },
+  "usage": {
+    "primaryAllocation":  "8-12% of visible surface (accent only)",
+    "surfaceAllocation":  "60-70% cream/background",
+    "inkAllocation":      "text only, never as background",
+    "coralAllocation":    "emotional / heart moments only (like, celebrate, milestone)"
+  }
+}
