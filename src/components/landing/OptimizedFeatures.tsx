@@ -1,14 +1,11 @@
-import { m } from '@/paraglide/messages';
+import { structured } from '@/i18n/structured';
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Target, Bell, TrendingUp, Users, Zap, Shield, Heart, Smartphone } from 'lucide-react';
 
 export const OptimizedFeatures = () => {
-  const features = JSON.parse(m.landing_features_list({})) as Array<{
-    title: string;
-    description: string;
-  }>;
+  const features = structured<Array<{ title: string; description: string }>>('landing_features_list');
 
   const icons = [Target, Bell, TrendingUp, Users, Zap, Shield, Heart, Smartphone];
 
