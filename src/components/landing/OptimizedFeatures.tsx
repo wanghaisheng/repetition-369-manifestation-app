@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Target, Bell, TrendingUp, Users, Zap, Shield, Heart, Smartphone } from 'lucide-react';
 
 export const OptimizedFeatures = () => {
-  const features = JSON.parse(m.landing_features_list()) as Array<{
+  const features = JSON.parse(m.landing_features_list({})) as Array<{
     title: string;
     description: string;
   }>;
