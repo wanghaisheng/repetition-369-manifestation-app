@@ -1,6 +1,7 @@
 import { useTranslation } from '@/i18n/compat';
 import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
+import { structured } from '@/i18n/structured';
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
