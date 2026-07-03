@@ -13,14 +13,14 @@ export const SocialProofSection = () => {
   const { t } = useTranslation('landing');
   const { getStatByKey } = useSiteStats();
 
-  const testimonials = m.landing_testimonials_list({ returnObjects: true }) as Array<{
+  const testimonials = structured<Array<{
     name: string;
     role: string;
     content: string;
     rating: number;
     avatar?: string;
     verified?: boolean;
-  }>;
+  }>>('landing_testimonials_list');
 
   const successMetrics = [
     {
