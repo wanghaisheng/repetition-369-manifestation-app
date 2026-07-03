@@ -1,4 +1,5 @@
 import { useTranslation } from '@/i18n/compat';
+import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -18,7 +19,7 @@ import {
 } from 'lucide-react';
 
 export const AboutFounderOptimized = () => {
-  const { t, i18n } = useTranslation('landing');
+  const { t } = useTranslation('landing');
   const socialLinks = [
     {
       name: 'Twitter',
@@ -44,17 +45,17 @@ export const AboutFounderOptimized = () => {
     {
       icon: Code,
       count: '15+',
-      label: i18n.language === 'zh' ? '年开发经验' : 'Years of Development'
+      label: getLocale() === 'zh' ? '年开发经验' : 'Years of Development'
     },
     {
       icon: Award,
       count: '50+',
-      label: i18n.language === 'zh' ? '开源项目' : 'Open Source Projects'
+      label: getLocale() === 'zh' ? '开源项目' : 'Open Source Projects'
     },
     {
       icon: Heart,
       count: '5000+',
-      label: i18n.language === 'zh' ? '用户信任' : 'Users Trust'
+      label: getLocale() === 'zh' ? '用户信任' : 'Users Trust'
     }
   ];
 
@@ -63,7 +64,7 @@ export const AboutFounderOptimized = () => {
       <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4 px-4 py-2 rounded-storybook border-storybook-honey/30">
-            {i18n.language === 'zh' ? '创始人故事' : 'Founder Story'}
+            {getLocale() === 'zh' ? '创始人故事' : 'Founder Story'}
           </Badge>
           <h2 className="text-4xl md:text-5xl font-storybook font-bold text-foreground mb-6">
             {m.landing_about_title()}
@@ -101,7 +102,7 @@ export const AboutFounderOptimized = () => {
             {/* Credentials */}
             <div>
               <h3 className="text-lg font-storybook font-semibold text-foreground mb-4">
-                {i18n.language === 'zh' ? '专业背景' : 'Professional Background'}
+                {getLocale() === 'zh' ? '专业背景' : 'Professional Background'}
               </h3>
               <div className="space-y-3">
                 {(m.landing_about_credentials({ returnObjects: true }) as string[]).map((credential, index) => (
@@ -161,12 +162,12 @@ export const AboutFounderOptimized = () => {
                 
                 <h3 className="text-2xl font-storybook font-bold text-foreground mb-2">Wang Haisheng</h3>
                 <p className="text-muted-foreground mb-6">
-                  {i18n.language === 'zh' ? '全栈开发者 & 显化实践者' : 'Full-Stack Developer & Manifestation Practitioner'}
+                  {getLocale() === 'zh' ? '全栈开发者 & 显化实践者' : 'Full-Stack Developer & Manifestation Practitioner'}
                 </p>
                 
                 <div className="bg-storybook-cream/50 rounded-storybook p-4">
                   <p className="text-sm text-muted-foreground italic">
-                    "{i18n.language === 'zh' 
+                    "{getLocale() === 'zh' 
                       ? '技术改变生活，显化实现梦想' 
                       : 'Technology transforms life, manifestation realizes dreams'}"
                   </p>

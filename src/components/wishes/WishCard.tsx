@@ -1,4 +1,5 @@
 import { useTranslation } from '@/i18n/compat';
+import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
 import { useNavigate } from '@tanstack/react-router';
 import { Target, Briefcase, Heart, Smile, User, DollarSign, Play, Pause, PlayCircle } from 'lucide-react';
@@ -26,11 +27,11 @@ const categoryConfig: Record<WishCategory, {
 };
 
 export const WishCard = ({ wish, onToggleStatus }: WishCardProps) => {
-  const { t, i18n } = useTranslation('app');
+  const { t } = useTranslation('app');
   const navigate = useNavigate();
   const config = categoryConfig[wish.category] || categoryConfig.other;
   const CategoryIcon = config.icon;
-  const dateLocale = i18n.language === 'zh' ? 'zh-CN' : 'en-US';
+  const dateLocale = getLocale() === 'zh' ? 'zh-CN' : 'en-US';
 
   const categoryNames: Record<WishCategory, string> = {
     career: m.app_wishes_categories_career(), health: m.app_wishes_categories_health(),

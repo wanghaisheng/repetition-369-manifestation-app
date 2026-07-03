@@ -1,4 +1,5 @@
 import { useTranslation } from '@/i18n/compat';
+import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -57,7 +58,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
   onSave,
   onCancel
 }) => {
-  const { t, i18n } = useTranslation('app');
+  const { t } = useTranslation('app');
   const [post, setPost] = useState<BlogPost>({
     title: '',
     slug: '',
@@ -68,7 +69,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
     tags: [],
     featured: false,
     published: false,
-    language: i18n.language,
+    language: getLocale(),
     seo_title: '',
     seo_description: '',
     seo_keywords: '',
@@ -136,7 +137,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
       const postData = {
         ...post,
         published: publish,
-        language: i18n.language,
+        language: getLocale(),
         seo_title: post.seo_title || post.title,
         seo_description: post.seo_description || post.excerpt,
         seo_keywords: post.seo_keywords || post.tags.join(','),

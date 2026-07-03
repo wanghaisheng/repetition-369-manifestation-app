@@ -1,5 +1,4 @@
 
-import { useTranslation } from '@/i18n/compat';
 import React from 'react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
@@ -19,19 +18,19 @@ const languages = [
 ];
 
 export const LanguageSwitcher = () => {
-  const { i18n } = useTranslation('common');
+  ;
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleLanguageChange = (langCode: string) => {
-    i18n.changeLanguage(langCode);
+    setLocale(langCode);
     
     const newPath = getLocalizedPath(location.pathname, langCode as SupportedLanguage);
     
     navigate({ to: newPath + location.search + location.hash, replace: true });
   };
 
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+  const currentLanguage = languages.find(lang => lang.code === getLocale()) || languages[0];
 
   return (
     <DropdownMenu>
@@ -47,7 +46,7 @@ export const LanguageSwitcher = () => {
           <DropdownMenuItem
             key={language.code}
             onClick={() => handleLanguageChange(language.code)}
-            className={i18n.language === language.code ? 'bg-accent' : ''}
+            className={getLocale() === language.code ? 'bg-accent' : ''}
           >
             <span className="mr-2">{language.flag}</span>
             {language.name}

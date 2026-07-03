@@ -1,4 +1,5 @@
 import { useTranslation } from '@/i18n/compat';
+import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
 import { useLocation, Link } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
@@ -8,17 +9,17 @@ import { logger } from "@/utils/logger";
 import { DEFAULT_LANGUAGE } from "@/config/routes";
 
 const NotFound = () => {
-  const { t, i18n } = useTranslation('app');
+  const { t } = useTranslation('app');
   const location = useLocation();
-  const isNonDefault = i18n.language !== DEFAULT_LANGUAGE;
-  const langPrefix = isNonDefault ? `/${i18n.language}` : '';
+  const isNonDefault = getLocale() !== DEFAULT_LANGUAGE;
+  const langPrefix = isNonDefault ? `/${getLocale()}` : '';
 
   logger.error("404 Error: User attempted to access non-existent route:", location.pathname);
 
   const popularPages = [
     { 
       name: m.app_notFound_home(), 
-      href: isNonDefault ? `/${i18n.language}` : '/', 
+      href: isNonDefault ? `/${getLocale()}` : '/', 
       icon: Home 
     },
     { 
@@ -64,7 +65,7 @@ const NotFound = () => {
           
           {/* Primary CTA */}
           <Button asChild size="lg" className="mb-8">
-            <Link to={isNonDefault ? `/${i18n.language}` : '/'}>
+            <Link to={isNonDefault ? `/${getLocale()}` : '/'}>
               <Home className="w-4 h-4 mr-2" />
               {m.app_notFound_backHome()}
             </Link>

@@ -1,4 +1,5 @@
 import { useTranslation } from '@/i18n/compat';
+import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from '@tanstack/react-router';
@@ -56,7 +57,7 @@ interface RelatedPost {
 }
 
 const BlogPostPage = () => {
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
   const { slug } = useParams({ from: '/blog/$slug' });
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
@@ -66,7 +67,7 @@ const BlogPostPage = () => {
     if (slug) {
       fetchPost();
     }
-  }, [slug, i18n.language]);
+  }, [slug, getLocale()]);
 
   const fetchPost = async () => {
     setLoading(true);
@@ -76,7 +77,7 @@ const BlogPostPage = () => {
         .select('*')
         .eq('slug', slug)
         .eq('published', true)
-        .eq('language', i18n.language)
+        .eq('language', getLocale())
         .single();
 
       if (postError) throw postError;
@@ -93,7 +94,7 @@ const BlogPostPage = () => {
           .from('blog_posts')
           .select('id, title, slug, excerpt, author, category, created_at, reading_time, tags, view_count')
           .eq('published', true)
-          .eq('language', i18n.language)
+          .eq('language', getLocale())
           .eq('category', postData.category)
           .neq('id', postData.id)
           .limit(3);
@@ -101,7 +102,7 @@ const BlogPostPage = () => {
         setRelatedPosts(relatedData || []);
       }
     } catch (error) {
-      toast.error(i18n.language === 'zh' ? '文章加载失败' : 'Failed to load article');
+      toast.error(getLocale() === 'zh' ? '文章加载失败' : 'Failed to load article');
     } finally {
       setLoading(false);
     }
@@ -109,7 +110,7 @@ const BlogPostPage = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat(i18n.language === 'zh' ? 'zh-CN' : 'en-US', {
+    return new Intl.DateTimeFormat(getLocale() === 'zh' ? 'zh-CN' : 'en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -135,10 +136,10 @@ const BlogPostPage = () => {
       case 'copy':
         try {
           await navigator.clipboard.writeText(url);
-          toast.success(i18n.language === 'zh' ? '链接已复制到剪贴板' : 'Link copied to clipboard');
+          toast.success(getLocale() === 'zh' ? '链接已复制到剪贴板' : 'Link copied to clipboard');
           return;
         } catch (error) {
-          toast.error(i18n.language === 'zh' ? '复制失败' : 'Failed to copy link');
+          toast.error(getLocale() === 'zh' ? '复制失败' : 'Failed to copy link');
           return;
         }
       default:
@@ -267,7 +268,7 @@ const BlogPostPage = () => {
             <div className="flex items-center space-x-2 mb-8">
               <Share2 className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm text-muted-foreground mr-2">
-                {i18n.language === 'zh' ? '分享：' : 'Share:'}
+                {getLocale() === 'zh' ? '分享：' : 'Share:'}
               </span>
               <Button variant="outline" size="sm" onClick={() => sharePost('twitter')} className="hover:bg-storybook-cream rounded-storybook">
                 <Twitter className="w-4 h-4" />
@@ -291,7 +292,7 @@ const BlogPostPage = () => {
         {relatedPosts.length > 0 && (
           <section className="mt-16">
             <h2 className="text-3xl font-storybook font-bold text-foreground mb-8">
-              {i18n.language === 'zh' ? '相关文章' : 'Related Articles'}
+              {getLocale() === 'zh' ? '相关文章' : 'Related Articles'}
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {relatedPosts.map((relatedPost) => (
@@ -324,10 +325,10 @@ const BlogPostPage = () => {
         {/* Newsletter CTA */}
         <section className="mt-16 bg-gradient-to-r from-storybook-honey/10 via-storybook-coral/5 to-storybook-honey/10 rounded-storybook-lg p-8 text-center">
           <h2 className="text-3xl font-storybook font-bold text-foreground mb-4">
-            {i18n.language === 'zh' ? '喜欢这篇文章？' : 'Enjoyed This Article?'}
+            {getLocale() === 'zh' ? '喜欢这篇文章？' : 'Enjoyed This Article?'}
           </h2>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            {i18n.language === 'zh' 
+            {getLocale() === 'zh' 
               ? '订阅我们的内容更新，获取更多显化方法和成功案例' 
               : 'Subscribe to our newsletter for more manifestation methods and success stories'
             }
@@ -335,7 +336,7 @@ const BlogPostPage = () => {
           <Link to="/newsletter">
             <Button size="lg" className="px-8 py-4 text-lg rounded-storybook-lg">
               <Sparkles className="w-5 h-5 mr-2" />
-              {i18n.language === 'zh' ? '立即订阅' : 'Subscribe Now'}
+              {getLocale() === 'zh' ? '立即订阅' : 'Subscribe Now'}
             </Button>
           </Link>
         </section>
