@@ -1,4 +1,5 @@
 import { useTranslation } from '@/i18n/compat';
+import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Link } from '@tanstack/react-router';
@@ -26,8 +27,8 @@ import {
 } from 'lucide-react';
 
 const About = () => {
-  const { t, i18n } = useTranslation('common');
-  const isZh = i18n.language === 'zh';
+  const { t } = useTranslation('common');
+  const isZh = getLocale() === 'zh';
 
   const socialLinks = [
     { name: 'Twitter', url: 'https://x.com/edwin_uestc', icon: Twitter },

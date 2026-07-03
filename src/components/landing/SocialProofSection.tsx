@@ -1,4 +1,5 @@
 import { useTranslation } from '@/i18n/compat';
+import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,7 +9,7 @@ import { Star, Quote, CheckCircle, Users, Award, Shield } from 'lucide-react';
 import { useSiteStats } from '@/hooks/useSiteStats';
 
 export const SocialProofSection = () => {
-  const { t, i18n } = useTranslation('landing');
+  const { t } = useTranslation('landing');
   const { getStatByKey } = useSiteStats();
 
   const testimonials = m.landing_testimonials_list({ returnObjects: true }) as Array<{
@@ -24,26 +25,26 @@ export const SocialProofSection = () => {
     {
       icon: Users,
       value: getStatByKey('monthly_users') + '+',
-      label: i18n.language === 'zh' ? '月活跃用户' : 'Monthly Users',
-      growth: `+${getStatByKey('weekly_increase')} ${i18n.language === 'zh' ? '本周' : 'this week'}`
+      label: getLocale() === 'zh' ? '月活跃用户' : 'Monthly Users',
+      growth: `+${getStatByKey('weekly_increase')} ${getLocale() === 'zh' ? '本周' : 'this week'}`
     },
     {
       icon: Star,
       value: `${getStatByKey('user_rating')}/5`,
-      label: i18n.language === 'zh' ? '用户评分' : 'User Rating',
-      growth: i18n.language === 'zh' ? 'App Store 评分' : 'App Store Rating'
+      label: getLocale() === 'zh' ? '用户评分' : 'User Rating',
+      growth: getLocale() === 'zh' ? 'App Store 评分' : 'App Store Rating'
     },
     {
       icon: CheckCircle,
       value: `${getStatByKey('success_rate')}%`,
-      label: i18n.language === 'zh' ? '成功率' : 'Success Rate',
-      growth: i18n.language === 'zh' ? '30天内' : 'Within 30 days'
+      label: getLocale() === 'zh' ? '成功率' : 'Success Rate',
+      growth: getLocale() === 'zh' ? '30天内' : 'Within 30 days'
     },
     {
       icon: Award,
       value: getStatByKey('average_days'),
-      label: i18n.language === 'zh' ? '平均天数' : 'Average Days',
-      growth: i18n.language === 'zh' ? '实现目标' : 'To manifest goals'
+      label: getLocale() === 'zh' ? '平均天数' : 'Average Days',
+      growth: getLocale() === 'zh' ? '实现目标' : 'To manifest goals'
     }
   ];
 
@@ -53,7 +54,7 @@ export const SocialProofSection = () => {
         {/* Success Metrics */}
         <div className="text-center mb-20">
           <Badge variant="outline" className="mb-4 px-4 py-2 rounded-storybook border-storybook-honey/30">
-            {i18n.language === 'zh' ? '用户成果' : 'Proven Results'}
+            {getLocale() === 'zh' ? '用户成果' : 'Proven Results'}
           </Badge>
           <h2 className="text-4xl md:text-5xl font-storybook font-bold text-foreground mb-6">
             {m.landing_testimonials_title()}
@@ -130,19 +131,19 @@ export const SocialProofSection = () => {
             <div className="flex items-center space-x-2">
               <CheckCircle className="w-5 h-5 text-storybook-sage" />
               <span className="text-sm font-medium text-muted-foreground">
-                {i18n.language === 'zh' ? '100% 安全可靠' : '100% Secure & Safe'}
+                {getLocale() === 'zh' ? '100% 安全可靠' : '100% Secure & Safe'}
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <Shield className="w-5 h-5 text-storybook-honey" />
               <span className="text-sm font-medium text-muted-foreground">
-                {i18n.language === 'zh' ? '数据隐私保护' : 'Privacy Protected'}
+                {getLocale() === 'zh' ? '数据隐私保护' : 'Privacy Protected'}
               </span>
             </div>
             <div className="flex items-center space-x-2">
               <Users className="w-5 h-5 text-storybook-coral" />
               <span className="text-sm font-medium text-muted-foreground">
-                {i18n.language === 'zh' ? '全球用户信赖' : 'Trusted Globally'}
+                {getLocale() === 'zh' ? '全球用户信赖' : 'Trusted Globally'}
               </span>
             </div>
           </div>

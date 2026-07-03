@@ -1,4 +1,5 @@
 import { useTranslation } from '@/i18n/compat';
+import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Link } from '@tanstack/react-router';
@@ -37,7 +38,7 @@ interface BlogPost {
 }
 
 const Blog = () => {
-  const { t, i18n } = useTranslation('app');
+  const { t } = useTranslation('app');
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -53,7 +54,7 @@ const Blog = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [i18n.language, selectedCategory, searchQuery]);
+  }, [getLocale(), selectedCategory, searchQuery]);
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -62,7 +63,7 @@ const Blog = () => {
         .from('blog_posts')
         .select('*')
         .eq('published', true)
-        .eq('language', i18n.language)
+        .eq('language', getLocale())
         .order('created_at', { ascending: false });
 
       if (selectedCategory !== 'all') {
@@ -86,7 +87,7 @@ const Blog = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat(i18n.language === 'zh' ? 'zh-CN' : 'en-US', {
+    return new Intl.DateTimeFormat(getLocale() === 'zh' ? 'zh-CN' : 'en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -129,7 +130,7 @@ const Blog = () => {
             <BookOpen className="w-10 h-10 text-primary-foreground" />
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-            {i18n.language === 'zh' ? '369显化法博客：成功案例与实践技巧' : '369 Manifestation Blog: Success Stories & Practice Tips'}
+            {getLocale() === 'zh' ? '369显化法博客：成功案例与实践技巧' : '369 Manifestation Blog: Success Stories & Practice Tips'}
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
             {m.app_blog_subtitle()}

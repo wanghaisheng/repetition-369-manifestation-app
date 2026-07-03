@@ -1,4 +1,5 @@
 import { useTranslation } from '@/i18n/compat';
+import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -50,7 +51,7 @@ interface BlogPost {
 }
 
 export const BlogManagement: React.FC = () => {
-  const { t, i18n } = useTranslation('app');
+  const { t } = useTranslation('app');
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -71,7 +72,7 @@ export const BlogManagement: React.FC = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [i18n.language, selectedCategory, searchQuery]);
+  }, [getLocale(), selectedCategory, searchQuery]);
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -79,7 +80,7 @@ export const BlogManagement: React.FC = () => {
       let query = supabase
         .from('blog_posts')
         .select('*')
-        .eq('language', i18n.language)
+        .eq('language', getLocale())
         .order('created_at', { ascending: false });
 
       if (selectedCategory !== 'all') {
@@ -104,7 +105,7 @@ export const BlogManagement: React.FC = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat(i18n.language === 'zh' ? 'zh-CN' : 'en-US', {
+    return new Intl.DateTimeFormat(getLocale() === 'zh' ? 'zh-CN' : 'en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric'

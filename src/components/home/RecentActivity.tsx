@@ -1,4 +1,5 @@
 import { useTranslation } from '@/i18n/compat';
+import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
 import { Sparkles, Clock } from 'lucide-react';
 import { Wish } from '@/types';
@@ -23,10 +24,10 @@ const timeSlotColors = {
 };
 
 export const RecentActivity = ({ practices, wishes }: RecentActivityProps) => {
-  const { t, i18n } = useTranslation('app');
+  const { t } = useTranslation('app');
   if (practices.length === 0) return null;
 
-  const dateLocale = i18n.language === 'zh' ? 'zh-CN' : 'en-US';
+  const dateLocale = getLocale() === 'zh' ? 'zh-CN' : 'en-US';
 
   return (
     <div className="bg-card rounded-2xl p-5 shadow-sm border border-border/50">

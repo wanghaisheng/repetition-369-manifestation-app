@@ -1,4 +1,5 @@
 import { useTranslation } from '@/i18n/compat';
+import { getLocale } from '@/paraglide/runtime';
 import React from 'react';
 import { Link } from '@tanstack/react-router';
 import { 
@@ -102,7 +103,7 @@ const getRelatedLinks = (
   maxLinks: number = 12, 
   includeAllClusters: boolean = false
 ): ClusterLink[] => {
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
   const relevantClusters = PAGE_CLUSTER_MAP[currentPage] || ['tutorial', 'practice'];
   
   // 过滤掉当前页面
@@ -213,7 +214,7 @@ export const EnhancedInternalLinks: React.FC<EnhancedInternalLinksProps> = ({
   layout = 'grid',
   showClusterLabels = false
 }) => {
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
   const relevantLinks = getRelatedLinks(currentPage, maxLinks, true);
 
   if (relevantLinks.length === 0) {
@@ -221,11 +222,11 @@ export const EnhancedInternalLinks: React.FC<EnhancedInternalLinksProps> = ({
   }
 
   const clusterLabels: Record<ClusterType, string> = {
-    tutorial: i18n.language === 'zh' ? '入门教程' : 'Getting Started',
-    science: i18n.language === 'zh' ? '科学原理' : 'Science',
-    practice: i18n.language === 'zh' ? '实践技巧' : 'Practice',
-    stories: i18n.language === 'zh' ? '成功案例' : 'Success Stories',
-    tools: i18n.language === 'zh' ? '工具资源' : 'Tools & Resources',
+    tutorial: getLocale() === 'zh' ? '入门教程' : 'Getting Started',
+    science: getLocale() === 'zh' ? '科学原理' : 'Science',
+    practice: getLocale() === 'zh' ? '实践技巧' : 'Practice',
+    stories: getLocale() === 'zh' ? '成功案例' : 'Success Stories',
+    tools: getLocale() === 'zh' ? '工具资源' : 'Tools & Resources',
   };
 
   // 按集群分组
@@ -240,7 +241,7 @@ export const EnhancedInternalLinks: React.FC<EnhancedInternalLinksProps> = ({
       <section className="mt-8 mb-6">
         <div className="border-t pt-6">
           <h2 className="text-base font-semibold text-foreground mb-3">
-            {i18n.language === 'zh' ? '相关内容' : 'Related Content'}
+            {getLocale() === 'zh' ? '相关内容' : 'Related Content'}
           </h2>
           <div className="flex flex-wrap gap-1">
             {relevantLinks.slice(0, 8).map((link) => (
@@ -263,7 +264,7 @@ export const EnhancedInternalLinks: React.FC<EnhancedInternalLinksProps> = ({
       <section className="mt-12 mb-8">
         <div className="border-t pt-8">
           <h2 className="text-lg font-semibold text-foreground mb-6">
-            {i18n.language === 'zh' ? '探索更多内容' : 'Explore More Content'}
+            {getLocale() === 'zh' ? '探索更多内容' : 'Explore More Content'}
           </h2>
           {Object.entries(groupedLinks).map(([cluster, links]) => (
             <div key={cluster} className="mb-6">
@@ -293,7 +294,7 @@ export const EnhancedInternalLinks: React.FC<EnhancedInternalLinksProps> = ({
     <section className="mt-12 mb-8">
       <div className="border-t pt-8">
         <h2 className="text-lg font-semibold text-foreground mb-4">
-          {i18n.language === 'zh' ? '相关页面' : 'Related Pages'}
+          {getLocale() === 'zh' ? '相关页面' : 'Related Pages'}
         </h2>
         <div className={`grid gap-4 ${
           layout === 'list' 
@@ -317,7 +318,7 @@ export const EnhancedInternalLinks: React.FC<EnhancedInternalLinksProps> = ({
 
 // 首页专用内链组件 - 展示所有5个集群
 export const HomePageLinks: React.FC = () => {
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
   
   
   const clusterConfig: { cluster: ClusterType; icon: React.ElementType }[] = [
@@ -369,7 +370,7 @@ export const HomePageLinks: React.FC = () => {
     tools: '/blog/manifestation-tools',
   };
 
-  const isZh = i18n.language === 'zh';
+  const isZh = getLocale() === 'zh';
 
   return (
     <section className="py-16 bg-muted/30">
@@ -435,8 +436,8 @@ export const HomePageLinks: React.FC = () => {
 
 // 侧边栏内链组件
 export const SidebarLinks: React.FC<{ currentPage?: string }> = ({ currentPage = 'landing' }) => {
-  const { i18n } = useTranslation();
-  const isZh = i18n.language === 'zh';
+  ;
+  const isZh = getLocale() === 'zh';
   const relevantLinks = getRelatedLinks(currentPage, 8, false);
 
   return (
