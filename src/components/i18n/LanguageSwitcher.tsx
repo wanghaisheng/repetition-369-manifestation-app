@@ -24,7 +24,7 @@ export const LanguageSwitcher = () => {
   const navigate = useNavigate();
 
   const handleLanguageChange = (langCode: string) => {
-    setLocale(langCode);
+    setLocale(langCode as 'en' | 'zh');
     
     const newPath = getLocalizedPath(location.pathname, langCode as SupportedLanguage);
     
