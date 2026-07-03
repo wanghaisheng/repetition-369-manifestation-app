@@ -19,8 +19,8 @@ export const Breadcrumbs = () => {
 
   const paths = location.pathname.split('/').filter(Boolean);
   
-  const breadcrumbs = [
-    { name: m.common_nav_home(), href: '/' }
+  const breadcrumbs: Array<{ name: string; href: string }> = [
+    { name: String(m.common_nav_home()), href: '/' }
   ];
 
   let currentPath = '';

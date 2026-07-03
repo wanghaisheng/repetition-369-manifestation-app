@@ -1,5 +1,6 @@
 import { useTranslation } from '@/i18n/compat';
 import { getLocale } from '@/paraglide/runtime';
+import { structured } from '@/i18n/structured';
 import { m } from '@/paraglide/messages';
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -105,7 +106,7 @@ export const AboutFounderOptimized = () => {
                 {getLocale() === 'zh' ? '专业背景' : 'Professional Background'}
               </h3>
               <div className="space-y-3">
-                {(m.landing_about_credentials({ returnObjects: true }) as string[]).map((credential, index) => (
+                {structured<string[]>('landing_about_credentials').map((credential, index) => (
                   <div key={index} className="flex items-center text-muted-foreground">
                     <Star className="w-4 h-4 text-storybook-honey mr-3 flex-shrink-0" />
                     <span>{credential}</span>

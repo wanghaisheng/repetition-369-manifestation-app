@@ -1,6 +1,7 @@
 import { useTranslation } from '@/i18n/compat';
 import { getLocale } from '@/paraglide/runtime';
 import { m } from '@/paraglide/messages';
+import { structured } from '@/i18n/structured';
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -12,14 +13,14 @@ export const SocialProofSection = () => {
   const { t } = useTranslation('landing');
   const { getStatByKey } = useSiteStats();
 
-  const testimonials = m.landing_testimonials_list({ returnObjects: true }) as Array<{
+  const testimonials = structured<Array<{
     name: string;
     role: string;
     content: string;
     rating: number;
     avatar?: string;
     verified?: boolean;
-  }>;
+  }>>('landing_testimonials_list');
 
   const successMetrics = [
     {

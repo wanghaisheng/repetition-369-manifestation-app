@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { getLocale, setLocale } from '@/paraglide/runtime';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Globe } from 'lucide-react';
@@ -23,7 +24,7 @@ export const LanguageSwitcher = () => {
   const navigate = useNavigate();
 
   const handleLanguageChange = (langCode: string) => {
-    setLocale(langCode);
+    setLocale(langCode as 'en' | 'zh');
     
     const newPath = getLocalizedPath(location.pathname, langCode as SupportedLanguage);
     
