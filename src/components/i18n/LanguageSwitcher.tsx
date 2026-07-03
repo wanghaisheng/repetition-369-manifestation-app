@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { getLocale, setLocale } from '@/paraglide/runtime';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Globe } from 'lucide-react';
