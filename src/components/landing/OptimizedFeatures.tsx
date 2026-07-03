@@ -1,3 +1,4 @@
+import { m } from '@/paraglide/messages';
 import { structured } from '@/i18n/structured';
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
