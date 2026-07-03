@@ -196,7 +196,7 @@ const About = () => {
             <CardContent className="p-8">
               <p className="text-muted-foreground mb-6">{m.about_method_science()}</p>
               <div className="grid md:grid-cols-2 gap-4">
-                {(m.about_method_principles({ returnObjects: true }) as string[]).map((principle, index) => (
+                {structured<string[]>('about_method_principles').map((principle, index) => (
                   <div key={index} className="flex items-start gap-3 p-4 bg-muted/50 rounded-lg">
                     <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                     <span className="text-foreground text-sm">{principle}</span>
